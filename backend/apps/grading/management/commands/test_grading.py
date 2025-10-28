@@ -1,211 +1,78 @@
+# apps/grading/management/commands/test_grading.py
+import os
+from django.core.management.base import BaseCommand
+from apps.problems.models import Problem
+from apps.users.models import CustomUser
 import sympy as sp
-from sympy.parsing.latex import parse_latex
-import re
-from typing import Dict, Any, Tuple
 
+class Command(BaseCommand):
+    help = 'Test the grading system with SymPy'
 
-class CASGrader:
-    """
-    Computer Algebra System grader using SymPy
-    Primary grading engine for mathematical expressions
-    """
-
-    def __init__(self, tolerance: float = 1e-6):
-        self.tolerance = tolerance
-
-    def grade_expression(
-        self,
-        student_answer: str,
-        correct_answer: str,
-        parameters: Dict[str, Any] = None
-    ) -> Dict[str, Any]:
-        """
-        Grade a mathematical expression.
-
-        Args:
-            student_answer: Student's submitted answer (LaTeX or plain text)
-            correct_answer: Correct answer expression
-            parameters: Problem-specific parameter values
-
-        Returns:
-            Dict with grading results
-        """
+    def handle(self, *args, **options):
+        # Test SymPy equivalency checking
+        self.stdout.write(self.style.SUCCESS('Testing SymPy grading engine...\n'))
+        
+        # Test case 1: Simple equivalency
+        expr1 = "0.5*x"
+        expr2 = "x/2"
+        self.test_equivalency(expr1, expr2, should_match=True)
+        
+        # Test case 2: Complex expression
+        expr1 = "sin(x)**2 + cos(x)**2"
+        expr2 = "1"
+        self.test_equivalency(expr1, expr2, should_match=True)
+        
+        # Test case 3: Non-equivalent
+        expr1 = "x**2"
+        expr2 = "x"
+        self.test_equivalency(expr1, expr2, should_match=False)
+        
+        # Test case 4: Different forms of same expression
+        expr1 = "2*x + 3*x"
+        expr2 = "5*x"
+        self.test_equivalency(expr1, expr2, should_match=True)
+        
+        # Test with antenna problem parameters
+        self.test_antenna_problem()
+        
+    def test_equivalency(self, expr1, expr2, should_match=True):
         try:
-            # Parse both expressions
-            student_expr = self._parse_expression(student_answer)
-            correct_expr = self._parse_expression(correct_answer)
-
-            # Substitute parameters if provided
-            if parameters:
-                correct_expr = self._substitute_parameters(correct_expr, parameters)
-
-            # Check equivalency
-            is_equivalent, confidence = self._check_equivalency(
-                student_expr,
-                correct_expr
-            )
-
-            return {
-                'is_correct': is_equivalent,
-                'confidence': confidence,
-                'method': 'cas',
-                'student_parsed': str(student_expr),
-                'expected_parsed': str(correct_expr),
-                'reasoning': self._generate_reasoning(
-                    student_expr,
-                    correct_expr,
-                    is_equivalent
-                )
-            }
-
-        except Exception as e:
-            return {
-                'is_correct': None,
-                'confidence': 0.0,
-                'method': 'cas',
-                'error': str(e),
-                'needs_ai_fallback': True
-            }
-
-    def _fix_latex_exponents(self, expr: str) -> str:
-        """
-        Fix LaTeX like \sin^{2}(x) to (\sin(x))^{2} for SymPy compatibility.
-        """
-        pattern = r'(\\[a-zA-Z]+)\^{(\d+)}\(([^)]+)\)'
-        return re.sub(pattern, r'(\1(\3))^{\2}', expr)
-
-    def _parse_expression(self, expr: str) -> sp.Expr:
-        """Parse mathematical expression from LaTeX or plain text"""
-        expr = expr.strip()
-
-        # If LaTeX detected:
-        if '\\' in expr:
-            try:
-                # Normalize LaTeX exponent syntax: ^2 → ^{2}
-                expr = re.sub(r'\^(\d+)', r'^{\1}', expr)
-
-                # Fix expressions like \sin^{2}(x)
-                expr = self._fix_latex_exponents(expr)
-
-                expr = expr.replace('**', '^')
-                return parse_latex(expr)
-            except Exception as e:
-                raise ValueError(f"Could not parse LaTeX expression: {expr}. Error: {e}")
-
-        # Otherwise plain text: SymPy syntax
-        try:
-            expr = expr.replace('^', '**')  # Power notation
-            expr = expr.replace('×', '*')
-            expr = expr.replace('÷', '/')
-            return sp.sympify(expr)
-        except Exception:
-            raise ValueError(f"Could not parse expression: {expr}")
-
-    def _substitute_parameters(
-        self,
-        expr: sp.Expr,
-        parameters: Dict[str, Any]
-    ) -> sp.Expr:
-        """Substitute parameter values into expression"""
-        substitutions = {}
-        for var_name, value in parameters.items():
-            substitutions[sp.Symbol(var_name)] = value
-        return expr.subs(substitutions)
-
-    def _check_equivalency(
-        self,
-        expr1: sp.Expr,
-        expr2: sp.Expr
-    ) -> Tuple[bool, float]:
-        """
-        Check if two expressions are mathematically equivalent.
-
-        Returns:
-            (is_equivalent, confidence_score)
-        """
-        try:
-            # Method 1: Direct comparison
-            if expr1 == expr2:
-                return True, 1.0
-
-            # Method 2: Simplify difference
-            diff = sp.simplify(expr1 - expr2)
-            if diff == 0:
-                return True, 0.99
-
-            # Method 3: Numerical evaluation at random points
-            if self._numerical_equivalency_check(expr1, expr2):
-                return True, 0.95
-
-            # Method 4: Check if ratio is constant (partial credit case)
-            try:
-                ratio = sp.simplify(expr1 / expr2)
-                if ratio.is_constant():
-                    return False, 0.7
-            except Exception:
-                pass
-
-            return False, 0.0
-
-        except Exception:
-            # If we can't determine, return low confidence
-            return False, 0.0
-
-    def _numerical_equivalency_check(
-        self,
-        expr1: sp.Expr,
-        expr2: sp.Expr,
-        num_tests: int = 10
-    ) -> bool:
-        """
-        Check equivalency by evaluating at random points.
-        Useful when symbolic methods fail.
-        """
-        import random
-
-        # Get all variables in both expressions
-        variables = list(expr1.free_symbols | expr2.free_symbols)
-
-        if not variables:
-            # No variables, just compare values
-            try:
-                val1 = float(expr1.evalf())
-                val2 = float(expr2.evalf())
-                return abs(val1 - val2) < self.tolerance
-            except Exception:
-                return False
-
-        # Test at multiple random points
-        for _ in range(num_tests):
-            point = {var: random.uniform(-10, 10) for var in variables}
-            try:
-                val1 = complex(expr1.subs(point).evalf())
-                val2 = complex(expr2.subs(point).evalf())
-                if abs(val1 - val2) > self.tolerance:
-                    return False
-            except Exception:
-                continue
-
-        return True
-
-    def _generate_reasoning(
-        self,
-        student_expr: sp.Expr,
-        correct_expr: sp.Expr,
-        is_equivalent: bool
-    ) -> str:
-        """Generate explanation of grading decision"""
-        if is_equivalent:
-            if student_expr == correct_expr:
-                return "Expression matches exactly."
+            sym_expr1 = sp.sympify(expr1)
+            sym_expr2 = sp.sympify(expr2)
+            
+            # Check if simplified forms are equal
+            diff = sp.simplify(sym_expr1 - sym_expr2)
+            is_equivalent = diff == 0
+            
+            if is_equivalent == should_match:
+                result = self.style.SUCCESS("✓ PASS")
             else:
-                return (
-                    f"Expression is mathematically equivalent. "
-                    f"Simplified forms: {sp.simplify(student_expr)} ≡ {sp.simplify(correct_expr)}"
-                )
-        else:
-            return (
-                f"Expression is not equivalent. "
-                f"Your answer: {student_expr}, Expected: {correct_expr}"
-            )
-
+                result = self.style.ERROR("✗ FAIL")
+            
+            self.stdout.write(f"{result}: {expr1} ≡ {expr2} ? {is_equivalent}")
+            
+        except Exception as e:
+            self.stdout.write(self.style.ERROR(f"Error: {str(e)}"))
+    
+    def test_antenna_problem(self):
+        self.stdout.write('\n' + self.style.WARNING('--- Testing Antenna Problem ---'))
+        
+        # Get the problem
+        try:
+            problem = Problem.objects.get(title__icontains='Antenna')
+            self.stdout.write(f"Problem: {problem.title}")
+            
+            # Generate parameters for a student
+            parameters = problem.generate_parameters()
+            self.stdout.write(f"Generated parameters: {parameters}")
+            
+            # Render question with parameters
+            question = problem.render_with_parameters(parameters)
+            self.stdout.write(f"\nRendered question:\n{question[:300]}...")
+            
+            self.stdout.write(self.style.SUCCESS('\n✓ Antenna problem test complete!'))
+            
+        except Problem.DoesNotExist:
+            self.stdout.write(self.style.WARNING('No antenna problem found'))
+        except Exception as e:
+            self.stdout.write(self.style.ERROR(f'Error: {str(e)}'))
