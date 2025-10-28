@@ -82,6 +82,7 @@
 	</div>
     <div id="root">
       <div class="main-content"> Welcome Message - something goes here </div>
+	  <div style = "text-align: center; padding: 10px; margin: auto; width: 150%;">
 		<div class = "local-nav">
 			<h3> Teacher Login </h3>
 			<form onsubmit="TryLogin(event, 'teacher')">
@@ -98,7 +99,6 @@
 				</div>
 			</form>
 		</div>
-		
 		<div class = "local-nav">
 			<h3> Student login </h3>
 			<form onsubmit="TryLogin(event, 'student')">
@@ -115,23 +115,7 @@
 				</div>
 			</form>
 		</div>
-		
-		<div class = "local-nav">
-			<h3> Admin login </h3>
-			<form onsubmit="TryLogin(event, 'admin')">
-				<div class="form-group">
-					<label for="admin-username">Username:</label>
-					<input type="password" id="admin-username" name = "username" required>
-				</div>
-				<div class="form-group">
-					<label for="admin-password">Password:</label>
-					<input type="password" id="admin-password" name="password" required>
-				</div>
-				<div class="form-group">
-					<button type="submit">Login</button>
-				</div>
-			</form>
-		</div>
+	  </div>
     </div>
     <script type="module" src="/src/main.jsx">
   function TryLogin(event, userType) {
