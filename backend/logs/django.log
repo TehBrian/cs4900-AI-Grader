@@ -292,3 +292,81 @@ WARNING 2025-09-29 09:37:54,301 log Not Found: /
 WARNING 2025-09-29 09:37:58,955 log Not Found: /
 INFO 2025-09-30 09:15:39,137 autoreload Watching for file changes with StatReloader
 WARNING 2025-09-30 09:16:39,754 log Not Found: /
+INFO 2025-10-23 08:55:37,465 autoreload Watching for file changes with StatReloader
+WARNING 2025-10-23 09:08:42,877 log Not Found: /favicon.ico
+WARNING 2025-10-23 09:09:05,840 log Not Found: /favicon.ico
+WARNING 2025-10-23 09:09:11,127 log Not Found: /favicon.ico
+WARNING 2025-10-23 09:09:35,203 log Not Found: /favicon.ico
+WARNING 2025-10-23 09:09:38,405 log Not Found: /favicon.ico
+WARNING 2025-10-23 09:09:46,079 log Not Found: /favicon.ico
+WARNING 2025-10-23 09:09:48,272 log Not Found: /favicon.ico
+WARNING 2025-10-23 09:09:52,319 log Not Found: /favicon.ico
+WARNING 2025-10-23 09:10:26,135 log Not Found: /
+WARNING 2025-10-23 09:10:28,802 log Not Found: /
+WARNING 2025-10-23 09:10:31,414 log Not Found: /
+WARNING 2025-10-23 09:10:32,658 log Not Found: /
+WARNING 2025-10-23 09:10:32,911 log Not Found: /
+WARNING 2025-10-23 09:13:10,176 log Not Found: /
+WARNING 2025-10-23 09:15:14,545 log Not Found: /
+WARNING 2025-10-23 09:16:51,875 log Not Found: /favicon.ico
+WARNING 2025-10-23 09:17:15,731 log Not Found: /favicon.ico
+WARNING 2025-10-23 09:17:29,629 log Not Found: /favicon.ico
+INFO 2025-10-24 01:10:45,151 autoreload Watching for file changes with StatReloader
+WARNING 2025-10-24 01:11:05,591 log Not Found: /
+WARNING 2025-10-24 01:11:19,055 log Not Found: /favicon.ico
+WARNING 2025-10-24 01:11:31,805 log Not Found: /favicon.ico
+WARNING 2025-10-24 01:11:36,990 log Not Found: /favicon.ico
+WARNING 2025-10-24 01:11:42,610 log Not Found: /favicon.ico
+INFO 2025-10-28 09:09:45,809 _client HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 404 Not Found"
+INFO 2025-10-28 09:09:47,243 _client HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 404 Not Found"
+WARNING 2025-10-28 09:38:04,069 log Not Found: /favicon.ico
+WARNING 2025-10-28 09:38:11,858 log Not Found: /favicon.ico
+WARNING 2025-10-28 09:39:00,468 log Not Found: /favicon.ico
+WARNING 2025-10-28 09:39:22,272 log Not Found: /favicon.ico
+WARNING 2025-10-28 09:39:45,441 log Not Found: /favicon.ico
+WARNING 2025-10-28 09:40:21,360 log Not Found: /favicon.ico
+WARNING 2025-10-28 09:40:31,561 log Not Found: /favicon.ico
+WARNING 2025-10-28 09:40:42,566 log Not Found: /favicon.ico
+WARNING 2025-10-28 09:40:45,045 log Not Found: /favicon.ico
+WARNING 2025-10-28 09:40:51,769 log Not Found: /favicon.ico
+WARNING 2025-10-28 09:41:12,577 log Not Found: /favicon.ico
+WARNING 2025-10-28 09:41:18,973 log Not Found: /favicon.ico
+WARNING 2025-10-28 09:42:15,416 log Not Found: /favicon.ico
+WARNING 2025-10-28 09:43:18,768 log Not Found: /favicon.ico
+WARNING 2025-10-28 09:43:32,635 log Not Found: /favicon.ico
+WARNING 2025-10-28 09:43:36,200 log Not Found: /favicon.ico
+WARNING 2025-10-28 09:43:52,992 log Not Found: /favicon.ico
+WARNING 2025-10-28 09:44:49,548 log Not Found: /favicon.ico
+WARNING 2025-10-28 09:44:53,794 log Not Found: /favicon.ico
+WARNING 2025-10-28 09:50:18,075 log Not Found: /favicon.ico
+WARNING 2025-10-28 09:51:43,587 log Not Found: /favicon.ico
+WARNING 2025-10-28 09:54:15,062 log Not Found: /favicon.ico
+WARNING 2025-10-28 09:54:16,728 log Not Found: /favicon.ico
+WARNING 2025-10-28 09:56:43,666 log Not Found: /favicon.ico
+WARNING 2025-10-28 09:57:20,917 log Not Found: /favicon.ico
+WARNING 2025-10-28 10:00:17,965 log Not Found: /favicon.ico
+WARNING 2025-10-28 10:00:59,457 log Not Found: /favicon.ico
+WARNING 2025-10-28 10:01:34,275 log Not Found: /favicon.ico
+WARNING 2025-10-28 10:07:59,213 log Not Found: /favicon.ico
+WARNING 2025-10-28 10:08:03,484 log Not Found: /favicon.ico
+WARNING 2025-10-28 10:08:10,099 log Not Found: /favicon.ico
+WARNING 2025-10-28 10:10:09,682 log Not Found: /favicon.ico
+WARNING 2025-10-28 10:14:17,784 log Not Found: /favicon.ico
+WARNING 2025-10-28 10:15:04,080 log Not Found: /favicon.ico
+WARNING 2025-10-28 10:15:20,216 log Not Found: /favicon.ico
+WARNING 2025-10-28 10:15:45,083 log Not Found: /favicon.ico
+WARNING 2025-10-28 10:15:50,072 log Not Found: /favicon.ico
+WARNING 2025-10-28 10:16:03,079 log Not Found: /favicon.ico
+WARNING 2025-10-28 10:17:00,270 log Not Found: /favicon.ico
+WARNING 2025-10-28 10:17:04,706 log Not Found: /favicon.ico
+WARNING 2025-10-28 10:17:05,862 log Not Found: /favicon.ico
+WARNING 2025-10-28 10:17:16,551 log Not Found: /favicon.ico
+WARNING 2025-10-28 19:12:45,623 log Not Found: /
+INFO 2025-10-28 19:26:17,701 autoreload /home/ubuntu/ai-symbolic-grader/backend/apps/problems/models.py changed, reloading.
+INFO 2025-10-28 19:26:18,921 autoreload Watching for file changes with StatReloader
+INFO 2025-10-28 19:28:19,623 _client HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 404 Not Found"
+INFO 2025-10-28 19:28:20,442 _client HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 404 Not Found"
+INFO 2025-10-28 19:33:35,837 _client HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 404 Not Found"
+INFO 2025-10-28 19:33:36,014 _client HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 404 Not Found"
+INFO 2025-10-28 19:38:29,787 _client HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 404 Not Found"
+INFO 2025-10-28 19:38:30,849 _client HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 404 Not Found"

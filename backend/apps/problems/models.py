@@ -146,12 +146,9 @@ class Problem(models.Model):
     
     def calculate_expected_answer(self, parameters):
         """Calculate the expected answer given parameter values."""
-        # This will be implemented with SymPy integration
-        # For now, return the solution expression with substituted values
-        solution = self.solution_expression
-        for var_name, value in parameters.items():
-            solution = solution.replace(f"{{{var_name}}}", str(value))
-        return solution
+        # Return the solution expression as-is (it's already in the correct format)
+        # We'll handle parameter substitution in the grading logic
+        return self.solution_expression
 
 
 class ProblemPart(models.Model):
@@ -167,8 +164,7 @@ class ProblemPart(models.Model):
     
     # Grading configuration
     points = models.PositiveIntegerField(default=1, validators=[MinValueValidator(1), MaxValueValidator(100)])
-    allow_partial_credit = models.BooleanField(default=True)
-    
+    allow_partial_credit = models.BooleanField(default=True)    
     # Answer format requirements
     answer_format = models.CharField(
         max_length=50,
