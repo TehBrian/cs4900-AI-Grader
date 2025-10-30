@@ -9,23 +9,30 @@
 	
 	body {
 		background-color: #e7e8ee;
+		margin: 0;
+		font-size: 15px;
+		color: black;
 	}
 	
 	#root {
-		width:300px;
-		margin: auto;
-		background-color: #eecac2;
+		width:400px;
+		margin: 40px auto;
+		text-align: center;
+		padding-bottom: 20px;
 	}
 	
 	.topnav {
 		background-color: #bed9a9;
 		overflow: hidden;
+		margin: 10px;
+		padding-left: 10px;
+		padding-right: 0;
 	}
 	
 	.topnav a {
 		float: right;
 		color: #f2f2f2;
-		text_align: center;
+		text-align: center;
 		padding: 14px 16px;
 		text-decoration: none;
 		font-size: 17px;
@@ -39,95 +46,106 @@
 	.topnav a.active {
 		background-color: #04AA6D;
 		color: white;
+		margin-right: 0;
 	}
 	
 	.topnav a.logo {
 		float:left;
-	}
-	
-	#teacher {
-		
+		color: #f2f2f2;
 	}
 	
 	.local-nav {
-		border: 2px solid #000;
-		min-height: 200px;
-		width: 30%;
-		margin: 1%;
-		float: left;
+		border: 1px solid #000;
+		width: 85%;
+		margin: 0 auto;
 		text-align: center;
-		padding-top: 20px;
-		padding-bottom: 20px;
+		padding: 25px;
 }
 	
 	.main-content {
+		background-color: #eecac2;
 		border: 2px solid #000;
-		margin: 20px;
+		margin: 20px auto;
+		padding: 60px 15px;
 		height: 150px;
 		text-align: center;
-		padding-top: 50px;
+		width: 85%;
 
 	}
-	
+
+	label {
+		display: block;
+		margin-top: 10px;
+	}
+
+
+	input, select {
+		margin: 5px 0;
+		padding: 5px;
+		width: 80%;
+		border: 1px solid #000;
+		font-size: 17px;
+	}
+
+	button {
+		margin-top: 10px;
+		padding: 5px 10px;
+		border: 1px solid #000;
+		background-color: #04AA6D;
+		font-size: 17px;
+	}
+
+	button:hover {
+		background-color: #038e5c;
+	}
+		
 	</style>
   </head>
   <body>
     <div class="topnav">
 		<a class="logo"> Logo goes here </a>
 		<a class="active" href="#index">Index</a>
-		<a href="#student/teacher"> Student/Teacher</a>
 		<a href="#classes"> Classes</a>
 		<a href="#contact"> Contact</a>
 		<a href="#about"> About</a>
 	</div>
+	  
     <div id="root">
       <div class="main-content"> Welcome Message - something goes here </div>
-	  <div style = "text-align: center; padding: 10px; margin: auto; width: 150%;">
+	  
 		<div class = "local-nav">
-			<h3> Teacher Login </h3>
-			<form onsubmit="TryLogin(event, 'teacher')">
-				<div class="form-group">
-					<label for="teacher-username">Username:</label>
-					<input type="text" id="teacher-username" name="username" required>
-				</div>
-				<div class="form-group">
-					<label for="teacher-password">Password:</label>
-					<input type="password" id="teacher-password" name="password" required>
-				</div>
-				<div class="form-group">
+			<h3> Login </h3>
+			<form id="loginform">
+					<label for="usertype">Login As:</label>
+					<select id="usertype" name="usertype">
+						<option value="student">Student</option>
+						<option value="teacher">Teacher</option>
+					</select>
+				
+					<label for="username">Username:</label>
+					<input type="text" id="username" name="username" required>
+					<label for="password">Password:</label>
+					<input type="password" id="password" name="password" required>
+				
 					<button type="submit"> Login </button>
-				</div>
 			</form>
 		</div>
-		<div class = "local-nav">
-			<h3> Student login </h3>
-			<form onsubmit="TryLogin(event, 'student')">
-				<div class="form-group">
-					<label for="student-username">Username:</label>
-					<input type="password" id="student-username" name = "username" required>
-				</div>
-				<div class="form-group">
-					<label for="student-password">Password:</label>
-					<input type="password" id="student-password" name="password" required>
-				</div>
-				<div class="form-group">
-					<button type="submit">Login</button>
-				</div>
-			</form>
-		</div>
-	  </div>
-    </div>
-    <script type="module" src="/src/main.jsx">
-  function TryLogin(event, userType) {
+	</div>
+
+  <script>
+  document.getElementById("loginform").addEventListener("submit", TryLogin);
+	  
+  function TryLogin(event) {
 		event.preventDefault();
-		var username = document.getElementById(userType + '-username').value;
-		var password = document.getElementById(userType + '-password').value;
+		const usertype = document.getElementById('usertype').value;
+	    const username = document.getElementById('username').value;
+		const password = document.getElementById('password').value;
 	
-		if(userType === 'teacher' && username === 'teacher' && password === 'password'){
+		if(usertype === 'teacher' && username === 'teacher' && password === 'password'){
 			alert('Teacher Login successful!');
 			window.location.href = 'teacherPage.html';
 		}
-		else if(userType === 'student' && username === 'student' && password === 'password') {
+		else if(usertype === 'student' && username === 'student' && password === 'password') {
 			alert('Student Login Successful!');
 			window.location.href = 'studentPage.html';
 		}
@@ -136,7 +154,7 @@
 		}
 	
 		}
-      
+		 
     </script>
   </body>
 </html>
