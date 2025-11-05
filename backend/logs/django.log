@@ -370,3 +370,84 @@ INFO 2025-10-28 19:33:35,837 _client HTTP Request: POST https://api.openai.com/v
 INFO 2025-10-28 19:33:36,014 _client HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 404 Not Found"
 INFO 2025-10-28 19:38:29,787 _client HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 404 Not Found"
 INFO 2025-10-28 19:38:30,849 _client HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 404 Not Found"
+INFO 2025-11-04 21:19:27,485 autoreload Watching for file changes with StatReloader
+INFO 2025-11-04 21:23:38,622 autoreload Watching for file changes with StatReloader
+INFO 2025-11-05 12:46:48,259 ai_symbolic_grader AI grading disabled - using SymPy only
+INFO 2025-11-05 12:46:48,260 ai_symbolic_grader Grading - Student: 'e**(-x)/2*cos*(2*x)' vs Correct: '0.5*e**(-x)*cos*(2*x)'
+WARNING 2025-11-05 12:46:48,261 ai_symbolic_grader SymPy grading failed: unsupported operand type(s) for *: 'Mul' and 'FunctionClass'
+WARNING 2025-11-05 12:46:48,261 ai_symbolic_grader Numerical grading failed: unsupported operand type(s) for *: 'Mul' and 'FunctionClass'
+INFO 2025-11-05 12:50:11,654 ai_symbolic_grader AI grading disabled - using SymPy only
+INFO 2025-11-05 12:50:11,655 ai_symbolic_grader Grading - Student: 'e**(-x)/2*cos(2*x)' vs Correct: '0.5*e**(-x)*cos(2*x)'
+INFO 2025-11-05 12:51:48,672 ai_symbolic_grader AI grading disabled - using SymPy only
+INFO 2025-11-05 12:51:48,673 ai_symbolic_grader Grading - Student: '0.5*e**(-x)*cos(2.0*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:51:48,770 ai_symbolic_grader Grading - Student: '(0.5)*e**(-x)*cos(2.0*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:51:48,788 ai_symbolic_grader Grading - Student: '0.5*e**(-1.0*x)*cos(2*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:51:48,852 ai_symbolic_grader Grading - Student: '0.5*(e**(-x))*cos(2*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:51:48,894 ai_symbolic_grader Grading - Student: '(1/2)*e**(-x)*cos(2*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:51:48,945 ai_symbolic_grader Grading - Student: 'e**(-x)/2*cos(2*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:51:49,004 ai_symbolic_grader Grading - Student: 'e**(-x)*cos(2*x)/2' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:51:49,049 ai_symbolic_grader Grading - Student: '(1/2)*cos(2*x)*e**(-x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:51:49,089 ai_symbolic_grader Grading - Student: '0.499999*cos(2*x)*e**(-x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:53:54,932 ai_symbolic_grader AI grading disabled - using SymPy only
+INFO 2025-11-05 12:53:54,933 ai_symbolic_grader Grading - Student: '0.5*e**(-x)*cos(2.0*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+WARNING 2025-11-05 12:53:54,949 ai_symbolic_grader SymPy grading failed: local variable 'simplify' referenced before assignment
+INFO 2025-11-05 12:53:54,958 ai_symbolic_grader Grading - Student: '(0.5)*e**(-x)*cos(2.0*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+WARNING 2025-11-05 12:53:54,959 ai_symbolic_grader SymPy grading failed: local variable 'simplify' referenced before assignment
+INFO 2025-11-05 12:53:54,968 ai_symbolic_grader Grading - Student: '0.5*e**(-1.0*x)*cos(2*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+WARNING 2025-11-05 12:53:54,970 ai_symbolic_grader SymPy grading failed: local variable 'simplify' referenced before assignment
+INFO 2025-11-05 12:53:54,977 ai_symbolic_grader Grading - Student: '0.5*(e**(-x))*cos(2*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+WARNING 2025-11-05 12:53:54,977 ai_symbolic_grader SymPy grading failed: local variable 'simplify' referenced before assignment
+INFO 2025-11-05 12:53:54,984 ai_symbolic_grader Grading - Student: '(1/2)*e**(-x)*cos(2*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+WARNING 2025-11-05 12:53:54,985 ai_symbolic_grader SymPy grading failed: local variable 'simplify' referenced before assignment
+INFO 2025-11-05 12:53:54,994 ai_symbolic_grader Grading - Student: 'e**(-x)/2*cos(2*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+WARNING 2025-11-05 12:53:54,994 ai_symbolic_grader SymPy grading failed: local variable 'simplify' referenced before assignment
+INFO 2025-11-05 12:53:55,004 ai_symbolic_grader Grading - Student: 'e**(-x)*cos(2*x)/2' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+WARNING 2025-11-05 12:53:55,005 ai_symbolic_grader SymPy grading failed: local variable 'simplify' referenced before assignment
+INFO 2025-11-05 12:53:55,011 ai_symbolic_grader Grading - Student: '(1/2)*cos(2*x)*e**(-x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+WARNING 2025-11-05 12:53:55,012 ai_symbolic_grader SymPy grading failed: local variable 'simplify' referenced before assignment
+INFO 2025-11-05 12:53:55,018 ai_symbolic_grader Grading - Student: '0.499999*cos(2*x)*e**(-x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+WARNING 2025-11-05 12:53:55,019 ai_symbolic_grader SymPy grading failed: local variable 'simplify' referenced before assignment
+INFO 2025-11-05 12:55:45,992 ai_symbolic_grader AI grading disabled - using SymPy only
+INFO 2025-11-05 12:55:45,992 ai_symbolic_grader Grading - Student: '0.5*e**(-x)*cos(2.0*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:55:46,096 ai_symbolic_grader Grading - Student: '(0.5)*e**(-x)*cos(2.0*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:55:46,138 ai_symbolic_grader Grading - Student: '0.5*e**(-1.0*x)*cos(2*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:55:46,260 ai_symbolic_grader Grading - Student: '0.5*(e**(-x))*cos(2*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:55:46,328 ai_symbolic_grader Grading - Student: '(1/2)*e**(-x)*cos(2*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:55:46,404 ai_symbolic_grader Grading - Student: 'e**(-x)/2*cos(2*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:55:46,469 ai_symbolic_grader Grading - Student: 'e**(-x)*cos(2*x)/2' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:55:46,557 ai_symbolic_grader Grading - Student: '(1/2)*cos(2*x)*e**(-x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:55:46,638 ai_symbolic_grader Grading - Student: '0.499999*cos(2*x)*e**(-x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:57:29,176 ai_symbolic_grader AI grading disabled - using SymPy only
+INFO 2025-11-05 13:00:55,948 ai_symbolic_grader AI grading disabled - using SymPy only
+INFO 2025-11-05 13:02:44,642 ai_symbolic_grader AI grading disabled - using SymPy only
+INFO 2025-11-05 13:04:25,928 ai_symbolic_grader AI grading disabled - using SymPy only
+INFO 2025-11-05 13:11:45,578 ai_symbolic_grader AI grading disabled - using SymPy only
+INFO 2025-11-05 13:11:45,579 ai_symbolic_grader Grading - Student: '0.5*exp(-x)*cos(2.0*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:11:45,682 ai_symbolic_grader Grading - Student: '(0.5)*exp(-x)*cos(2.0*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:11:45,699 ai_symbolic_grader Grading - Student: '0.5*exp(-1.0*x)*cos(2*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:11:45,769 ai_symbolic_grader Grading - Student: '0.5*(exp(-x))*cos(2*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:11:45,811 ai_symbolic_grader Grading - Student: '(1/2)*exp(-x)*cos(2*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:11:45,862 ai_symbolic_grader Grading - Student: 'exp(-x)/2*cos(2*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:11:45,899 ai_symbolic_grader Grading - Student: 'exp(-x)*cos(2*x)/2' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:11:45,967 ai_symbolic_grader Grading - Student: '(1/2)*cos(2*x)*exp(-x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:11:46,016 ai_symbolic_grader Grading - Student: '0.499999*cos(2*x)*exp(-x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:13:56,163 ai_symbolic_grader AI grading disabled - using SymPy only
+INFO 2025-11-05 13:13:56,164 ai_symbolic_grader Grading - Student: '0.5*exp(-x)*cos(2.0*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:13:56,259 ai_symbolic_grader Grading - Student: '(0.5)*exp(-x)*cos(2.0*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:13:56,275 ai_symbolic_grader Grading - Student: '0.5*exp(-1.0*x)*cos(2*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:13:56,347 ai_symbolic_grader Grading - Student: '0.5*(exp(-x))*cos(2*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:13:56,390 ai_symbolic_grader Grading - Student: '(1/2)*exp(-x)*cos(2*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:13:56,438 ai_symbolic_grader Grading - Student: 'exp(-x)/2*cos(2*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:13:56,477 ai_symbolic_grader Grading - Student: 'exp(-x)*cos(2*x)/2' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:13:56,535 ai_symbolic_grader Grading - Student: '(1/2)*cos(2*x)*exp(-x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:13:56,576 ai_symbolic_grader Grading - Student: '0.499999*cos(2*x)*exp(-x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:15:46,917 ai_symbolic_grader AI grading disabled - using SymPy only
+INFO 2025-11-05 13:15:46,918 ai_symbolic_grader Grading - Student: '0.5*exp(-x)*cos(2.0*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:15:47,009 ai_symbolic_grader Grading - Student: '(0.5)*exp(-x)*cos(2.0*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:15:47,023 ai_symbolic_grader Grading - Student: '0.5*exp(-1.0*x)*cos(2*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:15:47,095 ai_symbolic_grader Grading - Student: '0.5*(exp(-x))*cos(2*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:15:47,135 ai_symbolic_grader Grading - Student: '(1/2)*exp(-x)*cos(2*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:15:47,187 ai_symbolic_grader Grading - Student: 'exp(-x)/2*cos(2*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:15:47,223 ai_symbolic_grader Grading - Student: 'exp(-x)*cos(2*x)/2' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:15:47,281 ai_symbolic_grader Grading - Student: '(1/2)*cos(2*x)*exp(-x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:15:47,319 ai_symbolic_grader Grading - Student: '0.499999*cos(2*x)*exp(-x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
