@@ -1,12 +1,9 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
+# apps/grading/urls.py
+from django.urls import path
+from . import views
 
 app_name = 'grading'
 
-router = DefaultRouter()
-# ViewSets will be added later
-
 urlpatterns = [
-    path('', include(router.urls)),
-    # Additional URL patterns will be added as we build views
+    path('grade/', views.grade_expression, name='grade'),
 ]
