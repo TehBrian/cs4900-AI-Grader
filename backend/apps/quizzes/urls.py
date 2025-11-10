@@ -1,13 +1,15 @@
 # apps/quizzes/urls.py
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+from . import views
 
 app_name = 'quizzes'
 
 router = DefaultRouter()
-# ViewSets will be added later
+router.register(r'courses', views.CourseViewSet, basename='course')
+router.register(r'', views.QuizViewSet, basename='quiz')
 
 urlpatterns = [
+    path('statistics/', views.quiz_statistics, name='statistics'),
     path('', include(router.urls)),
-    # Additional URL patterns will be added as we build views
 ]
