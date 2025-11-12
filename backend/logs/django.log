@@ -522,3 +522,103 @@ INFO 2025-11-12 12:50:30,521 autoreload /home/ubuntu/cs4900-AI-Grader/backend/co
 INFO 2025-11-12 12:50:30,793 autoreload Watching for file changes with StatReloader
 INFO 2025-11-12 12:53:24,892 autoreload /home/ubuntu/cs4900-AI-Grader/backend/apps/assignments/apps.py changed, reloading.
 INFO 2025-11-12 12:53:25,148 autoreload Watching for file changes with StatReloader
+INFO 2025-11-12 13:05:35,530 autoreload /home/ubuntu/cs4900-AI-Grader/backend/config/urls.py changed, reloading.
+INFO 2025-11-12 13:05:36,000 autoreload Watching for file changes with StatReloader
+INFO 2025-11-12 13:06:52,822 autoreload Watching for file changes with StatReloader
+ERROR 2025-11-12 13:06:55,646 log Internal Server Error: /api/templates/templates/1/generate_preview/
+Traceback (most recent call last):
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py", line 2053, in get_prep_value
+    return int(value)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/contrib/auth/models.py", line 437, in __int__
+    raise TypeError(
+TypeError: Cannot cast AnonymousUser to int. Are you trying to use it in place of User?
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/rest_framework/viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/apps/problems/views_template.py", line 63, in generate_preview
+    instance = template.generate_instance(
+  File "/home/ubuntu/cs4900-AI-Grader/backend/apps/problems/models_additions.py", line 32, in generate_instance
+    instance, created = ProblemInstance.objects.get_or_create(
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/query.py", line 916, in get_or_create
+    return self.get(**kwargs), False
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/query.py", line 623, in get
+    clone = self._chain() if self.query.combinator else self.filter(*args, **kwargs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/query.py", line 1436, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/query.py", line 1454, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/query.py", line 1461, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/sql/query.py", line 1545, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/sql/query.py", line 1576, in _add_q
+    child_clause, needed_inner = self.build_filter(
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/sql/query.py", line 1491, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/sql/query.py", line 1318, in build_lookup
+    lookup = lookup_class(lhs, rhs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/lookups.py", line 27, in __init__
+    self.rhs = self.get_prep_lookup()
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/fields/related_lookups.py", line 166, in get_prep_lookup
+    self.rhs = target_field.get_prep_value(self.rhs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py", line 2055, in get_prep_value
+    raise e.__class__(
+TypeError: Field 'id' expected a number but got <django.contrib.auth.models.AnonymousUser object at 0xffff7e79ec10>.
+ERROR 2025-11-12 13:09:11,650 log Internal Server Error: /api/assignments/
+Traceback (most recent call last):
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/rest_framework/viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/rest_framework/mixins.py", line 19, in create
+    self.perform_create(serializer)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/rest_framework/mixins.py", line 24, in perform_create
+    serializer.save()
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/rest_framework/serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/apps/assignments/serializers.py", line 100, in create
+    assignment = Assignment.objects.create(**validated_data)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/query.py", line 656, in create
+    obj = self.model(**kwargs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/base.py", line 543, in __init__
+    _setattr(self, field.name, rel_obj)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/fields/related_descriptors.py", line 266, in __set__
+    raise ValueError(
+ValueError: Cannot assign "<django.contrib.auth.models.AnonymousUser object at 0xffff7e7817f0>": "Assignment.created_by" must be a "CustomUser" instance.
+WARNING 2025-11-12 13:09:11,662 log Not Found: /api/assignments/1/student_view/
+WARNING 2025-11-12 13:09:11,692 log Not Found: /api/assignments/1/problems/
+WARNING 2025-11-12 13:13:44,007 log Not Found: /favicon.ico
+WARNING 2025-11-12 13:13:52,139 log Not Found: /favicon.ico
