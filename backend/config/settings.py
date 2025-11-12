@@ -43,6 +43,7 @@ LOCAL_APPS = [
     'apps.users',
     'apps.problems',
     'apps.grading',
+    'apps.assignments',
     'apps.quizzes',
 ]
 
@@ -195,3 +196,5 @@ LOGGING = {
 # Create logs directory
 os.makedirs(BASE_DIR / 'logs', exist_ok=True)
 AUTH_USER_MODEL = 'users.CustomUser'
+
+# Add assignments app
