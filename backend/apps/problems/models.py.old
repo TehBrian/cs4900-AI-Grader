@@ -258,15 +258,3 @@ class ProblemTemplate(models.Model):
         ordering = ['-usage_count', 'name']
     
     def __str__(self):
-        return f"{self.name}"
-
-
-# Import ProblemInstance model
-from .models_instance import ProblemInstance
-
-# Enhance ProblemTemplate with additional methods
-def _enhance_problem_template():
-    """Add methods to ProblemTemplate after it's defined"""
-    from . import models_additions
-
-_enhance_problem_template()

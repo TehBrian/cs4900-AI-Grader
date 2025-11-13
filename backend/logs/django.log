@@ -370,6 +370,7 @@ INFO 2025-10-28 19:33:35,837 _client HTTP Request: POST https://api.openai.com/v
 INFO 2025-10-28 19:33:36,014 _client HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 404 Not Found"
 INFO 2025-10-28 19:38:29,787 _client HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 404 Not Found"
 INFO 2025-10-28 19:38:30,849 _client HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 404 Not Found"
+<<<<<<< HEAD
 INFO 2025-11-13 12:39:52,218 autoreload Watching for file changes with StatReloader
 INFO 2025-11-13 12:40:32,416 autoreload Watching for file changes with StatReloader
 INFO 2025-11-13 12:41:50,167 autoreload Watching for file changes with StatReloader
@@ -401,3 +402,257 @@ WARNING 2025-11-13 13:40:54,066 log Not Found: /favicon.ico
 WARNING 2025-11-13 13:40:57,835 log Not Found: /favicon.ico
 WARNING 2025-11-13 13:41:00,287 log Not Found: /favicon.ico
 WARNING 2025-11-13 13:41:06,194 log Not Found: /favicon.ico
+=======
+INFO 2025-11-04 21:19:27,485 autoreload Watching for file changes with StatReloader
+INFO 2025-11-04 21:23:38,622 autoreload Watching for file changes with StatReloader
+INFO 2025-11-05 12:46:48,259 ai_symbolic_grader AI grading disabled - using SymPy only
+INFO 2025-11-05 12:46:48,260 ai_symbolic_grader Grading - Student: 'e**(-x)/2*cos*(2*x)' vs Correct: '0.5*e**(-x)*cos*(2*x)'
+WARNING 2025-11-05 12:46:48,261 ai_symbolic_grader SymPy grading failed: unsupported operand type(s) for *: 'Mul' and 'FunctionClass'
+WARNING 2025-11-05 12:46:48,261 ai_symbolic_grader Numerical grading failed: unsupported operand type(s) for *: 'Mul' and 'FunctionClass'
+INFO 2025-11-05 12:50:11,654 ai_symbolic_grader AI grading disabled - using SymPy only
+INFO 2025-11-05 12:50:11,655 ai_symbolic_grader Grading - Student: 'e**(-x)/2*cos(2*x)' vs Correct: '0.5*e**(-x)*cos(2*x)'
+INFO 2025-11-05 12:51:48,672 ai_symbolic_grader AI grading disabled - using SymPy only
+INFO 2025-11-05 12:51:48,673 ai_symbolic_grader Grading - Student: '0.5*e**(-x)*cos(2.0*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:51:48,770 ai_symbolic_grader Grading - Student: '(0.5)*e**(-x)*cos(2.0*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:51:48,788 ai_symbolic_grader Grading - Student: '0.5*e**(-1.0*x)*cos(2*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:51:48,852 ai_symbolic_grader Grading - Student: '0.5*(e**(-x))*cos(2*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:51:48,894 ai_symbolic_grader Grading - Student: '(1/2)*e**(-x)*cos(2*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:51:48,945 ai_symbolic_grader Grading - Student: 'e**(-x)/2*cos(2*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:51:49,004 ai_symbolic_grader Grading - Student: 'e**(-x)*cos(2*x)/2' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:51:49,049 ai_symbolic_grader Grading - Student: '(1/2)*cos(2*x)*e**(-x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:51:49,089 ai_symbolic_grader Grading - Student: '0.499999*cos(2*x)*e**(-x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:53:54,932 ai_symbolic_grader AI grading disabled - using SymPy only
+INFO 2025-11-05 12:53:54,933 ai_symbolic_grader Grading - Student: '0.5*e**(-x)*cos(2.0*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+WARNING 2025-11-05 12:53:54,949 ai_symbolic_grader SymPy grading failed: local variable 'simplify' referenced before assignment
+INFO 2025-11-05 12:53:54,958 ai_symbolic_grader Grading - Student: '(0.5)*e**(-x)*cos(2.0*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+WARNING 2025-11-05 12:53:54,959 ai_symbolic_grader SymPy grading failed: local variable 'simplify' referenced before assignment
+INFO 2025-11-05 12:53:54,968 ai_symbolic_grader Grading - Student: '0.5*e**(-1.0*x)*cos(2*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+WARNING 2025-11-05 12:53:54,970 ai_symbolic_grader SymPy grading failed: local variable 'simplify' referenced before assignment
+INFO 2025-11-05 12:53:54,977 ai_symbolic_grader Grading - Student: '0.5*(e**(-x))*cos(2*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+WARNING 2025-11-05 12:53:54,977 ai_symbolic_grader SymPy grading failed: local variable 'simplify' referenced before assignment
+INFO 2025-11-05 12:53:54,984 ai_symbolic_grader Grading - Student: '(1/2)*e**(-x)*cos(2*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+WARNING 2025-11-05 12:53:54,985 ai_symbolic_grader SymPy grading failed: local variable 'simplify' referenced before assignment
+INFO 2025-11-05 12:53:54,994 ai_symbolic_grader Grading - Student: 'e**(-x)/2*cos(2*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+WARNING 2025-11-05 12:53:54,994 ai_symbolic_grader SymPy grading failed: local variable 'simplify' referenced before assignment
+INFO 2025-11-05 12:53:55,004 ai_symbolic_grader Grading - Student: 'e**(-x)*cos(2*x)/2' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+WARNING 2025-11-05 12:53:55,005 ai_symbolic_grader SymPy grading failed: local variable 'simplify' referenced before assignment
+INFO 2025-11-05 12:53:55,011 ai_symbolic_grader Grading - Student: '(1/2)*cos(2*x)*e**(-x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+WARNING 2025-11-05 12:53:55,012 ai_symbolic_grader SymPy grading failed: local variable 'simplify' referenced before assignment
+INFO 2025-11-05 12:53:55,018 ai_symbolic_grader Grading - Student: '0.499999*cos(2*x)*e**(-x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+WARNING 2025-11-05 12:53:55,019 ai_symbolic_grader SymPy grading failed: local variable 'simplify' referenced before assignment
+INFO 2025-11-05 12:55:45,992 ai_symbolic_grader AI grading disabled - using SymPy only
+INFO 2025-11-05 12:55:45,992 ai_symbolic_grader Grading - Student: '0.5*e**(-x)*cos(2.0*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:55:46,096 ai_symbolic_grader Grading - Student: '(0.5)*e**(-x)*cos(2.0*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:55:46,138 ai_symbolic_grader Grading - Student: '0.5*e**(-1.0*x)*cos(2*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:55:46,260 ai_symbolic_grader Grading - Student: '0.5*(e**(-x))*cos(2*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:55:46,328 ai_symbolic_grader Grading - Student: '(1/2)*e**(-x)*cos(2*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:55:46,404 ai_symbolic_grader Grading - Student: 'e**(-x)/2*cos(2*x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:55:46,469 ai_symbolic_grader Grading - Student: 'e**(-x)*cos(2*x)/2' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:55:46,557 ai_symbolic_grader Grading - Student: '(1/2)*cos(2*x)*e**(-x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:55:46,638 ai_symbolic_grader Grading - Student: '0.499999*cos(2*x)*e**(-x)' vs Correct: '0.5*e**(-x)*cos(2.0*x)'
+INFO 2025-11-05 12:57:29,176 ai_symbolic_grader AI grading disabled - using SymPy only
+INFO 2025-11-05 13:00:55,948 ai_symbolic_grader AI grading disabled - using SymPy only
+INFO 2025-11-05 13:02:44,642 ai_symbolic_grader AI grading disabled - using SymPy only
+INFO 2025-11-05 13:04:25,928 ai_symbolic_grader AI grading disabled - using SymPy only
+INFO 2025-11-05 13:11:45,578 ai_symbolic_grader AI grading disabled - using SymPy only
+INFO 2025-11-05 13:11:45,579 ai_symbolic_grader Grading - Student: '0.5*exp(-x)*cos(2.0*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:11:45,682 ai_symbolic_grader Grading - Student: '(0.5)*exp(-x)*cos(2.0*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:11:45,699 ai_symbolic_grader Grading - Student: '0.5*exp(-1.0*x)*cos(2*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:11:45,769 ai_symbolic_grader Grading - Student: '0.5*(exp(-x))*cos(2*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:11:45,811 ai_symbolic_grader Grading - Student: '(1/2)*exp(-x)*cos(2*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:11:45,862 ai_symbolic_grader Grading - Student: 'exp(-x)/2*cos(2*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:11:45,899 ai_symbolic_grader Grading - Student: 'exp(-x)*cos(2*x)/2' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:11:45,967 ai_symbolic_grader Grading - Student: '(1/2)*cos(2*x)*exp(-x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:11:46,016 ai_symbolic_grader Grading - Student: '0.499999*cos(2*x)*exp(-x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:13:56,163 ai_symbolic_grader AI grading disabled - using SymPy only
+INFO 2025-11-05 13:13:56,164 ai_symbolic_grader Grading - Student: '0.5*exp(-x)*cos(2.0*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:13:56,259 ai_symbolic_grader Grading - Student: '(0.5)*exp(-x)*cos(2.0*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:13:56,275 ai_symbolic_grader Grading - Student: '0.5*exp(-1.0*x)*cos(2*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:13:56,347 ai_symbolic_grader Grading - Student: '0.5*(exp(-x))*cos(2*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:13:56,390 ai_symbolic_grader Grading - Student: '(1/2)*exp(-x)*cos(2*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:13:56,438 ai_symbolic_grader Grading - Student: 'exp(-x)/2*cos(2*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:13:56,477 ai_symbolic_grader Grading - Student: 'exp(-x)*cos(2*x)/2' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:13:56,535 ai_symbolic_grader Grading - Student: '(1/2)*cos(2*x)*exp(-x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:13:56,576 ai_symbolic_grader Grading - Student: '0.499999*cos(2*x)*exp(-x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:15:46,917 ai_symbolic_grader AI grading disabled - using SymPy only
+INFO 2025-11-05 13:15:46,918 ai_symbolic_grader Grading - Student: '0.5*exp(-x)*cos(2.0*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:15:47,009 ai_symbolic_grader Grading - Student: '(0.5)*exp(-x)*cos(2.0*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:15:47,023 ai_symbolic_grader Grading - Student: '0.5*exp(-1.0*x)*cos(2*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:15:47,095 ai_symbolic_grader Grading - Student: '0.5*(exp(-x))*cos(2*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:15:47,135 ai_symbolic_grader Grading - Student: '(1/2)*exp(-x)*cos(2*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:15:47,187 ai_symbolic_grader Grading - Student: 'exp(-x)/2*cos(2*x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:15:47,223 ai_symbolic_grader Grading - Student: 'exp(-x)*cos(2*x)/2' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:15:47,281 ai_symbolic_grader Grading - Student: '(1/2)*cos(2*x)*exp(-x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:15:47,319 ai_symbolic_grader Grading - Student: '0.499999*cos(2*x)*exp(-x)' vs Correct: '0.5*exp(-x)*cos(2.0*x)'
+INFO 2025-11-05 13:57:20,279 autoreload /home/ubuntu/cs4900-AI-Grader/backend/apps/grading/urls.py changed, reloading.
+INFO 2025-11-05 13:57:20,922 autoreload Watching for file changes with StatReloader
+INFO 2025-11-05 13:57:47,781 autoreload Watching for file changes with StatReloader
+INFO 2025-11-05 14:06:09,134 autoreload /home/ubuntu/cs4900-AI-Grader/backend/apps/grading/serializers.py changed, reloading.
+INFO 2025-11-05 14:06:09,134 autoreload /home/ubuntu/cs4900-AI-Grader/backend/apps/grading/serializers.py changed, reloading.
+INFO 2025-11-05 14:06:09,818 autoreload Watching for file changes with StatReloader
+INFO 2025-11-05 14:06:09,818 autoreload Watching for file changes with StatReloader
+INFO 2025-11-05 14:07:56,209 autoreload Watching for file changes with StatReloader
+INFO 2025-11-05 22:03:37,005 autoreload Watching for file changes with StatReloader
+INFO 2025-11-05 22:05:30,138 autoreload Watching for file changes with StatReloader
+WARNING 2025-11-05 22:06:21,586 log Forbidden: /api/grading/grade/
+INFO 2025-11-05 22:10:03,271 autoreload Watching for file changes with StatReloader
+INFO 2025-11-05 22:10:29,643 ai_symbolic_grader AI grading enabled with OpenAI
+INFO 2025-11-05 22:10:29,644 ai_symbolic_grader Grading - Student: 'exp(-x)/2*cos(2*x)' vs Correct: '0.5*exp(-x)*cos(2*x)'
+ERROR 2025-11-05 22:10:29,854 ai_symbolic_grader AI grading failed: __init__() got an unexpected keyword argument 'proxies'
+INFO 2025-11-05 22:12:32,303 ai_symbolic_grader AI grading enabled with OpenAI
+INFO 2025-11-05 22:12:32,305 ai_symbolic_grader Grading - Student: '(1/2)*exp(-x)*cos(2*x)' vs Correct: '0.5*exp(-x)*cos(2*x)'
+ERROR 2025-11-05 22:12:32,347 ai_symbolic_grader AI grading failed: __init__() got an unexpected keyword argument 'proxies'
+INFO 2025-11-05 22:13:26,117 ai_symbolic_grader AI grading enabled with OpenAI
+INFO 2025-11-05 22:13:26,119 ai_symbolic_grader Grading - Student: 'cos(2*x)*exp(-x)/2' vs Correct: '0.5*exp(-x)*cos(2*x)'
+ERROR 2025-11-05 22:13:26,163 ai_symbolic_grader AI grading failed: __init__() got an unexpected keyword argument 'proxies'
+WARNING 2025-11-05 22:15:28,611 log Bad Request: /api/grading/grade/
+WARNING 2025-11-05 22:15:45,129 log Not Found: /favicon.ico
+WARNING 2025-11-05 22:15:48,502 log Not Found: /
+WARNING 2025-11-05 22:15:50,749 log Not Found: /
+WARNING 2025-11-05 22:15:52,031 log Not Found: /
+WARNING 2025-11-05 22:15:52,343 log Not Found: /
+WARNING 2025-11-05 22:16:07,040 log Not Found: /favicon.ico
+INFO 2025-11-05 22:19:28,758 ai_symbolic_grader AI grading enabled with OpenAI
+INFO 2025-11-05 22:19:28,760 ai_symbolic_grader Grading - Student: 'exp(-x)/2*cos(2*x)' vs Correct: '0.5*exp(-x)*cos(2*x)'
+ERROR 2025-11-05 22:19:28,806 ai_symbolic_grader AI grading failed: __init__() got an unexpected keyword argument 'proxies'
+WARNING 2025-11-05 22:19:37,025 log Method Not Allowed: /api/grading/grade/
+WARNING 2025-11-05 22:19:37,291 log Not Found: /favicon.ico
+INFO 2025-11-11 09:07:51,522 autoreload Watching for file changes with StatReloader
+WARNING 2025-11-11 09:07:57,170 log Not Found: /favicon.ico
+WARNING 2025-11-11 09:08:02,698 log Not Found: /favicon.ico
+WARNING 2025-11-11 09:08:53,087 log Not Found: /favicon.ico
+WARNING 2025-11-11 09:08:56,780 log Not Found: /favicon.ico
+WARNING 2025-11-11 09:09:04,710 log Not Found: /favicon.ico
+WARNING 2025-11-11 09:09:11,175 log Not Found: /favicon.ico
+WARNING 2025-11-11 09:09:15,373 log Not Found: /favicon.ico
+WARNING 2025-11-11 09:09:20,299 log Not Found: /favicon.ico
+WARNING 2025-11-11 09:09:36,337 log Not Found: /favicon.ico
+WARNING 2025-11-11 09:09:43,618 log Not Found: /favicon.ico
+WARNING 2025-11-11 09:09:46,012 log Not Found: /favicon.ico
+WARNING 2025-11-11 09:09:50,919 log Not Found: /favicon.ico
+WARNING 2025-11-11 09:09:57,021 log Not Found: /favicon.ico
+WARNING 2025-11-11 09:10:03,978 log Not Found: /favicon.ico
+WARNING 2025-11-11 09:10:10,571 log Not Found: /favicon.ico
+WARNING 2025-11-11 09:10:15,995 log Not Found: /favicon.ico
+WARNING 2025-11-11 09:10:27,672 log Not Found: /favicon.ico
+WARNING 2025-11-11 09:10:30,095 log Not Found: /favicon.ico
+WARNING 2025-11-11 09:10:39,181 log Not Found: /favicon.ico
+WARNING 2025-11-11 09:10:43,042 log Not Found: /favicon.ico
+WARNING 2025-11-11 09:41:38,320 log Not Found: /favicon.ico
+WARNING 2025-11-11 09:42:55,912 log Not Found: /favicon.ico
+WARNING 2025-11-11 09:42:57,271 log Not Found: /favicon.ico
+WARNING 2025-11-11 09:43:24,000 log Not Found: /favicon.ico
+WARNING 2025-11-11 09:43:26,379 log Not Found: /favicon.ico
+WARNING 2025-11-11 09:43:33,172 log Not Found: /favicon.ico
+WARNING 2025-11-11 09:43:48,779 log Not Found: /favicon.ico
+INFO 2025-11-12 12:18:54,042 autoreload /home/ubuntu/cs4900-AI-Grader/backend/config/settings.py changed, reloading.
+INFO 2025-11-12 12:18:54,476 autoreload Watching for file changes with StatReloader
+INFO 2025-11-12 12:19:37,914 autoreload /home/ubuntu/cs4900-AI-Grader/backend/apps/problems/models.py changed, reloading.
+INFO 2025-11-12 12:19:38,073 autoreload Watching for file changes with StatReloader
+INFO 2025-11-12 12:47:49,078 autoreload /home/ubuntu/cs4900-AI-Grader/backend/config/settings.py changed, reloading.
+INFO 2025-11-12 12:47:49,346 autoreload Watching for file changes with StatReloader
+INFO 2025-11-12 12:50:30,521 autoreload /home/ubuntu/cs4900-AI-Grader/backend/config/settings.py changed, reloading.
+INFO 2025-11-12 12:50:30,793 autoreload Watching for file changes with StatReloader
+INFO 2025-11-12 12:53:24,892 autoreload /home/ubuntu/cs4900-AI-Grader/backend/apps/assignments/apps.py changed, reloading.
+INFO 2025-11-12 12:53:25,148 autoreload Watching for file changes with StatReloader
+INFO 2025-11-12 13:05:35,530 autoreload /home/ubuntu/cs4900-AI-Grader/backend/config/urls.py changed, reloading.
+INFO 2025-11-12 13:05:36,000 autoreload Watching for file changes with StatReloader
+INFO 2025-11-12 13:06:52,822 autoreload Watching for file changes with StatReloader
+ERROR 2025-11-12 13:06:55,646 log Internal Server Error: /api/templates/templates/1/generate_preview/
+Traceback (most recent call last):
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py", line 2053, in get_prep_value
+    return int(value)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/contrib/auth/models.py", line 437, in __int__
+    raise TypeError(
+TypeError: Cannot cast AnonymousUser to int. Are you trying to use it in place of User?
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/rest_framework/viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/apps/problems/views_template.py", line 63, in generate_preview
+    instance = template.generate_instance(
+  File "/home/ubuntu/cs4900-AI-Grader/backend/apps/problems/models_additions.py", line 32, in generate_instance
+    instance, created = ProblemInstance.objects.get_or_create(
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/query.py", line 916, in get_or_create
+    return self.get(**kwargs), False
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/query.py", line 623, in get
+    clone = self._chain() if self.query.combinator else self.filter(*args, **kwargs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/query.py", line 1436, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/query.py", line 1454, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/query.py", line 1461, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/sql/query.py", line 1545, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/sql/query.py", line 1576, in _add_q
+    child_clause, needed_inner = self.build_filter(
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/sql/query.py", line 1491, in build_filter
+    condition = self.build_lookup(lookups, col, value)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/sql/query.py", line 1318, in build_lookup
+    lookup = lookup_class(lhs, rhs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/lookups.py", line 27, in __init__
+    self.rhs = self.get_prep_lookup()
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/fields/related_lookups.py", line 166, in get_prep_lookup
+    self.rhs = target_field.get_prep_value(self.rhs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/fields/__init__.py", line 2055, in get_prep_value
+    raise e.__class__(
+TypeError: Field 'id' expected a number but got <django.contrib.auth.models.AnonymousUser object at 0xffff7e79ec10>.
+ERROR 2025-11-12 13:09:11,650 log Internal Server Error: /api/assignments/
+Traceback (most recent call last):
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/rest_framework/viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/rest_framework/mixins.py", line 19, in create
+    self.perform_create(serializer)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/rest_framework/mixins.py", line 24, in perform_create
+    serializer.save()
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/rest_framework/serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/apps/assignments/serializers.py", line 100, in create
+    assignment = Assignment.objects.create(**validated_data)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/query.py", line 656, in create
+    obj = self.model(**kwargs)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/base.py", line 543, in __init__
+    _setattr(self, field.name, rel_obj)
+  File "/home/ubuntu/cs4900-AI-Grader/backend/venv/lib/python3.8/site-packages/django/db/models/fields/related_descriptors.py", line 266, in __set__
+    raise ValueError(
+ValueError: Cannot assign "<django.contrib.auth.models.AnonymousUser object at 0xffff7e7817f0>": "Assignment.created_by" must be a "CustomUser" instance.
+WARNING 2025-11-12 13:09:11,662 log Not Found: /api/assignments/1/student_view/
+WARNING 2025-11-12 13:09:11,692 log Not Found: /api/assignments/1/problems/
+WARNING 2025-11-12 13:13:44,007 log Not Found: /favicon.ico
+WARNING 2025-11-12 13:13:52,139 log Not Found: /favicon.ico
+>>>>>>> 26ca8a92a8b1b34b9933b98fbf7731b961529b4b

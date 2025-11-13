@@ -58,3 +58,6 @@ logs/
 .coverage
 htmlcov/
 .pytest_cache/
+.env
+frontend/tailwindcss
+frontend/node_modules/

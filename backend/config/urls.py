@@ -11,3 +11,12 @@ urlpatterns = [
     path('api/quizzes/', include('apps.quizzes.urls', namespace='quizzes')),
 ]
 
+
+# Template and Assignment APIs
+from apps.problems.urls_template import router as template_router
+from apps.assignments.urls import router as assignment_router
+
+urlpatterns += [
+    path('api/templates/', include('apps.problems.urls_template')),
+    path('api/assignments/', include('apps.assignments.urls')),
+]
