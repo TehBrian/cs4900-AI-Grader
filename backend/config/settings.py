@@ -43,10 +43,7 @@ LOCAL_APPS = [
     'apps.users',
     'apps.problems',
     'apps.grading',
-<<<<<<< HEAD
-=======
     'apps.assignments',
->>>>>>> 26ca8a92a8b1b34b9933b98fbf7731b961529b4b
     'apps.quizzes',
 ]
 
@@ -86,20 +83,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database configuration
 DATABASES = {
     'default': {
-<<<<<<< HEAD
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('DB_NAME', 'ai_spg_db'),
-        'USER': os.getenv('DB_USER', 'root'),
-        'PASSWORD': os.getenv('DB_PASSWORD', ''),
-        'HOST': os.getenv('DB_HOST', 'localhost'),
-        'PORT': os.getenv('DB_PORT', '3306'),
-        'OPTIONS': {
-            'charset': 'utf8mb4',
-        },
-=======
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
->>>>>>> 26ca8a92a8b1b34b9933b98fbf7731b961529b4b
     }
 }
 
