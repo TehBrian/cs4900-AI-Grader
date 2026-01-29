@@ -82,6 +82,12 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
+### Start frontend
+First ensure the development server address is the same as the address in the frontend/src/App.tsx file that is being passed to the fetch() function. Run from the frontend directory in a separate terminal.
+```bash
+npm start dev
+```
+
 ---
 
 ## 📊 Test Data
