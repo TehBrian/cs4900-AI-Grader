@@ -1,0 +1,2 @@
+#! /usr/bin
+curl -X POST http://127.0.0.1:8000/api/users/auth/register/ -H "Content-Type: application/json" -d '{ "username": "student1", "password": "password123", "email": "cvw9305@wmich.edu", "first_name": "John", "last_name": "Doe"}'

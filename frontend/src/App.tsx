@@ -3,6 +3,23 @@ import React, { useMemo, useState } from "react";
 type Role = "student" | "teacher";
 type Page = "login" | "about" | "contact";
 
+interface User {
+  id: number,
+  username: string,
+  email: string,
+  date_joined: string,
+  first_name: string,
+  last_name: string
+}
+interface Token {
+  refresh: string,
+  access: string
+}
+interface LoginResult {
+  user: User,
+  token: Token
+}
+
 export default function App() {
   const [page, setPage] = useState<Page>("login");
 
@@ -10,6 +27,8 @@ export default function App() {
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
   const [error, setError] = useState<string | null>(null);
+
+  const [loginresult, setLoginResult] = useState<LoginResult | null>(null);
 
   const [session, setSession] = useState<{ role: Role; email: string } | null>(
     null
@@ -19,17 +38,33 @@ export default function App() {
     return email.trim().length > 0 && pw.trim().length > 0;
   }, [email, pw]);
 
-  function handleLogin(e: React.FormEvent) {
+
+  async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
 
-    if (pw !== "password") {
-      setError("Incorrect password. Use password=password");
-      return;
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/users/auth/login/", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({username: email, password: pw})
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+
+        setLoginResult(data);
+        setSession({role, email: email.trim()});
+      } else {
+        setError("Incorrect username or password.");
+        return;
+      }
+    } catch (error) {
+      alert("Failed to connect to database.");
     }
 
-    setSession({ role, email: email.trim() });
-    setPw("");
   }
 
   function logout() {
@@ -39,6 +74,7 @@ export default function App() {
     setError(null);
     setRole("student");
     setPage("login");
+    setLoginResult(null);
   }
 
   // ---------- layout ----------
@@ -158,13 +194,14 @@ export default function App() {
   }
 
   // ---------- logged ----------
-  if (session && page === "login") {
+  if (loginresult && session && page === "login") {
+
     const isTeacher = session.role === "teacher";
     return (
       <PageShell title={isTeacher ? "Teacher Home" : "Student Home"}>
         <div className="rounded-2xl bg-white border shadow-sm p-6">
           <p className="text-gray-700">
-            Signed in as <span className="font-semibold">{session.email}</span>{" "}
+            Signed in as <span className="font-semibold">{loginresult.user.email}</span>{" "}
             ({isTeacher ? "Teacher" : "Student"}).
           </p>
 
