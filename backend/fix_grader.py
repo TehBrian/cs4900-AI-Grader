@@ -1,4 +1,4 @@
-with open('apps/grading/services/ai_symbolic_grader.py', 'r') as f:
+with open("apps/grading/services/ai_symbolic_grader.py", "r") as f:
     content = f.read()
 
 # Fix the regex that's adding extra asterisks
@@ -17,7 +17,7 @@ new_implicit = """        # Handle implicit multiplication (e.g., "2x" -> "2*x")
 
 content = content.replace(old_implicit, new_implicit)
 
-with open('apps/grading/services/ai_symbolic_grader.py', 'w') as f:
+with open("apps/grading/services/ai_symbolic_grader.py", "w") as f:
     f.write(content)
 
 print("✅ Fixed!")

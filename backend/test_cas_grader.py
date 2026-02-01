@@ -5,18 +5,19 @@ import django
 
 # Setup Django
 sys.path.insert(0, os.path.dirname(__file__))
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 django.setup()
 
 from apps.grading.services.cas_grader import CASGrader
 
+
 def test_grader():
     grader = CASGrader()
-    
+
     print("=" * 60)
     print("Testing CAS Grader")
     print("=" * 60)
-    
+
     test_cases = [
         # (student_answer, correct_answer, parameters, expected_result)
         ("0.5*x", "x/2", None, True),
@@ -28,24 +29,24 @@ def test_grader():
         # Antenna problem style
         ("L/4", "0.25*L", None, True),
     ]
-    
+
     passed = 0
     failed = 0
-    
+
     for i, (student, correct, params, expected) in enumerate(test_cases, 1):
         print(f"\nTest {i}:")
         print(f"  Student: {student}")
         print(f"  Correct: {correct}")
-        
+
         result = grader.grade_expression(student, correct, params)
-        
-        if result['is_correct'] is not None:
+
+        if result["is_correct"] is not None:
             print(f"  Result: {'✓ CORRECT' if result['is_correct'] else '✗ INCORRECT'}")
             print(f"  Confidence: {result['confidence']:.2f}")
             print(f"  Method: {result['method']}")
             print(f"  Reasoning: {result['reasoning']}")
-            
-            if result['is_correct'] == expected:
+
+            if result["is_correct"] == expected:
                 print(f"  Test Status: ✓ PASS")
                 passed += 1
             else:
@@ -55,10 +56,11 @@ def test_grader():
             print(f"  Error: {result.get('error', 'Unknown error')}")
             print(f"  Test Status: ✗ FAIL (Error)")
             failed += 1
-    
+
     print("\n" + "=" * 60)
     print(f"Results: {passed} passed, {failed} failed out of {len(test_cases)} tests")
     print("=" * 60)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     test_grader()

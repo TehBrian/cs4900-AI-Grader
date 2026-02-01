@@ -6,45 +6,98 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('problems', '0001_initial'),
+        ("problems", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Assignment',
+            name="Assignment",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(help_text="e.g., 'HW#1: Boolean Algebra' or 'Midterm Exam'", max_length=200)),
-                ('description', models.TextField(blank=True)),
-                ('assignment_type', models.CharField(choices=[('homework', 'Homework'), ('quiz', 'Quiz'), ('exam', 'Exam')], default='homework', max_length=20)),
-                ('open_date', models.DateTimeField(help_text='When students can start the assignment')),
-                ('due_date', models.DateTimeField(help_text='Deadline for submission')),
-                ('reveal_date', models.DateTimeField(blank=True, help_text='When to reveal results. Leave blank for default.', null=True)),
-                ('allow_late', models.BooleanField(default=False)),
-                ('late_penalty_percent', models.IntegerField(default=10)),
-                ('max_late_days', models.IntegerField(default=7)),
-                ('max_attempts', models.IntegerField(blank=True, null=True)),
-                ('show_score_immediately', models.BooleanField(default=False)),
-                ('show_correct_answer', models.BooleanField(default=False)),
-                ('show_feedback', models.BooleanField(default=True)),
-                ('randomize_order', models.BooleanField(default=False)),
-                ('total_points', models.DecimalField(decimal_places=2, default=100, max_digits=6)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('is_active', models.BooleanField(default=True)),
-                ('created_by', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='created_assignments', to=settings.AUTH_USER_MODEL)),
-                ('problem_templates', models.ManyToManyField(blank=True, related_name='assignments', to='problems.problemtemplate')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        help_text="e.g., 'HW#1: Boolean Algebra' or 'Midterm Exam'",
+                        max_length=200,
+                    ),
+                ),
+                ("description", models.TextField(blank=True)),
+                (
+                    "assignment_type",
+                    models.CharField(
+                        choices=[
+                            ("homework", "Homework"),
+                            ("quiz", "Quiz"),
+                            ("exam", "Exam"),
+                        ],
+                        default="homework",
+                        max_length=20,
+                    ),
+                ),
+                (
+                    "open_date",
+                    models.DateTimeField(
+                        help_text="When students can start the assignment"
+                    ),
+                ),
+                ("due_date", models.DateTimeField(help_text="Deadline for submission")),
+                (
+                    "reveal_date",
+                    models.DateTimeField(
+                        blank=True,
+                        help_text="When to reveal results. Leave blank for default.",
+                        null=True,
+                    ),
+                ),
+                ("allow_late", models.BooleanField(default=False)),
+                ("late_penalty_percent", models.IntegerField(default=10)),
+                ("max_late_days", models.IntegerField(default=7)),
+                ("max_attempts", models.IntegerField(blank=True, null=True)),
+                ("show_score_immediately", models.BooleanField(default=False)),
+                ("show_correct_answer", models.BooleanField(default=False)),
+                ("show_feedback", models.BooleanField(default=True)),
+                ("randomize_order", models.BooleanField(default=False)),
+                (
+                    "total_points",
+                    models.DecimalField(decimal_places=2, default=100, max_digits=6),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("is_active", models.BooleanField(default=True)),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="created_assignments",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "problem_templates",
+                    models.ManyToManyField(
+                        blank=True,
+                        related_name="assignments",
+                        to="problems.problemtemplate",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Assignment',
-                'verbose_name_plural': 'Assignments',
-                'db_table': 'assignments',
-                'ordering': ['-created_at'],
+                "verbose_name": "Assignment",
+                "verbose_name_plural": "Assignments",
+                "db_table": "assignments",
+                "ordering": ["-created_at"],
             },
         ),
     ]

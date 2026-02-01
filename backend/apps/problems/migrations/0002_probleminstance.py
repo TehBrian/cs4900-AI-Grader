@@ -6,33 +6,84 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('assignments', '0001_initial'),
+        ("assignments", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('problems', '0001_initial'),
+        ("problems", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='ProblemInstance',
+            name="ProblemInstance",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('parameter_values', models.JSONField(default=dict, help_text='Actual parameter values for this instance')),
-                ('rendered_text', models.TextField(help_text='Problem text with values filled in')),
-                ('expected_answer', models.TextField(help_text='Calculated correct answer for this instance')),
-                ('generated_at', models.DateTimeField(auto_now_add=True)),
-                ('seed', models.IntegerField(blank=True, help_text='Random seed for reproducibility', null=True)),
-                ('assignment', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='problem_instances', to='assignments.assignment')),
-                ('student', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='problem_instances', to=settings.AUTH_USER_MODEL)),
-                ('template', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='instances', to='problems.problemtemplate')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "parameter_values",
+                    models.JSONField(
+                        default=dict,
+                        help_text="Actual parameter values for this instance",
+                    ),
+                ),
+                (
+                    "rendered_text",
+                    models.TextField(help_text="Problem text with values filled in"),
+                ),
+                (
+                    "expected_answer",
+                    models.TextField(
+                        help_text="Calculated correct answer for this instance"
+                    ),
+                ),
+                ("generated_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "seed",
+                    models.IntegerField(
+                        blank=True,
+                        help_text="Random seed for reproducibility",
+                        null=True,
+                    ),
+                ),
+                (
+                    "assignment",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="problem_instances",
+                        to="assignments.assignment",
+                    ),
+                ),
+                (
+                    "student",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="problem_instances",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "template",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="instances",
+                        to="problems.problemtemplate",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Problem Instance',
-                'verbose_name_plural': 'Problem Instances',
-                'db_table': 'problem_instances',
-                'ordering': ['-generated_at'],
-                'unique_together': {('template', 'student', 'assignment')},
+                "verbose_name": "Problem Instance",
+                "verbose_name_plural": "Problem Instances",
+                "db_table": "problem_instances",
+                "ordering": ["-generated_at"],
+                "unique_together": {("template", "student", "assignment")},
             },
         ),
     ]

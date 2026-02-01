@@ -656,3 +656,132 @@ WARNING 2025-11-12 13:09:11,692 log Not Found: /api/assignments/1/problems/
 WARNING 2025-11-12 13:13:44,007 log Not Found: /favicon.ico
 WARNING 2025-11-12 13:13:52,139 log Not Found: /favicon.ico
 >>>>>>> 26ca8a92a8b1b34b9933b98fbf7731b961529b4b
+INFO 2026-01-31 16:08:22,550 autoreload Watching for file changes with StatReloader
+INFO 2026-01-31 16:10:12,066 autoreload /home/cmdlr/repos/cs4900-AI-Grader/backend/apps/users/serializers.py changed, reloading.
+INFO 2026-01-31 16:10:14,867 autoreload Watching for file changes with StatReloader
+INFO 2026-01-31 16:14:22,291 autoreload /home/cmdlr/repos/cs4900-AI-Grader/backend/apps/users/views.py changed, reloading.
+INFO 2026-01-31 16:14:25,240 autoreload Watching for file changes with StatReloader
+WARNING 2026-01-31 16:14:27,719 log Bad Request: /api/users/auth/register/
+WARNING 2026-01-31 16:16:35,058 log Not Found: /
+WARNING 2026-01-31 16:16:36,814 log Not Found: /favicon.ico
+WARNING 2026-01-31 16:18:01,044 log Not Found: /favicon.ico
+INFO 2026-01-31 16:30:27,212 autoreload Watching for file changes with StatReloader
+INFO 2026-01-31 16:54:53,753 autoreload Watching for file changes with StatReloader
+WARNING 2026-01-31 18:05:54,054 log Unauthorized: /api/users/auth/login/
+WARNING 2026-01-31 18:06:01,670 log Not Found: /
+WARNING 2026-01-31 18:06:02,373 log Not Found: /favicon.ico
+WARNING 2026-01-31 18:06:59,779 log Unauthorized: /api/users/auth/login/
+WARNING 2026-01-31 18:07:09,621 log Unauthorized: /api/users/auth/login/
+WARNING 2026-01-31 18:08:09,402 log Unauthorized: /api/users/auth/login/
+WARNING 2026-01-31 18:08:17,092 log Unauthorized: /api/users/auth/login/
+WARNING 2026-01-31 18:08:22,749 log Unauthorized: /api/users/auth/login/
+WARNING 2026-01-31 18:08:28,974 log Not Found: /favicon.ico
+INFO 2026-01-31 18:19:12,042 autoreload /home/cmdlr/repos/cs4900-AI-Grader/backend/apps/users/views.py changed, reloading.
+INFO 2026-01-31 18:19:14,333 autoreload Watching for file changes with StatReloader
+INFO 2026-01-31 18:21:11,552 autoreload /home/cmdlr/repos/cs4900-AI-Grader/backend/apps/users/views.py changed, reloading.
+INFO 2026-01-31 18:21:14,154 autoreload Watching for file changes with StatReloader
+WARNING 2026-01-31 18:21:34,508 log Unauthorized: /api/users/auth/login/
+WARNING 2026-01-31 18:21:43,332 log Unauthorized: /api/users/auth/login/
+INFO 2026-01-31 18:24:11,109 autoreload /home/cmdlr/repos/cs4900-AI-Grader/backend/apps/users/views.py changed, reloading.
+INFO 2026-01-31 18:24:11,803 autoreload Watching for file changes with StatReloader
+INFO 2026-01-31 18:37:28,062 autoreload /home/cmdlr/repos/cs4900-AI-Grader/backend/apps/users/views.py changed, reloading.
+INFO 2026-01-31 18:37:28,995 autoreload Watching for file changes with StatReloader
+INFO 2026-01-31 18:37:49,393 autoreload /home/cmdlr/repos/cs4900-AI-Grader/backend/apps/users/views.py changed, reloading.
+INFO 2026-01-31 18:37:49,951 autoreload Watching for file changes with StatReloader
+INFO 2026-01-31 18:38:52,321 autoreload /home/cmdlr/repos/cs4900-AI-Grader/backend/apps/users/views.py changed, reloading.
+INFO 2026-01-31 18:38:53,086 autoreload Watching for file changes with StatReloader
+WARNING 2026-01-31 18:39:05,717 log Unauthorized: /api/users/auth/login/
+WARNING 2026-01-31 18:39:18,270 log Unauthorized: /api/users/auth/login/
+WARNING 2026-01-31 18:39:25,697 log Unauthorized: /api/users/auth/login/
+WARNING 2026-01-31 18:39:40,601 log Unauthorized: /api/users/auth/login/
+INFO 2026-01-31 18:47:12,944 autoreload /home/cmdlr/repos/cs4900-AI-Grader/backend/apps/users/views.py changed, reloading.
+INFO 2026-01-31 18:47:13,591 autoreload Watching for file changes with StatReloader
+ERROR 2026-01-31 18:47:32,639 log Internal Server Error: /api/users/auth/login/
+Traceback (most recent call last):
+  File "/home/cmdlr/repos/.snvenv/lib/python3.8/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/cmdlr/repos/.snvenv/lib/python3.8/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/cmdlr/repos/.snvenv/lib/python3.8/site-packages/django/views/decorators/csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+  File "/home/cmdlr/repos/.snvenv/lib/python3.8/site-packages/rest_framework/viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/home/cmdlr/repos/.snvenv/lib/python3.8/site-packages/rest_framework/views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "/home/cmdlr/repos/.snvenv/lib/python3.8/site-packages/rest_framework/views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "/home/cmdlr/repos/.snvenv/lib/python3.8/site-packages/rest_framework/views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "/home/cmdlr/repos/.snvenv/lib/python3.8/site-packages/rest_framework/views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/home/cmdlr/repos/cs4900-AI-Grader/backend/apps/users/views.py", line 100, in login
+    q_result = CustomUser.objects.filter(username)
+  File "/home/cmdlr/repos/.snvenv/lib/python3.8/site-packages/django/db/models/manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/cmdlr/repos/.snvenv/lib/python3.8/site-packages/django/db/models/query.py", line 1436, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+  File "/home/cmdlr/repos/.snvenv/lib/python3.8/site-packages/django/db/models/query.py", line 1454, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "/home/cmdlr/repos/.snvenv/lib/python3.8/site-packages/django/db/models/query.py", line 1461, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "/home/cmdlr/repos/.snvenv/lib/python3.8/site-packages/django/db/models/sql/query.py", line 1545, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/home/cmdlr/repos/.snvenv/lib/python3.8/site-packages/django/db/models/sql/query.py", line 1576, in _add_q
+    child_clause, needed_inner = self.build_filter(
+  File "/home/cmdlr/repos/.snvenv/lib/python3.8/site-packages/django/db/models/sql/query.py", line 1423, in build_filter
+    arg, value = filter_expr
+ValueError: too many values to unpack (expected 2)
+INFO 2026-01-31 18:48:31,806 autoreload /home/cmdlr/repos/cs4900-AI-Grader/backend/apps/users/views.py changed, reloading.
+INFO 2026-01-31 18:48:32,985 autoreload Watching for file changes with StatReloader
+WARNING 2026-01-31 18:48:40,773 log Unauthorized: /api/users/auth/login/
+INFO 2026-01-31 18:49:29,472 autoreload /home/cmdlr/repos/cs4900-AI-Grader/backend/apps/users/views.py changed, reloading.
+INFO 2026-01-31 18:49:32,690 autoreload Watching for file changes with StatReloader
+WARNING 2026-01-31 18:49:36,003 log Unauthorized: /api/users/auth/login/
+INFO 2026-01-31 18:49:54,701 autoreload /home/cmdlr/repos/cs4900-AI-Grader/backend/apps/users/views.py changed, reloading.
+INFO 2026-01-31 18:49:56,294 autoreload Watching for file changes with StatReloader
+WARNING 2026-01-31 18:50:00,924 log Unauthorized: /api/users/auth/login/
+INFO 2026-01-31 18:53:21,646 autoreload /home/cmdlr/repos/cs4900-AI-Grader/backend/apps/users/views.py changed, reloading.
+INFO 2026-01-31 18:53:23,291 autoreload Watching for file changes with StatReloader
+INFO 2026-01-31 18:56:55,929 autoreload /home/cmdlr/repos/cs4900-AI-Grader/backend/apps/users/views.py changed, reloading.
+INFO 2026-01-31 18:56:56,692 autoreload Watching for file changes with StatReloader
+ERROR 2026-01-31 18:57:10,587 views Multiple DB entries for email cvw9305@wmich.edu
+
+WARNING 2026-01-31 18:57:11,645 log Unauthorized: /api/users/auth/login/
+INFO 2026-01-31 18:57:57,556 autoreload /home/cmdlr/repos/cs4900-AI-Grader/backend/apps/users/views.py changed, reloading.
+INFO 2026-01-31 18:57:58,130 autoreload Watching for file changes with StatReloader
+INFO 2026-01-31 18:59:55,198 autoreload /home/cmdlr/repos/cs4900-AI-Grader/backend/apps/users/views.py changed, reloading.
+INFO 2026-01-31 18:59:56,804 autoreload Watching for file changes with StatReloader
+INFO 2026-01-31 19:00:31,282 autoreload /home/cmdlr/repos/cs4900-AI-Grader/backend/apps/users/views.py changed, reloading.
+INFO 2026-01-31 19:00:32,131 autoreload Watching for file changes with StatReloader
+ERROR 2026-01-31 19:00:36,987 views Multiple DB entries for email cvw9305@wmich.edu
+
+WARNING 2026-01-31 19:00:38,180 log Unauthorized: /api/users/auth/login/
+INFO 2026-01-31 19:01:03,766 autoreload /home/cmdlr/repos/cs4900-AI-Grader/backend/apps/users/views.py changed, reloading.
+INFO 2026-01-31 19:01:05,230 autoreload Watching for file changes with StatReloader
+ERROR 2026-01-31 19:01:15,043 views Multiple DB entries for email cvw9305@wmich.edu
+
+WARNING 2026-01-31 19:01:16,833 log Unauthorized: /api/users/auth/login/
+ERROR 2026-01-31 19:01:23,322 views Multiple DB entries for email cvw9305@wmich.edu
+
+WARNING 2026-01-31 19:01:23,869 log Unauthorized: /api/users/auth/login/
+ERROR 2026-01-31 19:01:28,992 views Multiple DB entries for email cvw9305@wmich.edu
+
+INFO 2026-01-31 19:02:14,164 autoreload /home/cmdlr/repos/cs4900-AI-Grader/backend/apps/users/views.py changed, reloading.
+INFO 2026-01-31 19:02:14,942 autoreload Watching for file changes with StatReloader
+INFO 2026-01-31 19:03:03,204 autoreload /home/cmdlr/repos/cs4900-AI-Grader/backend/apps/users/serializers.py changed, reloading.
+INFO 2026-01-31 19:03:04,214 autoreload Watching for file changes with StatReloader
+INFO 2026-01-31 19:15:45,875 autoreload /home/cmdlr/repos/cs4900-AI-Grader/backend/apps/users/serializers.py changed, reloading.
+INFO 2026-01-31 19:15:46,903 autoreload Watching for file changes with StatReloader
+INFO 2026-01-31 19:16:03,454 autoreload /home/cmdlr/repos/cs4900-AI-Grader/backend/apps/users/serializers.py changed, reloading.
+INFO 2026-01-31 19:16:04,377 autoreload Watching for file changes with StatReloader
+WARNING 2026-01-31 19:16:40,046 log Bad Request: /api/users/auth/register/
+INFO 2026-01-31 19:19:34,917 autoreload /home/cmdlr/repos/cs4900-AI-Grader/backend/apps/users/serializers.py changed, reloading.
+INFO 2026-01-31 19:19:38,059 autoreload Watching for file changes with StatReloader
+WARNING 2026-01-31 19:19:41,576 log Bad Request: /api/users/auth/register/
+INFO 2026-01-31 19:25:26,124 autoreload /home/cmdlr/repos/cs4900-AI-Grader/backend/apps/users/serializers.py changed, reloading.
+INFO 2026-01-31 19:25:28,096 autoreload Watching for file changes with StatReloader
+INFO 2026-01-31 19:26:25,334 autoreload /home/cmdlr/repos/cs4900-AI-Grader/backend/apps/users/serializers.py changed, reloading.
+INFO 2026-01-31 19:26:26,327 autoreload Watching for file changes with StatReloader
+WARNING 2026-01-31 19:26:33,944 log Bad Request: /api/users/auth/register/
+WARNING 2026-01-31 19:27:51,010 log Bad Request: /api/users/auth/register/
+WARNING 2026-01-31 19:29:23,985 log Unauthorized: /api/users/auth/login/

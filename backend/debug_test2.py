@@ -1,6 +1,7 @@
 import os, sys, django
+
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 django.setup()
 
 from apps.grading.services.ai_symbolic_grader import AISymbolicGrader
@@ -34,7 +35,8 @@ print()
 
 # Test numerically
 from sympy import symbols
-x = symbols('x')
+
+x = symbols("x")
 x_val = {x: 1.0}
 
 s_num = float(N(s_sym.subs(x_val)))

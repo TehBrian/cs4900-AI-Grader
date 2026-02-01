@@ -8,9 +8,9 @@ from .ai_grader import AIGrader
 from .grading_coordinator import GradingCoordinator
 
 __all__ = [
-    'SymbolicGrader',
-    'NumericalGrader',
-    'PatternGrader',
-    'AIGrader',
-    'GradingCoordinator',
+    "SymbolicGrader",
+    "NumericalGrader",
+    "PatternGrader",
+    "AIGrader",
+    "GradingCoordinator",
 ]

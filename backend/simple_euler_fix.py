@@ -1,8 +1,10 @@
-with open('apps/grading/services/ai_symbolic_grader.py', 'r') as f:
+with open("apps/grading/services/ai_symbolic_grader.py", "r") as f:
     content = f.read()
 
 # Find where we remove backslashes and add our conversion there
-old_line = "        # Remove remaining backslashes\n        expr = expr.replace('\\\\', '')"
+old_line = (
+    "        # Remove remaining backslashes\n        expr = expr.replace('\\\\', '')"
+)
 new_lines = """        # Remove remaining backslashes
         expr = expr.replace('\\\\', '')
         
@@ -11,7 +13,7 @@ new_lines = """        # Remove remaining backslashes
 
 content = content.replace(old_line, new_lines)
 
-with open('apps/grading/services/ai_symbolic_grader.py', 'w') as f:
+with open("apps/grading/services/ai_symbolic_grader.py", "w") as f:
     f.write(content)
 
 print("✅ Added e** to exp conversion!")

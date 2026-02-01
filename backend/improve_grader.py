@@ -1,4 +1,4 @@
-with open('apps/grading/services/ai_symbolic_grader.py', 'r') as f:
+with open("apps/grading/services/ai_symbolic_grader.py", "r") as f:
     content = f.read()
 
 # Find and replace the _grade_with_sympy method
@@ -124,7 +124,7 @@ new_method = '''    def _grade_with_sympy(
 
 content = content.replace(old_method, new_method)
 
-with open('apps/grading/services/ai_symbolic_grader.py', 'w') as f:
+with open("apps/grading/services/ai_symbolic_grader.py", "w") as f:
     f.write(content)
 
 print("✅ Grader improved with better numerical testing!")

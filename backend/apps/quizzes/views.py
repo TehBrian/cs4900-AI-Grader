@@ -14,19 +14,20 @@ from .serializers import (
     QuizDetailSerializer,
     QuizProblemSerializer,
     QuizAttemptSerializer,
-    QuizStatisticsSerializer
+    QuizStatisticsSerializer,
 )
 
 
 class CourseViewSet(viewsets.ModelViewSet):
     """
     ViewSet for Courses
-    
+
     Endpoints:
     - GET /api/quizzes/courses/ - List all courses
     - POST /api/quizzes/courses/ - Create course
     - GET /api/quizzes/courses/{id}/ - Get course details
     """
+
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     permission_classes = [AllowAny]
@@ -35,7 +36,7 @@ class CourseViewSet(viewsets.ModelViewSet):
 class QuizViewSet(viewsets.ModelViewSet):
     """
     ViewSet for Quizzes
-    
+
     Endpoints:
     - GET /api/quizzes/ - List all quizzes
     - POST /api/quizzes/ - Create quiz
@@ -43,68 +44,70 @@ class QuizViewSet(viewsets.ModelViewSet):
     - PUT /api/quizzes/{id}/ - Update quiz
     - DELETE /api/quizzes/{id}/ - Delete quiz
     """
+
     queryset = Quiz.objects.all()
     permission_classes = [AllowAny]
-    
+
     def get_serializer_class(self):
-        if self.action == 'list':
+        if self.action == "list":
             return QuizListSerializer
         return QuizDetailSerializer
-    
+
     def get_queryset(self):
         queryset = super().get_queryset()
-        
+
         # Filter by course
-        course_id = self.request.query_params.get('course', None)
+        course_id = self.request.query_params.get("course", None)
         if course_id:
             queryset = queryset.filter(course_id=course_id)
-        
+
         # Filter by published status
-        is_published = self.request.query_params.get('published', None)
+        is_published = self.request.query_params.get("published", None)
         if is_published is not None:
-            queryset = queryset.filter(is_published=is_published.lower() == 'true')
-        
+            queryset = queryset.filter(is_published=is_published.lower() == "true")
+
         return queryset
-    
-    @action(detail=True, methods=['get'])
+
+    @action(detail=True, methods=["get"])
     def problems(self, request, pk=None):
         """Get all problems for a quiz"""
         quiz = self.get_object()
         problems = quiz.quizproblem_set.all()
         serializer = QuizProblemSerializer(problems, many=True)
         return Response(serializer.data)
-    
-    @action(detail=True, methods=['post'])
+
+    @action(detail=True, methods=["post"])
     def start_attempt(self, request, pk=None):
         """Start a new quiz attempt"""
         quiz = self.get_object()
-        
+
         # Create new attempt
         attempt = QuizAttempt.objects.create(
-            quiz=quiz,
-            student=request.user if request.user.is_authenticated else None
+            quiz=quiz, student=request.user if request.user.is_authenticated else None
         )
-        
+
         serializer = QuizAttemptSerializer(attempt)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-@api_view(['GET'])
+@api_view(["GET"])
 @permission_classes([AllowAny])
 def quiz_statistics(request):
     """
     Get statistics about quizzes
-    
+
     GET /api/quizzes/statistics/
     """
     total_quizzes = Quiz.objects.count()
     published_quizzes = Quiz.objects.filter(is_published=True).count()
     total_attempts = QuizAttempt.objects.count()
-    
-    return Response({
-        'total_quizzes': total_quizzes,
-        'published_quizzes': published_quizzes,
-        'draft_quizzes': total_quizzes - published_quizzes,
-        'total_attempts': total_attempts,
-        'total_courses': Course.objects.count()
-    })
+
+    return Response(
+        {
+            "total_quizzes": total_quizzes,
+            "published_quizzes": published_quizzes,
+            "draft_quizzes": total_quizzes - published_quizzes,
+            "total_attempts": total_attempts,
+            "total_courses": Course.objects.count(),
+        }
+    )

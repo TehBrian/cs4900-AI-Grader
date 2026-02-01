@@ -201,7 +201,7 @@ export default function App() {
       <PageShell title={isTeacher ? "Teacher Home" : "Student Home"}>
         <div className="rounded-2xl bg-white border shadow-sm p-6">
           <p className="text-gray-700">
-            Signed in as <span className="font-semibold">{loginresult.user.email}</span>{" "}
+            Signed in as <span className="font-semibold">{loginresult.user.username}</span>{" "}
             ({isTeacher ? "Teacher" : "Student"}).
           </p>
 
