@@ -98,6 +98,7 @@ class AuthViewSet(viewsets.ViewSet):
         """
         username = request.data.get("username")
         password = request.data.get("password")
+        role = request.data.get("role")
 
         try: # check if we were sent an email instead of a username
             validate_email(username)
@@ -127,6 +128,15 @@ class AuthViewSet(viewsets.ViewSet):
                     "password": password,
                 },
                 status=status.HTTP_401_UNAUTHORIZED,
+            )
+        elif user.role != role:
+            return Response(
+                {
+                    "error": "Invalid role.",
+                    "requested_role": role,
+                    "user_role": user.role
+                },
+                status=status.HTTP_401_UNAUTHORIZED
             )
 
         refresh = RefreshToken.for_user(user)

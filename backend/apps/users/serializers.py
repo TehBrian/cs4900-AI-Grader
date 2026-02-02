@@ -21,7 +21,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ["username", "email", "password", "first_name", "last_name"]
+        fields = ["username", "email", "password", "first_name", "last_name", "role"]
 
     def validate_email(self, email):
         try:
@@ -40,5 +40,6 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             password=validated_data["password"],
             first_name=validated_data.get("first_name", ""),
             last_name=validated_data.get("last_name", ""),
+            role=validated_data.get("role", "student")
         )
         return user

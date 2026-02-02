@@ -1,6 +1,11 @@
 import React, { useMemo, useState } from "react";
 
-type Role = "student" | "teacher";
+const ROLES = {
+  student: "student",
+  instructor: "instructor"
+} as const;
+
+type Role = "student" | "instructor";
 type Page = "login" | "about" | "contact";
 
 interface User {
@@ -49,7 +54,7 @@ export default function App() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({username: email, password: pw})
+        body: JSON.stringify({username: email, password: pw, role: role})
       });
 
       if (response.ok) {
@@ -58,7 +63,9 @@ export default function App() {
         setLoginResult(data);
         setSession({role, email: email.trim()});
       } else {
-        setError("Incorrect username or password.");
+        const err_response = await response.json();
+        console.log(err_response);
+        setError(err_response.error);
         return;
       }
     } catch (error) {
@@ -196,17 +203,17 @@ export default function App() {
   // ---------- logged ----------
   if (loginresult && session && page === "login") {
 
-    const isTeacher = session.role === "teacher";
+    const isInstructor = session.role === ROLES.instructor;
     return (
-      <PageShell title={isTeacher ? "Teacher Home" : "Student Home"}>
+      <PageShell title={isInstructor ? "Instructor Home" : "Student Home"}>
         <div className="rounded-2xl bg-white border shadow-sm p-6">
           <p className="text-gray-700">
             Signed in as <span className="font-semibold">{loginresult.user.username}</span>{" "}
-            ({isTeacher ? "Teacher" : "Student"}).
+            ({isInstructor ? "Instructor" : "Student"}).
           </p>
 
           <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {(isTeacher
+            {(isInstructor
               ? [
                   { title: "Create Quiz", desc: "null" },
                   { title: "View Submissions", desc: "null" },
@@ -271,15 +278,15 @@ export default function App() {
 
             <button
               type="button"
-              onClick={() => setRole("teacher")}
+              onClick={() => setRole("instructor")}
               className={[
                 "flex-1 rounded-2xl border px-4 py-2 font-bold transition",
-                role === "teacher"
+                role === ROLES.instructor
                   ? "bg-[#4E3629] text-white border-[#4E3629]"
                   : "bg-white hover:bg-gray-50",
               ].join(" ")}
             >
-              Teacher
+              Instructor
             </button>
           </div>
 
