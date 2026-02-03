@@ -6,7 +6,7 @@ const ROLES = {
 } as const;
 
 type Role = "student" | "instructor";
-type Page = "login" | "about" | "contact" | "registration";
+type Page = "login" | "about" | "contact" | "registration" | "home";
 
 interface User {
   id: number,
@@ -148,7 +148,22 @@ export default function App() {
         </div>
 
         {/* right nav buttons */}
+
         <nav className="flex items-center gap-2">
+          {session ? (
+            <button
+            onClick={() => setPage("home")}
+            className={[
+              "px-4 py-2 rounded-full border shadow-sm text-sm font-semibold transition",
+              page === "home"
+                ? "bg-[#4E3629] text-white border-[#4E3629]"
+                : "bg-white hover:shadow",
+            ].join(" ")}
+            type="button"
+          >
+            Home
+          </button>
+          ): null}
           <button
             onClick={() => setPage("about")}
             className={[
@@ -311,7 +326,7 @@ export default function App() {
   }
 
   // ---------- logged ----------
-  if (loginresult && session && page === "login") {
+  if (loginresult && session && (page === "login" || page === "home")) {
 
     const isInstructor = session.role === ROLES.instructor;
     return (
