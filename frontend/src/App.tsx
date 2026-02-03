@@ -6,7 +6,7 @@ const ROLES = {
 } as const;
 
 type Role = "student" | "instructor";
-type Page = "login" | "about" | "contact";
+type Page = "login" | "about" | "contact" | "registration";
 
 interface User {
   id: number,
@@ -28,6 +28,8 @@ interface LoginResult {
 export default function App() {
   const [page, setPage] = useState<Page>("login");
 
+  const [regSuccess, setRegSuccess] = useState<Boolean>(false);
+
   const [role, setRole] = useState<Role>("student");
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
@@ -42,6 +44,51 @@ export default function App() {
   const canSubmit = useMemo(() => {
     return email.trim().length > 0 && pw.trim().length > 0;
   }, [email, pw]);
+
+  async function registerUser(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+
+    const formObj = Object.fromEntries(formData.entries());
+    form.reset();
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/users/auth/register/", {
+        method: "POST",
+        headers: {
+          'content-Type': "application/json",
+        },
+        body: JSON.stringify({
+          first_name: formObj.first_name,
+          last_name: formObj.last_name,
+          email: formObj.email,
+          username: formObj.username,
+          password: formObj.password,
+          role: formObj.role
+        })
+      });
+
+      if (response.ok) {
+        setRegSuccess(true);
+        setPage("login");
+        const timer = setTimeout(() => {
+          setRegSuccess(false);
+        }, 3000);
+        return () => clearTimeout(timer);
+      } else {
+        const err_response = await response.json();
+        setError(err_response.error);
+        return;
+      }
+
+    } catch (err) {
+      alert("Failed to register.");
+    }
+
+  }
 
 
   async function handleLogin(e: React.FormEvent) {
@@ -64,11 +111,10 @@ export default function App() {
         setSession({role, email: email.trim()});
       } else {
         const err_response = await response.json();
-        console.log(err_response);
         setError(err_response.error);
         return;
       }
-    } catch (error) {
+    } catch (err) {
       alert("Failed to connect to database.");
     }
 
@@ -151,6 +197,19 @@ export default function App() {
               Login
             </button>
           )}
+
+          <button
+            onClick={() => setPage("registration")}
+            className={[
+              "px-4 py-2 rounded-full border shadow-sm text-sm font-semibold transition",
+              page === "registration"
+                ? "bg-[#4E3629] text-white border-[#4E3629]"
+                : "bg-white hover:shadow",
+            ].join(" ")}
+            type="button"
+          >
+            Register
+          </button>
         </nav>
       </div>
     </header>
@@ -196,6 +255,57 @@ export default function App() {
         <div className="rounded-2xl bg-white border shadow-sm p-6 text-gray-700">
           <p className="leading-relaxed">contact details to us ig</p>
         </div>
+      </PageShell>
+    );
+  }
+
+  if (page === "registration") {
+    return (
+      <PageShell title="Registration">
+
+        <form method="post" onSubmit={registerUser}>
+        <div className="rounded-2xl bg-white border shadow-sm p-6 text-gray-700 mt-6 flex flex-col gap-y-4">
+          <div>
+          <label>
+            First name: <input className="border" name="first_name" />
+          </label>
+          </div>
+          <div>
+          <label>
+            Last name: <input className="border" name="last_name" />
+          </label>
+          </div>
+          <div>
+          <label>
+            Email: <input className="border" name="email" />
+          </label>
+          </div>
+          <div>
+          <label>
+            Username: <input className="border" name="username" />
+          </label>
+          </div>
+          <div>
+          <label>
+            Password: <input className="border" type="password" name="password" />
+          </label>
+          </div>
+          <div className="flex flex-row gap-x-3">
+            <label className="flex flex-row gap-x-1">
+              Student
+              <input type="radio" name="role" value="student" defaultChecked={true} />
+            </label>
+            <label className="flex flex-row gap-x-1">
+              Instructor
+              <input type="radio" name="role" value="instructor" />
+            </label>
+          </div>
+          <div>
+            <button className="border rounded shadow-sm flex text-sm p-1" type="submit">Submit</button>
+          </div>
+          </div>
+          </form>
+
       </PageShell>
     );
   }
@@ -252,9 +362,6 @@ export default function App() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-extrabold tracking-tight">Login</h1>
-              <p className="text-sm text-gray-500 mt-1">
-                password=password
-              </p>
             </div>
             <div className="h-10 w-10 rounded-2xl bg-[#FFC72C] flex items-center justify-center font-black text-[#4E3629]">
               ✓
@@ -319,6 +426,12 @@ export default function App() {
             {error && (
               <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
                 {error}
+              </div>
+            )}
+
+            {regSuccess && (
+              <div className="rounded-2xl border border-gray-50 px-4 py-3 text-sm">
+                Registered
               </div>
             )}
 
