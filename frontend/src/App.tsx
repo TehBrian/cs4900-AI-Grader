@@ -274,56 +274,126 @@ export default function App() {
     );
   }
 
-  if (page === "registration") {
-    return (
-      <PageShell title="Registration">
+if (page === "registration") {
+  return (
+    <PageShell title="Registration">
+      <div className="w-full">
+        <div className="rounded-3xl bg-white border shadow-sm p-6 md:p-8">
+          <form method="post" onSubmit={registerUser} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="text-sm font-semibold text-gray-700">
+                  First name
+                </label>
+                <input
+                  name="first_name"
+                  required
+                  placeholder="First"
+                  className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                />
+              </div>
 
-        <form method="post" onSubmit={registerUser}>
-        <div className="rounded-2xl bg-white border shadow-sm p-6 text-gray-700 mt-6 flex flex-col gap-y-4">
-          <div>
-          <label>
-            First name: <input className="border" name="first_name" />
-          </label>
-          </div>
-          <div>
-          <label>
-            Last name: <input className="border" name="last_name" />
-          </label>
-          </div>
-          <div>
-          <label>
-            Email: <input className="border" name="email" />
-          </label>
-          </div>
-          <div>
-          <label>
-            Username: <input className="border" name="username" />
-          </label>
-          </div>
-          <div>
-          <label>
-            Password: <input className="border" type="password" name="password" />
-          </label>
-          </div>
-          <div className="flex flex-row gap-x-3">
-            <label className="flex flex-row gap-x-1">
-              Student
-              <input type="radio" name="role" value="student" defaultChecked={true} />
-            </label>
-            <label className="flex flex-row gap-x-1">
-              Instructor
-              <input type="radio" name="role" value="instructor" />
-            </label>
-          </div>
-          <div>
-            <button className="border rounded shadow-sm flex text-sm p-1" type="submit">Submit</button>
-          </div>
-          </div>
+              <div>
+                <label className="text-sm font-semibold text-gray-700">
+                  Last name
+                </label>
+                <input
+                  name="last_name"
+                  required
+                  placeholder="Last"
+                  className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="text-sm font-semibold text-gray-700">
+                  Email
+                </label>
+                <input
+                  name="email"
+                  type="email"
+                  required
+                  placeholder="name@wmich.edu"
+                  className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-semibold text-gray-700">
+                  Username
+                </label>
+                <input
+                  name="username"
+                  required
+                  placeholder="username"
+                  className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="text-sm font-semibold text-gray-700">
+                  Password
+                </label>
+                <input
+                  name="password"
+                  type="password"
+                  required
+                  placeholder="password"
+                  className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-semibold text-gray-700">
+                  Role
+                </label>
+                <div className="mt-2 flex gap-6">
+                  <label className="flex items-center gap-2 rounded-2xl border px-4 py-3 bg-white hover:bg-gray-50 cursor-pointer w-full">
+                    <input
+                      type="radio"
+                      name="role"
+                      value="student"
+                      defaultChecked
+                      className="accent-[#4E3629]"
+                    />
+                    <span className="font-semibold">Student</span>
+                  </label>
+
+                  <label className="flex items-center gap-2 rounded-2xl border px-4 py-3 bg-white hover:bg-gray-50 cursor-pointer w-full">
+                    <input
+                      type="radio"
+                      name="role"
+                      value="instructor"
+                      className="accent-[#4E3629]"
+                    />
+                    <span className="font-semibold">Instructor</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            {error && (
+              <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                {error}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              className="w-full md:w-1/3 rounded-2xl font-bold py-3 transition shadow-sm bg-[#4E3629] text-white hover:opacity-95"
+            >
+              Submit
+            </button>
           </form>
-
-      </PageShell>
-    );
-  }
+        </div>
+      </div>
+    </PageShell>
+  );
+}
 
   // ---------- logged ----------
   if (loginresult && session && (page === "login" || page === "home")) {
