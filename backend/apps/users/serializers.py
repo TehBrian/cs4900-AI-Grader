@@ -30,7 +30,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Invalid email.")
 
         if len(CustomUser.objects.filter(email=email)) > 0:
-            raise serializers.ValidationError("Email already exists.")
+            raise serializers.ValidationError("A user with that email already exists.")
         return email
 
     def create(self, validated_data):

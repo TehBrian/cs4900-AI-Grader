@@ -80,12 +80,16 @@ export default function App() {
         return () => clearTimeout(timer);
       } else {
         const err_response = await response.json();
-        setError(err_response.error);
+        var err_msg = "";
+        Object.entries(err_response).forEach((i) => {
+          err_msg += i[1] + '\n';
+        });
+        setError(err_msg);
         return;
       }
 
     } catch (err) {
-      alert("Failed to register.");
+      alert("Failed to connect.");
     }
 
   }
