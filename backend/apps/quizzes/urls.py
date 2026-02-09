@@ -6,10 +6,10 @@ from . import views
 app_name = 'quizzes'
 
 router = DefaultRouter()
-router.register(r'courses', views.CourseViewSet, basename='course')
-router.register(r'', views.QuizViewSet, basename='quiz')
+router.register('courses', views.CourseViewSet, basename='course')
+router.register('quizzes', views.QuizViewSet, basename='quizzes')
 
 urlpatterns = [
-    path('statistics/', views.quiz_statistics, name='statistics'),
+    path('quiz/statistics/', views.quiz_statistics, name='statistics'),
     path('', include(router.urls)),
 ]

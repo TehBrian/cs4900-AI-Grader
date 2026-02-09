@@ -656,3 +656,126 @@ WARNING 2025-11-12 13:09:11,692 log Not Found: /api/assignments/1/problems/
 WARNING 2025-11-12 13:13:44,007 log Not Found: /favicon.ico
 WARNING 2025-11-12 13:13:52,139 log Not Found: /favicon.ico
 >>>>>>> 26ca8a92a8b1b34b9933b98fbf7731b961529b4b
+INFO 2026-01-28 09:04:14,627 autoreload Watching for file changes with StatReloader
+INFO 2026-01-28 09:08:59,427 autoreload Watching for file changes with StatReloader
+WARNING 2026-01-28 09:09:38,320 log Not Found: /
+INFO 2026-01-28 09:29:48,982 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\users\admin.py changed, reloading.
+INFO 2026-01-28 09:29:49,687 autoreload Watching for file changes with StatReloader
+WARNING 2026-01-28 09:36:07,800 log Not Found: /favicon.ico
+WARNING 2026-01-28 09:37:40,662 log Not Found: /favicon.ico
+WARNING 2026-01-28 09:42:08,873 log Not Found: /api/quizzes/{1}/
+WARNING 2026-01-28 09:44:57,841 log Not Found: /api/users/1/
+WARNING 2026-01-28 09:47:41,734 log Not Found: /favicon.ico
+INFO 2026-01-29 08:54:14,455 autoreload Watching for file changes with StatReloader
+INFO 2026-01-29 08:54:35,328 autoreload Watching for file changes with StatReloader
+WARNING 2026-01-29 08:55:10,593 log Not Found: /
+WARNING 2026-01-29 11:28:46,833 log Unauthorized: /api/users/auth/login/
+WARNING 2026-01-29 11:29:16,562 log Unauthorized: /api/users/auth/login/
+WARNING 2026-01-29 11:35:53,175 log Unauthorized: /api/users/auth/login/
+WARNING 2026-01-29 11:36:04,033 log Unauthorized: /api/users/auth/login/
+INFO 2026-02-02 09:10:27,159 autoreload Watching for file changes with StatReloader
+WARNING 2026-02-02 09:11:59,755 log Not Found: /api/users/create
+WARNING 2026-02-02 09:13:11,347 log Unauthorized: /api/users/auth/login/
+WARNING 2026-02-02 09:56:27,155 log Unauthorized: /api/users/auth/login/
+WARNING 2026-02-02 09:56:33,620 log Unauthorized: /api/users/auth/login/
+WARNING 2026-02-02 09:56:37,564 log Unauthorized: /api/users/auth/login/
+WARNING 2026-02-02 09:58:44,858 log Not Found: /
+WARNING 2026-02-02 10:53:05,467 log Not Found: /quizzes
+WARNING 2026-02-02 10:54:23,553 log Not Found: /api/course
+WARNING 2026-02-02 10:54:31,375 log Not Found: /api/courses/
+WARNING 2026-02-02 10:54:42,138 log Not Found: /api/courses/1/
+INFO 2026-02-03 08:57:53,361 autoreload Watching for file changes with StatReloader
+WARNING 2026-02-03 08:58:01,083 log Not Found: /api/course
+INFO 2026-02-03 09:04:25,102 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\quizzes\urls.py changed, reloading.
+INFO 2026-02-03 09:04:25,739 autoreload Watching for file changes with StatReloader
+WARNING 2026-02-03 09:04:33,030 log Not Found: /api/quizzes/courses/1/
+WARNING 2026-02-03 09:04:50,881 log Not Found: /api/
+INFO 2026-02-03 09:09:30,388 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\quizzes\urls.py changed, reloading.
+INFO 2026-02-03 09:09:30,998 autoreload Watching for file changes with StatReloader
+INFO 2026-02-03 09:10:08,231 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\quizzes\urls.py changed, reloading.
+INFO 2026-02-03 09:10:08,837 autoreload Watching for file changes with StatReloader
+INFO 2026-02-03 09:10:25,810 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\quizzes\urls.py changed, reloading.
+INFO 2026-02-03 09:10:26,416 autoreload Watching for file changes with StatReloader
+WARNING 2026-02-03 09:10:54,116 log Not Found: /api/course/
+WARNING 2026-02-03 09:11:09,613 log Not Found: /api/
+WARNING 2026-02-03 09:11:36,021 log Not Found: /api/
+WARNING 2026-02-03 09:11:36,913 log Not Found: /api/
+WARNING 2026-02-03 09:11:46,973 log Not Found: /api/course
+WARNING 2026-02-03 09:12:36,198 log Not Found: /api/quizzes/course/
+INFO 2026-02-03 09:15:22,549 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\quizzes\views.py changed, reloading.
+INFO 2026-02-03 09:15:23,187 autoreload Watching for file changes with StatReloader
+INFO 2026-02-03 09:15:30,054 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\quizzes\views.py changed, reloading.
+INFO 2026-02-03 09:15:30,691 autoreload Watching for file changes with StatReloader
+INFO 2026-02-03 09:15:42,021 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\quizzes\urls.py changed, reloading.
+INFO 2026-02-03 09:15:42,657 autoreload Watching for file changes with StatReloader
+INFO 2026-02-03 09:15:58,541 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\quizzes\urls.py changed, reloading.
+INFO 2026-02-03 09:15:59,161 autoreload Watching for file changes with StatReloader
+WARNING 2026-02-03 09:16:03,136 log Not Found: /api/quizzes/course/quizzes/
+WARNING 2026-02-03 09:16:07,756 log Not Found: /api/course
+WARNING 2026-02-03 09:16:15,387 log Not Found: /api/courses/
+INFO 2026-02-03 09:17:12,999 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\quizzes\urls.py changed, reloading.
+INFO 2026-02-03 09:17:13,655 autoreload Watching for file changes with StatReloader
+INFO 2026-02-03 09:17:19,369 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\config\urls.py changed, reloading.
+INFO 2026-02-03 09:17:20,012 autoreload Watching for file changes with StatReloader
+WARNING 2026-02-03 09:17:23,616 log Not Found: /api/courses/
+INFO 2026-02-03 09:17:38,677 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\config\urls.py changed, reloading.
+INFO 2026-02-03 09:17:39,323 autoreload Watching for file changes with StatReloader
+WARNING 2026-02-03 09:17:41,721 log Not Found: /api/
+WARNING 2026-02-03 09:18:19,134 log Not Found: /api/courses/
+INFO 2026-02-03 09:18:43,157 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\quizzes\urls.py changed, reloading.
+INFO 2026-02-03 09:18:43,803 autoreload Watching for file changes with StatReloader
+INFO 2026-02-03 09:18:48,363 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\config\urls.py changed, reloading.
+INFO 2026-02-03 09:18:48,967 autoreload Watching for file changes with StatReloader
+WARNING 2026-02-03 09:19:01,217 log Not Found: /api/courses/quizzes
+WARNING 2026-02-03 09:19:05,710 log Not Found: /api/courses/quizzes/
+INFO 2026-02-03 09:19:31,696 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\quizzes\urls.py changed, reloading.
+INFO 2026-02-03 09:19:32,375 autoreload Watching for file changes with StatReloader
+WARNING 2026-02-03 09:19:37,062 log Not Found: /api/courses/course/quizzes/
+WARNING 2026-02-03 09:19:48,274 log Not Found: /api/courses/quizzes/
+WARNING 2026-02-03 09:20:15,050 log Not Found: /api/courses/quizzes/
+WARNING 2026-02-03 09:20:17,044 log Not Found: /api/courses/quizzes/
+WARNING 2026-02-03 09:20:19,656 log Not Found: /api/courses/quizzes/
+INFO 2026-02-03 09:20:58,333 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\quizzes\urls.py changed, reloading.
+INFO 2026-02-03 09:20:58,983 autoreload Watching for file changes with StatReloader
+WARNING 2026-02-03 09:20:59,809 log Not Found: /api/courses/quizzes/
+INFO 2026-02-03 09:21:26,086 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\quizzes\urls.py changed, reloading.
+INFO 2026-02-03 09:21:26,734 autoreload Watching for file changes with StatReloader
+WARNING 2026-02-03 09:21:31,222 log Not Found: /api/courses/quizzes/
+WARNING 2026-02-03 09:21:37,761 log Not Found: /api/courses/quizzes/statistics
+WARNING 2026-02-03 09:21:49,745 log Not Found: /api/courses/quiz/statistics
+WARNING 2026-02-03 11:29:35,389 log Not Found: /api/courses/quizzes/
+INFO 2026-02-03 11:30:28,145 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\quizzes\urls.py changed, reloading.
+INFO 2026-02-03 11:30:29,694 autoreload Watching for file changes with StatReloader
+WARNING 2026-02-03 11:30:31,093 log Not Found: /api/courses/quizzes/
+INFO 2026-02-03 11:30:45,411 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\quizzes\urls.py changed, reloading.
+INFO 2026-02-03 11:30:46,277 autoreload Watching for file changes with StatReloader
+WARNING 2026-02-03 11:31:25,131 log Not Found: /api/courses/quiz/
+WARNING 2026-02-03 11:31:30,834 log Not Found: /api/courses/quiz/statistics
+INFO 2026-02-03 11:32:10,607 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\quizzes\urls.py changed, reloading.
+INFO 2026-02-03 11:32:11,443 autoreload Watching for file changes with StatReloader
+WARNING 2026-02-03 11:32:21,598 log Not Found: /api/courses/quizzes/
+INFO 2026-02-03 11:32:24,031 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\quizzes\urls.py changed, reloading.
+INFO 2026-02-03 11:32:24,728 autoreload Watching for file changes with StatReloader
+WARNING 2026-02-03 11:32:26,832 log Not Found: /api/courses/quizzes/
+INFO 2026-02-03 11:32:55,596 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\quizzes\urls.py changed, reloading.
+INFO 2026-02-03 11:32:56,423 autoreload Watching for file changes with StatReloader
+WARNING 2026-02-03 11:32:58,957 log Not Found: /api/courses//quizzes/
+WARNING 2026-02-03 11:33:06,633 log Not Found: /api/courses//quizzes/
+WARNING 2026-02-03 11:33:26,000 log Not Found: /api/courses/quiz/statistics/
+INFO 2026-02-03 11:33:32,214 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\quizzes\urls.py changed, reloading.
+INFO 2026-02-03 11:33:33,021 autoreload Watching for file changes with StatReloader
+WARNING 2026-02-03 11:34:06,201 log Not Found: /api/courses/1/
+INFO 2026-02-03 11:34:13,920 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\quizzes\urls.py changed, reloading.
+INFO 2026-02-03 11:34:14,747 autoreload Watching for file changes with StatReloader
+WARNING 2026-02-03 11:35:51,327 log Not Found: /api/courses/1/quizzes
+WARNING 2026-02-03 11:36:19,263 log Not Found: /api/courses/quizzes/
+WARNING 2026-02-03 11:36:40,850 log Not Found: /api/quizzes/
+WARNING 2026-02-03 11:36:51,399 log Not Found: /api/courses/quiz/
+WARNING 2026-02-03 11:36:57,954 log Not Found: /api/courses/quizzes/
+WARNING 2026-02-03 11:37:08,950 log Not Found: /api/courses/quizzes/
+WARNING 2026-02-03 11:37:33,484 log Not Found: /api/courses/quizzes/
+WARNING 2026-02-03 11:37:46,494 log Not Found: /api/courses/quiz/
+WARNING 2026-02-03 11:37:56,283 log Not Found: /api/
+WARNING 2026-02-03 11:38:24,232 log Not Found: /api/courses/quizzes/2/
+WARNING 2026-02-03 11:38:29,831 log Not Found: /api/courses/quizzes/0/
+INFO 2026-02-09 16:36:27,167 autoreload Watching for file changes with StatReloader

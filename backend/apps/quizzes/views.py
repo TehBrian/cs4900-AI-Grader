@@ -23,9 +23,9 @@ class CourseViewSet(viewsets.ModelViewSet):
     ViewSet for Courses
     
     Endpoints:
-    - GET /api/quizzes/courses/ - List all courses
-    - POST /api/quizzes/courses/ - Create course
-    - GET /api/quizzes/courses/{id}/ - Get course details
+    - GET /api/courses/ - List all courses
+    - POST /api/course/ - Create course
+    - GET /api/courses/{id}/ - Get course details
     """
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
