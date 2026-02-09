@@ -7,7 +7,7 @@ app_name = "quizzes"
 
 router = DefaultRouter()
 router.register(r"courses", views.CourseViewSet, basename="course")
-router.register(r"", views.QuizViewSet, basename="quiz")
+router.register(r"quizzes", views.QuizViewSet, basename="quiz")
 
 urlpatterns = [
     path("statistics/", views.quiz_statistics, name="statistics"),

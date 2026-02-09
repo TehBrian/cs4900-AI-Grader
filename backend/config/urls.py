@@ -11,7 +11,7 @@ urlpatterns = [
     path("api/users/", include("apps.users.urls", namespace="users")),
     path("api/problems/", include("apps.problems.urls", namespace="problems")),
     path("api/grading/", include("apps.grading.urls", namespace="grading")),
-    path("api/quizzes/", include("apps.quizzes.urls", namespace="quizzes")),
+    path("api/", include("apps.quizzes.urls", namespace="quizzes")),
 ]
 
 
