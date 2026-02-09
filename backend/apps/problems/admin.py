@@ -5,7 +5,7 @@ from .models import (
     ProblemTemplate,
     Problem,
     ProblemTagging,
-    ProblemPart
+    ProblemPart,
 )
 
 admin.site.register(ProblemCategory)

@@ -7,7 +7,8 @@ from sys import argv, exit
 
 from typing import Tuple
 
-def rm_pycache(path: str) -> Tuple[int,int]:
+
+def rm_pycache(path: str) -> Tuple[int, int]:
     """
     Find and remove all of the __pycache__ directories and the pycache files they contain.
 
@@ -16,7 +17,7 @@ def rm_pycache(path: str) -> Tuple[int,int]:
     :return: number of (directories, files) removed
     :rtype: Tuple[int, int]
     """
-    _pyc_dir_count,_pyc_fi_count = 0, 0
+    _pyc_dir_count, _pyc_fi_count = 0, 0
     _tempdir_count, _tempfi_count = 0, 0
     _temp_path = ""
 
@@ -24,15 +25,13 @@ def rm_pycache(path: str) -> Tuple[int,int]:
         _temp_path = os.path.join(path, _fi)
 
         if os.path.isdir(_temp_path):
-            _tempdir_count, _tempfi_count = rm_pycache(
-                _temp_path
-            )
+            _tempdir_count, _tempfi_count = rm_pycache(_temp_path)
             if _fi == "__pycache__":
                 _tempdir_count += 1
                 try:
                     os.rmdir(_temp_path)
                 except OSError:
-                    print(f"Failed to remove directory \"{_temp_path}\"")
+                    print(f'Failed to remove directory "{_temp_path}"')
             _pyc_dir_count += _tempdir_count
             _pyc_fi_count += _tempfi_count
 
@@ -41,9 +40,10 @@ def rm_pycache(path: str) -> Tuple[int,int]:
                 os.remove(_temp_path)
                 _pyc_fi_count += 1
             except OSError:
-                print(f"Failed to remove file \"{_temp_path}\"")
+                print(f'Failed to remove file "{_temp_path}"')
 
     return (_pyc_dir_count, _pyc_fi_count)
+
 
 if __name__ == "__main__":
     path = ""

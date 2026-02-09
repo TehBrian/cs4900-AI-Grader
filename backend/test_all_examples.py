@@ -3,7 +3,7 @@ import sys
 import django
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 django.setup()
 
 from apps.grading.services.ai_symbolic_grader import AISymbolicGrader
@@ -29,21 +29,21 @@ test_cases = [
     ("0.499999*cos(2*x)*e**(-x)", "Numerical approximation"),
 ]
 
-variables = {'x': 1.0}
+variables = {"x": 1.0}
 passed = 0
 failed = 0
 
 for i, (student_answer, description) in enumerate(test_cases, 1):
     print(f"Test {i}: {description}")
     print(f"  Input: {student_answer}")
-    
+
     result = grader.grade_expression(
         student_answer=student_answer,
         correct_answer=correct_answer,
-        variables=variables
+        variables=variables,
     )
-    
-    if result['is_correct']:
+
+    if result["is_correct"]:
         print(f"  ✅ PASS - Score: {result['score']:.2f}")
         passed += 1
     else:

@@ -1,7 +1,12 @@
 import React, { useMemo, useState } from "react";
 
-type Role = "student" | "teacher";
-type Page = "login" | "about" | "contact";
+const ROLES = {
+  student: "student",
+  instructor: "instructor"
+} as const;
+
+type Role = "student" | "instructor";
+type Page = "login" | "about" | "contact" | "registration" | "home";
 
 interface User {
   id: number,
@@ -23,6 +28,8 @@ interface LoginResult {
 export default function App() {
   const [page, setPage] = useState<Page>("login");
 
+  const [regSuccess, setRegSuccess] = useState<Boolean>(false);
+
   const [role, setRole] = useState<Role>("student");
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
@@ -38,6 +45,55 @@ export default function App() {
     return email.trim().length > 0 && pw.trim().length > 0;
   }, [email, pw]);
 
+  async function registerUser(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+
+    const formObj = Object.fromEntries(formData.entries());
+    form.reset();
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/users/auth/register/", {
+        method: "POST",
+        headers: {
+          'content-Type': "application/json",
+        },
+        body: JSON.stringify({
+          first_name: formObj.first_name,
+          last_name: formObj.last_name,
+          email: formObj.email,
+          username: formObj.username,
+          password: formObj.password,
+          role: formObj.role
+        })
+      });
+
+      if (response.ok) {
+        setRegSuccess(true);
+        setPage("login");
+        const timer = setTimeout(() => {
+          setRegSuccess(false);
+        }, 3000);
+        return () => clearTimeout(timer);
+      } else {
+        const err_response = await response.json();
+        var err_msg = "";
+        Object.entries(err_response).forEach((i) => {
+          err_msg += i[1] + '\n';
+        });
+        setError(err_msg);
+        return;
+      }
+
+    } catch (err) {
+      alert("Failed to connect.");
+    }
+
+  }
+
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -49,7 +105,7 @@ export default function App() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({username: email, password: pw})
+        body: JSON.stringify({username: email, password: pw, role: role})
       });
 
       if (response.ok) {
@@ -58,10 +114,11 @@ export default function App() {
         setLoginResult(data);
         setSession({role, email: email.trim()});
       } else {
-        setError("Incorrect username or password.");
+        const err_response = await response.json();
+        setError(err_response.error);
         return;
       }
-    } catch (error) {
+    } catch (err) {
       alert("Failed to connect to database.");
     }
 
@@ -95,7 +152,22 @@ export default function App() {
         </div>
 
         {/* right nav buttons */}
+
         <nav className="flex items-center gap-2">
+          {session ? (
+            <button
+            onClick={() => setPage("home")}
+            className={[
+              "px-4 py-2 rounded-full border shadow-sm text-sm font-semibold transition",
+              page === "home"
+                ? "bg-[#4E3629] text-white border-[#4E3629]"
+                : "bg-white hover:shadow",
+            ].join(" ")}
+            type="button"
+          >
+            Home
+          </button>
+          ): null}
           <button
             onClick={() => setPage("about")}
             className={[
@@ -144,6 +216,19 @@ export default function App() {
               Login
             </button>
           )}
+
+          <button
+            onClick={() => setPage("registration")}
+            className={[
+              "px-4 py-2 rounded-full border shadow-sm text-sm font-semibold transition",
+              page === "registration"
+                ? "bg-[#4E3629] text-white border-[#4E3629]"
+                : "bg-white hover:shadow",
+            ].join(" ")}
+            type="button"
+          >
+            Register
+          </button>
         </nav>
       </div>
     </header>
@@ -193,20 +278,141 @@ export default function App() {
     );
   }
 
-  // ---------- logged ----------
-  if (loginresult && session && page === "login") {
+if (page === "registration") {
+  return (
+    <PageShell title="Registration">
+      <div className="w-full">
+        <div className="rounded-3xl bg-white border shadow-sm p-6 md:p-8">
+          <form method="post" onSubmit={registerUser} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="text-sm font-semibold text-gray-700">
+                  First name
+                </label>
+                <input
+                  name="first_name"
+                  required
+                  placeholder="First"
+                  className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                />
+              </div>
 
-    const isTeacher = session.role === "teacher";
+              <div>
+                <label className="text-sm font-semibold text-gray-700">
+                  Last name
+                </label>
+                <input
+                  name="last_name"
+                  required
+                  placeholder="Last"
+                  className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="text-sm font-semibold text-gray-700">
+                  Email
+                </label>
+                <input
+                  name="email"
+                  type="email"
+                  required
+                  placeholder="name@wmich.edu"
+                  className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-semibold text-gray-700">
+                  Username
+                </label>
+                <input
+                  name="username"
+                  required
+                  placeholder="username"
+                  className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="text-sm font-semibold text-gray-700">
+                  Password
+                </label>
+                <input
+                  name="password"
+                  type="password"
+                  required
+                  placeholder="password"
+                  className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-semibold text-gray-700">
+                  Role
+                </label>
+                <div className="mt-2 flex gap-6">
+                  <label className="flex items-center gap-2 rounded-2xl border px-4 py-3 bg-white hover:bg-gray-50 cursor-pointer w-full">
+                    <input
+                      type="radio"
+                      name="role"
+                      value="student"
+                      defaultChecked
+                      className="accent-[#4E3629]"
+                    />
+                    <span className="font-semibold">Student</span>
+                  </label>
+
+                  <label className="flex items-center gap-2 rounded-2xl border px-4 py-3 bg-white hover:bg-gray-50 cursor-pointer w-full">
+                    <input
+                      type="radio"
+                      name="role"
+                      value="instructor"
+                      className="accent-[#4E3629]"
+                    />
+                    <span className="font-semibold">Instructor</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            {error && (
+              <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                {error}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              className="w-full md:w-1/3 rounded-2xl font-bold py-3 transition shadow-sm bg-[#4E3629] text-white hover:opacity-95"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+      </div>
+    </PageShell>
+  );
+}
+
+  // ---------- logged ----------
+  if (loginresult && session && (page === "login" || page === "home")) {
+
+    const isInstructor = session.role === ROLES.instructor;
     return (
-      <PageShell title={isTeacher ? "Teacher Home" : "Student Home"}>
+      <PageShell title={isInstructor ? "Instructor Home" : "Student Home"}>
         <div className="rounded-2xl bg-white border shadow-sm p-6">
           <p className="text-gray-700">
-            Signed in as <span className="font-semibold">{loginresult.user.email}</span>{" "}
-            ({isTeacher ? "Teacher" : "Student"}).
+            Signed in as <span className="font-semibold">{loginresult.user.username}</span>{" "}
+            ({isInstructor ? "Instructor" : "Student"}).
           </p>
 
           <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {(isTeacher
+            {(isInstructor
               ? [
                   { title: "Create Quiz", desc: "null" },
                   { title: "View Submissions", desc: "null" },
@@ -245,9 +451,6 @@ export default function App() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-extrabold tracking-tight">Login</h1>
-              <p className="text-sm text-gray-500 mt-1">
-                password=password
-              </p>
             </div>
             <div className="h-10 w-10 rounded-2xl bg-[#FFC72C] flex items-center justify-center font-black text-[#4E3629]">
               ✓
@@ -271,15 +474,15 @@ export default function App() {
 
             <button
               type="button"
-              onClick={() => setRole("teacher")}
+              onClick={() => setRole("instructor")}
               className={[
                 "flex-1 rounded-2xl border px-4 py-2 font-bold transition",
-                role === "teacher"
+                role === ROLES.instructor
                   ? "bg-[#4E3629] text-white border-[#4E3629]"
                   : "bg-white hover:bg-gray-50",
               ].join(" ")}
             >
-              Teacher
+              Instructor
             </button>
           </div>
 
@@ -312,6 +515,12 @@ export default function App() {
             {error && (
               <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
                 {error}
+              </div>
+            )}
+
+            {regSuccess && (
+              <div className="rounded-2xl border border-gray-50 px-4 py-3 text-sm">
+                Registered
               </div>
             )}
 

@@ -11,7 +11,7 @@ author = CustomUser.objects.first()
 # Create Antenna Theory category
 antenna_category, _ = ProblemCategory.objects.get_or_create(
     name="Antenna Theory",
-    defaults={"description": "Antenna and electromagnetic field problems"}
+    defaults={"description": "Antenna and electromagnetic field problems"},
 )
 
 # Problem 1: Fourier Transform - Triangular Aperture
@@ -36,7 +36,7 @@ Step 3: Apply change of variable φ = Lω/16
 Step 4: Final result: E(φ) = sinc²(φ)""",
     author=author,
     has_multiple_parts=True,
-    total_parts=4
+    total_parts=4,
 )
 print(f"✅ Created problem 1: {problem1.title} (ID: {problem1.id})")
 
@@ -62,7 +62,7 @@ T_i1 = 7 K (using Eqs. 2.2-25 and 2.3-5)
 T_e1 = 6.7 K (use Eq. 2.5-3)
 T_op1 = T_i1 + T_e1 = 13.7 K""",
     answer_tolerance=0.01,
-    author=author
+    author=author,
 )
 print(f"✅ Created problem 2: {problem2.title} (ID: {problem2.id})")
 
@@ -84,7 +84,7 @@ What is the code? x = _______""",
 - 3rd input (0): produces 11
 - 4th input (1): produces 11
 Final code: x = 11,101,111""",
-    author=author
+    author=author,
 )
 print(f"✅ Created problem 3: {problem3.title} (ID: {problem3.id})")
 
@@ -110,15 +110,15 @@ problem4 = Problem.objects.create(
 5. Using D = 4πU_max/P_rad, we get P_max = D_max""",
     author=author,
     has_multiple_parts=True,
-    total_parts=5
+    total_parts=5,
 )
 print(f"✅ Created problem 4: {problem4.title} (ID: {problem4.id})")
 
-print("\n" + "="*60)
+print("\n" + "=" * 60)
 print("✅ Successfully created 4 sample problems!")
 print("✅ Problems cover:")
 print("   - Fourier transforms (symbolic math)")
 print("   - DSN calculations (numerical with units)")
 print("   - Viterbi coding (pattern matching)")
 print("   - Multi-step derivations (partial credit)")
-print("="*60)
+print("=" * 60)

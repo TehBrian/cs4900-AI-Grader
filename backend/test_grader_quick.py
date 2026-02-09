@@ -3,7 +3,7 @@ import sys
 import django
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 django.setup()
 
 from apps.grading.services.ai_symbolic_grader import AISymbolicGrader
@@ -17,7 +17,7 @@ grader = AISymbolicGrader()
 result = grader.grade_expression(
     student_answer="e**(-x)/2*cos(2*x)",
     correct_answer="0.5*e**(-x)*cos(2*x)",
-    variables={'x': 1.0}
+    variables={"x": 1.0},
 )
 
 print(f"Student: e**(-x)/2*cos(2*x)")

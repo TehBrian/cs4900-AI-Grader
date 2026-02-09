@@ -19,7 +19,7 @@ class CASGrader:
         self,
         student_answer: str,
         correct_answer: str,
-        parameters: Dict[str, Any] = None
+        parameters: Dict[str, Any] = None,
     ) -> Dict[str, Any]:
         """
         Grade a mathematical expression
@@ -35,30 +35,27 @@ class CASGrader:
 
             # Check equivalency
             is_equivalent, confidence = self._check_equivalency(
-                student_expr,
-                correct_expr
+                student_expr, correct_expr
             )
 
             return {
-                'is_correct': is_equivalent,
-                'confidence': confidence,
-                'method': 'cas',
-                'student_parsed': str(student_expr),
-                'expected_parsed': str(correct_expr),
-                'reasoning': self._generate_reasoning(
-                    student_expr,
-                    correct_expr,
-                    is_equivalent
-                )
+                "is_correct": is_equivalent,
+                "confidence": confidence,
+                "method": "cas",
+                "student_parsed": str(student_expr),
+                "expected_parsed": str(correct_expr),
+                "reasoning": self._generate_reasoning(
+                    student_expr, correct_expr, is_equivalent
+                ),
             }
 
         except Exception as e:
             return {
-                'is_correct': None,
-                'confidence': 0.0,
-                'method': 'cas',
-                'error': str(e),
-                'needs_ai_fallback': True
+                "is_correct": None,
+                "confidence": 0.0,
+                "method": "cas",
+                "error": str(e),
+                "needs_ai_fallback": True,
             }
 
     def _parse_expression(self, expr: str) -> sp.Expr:
@@ -66,28 +63,28 @@ class CASGrader:
         expr = expr.strip()
 
         # If LaTeX detected:
-        if '\\' in expr:
+        if "\\" in expr:
             try:
                 # Normalize LaTeX exponent syntax: ^2 → ^{2} if missing braces
-                expr = re.sub(r'\^(\d+)', r'^{\1}', expr)
-                expr = expr.replace('**', '^')
+                expr = re.sub(r"\^(\d+)", r"^{\1}", expr)
+                expr = expr.replace("**", "^")
                 return parse_latex(expr)
             except Exception as e:
-                raise ValueError(f"Could not parse LaTeX expression: {expr}. Error: {e}")
+                raise ValueError(
+                    f"Could not parse LaTeX expression: {expr}. Error: {e}"
+                )
 
         # Otherwise plain text: SymPy syntax
         try:
-            expr = expr.replace('^', '**')  # Power notation
-            expr = expr.replace('×', '*')
-            expr = expr.replace('÷', '/')
+            expr = expr.replace("^", "**")  # Power notation
+            expr = expr.replace("×", "*")
+            expr = expr.replace("÷", "/")
             return sp.sympify(expr)
         except Exception:
             raise ValueError(f"Could not parse expression: {expr}")
 
     def _substitute_parameters(
-        self,
-        expr: sp.Expr,
-        parameters: Dict[str, Any]
+        self, expr: sp.Expr, parameters: Dict[str, Any]
     ) -> sp.Expr:
         """Substitute parameter values into expression"""
         substitutions = {}
@@ -95,11 +92,7 @@ class CASGrader:
             substitutions[sp.Symbol(var_name)] = value
         return expr.subs(substitutions)
 
-    def _check_equivalency(
-        self,
-        expr1: sp.Expr,
-        expr2: sp.Expr
-    ) -> Tuple[bool, float]:
+    def _check_equivalency(self, expr1: sp.Expr, expr2: sp.Expr) -> Tuple[bool, float]:
         """Check if two expressions are mathematically equivalent"""
         try:
             # Method 1: Direct comparison
@@ -130,10 +123,7 @@ class CASGrader:
             return False, 0.0
 
     def _numerical_equivalency_check(
-        self,
-        expr1: sp.Expr,
-        expr2: sp.Expr,
-        num_tests: int = 10
+        self, expr1: sp.Expr, expr2: sp.Expr, num_tests: int = 10
     ) -> bool:
         """Check equivalency by evaluating at random points"""
         variables = list(expr1.free_symbols | expr2.free_symbols)
@@ -161,10 +151,7 @@ class CASGrader:
         return True
 
     def _generate_reasoning(
-        self,
-        student_expr: sp.Expr,
-        correct_expr: sp.Expr,
-        is_equivalent: bool
+        self, student_expr: sp.Expr, correct_expr: sp.Expr, is_equivalent: bool
     ) -> str:
         """Generate explanation of grading decision"""
         if is_equivalent:
@@ -180,4 +167,3 @@ class CASGrader:
                 f"Expression is not equivalent. "
                 f"Your answer: {student_expr}, Expected: {correct_expr}"
             )
-

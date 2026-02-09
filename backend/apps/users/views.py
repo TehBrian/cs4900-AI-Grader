@@ -1,4 +1,8 @@
+import logging
+
 from django.shortcuts import render
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 
 # Create your views here.
 # apps/users/views.py
@@ -12,17 +16,20 @@ from .models import CustomUser
 from .serializers import UserSerializer, UserRegistrationSerializer
 
 
+logger = logging.getLogger(__name__)
+
 class AuthViewSet(viewsets.ViewSet):
     """
     ViewSet for authentication operations
     """
+
     permission_classes = [AllowAny]
-    
-    @action(detail=False, methods=['post'])
+
+    @action(detail=False, methods=["post"])
     def register(self, request):
         """
         Register a new user
-        
+
         POST /api/auth/register/
         {
             "username": "student1",
@@ -36,87 +43,114 @@ class AuthViewSet(viewsets.ViewSet):
         if serializer.is_valid():
             user = serializer.save()
             refresh = RefreshToken.for_user(user)
-            
-            return Response({
-                'user': UserSerializer(user).data,
-                'tokens': {
-                    'refresh': str(refresh),
-                    'access': str(refresh.access_token),
-                }
-            }, 
-            status=status.HTTP_201_CREATED)
-        
+
+            return Response(
+                {
+                    "user": UserSerializer(user).data,
+                    "tokens": {
+                        "refresh": str(refresh),
+                        "access": str(refresh.access_token),
+                    },
+                },
+                status=status.HTTP_201_CREATED,
+            )
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-    @action(detail=False, methods=['post'], permission_classes=[IsAuthenticated])
+    @action(detail=False, methods=["post"], permission_classes=[IsAuthenticated])
     def logout(self, request):
         """
         Logout user (blacklist refresh token)
-        
+
         POST /api/auth/logout/
         {
             "refresh": "refresh_token_here"
         }
         """
         try:
-            refresh_token = request.data.get('refresh')
+            refresh_token = request.data.get("refresh")
             token = RefreshToken(refresh_token)
             token.blacklist()
-            return Response({'message': 'Logout successful'}, status=status.HTTP_200_OK)
+            return Response({"message": "Logout successful"}, status=status.HTTP_200_OK)
         except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-    
-    @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=False, methods=["get"], permission_classes=[IsAuthenticated])
     def profile(self, request):
         """
         Get current user profile
-        
+
         GET /api/auth/profile/
         """
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
 
-    @action(detail=False, methods=['post'])
+    @action(detail=False, methods=["post"])
     def login(self, request):
         """
         Login user
-        
+
         POST /api/auth/login/
         {
             "username": "student1",
             "password": "password123"
         }
         """
-        username = request.data.get('username')
-        password = request.data.get('password')
-        
+        username = request.data.get("username")
+        password = request.data.get("password")
+        role = request.data.get("role")
+
+        try: # check if we were sent an email instead of a username
+            validate_email(username)
+            q_result = CustomUser.objects.filter(email=username)
+
+            # if there are multiple db entries with the same email
+            if len(q_result) > 1:
+                logger.error(f"Multiple DB entries for email {username}\n")
+            if len(q_result) > 0:
+                username = q_result[0].get_username()
+        except ValidationError:
+            pass
+
         if not username or not password:
             return Response(
-                {'error': 'Please provide both username and password'},
-                status=status.HTTP_400_BAD_REQUEST
+                {"error": "Please provide both username and password"},
+                status=status.HTTP_400_BAD_REQUEST,
             )
-        
+
         user = authenticate(username=username, password=password)
-        
+
         if user is None:
             return Response(
-                {'error': 'Invalid credentials',
-                'username': username,
-                'password': password},
+                {
+                    "error": "Invalid credentials",
+                    "username": username,
+                    "password": password,
+                },
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+        elif user.role != role:
+            return Response(
+                {
+                    "error": "Invalid role.",
+                    "requested_role": role,
+                    "user_role": user.role
+                },
                 status=status.HTTP_401_UNAUTHORIZED
             )
-        
+
         refresh = RefreshToken.for_user(user)
-        
-        return Response({
-            'user': UserSerializer(user).data,
-            'tokens': {
-                'refresh': str(refresh),
-                'access': str(refresh.access_token),
+
+        return Response(
+            {
+                "user": UserSerializer(user).data,
+                "tokens": {
+                    "refresh": str(refresh),
+                    "access": str(refresh.access_token),
+                },
             },
-        },
-        headers = {
-            "Access-Control-Allow-Origin": "http://10.0.2.15:3000",
-            "Access-Control-Allow-Headers": "*"
-        },)
+            headers={
+                "Access-Control-Allow-Origin": "http://10.0.2.15:3000",
+                "Access-Control-Allow-Headers": "*",
+            },
+        )
