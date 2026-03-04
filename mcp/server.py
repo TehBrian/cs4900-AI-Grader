@@ -22,5 +22,8 @@ def grade_submission(submission_id: int, student_id: int, score: float, feedback
 #Register Resources
 
 
+def main():
+       mcp.run(transport="streamable-http")
+
 if __name__ == "__main__":
-       mcp.run(transport='streamable-http') #run mcp server with http transport
+      main()
