@@ -6,7 +6,57 @@ const ROLES = {
 } as const;
 
 type Role = "student" | "instructor";
-type Page = "login" | "about" | "contact" | "registration" | "home";
+type Page = "login" | "about" | "contact" | "registration" | "home"| "course" | "grades";
+
+type Course = {
+  id: string;
+  code: string;
+  title: string;
+  term: string;
+  instructor: string;
+};
+
+const DEMO_COURSES: Course[] = [
+  { id: "ece1234", code: "ECE 1234", title: "ECE", term: "Spring 2026", instructor: "Dr. Johnson" },
+];
+
+type CourseItemType = "Assignment" | "Quiz";
+
+type CourseItem = {
+  id: string;
+  type: CourseItemType;
+  title: string;
+  dueText: string;
+  windowText?: string; // optional 
+  submissionsText?: string; // optional 
+  scoreText?: string; // optional
+  gradeText?: string; // optional
+  evalText?: string; // optional 
+};
+
+const DEMO_COURSE_ITEMS: Record<string, CourseItem[]> = {
+  ece1234: [
+    {
+      id: "a1",
+      type: "Assignment",
+      title: "meow",
+      dueText: "Due on Jan 30, 2026 11:59 PM",
+      windowText: "Jan 14 - Jan 30",
+      submissionsText: "2 Submissions, 1 Files",
+      scoreText: "- / 10",
+      evalText: "",
+    },
+    {
+      id: "q1",
+      type: "Quiz",
+      title: "miau",
+      dueText: "Due on Feb 18, 2026 11:59 PM",
+      submissionsText: "Not started",
+      scoreText: "- / 10",
+      evalText: "",
+    },
+  ],
+};
 
 interface User {
   id: number,
@@ -36,6 +86,7 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
 
   const [loginresult, setLoginResult] = useState<LoginResult | null>(null);
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
 
   const [session, setSession] = useState<{ role: Role; email: string } | null>(
     null
@@ -282,8 +333,9 @@ if (page === "registration") {
   return (
     <PageShell title="Registration">
       <div className="w-full">
-        <div className="rounded-3xl bg-white border shadow-sm p-6 md:p-8">
+        <div className="rounded-3xl bg-white border shadow-sm p-6 md:p-8 w-full">
           <form method="post" onSubmit={registerUser} className="space-y-6">
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="text-sm font-semibold text-gray-700">
@@ -309,6 +361,7 @@ if (page === "registration") {
                 />
               </div>
             </div>
+
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
@@ -337,6 +390,7 @@ if (page === "registration") {
               </div>
             </div>
 
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="text-sm font-semibold text-gray-700">
@@ -355,6 +409,7 @@ if (page === "registration") {
                 <label className="text-sm font-semibold text-gray-700">
                   Role
                 </label>
+
                 <div className="mt-2 flex gap-6">
                   <label className="flex items-center gap-2 rounded-2xl border px-4 py-3 bg-white hover:bg-gray-50 cursor-pointer w-full">
                     <input
@@ -380,18 +435,24 @@ if (page === "registration") {
               </div>
             </div>
 
+
             {error && (
               <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
                 {error}
               </div>
             )}
 
-            <button
-              type="submit"
-              className="w-full md:w-1/3 rounded-2xl font-bold py-3 transition shadow-sm bg-[#4E3629] text-white hover:opacity-95"
-            >
-              Submit
-            </button>
+
+            {/* button */}
+            <div className="flex justify-end pt-4">
+              <button
+                type="submit"
+                className="px-8 py-3 rounded-2xl font-bold transition shadow-sm bg-[#4E3629] text-white hover:opacity-95"
+              >
+                Submit
+              </button>
+            </div>
+
           </form>
         </div>
       </div>
@@ -399,31 +460,260 @@ if (page === "registration") {
   );
 }
 
+if (page === "course" && selectedCourse) {
+  const items = DEMO_COURSE_ITEMS[selectedCourse.id] ?? [];
+
+  const pill = (t: CourseItemType) => (
+    <span
+      className={[
+        "inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold",
+        t === "Assignment" ? "bg-gray-50" : "bg-white",
+      ].join(" ")}
+    >
+      {t}
+    </span>
+  );
+
+  return (
+    <PageShell title={selectedCourse.code}>
+      <div className="rounded-2xl bg-white border shadow-sm overflow-hidden">
+        <div className="h-2 bg-[#FFC72C]" />
+
+        <div className="p-6">
+          {/* row */}
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div className="text-sm text-gray-600">
+              {selectedCourse.term} • Instructor: {selectedCourse.instructor}
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setPage("grades")}
+                className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
+              >
+                Grades
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedCourse(null);
+                  setPage("home");
+                }}
+                className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
+              >
+                Back to courses
+              </button>
+            </div>
+          </div>
+
+          {/* header */}
+          <div className="mt-6 rounded-2xl border overflow-hidden">
+            <div className="grid grid-cols-1 md:grid-cols-12 bg-gray-50 text-xs font-bold text-gray-600">
+              <div className="md:col-span-7 p-3 border-b md:border-b-0 md:border-r">
+                Item
+              </div>
+              <div className="md:col-span-3 p-3 border-b md:border-b-0 md:border-r">
+                Completion
+              </div>
+              <div className="md:col-span-2 p-3">
+                Score
+              </div>
+            </div>
+
+            {/* rpws */}
+            <div className="divide-y">
+              {items.length === 0 ? (
+                <div className="p-4 text-sm text-gray-600">
+                  No assignments or quizzes yet.
+                </div>
+              ) : (
+                items.map((it) => (
+                  <button
+                    key={it.id}
+                    type="button"
+                    onClick={() => alert(`Open: ${it.title}`)}
+                    className="w-full text-left hover:bg-gray-50 transition"
+                  >
+                    <div className="grid grid-cols-1 md:grid-cols-12">
+                      
+                      {/* Item */}
+                      <div className="md:col-span-7 p-4 md:border-r">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="font-bold text-[#4E3629]">
+                            {it.title}
+                          </div>
+                          <div className="shrink-0">{pill(it.type)}</div>
+                        </div>
+
+                        <div className="text-sm text-gray-600 mt-1">
+                          {it.dueText}
+                        </div>
+
+                        {it.windowText ? (
+                          <div className="text-xs text-gray-500 mt-1">
+                            {it.windowText}
+                          </div>
+                        ) : null}
+                      </div>
+
+                      {/* completion */}
+                      <div className="md:col-span-3 p-4 md:border-r text-sm text-gray-700">
+                        {it.submissionsText ?? "-"}
+                      </div>
+
+                      {/* score */}
+                      <div className="md:col-span-2 p-4 text-sm text-gray-700">
+                        {it.scoreText ?? "-"}
+                      </div>
+
+                    </div>
+                  </button>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </PageShell>
+  );
+}
+
+if (page === "grades" && selectedCourse) {
+  const items = DEMO_COURSE_ITEMS[selectedCourse.id] ?? [];
+
+  const pill = (t: CourseItemType) => (
+    <span
+      className={[
+        "inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold",
+        t === "Assignment" ? "bg-gray-50" : "bg-white",
+      ].join(" ")}
+    >
+      {t}
+    </span>
+  );
+
+  return (
+    <PageShell title={`${selectedCourse.code} Grades`}>
+      <div className="rounded-2xl bg-white border shadow-sm overflow-hidden">
+        <div className="h-2 bg-[#FFC72C]" />
+
+        <div className="p-6">
+          {/* row */}
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div className="text-sm text-gray-600">
+              {selectedCourse.term} • Instructor: {selectedCourse.instructor}
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setPage("course")}
+                className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
+              >
+                Assignments &amp; Quizzes
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedCourse(null);
+                  setPage("home");
+                }}
+                className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
+              >
+                Back to courses
+              </button>
+            </div>
+          </div>
+
+          {/* header */}
+          <div className="mt-6 rounded-2xl border overflow-hidden">
+            <div className="grid grid-cols-1 md:grid-cols-12 bg-gray-50 text-xs font-bold text-gray-600">
+              <div className="md:col-span-7 p-3 border-b md:border-b-0 md:border-r">
+                Item
+              </div>
+
+              <div className="md:col-span-3 p-3 border-b md:border-b-0 md:border-r">
+                Score
+              </div>
+
+              <div className="md:col-span-2 p-3">
+                Eval
+              </div>
+            </div>
+
+            <div className="divide-y">
+              {items.length === 0 ? (
+                <div className="p-4 text-sm text-gray-600">
+                  No grades yet.
+                </div>
+              ) : (
+                items.map((it) => (
+                  <div key={it.id} className="grid grid-cols-1 md:grid-cols-12">
+
+                    {/* item */}
+                    <div className="md:col-span-7 p-4 md:border-r">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="font-bold text-[#4E3629]">
+                          {it.title}
+                        </div>
+                        <div className="shrink-0">{pill(it.type)}</div>
+                      </div>
+
+                      <div className="text-sm text-gray-600 mt-1">
+                        {it.dueText}
+                      </div>
+
+                      {it.windowText ? (
+                        <div className="text-xs text-gray-500 mt-1">
+                          {it.windowText}
+                        </div>
+                      ) : null}
+                    </div>
+
+                    {/* score */}
+                    <div className="md:col-span-3 p-4 md:border-r text-sm text-gray-700">
+                      {it.scoreText ?? "-"}
+                    </div>
+
+                    {/* eval */}
+                    <div className="md:col-span-2 p-4 text-sm text-gray-700">
+                      {it.evalText ?? ""}
+                    </div>
+
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </PageShell>
+  );
+}
+
   // ---------- logged ----------
-  if (loginresult && session && (page === "login" || page === "home")) {
+if (loginresult && session && (page === "login" || page === "home")) {
+  const isInstructor = session.role === ROLES.instructor;
 
-    const isInstructor = session.role === ROLES.instructor;
-    return (
-      <PageShell title={isInstructor ? "Instructor Home" : "Student Home"}>
-        <div className="rounded-2xl bg-white border shadow-sm p-6">
-          <p className="text-gray-700">
-            Signed in as <span className="font-semibold">{loginresult.user.username}</span>{" "}
-            ({isInstructor ? "Instructor" : "Student"}).
-          </p>
+  return (
+    <PageShell title={isInstructor ? "Instructor Home" : "Student Home"}>
+      <div className="rounded-2xl bg-white border shadow-sm p-6">
+        <p className="text-gray-700">
+          Signed in as{" "}
+          <span className="font-semibold">{loginresult.user.username}</span>{" "}
+          ({isInstructor ? "Instructor" : "Student"}).
+        </p>
 
+        {isInstructor ? (
           <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {(isInstructor
-              ? [
-                  { title: "Create Quiz", desc: "null" },
-                  { title: "View Submissions", desc: "null" },
-                  { title: "Export", desc: "null" },
-                ]
-              : [
-                  { title: "My Quizzes", desc: "null" },
-                  { title: "My Grades", desc: "null" },
-                  { title: "Feedback", desc: "null" },
-                ]
-            ).map((c) => (
+            {[
+              { title: "Create Quiz", desc: "null" },
+              { title: "View Submissions", desc: "null" },
+              { title: "Export", desc: "null" },
+            ].map((c) => (
               <div
                 key={c.title}
                 className="rounded-2xl bg-white border shadow-sm hover:shadow-md transition overflow-hidden"
@@ -436,10 +726,67 @@ if (page === "registration") {
               </div>
             ))}
           </div>
-        </div>
-      </PageShell>
-    );
-  }
+        ) : (
+          <div className="mt-6">
+            <div className="flex items-end justify-between gap-4">
+              <div className="text-lg font-extrabold tracking-tight">
+              My Courses
+            </div>
+
+              <div className="text-xs text-gray-500">
+                {DEMO_COURSES.length} enrolled
+              </div>
+            </div>
+
+            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {DEMO_COURSES.map((course) => (
+                <button
+                  key={course.id}
+                  type="button"
+                  onClick={() => {
+                  setSelectedCourse(course);
+                  setPage("course");
+                  }}
+                  className="text-left rounded-2xl bg-white border shadow-sm hover:shadow-md transition overflow-hidden"
+                >
+                  <div className="h-2 bg-[#FFC72C]" />
+                  <div className="p-5">
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <div className="text-base font-bold">{course.code}</div>
+                        <div className="text-sm text-gray-700 mt-1">
+                          {course.title}
+                        </div>
+                      </div>
+
+                      <span className="inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold bg-gray-50">
+                        {course.term}
+                      </span>
+                    </div>
+
+                    <div className="text-xs text-gray-500 mt-3">
+                      Instructor: {course.instructor}
+                    </div>
+
+                    <div className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#4E3629]">
+                      Open course <span aria-hidden>→</span>
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+
+            {DEMO_COURSES.length === 0 && (
+              <div className="mt-4 rounded-2xl border bg-gray-50 px-4 py-3 text-sm text-gray-700">
+                You’re not enrolled in any courses yet.
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </PageShell>
+  );
+}
 
   // ---------- login ----------
   return (
@@ -457,7 +804,7 @@ if (page === "registration") {
             </div>
           </div>
 
-          {/* Role toggle */}
+          {/* roles */}
           <div className="mt-5 flex gap-2">
             <button
               type="button"
