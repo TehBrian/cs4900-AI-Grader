@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import ForgotPassword from './ForgotPassword';
 
 const ROLES = {
   student: "student",
@@ -8,6 +9,7 @@ const ROLES = {
 type Role = "student" | "instructor";
 type Page =
   | "login"
+  | "forgotPassword"
   | "about"
   | "contact"
   | "registration"
@@ -1146,6 +1148,11 @@ if (session && loginresult) {
   );
 }
 
+  // ---------- Forgot Password ----------
+  if (page === "forgotPassword") {
+    return <ForgotPassword />;
+  }
+
   // ---------- login ----------
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900">
@@ -1241,6 +1248,15 @@ if (session && loginresult) {
             >
               Sign in
             </button>
+            <div className="text-center mt-4">
+              <button
+                type="button"
+                onClick={() => setPage("forgotPassword")}
+                className="text-sm text-blue-600 hover:underline"
+              >
+                Forgot Password?
+              </button>
+            </div>
           </form>
         </div>
       </main>

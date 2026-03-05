@@ -18,6 +18,7 @@ from .serializers import UserSerializer, UserRegistrationSerializer
 
 logger = logging.getLogger(__name__)
 
+
 class AuthViewSet(viewsets.ViewSet):
     """
     ViewSet for authentication operations
@@ -57,7 +58,8 @@ class AuthViewSet(viewsets.ViewSet):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    @action(detail=False, methods=["post"], permission_classes=[IsAuthenticated])
+    @action(detail=False, methods=["post"],
+            permission_classes=[IsAuthenticated])
     def logout(self, request):
         """
         Logout user (blacklist refresh token)
@@ -71,11 +73,14 @@ class AuthViewSet(viewsets.ViewSet):
             refresh_token = request.data.get("refresh")
             token = RefreshToken(refresh_token)
             token.blacklist()
-            return Response({"message": "Logout successful"}, status=status.HTTP_200_OK)
+            return Response({"message": "Logout successful"},
+                            status=status.HTTP_200_OK)
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": str(e)},
+     status=status.HTTP_400_BAD_REQUEST)
 
-    @action(detail=False, methods=["get"], permission_classes=[IsAuthenticated])
+    @action(detail=False, methods=["get"],
+            permission_classes=[IsAuthenticated])
     def profile(self, request):
         """
         Get current user profile
@@ -85,6 +90,75 @@ class AuthViewSet(viewsets.ViewSet):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
 
+    @action(detail=False, methods=['post'])   
+    def forgot_password(self, request):
+        """
+        Request password reset
+        
+        POST /api/users/auth/forgot-password/
+        {
+            "email": "user@example.com"
+        }
+        """
+        email = request.data.get('email')
+        
+        if not email:
+            return Response(
+                {'error': 'Email is required'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            user = CustomUser.objects.get(email=email)
+            # In production, send email with reset token
+            # For now, return a reset token
+            refresh = RefreshToken.for_user(user)
+            reset_token = str(refresh.access_token)
+            
+            return Response({
+                'message': 'Password reset instructions sent to email',
+                'reset_token': reset_token,  # Remove in production!
+                'user_id': user.id
+            })
+        except CustomUser.DoesNotExist:
+            # Don't reveal if email exists for security
+            return Response({
+                'message': 'If email exists, reset instructions have been sent'
+            })
+    
+    @action(detail=False, methods=['post'])
+    def reset_password(self, request):
+        """
+        Reset password with token
+        
+        POST /api/users/auth/reset-password/
+        {
+            "user_id": 1,
+            "new_password": "newpassword123"
+        }
+        """
+        user_id = request.data.get('user_id')
+        new_password = request.data.get('new_password')
+        
+        if not user_id or not new_password:
+            return Response(
+                {'error': 'user_id and new_password are required'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            user = CustomUser.objects.get(id=user_id)
+            user.set_password(new_password)
+            user.save()
+            
+            return Response({
+                'message': 'Password reset successful. You can now login with your new password.'
+            })
+        except CustomUser.DoesNotExist:
+            return Response(
+                {'error': 'Invalid user'},
+                status=status.HTTP_404_NOT_FOUND
+            )
     @action(detail=False, methods=["post"])
     def login(self, request):
         """
@@ -154,3 +228,4 @@ class AuthViewSet(viewsets.ViewSet):
                 "Access-Control-Allow-Headers": "*",
             },
         )
+
