@@ -1,5 +1,5 @@
 #Import MCP server
-from mcp.server.fastmcp import FastMCP
+from mcp.server import FastMCP
 
 #Import tools
 from tools.submissions import fetch_submission
@@ -7,7 +7,7 @@ from tools.grading import submit_grade
 
 #Import resources /None yet so left blank
 
-mcp = FastMCP("AI Symbolic Grader")
+mcp = FastMCP("AI Symbolic Grader", json_response=True, stateless_http = True)
 
 #Register tools
 
