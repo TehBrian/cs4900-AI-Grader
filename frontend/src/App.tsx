@@ -1,13 +1,13 @@
 import React, { useMemo, useState } from "react";
 import ForgotPassword from './ForgotPassword';
 
-const ROLES = {
+const ROLES= {
   student: "student",
   instructor: "instructor"
 } as const;
 
-type Role = "student" | "instructor";
-type Page =
+type Role= "student" | "instructor";
+type Page=
   | "login"
   | "forgotPassword"
   | "about"
@@ -19,31 +19,31 @@ type Page =
   | "instructorCourse"
   | "instructorGrades";
 
-type Course = {
-  id: string;
+type Course= {
+  id: number;
   code: string;
   title: string;
   term: string;
-  instructor: string;
+  instructor_name: string;
 };
 
 const DEMO_COURSES: Course[] = [
-  { id: "ece1234", code: "ECE 1234", title: "ECE", term: "Spring 2026", instructor: "Dr. Johnson" },
+  { id: 1, code: "ECE 1234", title: "ECE", term: "Spring 2026", instructor_name: "Dr. Johnson" },
 ];
 
 const DEMO_INSTRUCTOR_COURSES: Course[] = [
   {
-    id: "ece1234",
+    id: 1,
     code: "ECE 1234",
     title: "ECE",
     term: "Spring 2026",
-    instructor: "Dr. Johnson",
+    instructor_name: "Dr. Johnson",
   },
 ];
 
-type CourseItemType = "Assignment" | "Quiz";
+type CourseItemType= "Assignment" | "Quiz";
 
-type CourseItem = {
+type CourseItem= {
   id: string;
   type: CourseItemType;
   title: string;
@@ -55,8 +55,8 @@ type CourseItem = {
   evalText?: string; // optional 
 };
 
-const DEMO_COURSE_ITEMS: Record<string, CourseItem[]> = {
-  ece1234: [
+const DEMO_COURSE_ITEMS: Record<number, CourseItem[]> = {
+  1: [
     {
       id: "a1",
       type: "Assignment",
@@ -87,85 +87,108 @@ interface User {
   first_name: string,
   last_name: string
 }
-interface Token {
-  refresh: string,
-  access: string
+
+interface Tokens {
+  refresh: string;
+  access: string;
 }
+
 interface LoginResult {
-  user: User,
-  token: Token
+  user: User;
+  tokens: Tokens;
 }
 
 export default function App() {
-  const [page, setPage] = useState<Page>("login");
+  const [page, setPage]= useState<Page>("login");
 
-  const [regSuccess, setRegSuccess] = useState<Boolean>(false);
+  const [regSuccess, setRegSuccess]= useState<boolean>(false);
+  const [role, setRole]= useState<Role>("student");
+  const [email, setEmail]= useState("");
+  const [pw, setPw]= useState("");
+  const [error, setError]= useState<string | null>(null);
 
-  const [role, setRole] = useState<Role>("student");
-  const [email, setEmail] = useState("");
-  const [pw, setPw] = useState("");
-  const [error, setError] = useState<string | null>(null);
-
-  const [loginresult, setLoginResult] = useState<LoginResult | null>(null);
-  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
-  const [selectedInstructorCourse, setSelectedInstructorCourse] = useState<Course | null>(null);
-  const [session, setSession] = useState<{ role: Role; email: string } | null>(
+  const [loginresult, setLoginResult]= useState<LoginResult | null>(null);
+  const [selectedCourse, setSelectedCourse]= useState<Course | null>(null);
+  const [studentCourses, setStudentCourses]= useState<Course[]>([]);
+  const [selectedInstructorCourse, setSelectedInstructorCourse]= useState<Course | null>(null);
+  const [session, setSession]= useState<{ role: Role; email: string } | null>(
     null
   );
 
-  const canSubmit = useMemo(() => {
+  const canSubmit= useMemo(() => {
     return email.trim().length > 0 && pw.trim().length > 0;
   }, [email, pw]);
 
-  async function registerUser(e: React.FormEvent) {
-    e.preventDefault();
-    setError(null);
+async function registerUser(e: React.FormEvent) {
+  e.preventDefault();
+  setError(null);
 
-    const form = e.target as HTMLFormElement;
-    const formData = new FormData(form);
+  const form = e.target as HTMLFormElement;
+  const formData = new FormData(form);
+  const formObj = Object.fromEntries(formData.entries());
 
-    const formObj = Object.fromEntries(formData.entries());
-    form.reset();
+  try {
+    const response = await fetch("http://127.0.0.1:8000/api/users/auth/register/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        first_name: formObj.first_name,
+        last_name: formObj.last_name,
+        email: formObj.email,
+        username: formObj.username,
+        password: formObj.password,
+        role: formObj.role,
+      }),
+    });
 
-    try {
-      const response = await fetch("http://127.0.0.1:8000/api/users/auth/register/", {
-        method: "POST",
-        headers: {
-          'content-Type': "application/json",
-        },
-        body: JSON.stringify({
-          first_name: formObj.first_name,
-          last_name: formObj.last_name,
-          email: formObj.email,
-          username: formObj.username,
-          password: formObj.password,
-          role: formObj.role
-        })
+    if (response.ok) {
+      form.reset();
+      setRegSuccess(true);
+      setPage("login");
+
+      setTimeout(() => {
+        setRegSuccess(false);
+      }, 3000);
+    } else {
+      const err_response = await response.json();
+      let err_msg = "";
+
+      Object.entries(err_response).forEach((i) => {
+        err_msg += i[1] + "\n";
       });
 
-      if (response.ok) {
-        setRegSuccess(true);
-        setPage("login");
-        const timer = setTimeout(() => {
-          setRegSuccess(false);
-        }, 3000);
-        return () => clearTimeout(timer);
-      } else {
-        const err_response = await response.json();
-        var err_msg = "";
-        Object.entries(err_response).forEach((i) => {
-          err_msg += i[1] + '\n';
-        });
-        setError(err_msg);
-        return;
+      setError(err_msg);
+    }
+  } catch (err) {
+    alert("Failed to connect.");
+  }
+}
+  
+  async function fetchStudentCourses(accessToken: string) {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/courses/", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+       },
+     });
+
+      const data = await response.json();
+      console.log("courses response:", response.status, data);
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch courses");
       }
 
+      setStudentCourses(data);
     } catch (err) {
-      alert("Failed to connect.");
+      console.error(err);
+      setError("Could not load courses.");
     }
-
   }
-
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -184,8 +207,15 @@ export default function App() {
         const data = await response.json();
 
         setLoginResult(data);
-        setSession({role, email: email.trim()});
+        setSession({ role, email: email.trim() });
+
+        if (role === "student") {
+          await fetchStudentCourses(data.tokens.access);
+        }
+
+        setPage("home");
       } else {
+
         const err_response = await response.json();
         setError(err_response.error);
         return;
@@ -204,6 +234,9 @@ export default function App() {
     setRole("student");
     setPage("login");
     setLoginResult(null);
+    setStudentCourses([]);
+    setSelectedCourse(null);
+    setSelectedInstructorCourse(null);
   }
 
   // ---------- layout ----------
@@ -504,7 +537,7 @@ if (page === "course" && selectedCourse) {
           {/* row */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="text-sm text-gray-600">
-              {selectedCourse.term} • Instructor: {selectedCourse.instructor}
+              {selectedCourse.term} • Instructor: {selectedCourse.instructor_name}
             </div>
 
             <div className="flex items-center gap-2">
@@ -633,7 +666,7 @@ if (page === "instructorCourse" && selectedInstructorCourse) {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="text-sm text-gray-600">
               {selectedInstructorCourse.term} • Instructor:{" "}
-              {selectedInstructorCourse.instructor}
+              {selectedInstructorCourse.instructor_name}
             </div>
 
             <div className="flex items-center gap-2">
@@ -786,7 +819,7 @@ if (page === "instructorGrades" && selectedInstructorCourse) {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="text-sm text-gray-600">
               {selectedInstructorCourse.term} • Instructor:{" "}
-              {selectedInstructorCourse.instructor}
+              {selectedInstructorCourse.instructor_name}
             </div>
 
             <div className="flex items-center gap-2">
@@ -894,7 +927,7 @@ if (page === "grades" && selectedCourse) {
           {/* Top row */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="text-sm text-gray-600">
-              {selectedCourse.term} • Instructor: {selectedCourse.instructor}
+              {selectedCourse.term} • Instructor: {selectedCourse.instructor_name}
             </div>
 
             <div className="flex items-center gap-2">
@@ -1042,7 +1075,7 @@ if (loginresult && session && (page === "login" || page === "home")) {
                     </div>
 
                     <div className="text-xs text-gray-500 mt-3">
-                      Instructor: {course.instructor}
+                      Instructor: {course.instructor_name}
                     </div>
 
                     <div className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#4E3629]">
@@ -1067,12 +1100,12 @@ if (loginresult && session && (page === "login" || page === "home")) {
               </div>
 
               <div className="text-xs text-gray-500">
-                {DEMO_COURSES.length} enrolled
+                {studentCourses.length} enrolled
               </div>
             </div>
 
             <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {DEMO_COURSES.map((course) => (
+              {studentCourses.map((course) => (
                 <button
                   key={course.id}
                   type="button"
@@ -1102,7 +1135,7 @@ if (loginresult && session && (page === "login" || page === "home")) {
                     </div>
 
                     <div className="text-xs text-gray-500 mt-3">
-                      Instructor: {course.instructor}
+                      Instructor: {course.instructor_name}
                     </div>
 
                     <div className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#4E3629]">
@@ -1113,7 +1146,7 @@ if (loginresult && session && (page === "login" || page === "home")) {
               ))}
             </div>
 
-            {DEMO_COURSES.length === 0 && (
+            {studentCourses.length === 0 && (
               <div className="mt-4 rounded-2xl border bg-gray-50 px-4 py-3 text-sm text-gray-700">
                 You’re not enrolled in any courses yet.
               </div>

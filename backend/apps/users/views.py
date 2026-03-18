@@ -223,9 +223,5 @@ class AuthViewSet(viewsets.ViewSet):
                     "access": str(refresh.access_token),
                 },
             },
-            headers={
-                "Access-Control-Allow-Origin": "http://10.0.2.15:3000",
-                "Access-Control-Allow-Headers": "*",
-            },
         )
 
