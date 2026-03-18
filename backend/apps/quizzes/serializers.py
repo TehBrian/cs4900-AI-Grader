@@ -16,17 +16,26 @@ from .models import (
 class CourseSerializer(serializers.ModelSerializer):
     """Serializer for Course"""
 
+    instructor_name= serializers.SerializerMethodField()
+    code= serializers.CharField(source="course_code")
+    term= serializers.SerializerMethodField()
+
     class Meta:
-        model = Course
-        fields = "__all__"
+        model= Course
+        fields= [
+            "id",
+            "code",
+            "title",
+            "term",
+            "instructor_name",
+        ]
 
-    def validate_instructor(self, value):
-        """Validate that instructor exists"""
-        from apps.users.models import CustomUser
+    def get_instructor_name(self, obj):
+        full_name= obj.instructor.get_full_name()
+        return full_name if full_name else obj.instructor.username
 
-        if not CustomUser.objects.filter(id=value.id).exists():
-            raise serializers.ValidationError("Invalid instructor ID")
-        return value
+    def get_term(self, obj):
+        return f"{obj.semester.title()} {obj.year}"
 
 
 class CourseEnrollmentSerializer(serializers.ModelSerializer):

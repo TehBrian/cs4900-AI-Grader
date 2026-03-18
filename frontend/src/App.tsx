@@ -1,12 +1,83 @@
 import React, { useMemo, useState } from "react";
+import ForgotPassword from './ForgotPassword';
 
-const ROLES = {
+const ROLES= {
   student: "student",
   instructor: "instructor"
 } as const;
 
-type Role = "student" | "instructor";
-type Page = "login" | "about" | "contact" | "registration" | "home";
+type Role= "student" | "instructor";
+type Page=
+  | "login"
+  | "forgotPassword"
+  | "about"
+  | "contact"
+  | "registration"
+  | "home"
+  | "course"
+  | "grades"
+  | "instructorCourse"
+  | "instructorGrades";
+
+type Course= {
+  id: number;
+  code: string;
+  title: string;
+  term: string;
+  instructor_name: string;
+};
+
+const DEMO_COURSES: Course[] = [
+  { id: 1, code: "ECE 1234", title: "ECE", term: "Spring 2026", instructor_name: "Dr. Johnson" },
+];
+
+const DEMO_INSTRUCTOR_COURSES: Course[] = [
+  {
+    id: 1,
+    code: "ECE 1234",
+    title: "ECE",
+    term: "Spring 2026",
+    instructor_name: "Dr. Johnson",
+  },
+];
+
+type CourseItemType= "Assignment" | "Quiz";
+
+type CourseItem= {
+  id: string;
+  type: CourseItemType;
+  title: string;
+  dueText: string;
+  windowText?: string; // optional 
+  submissionsText?: string; // optional 
+  scoreText?: string; // optional
+  gradeText?: string; // optional
+  evalText?: string; // optional 
+};
+
+const DEMO_COURSE_ITEMS: Record<number, CourseItem[]> = {
+  1: [
+    {
+      id: "a1",
+      type: "Assignment",
+      title: "meow",
+      dueText: "Due on Jan 30, 2026 11:59 PM",
+      windowText: "Jan 14 - Jan 30",
+      submissionsText: "2 Submissions, 1 Files",
+      scoreText: "- / 10",
+      evalText: "",
+    },
+    {
+      id: "q1",
+      type: "Quiz",
+      title: "miau",
+      dueText: "Due on Feb 18, 2026 11:59 PM",
+      submissionsText: "Not started",
+      scoreText: "- / 10",
+      evalText: "",
+    },
+  ],
+};
 
 interface User {
   id: number,
@@ -16,84 +87,108 @@ interface User {
   first_name: string,
   last_name: string
 }
-interface Token {
-  refresh: string,
-  access: string
+
+interface Tokens {
+  refresh: string;
+  access: string;
 }
+
 interface LoginResult {
-  user: User,
-  token: Token
+  user: User;
+  tokens: Tokens;
 }
 
 export default function App() {
-  const [page, setPage] = useState<Page>("login");
+  const [page, setPage]= useState<Page>("login");
 
-  const [regSuccess, setRegSuccess] = useState<Boolean>(false);
+  const [regSuccess, setRegSuccess]= useState<boolean>(false);
+  const [role, setRole]= useState<Role>("student");
+  const [email, setEmail]= useState("");
+  const [pw, setPw]= useState("");
+  const [error, setError]= useState<string | null>(null);
 
-  const [role, setRole] = useState<Role>("student");
-  const [email, setEmail] = useState("");
-  const [pw, setPw] = useState("");
-  const [error, setError] = useState<string | null>(null);
-
-  const [loginresult, setLoginResult] = useState<LoginResult | null>(null);
-
-  const [session, setSession] = useState<{ role: Role; email: string } | null>(
+  const [loginresult, setLoginResult]= useState<LoginResult | null>(null);
+  const [selectedCourse, setSelectedCourse]= useState<Course | null>(null);
+  const [studentCourses, setStudentCourses]= useState<Course[]>([]);
+  const [selectedInstructorCourse, setSelectedInstructorCourse]= useState<Course | null>(null);
+  const [session, setSession]= useState<{ role: Role; email: string } | null>(
     null
   );
 
-  const canSubmit = useMemo(() => {
+  const canSubmit= useMemo(() => {
     return email.trim().length > 0 && pw.trim().length > 0;
   }, [email, pw]);
 
-  async function registerUser(e: React.FormEvent) {
-    e.preventDefault();
-    setError(null);
+async function registerUser(e: React.FormEvent) {
+  e.preventDefault();
+  setError(null);
 
-    const form = e.target as HTMLFormElement;
-    const formData = new FormData(form);
+  const form = e.target as HTMLFormElement;
+  const formData = new FormData(form);
+  const formObj = Object.fromEntries(formData.entries());
 
-    const formObj = Object.fromEntries(formData.entries());
-    form.reset();
+  try {
+    const response = await fetch("http://127.0.0.1:8000/api/users/auth/register/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        first_name: formObj.first_name,
+        last_name: formObj.last_name,
+        email: formObj.email,
+        username: formObj.username,
+        password: formObj.password,
+        role: formObj.role,
+      }),
+    });
 
-    try {
-      const response = await fetch("http://127.0.0.1:8000/api/users/auth/register/", {
-        method: "POST",
-        headers: {
-          'content-Type': "application/json",
-        },
-        body: JSON.stringify({
-          first_name: formObj.first_name,
-          last_name: formObj.last_name,
-          email: formObj.email,
-          username: formObj.username,
-          password: formObj.password,
-          role: formObj.role
-        })
+    if (response.ok) {
+      form.reset();
+      setRegSuccess(true);
+      setPage("login");
+
+      setTimeout(() => {
+        setRegSuccess(false);
+      }, 3000);
+    } else {
+      const err_response = await response.json();
+      let err_msg = "";
+
+      Object.entries(err_response).forEach((i) => {
+        err_msg += i[1] + "\n";
       });
 
-      if (response.ok) {
-        setRegSuccess(true);
-        setPage("login");
-        const timer = setTimeout(() => {
-          setRegSuccess(false);
-        }, 3000);
-        return () => clearTimeout(timer);
-      } else {
-        const err_response = await response.json();
-        var err_msg = "";
-        Object.entries(err_response).forEach((i) => {
-          err_msg += i[1] + '\n';
-        });
-        setError(err_msg);
-        return;
+      setError(err_msg);
+    }
+  } catch (err) {
+    alert("Failed to connect.");
+  }
+}
+  
+  async function fetchStudentCourses(accessToken: string) {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/courses/", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+       },
+     });
+
+      const data = await response.json();
+      console.log("courses response:", response.status, data);
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch courses");
       }
 
+      setStudentCourses(data);
     } catch (err) {
-      alert("Failed to connect.");
+      console.error(err);
+      setError("Could not load courses.");
     }
-
   }
-
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -112,8 +207,15 @@ export default function App() {
         const data = await response.json();
 
         setLoginResult(data);
-        setSession({role, email: email.trim()});
+        setSession({ role, email: email.trim() });
+
+        if (role === "student") {
+          await fetchStudentCourses(data.tokens.access);
+        }
+
+        setPage("home");
       } else {
+
         const err_response = await response.json();
         setError(err_response.error);
         return;
@@ -132,6 +234,9 @@ export default function App() {
     setRole("student");
     setPage("login");
     setLoginResult(null);
+    setStudentCourses([]);
+    setSelectedCourse(null);
+    setSelectedInstructorCourse(null);
   }
 
   // ---------- layout ----------
@@ -282,8 +387,9 @@ if (page === "registration") {
   return (
     <PageShell title="Registration">
       <div className="w-full">
-        <div className="rounded-3xl bg-white border shadow-sm p-6 md:p-8">
+        <div className="rounded-3xl bg-white border shadow-sm p-6 md:p-8 w-full">
           <form method="post" onSubmit={registerUser} className="space-y-6">
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="text-sm font-semibold text-gray-700">
@@ -309,6 +415,7 @@ if (page === "registration") {
                 />
               </div>
             </div>
+
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
@@ -337,6 +444,7 @@ if (page === "registration") {
               </div>
             </div>
 
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="text-sm font-semibold text-gray-700">
@@ -355,6 +463,7 @@ if (page === "registration") {
                 <label className="text-sm font-semibold text-gray-700">
                   Role
                 </label>
+
                 <div className="mt-2 flex gap-6">
                   <label className="flex items-center gap-2 rounded-2xl border px-4 py-3 bg-white hover:bg-gray-50 cursor-pointer w-full">
                     <input
@@ -380,18 +489,24 @@ if (page === "registration") {
               </div>
             </div>
 
+
             {error && (
               <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
                 {error}
               </div>
             )}
 
-            <button
-              type="submit"
-              className="w-full md:w-1/3 rounded-2xl font-bold py-3 transition shadow-sm bg-[#4E3629] text-white hover:opacity-95"
-            >
-              Submit
-            </button>
+
+            {/* button */}
+            <div className="flex justify-end pt-4">
+              <button
+                type="submit"
+                className="px-8 py-3 rounded-2xl font-bold transition shadow-sm bg-[#4E3629] text-white hover:opacity-95"
+              >
+                Submit
+              </button>
+            </div>
+
           </form>
         </div>
       </div>
@@ -399,46 +514,676 @@ if (page === "registration") {
   );
 }
 
-  // ---------- logged ----------
-  if (loginresult && session && (page === "login" || page === "home")) {
+if (page === "course" && selectedCourse) {
+  const items = DEMO_COURSE_ITEMS[selectedCourse.id] ?? [];
 
-    const isInstructor = session.role === ROLES.instructor;
-    return (
-      <PageShell title={isInstructor ? "Instructor Home" : "Student Home"}>
-        <div className="rounded-2xl bg-white border shadow-sm p-6">
-          <p className="text-gray-700">
-            Signed in as <span className="font-semibold">{loginresult.user.username}</span>{" "}
-            ({isInstructor ? "Instructor" : "Student"}).
-          </p>
+  const pill = (t: CourseItemType) => (
+    <span
+      className={[
+        "inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold",
+        t === "Assignment" ? "bg-gray-50" : "bg-white",
+      ].join(" ")}
+    >
+      {t}
+    </span>
+  );
 
-          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {(isInstructor
-              ? [
-                  { title: "Create Quiz", desc: "null" },
-                  { title: "View Submissions", desc: "null" },
-                  { title: "Export", desc: "null" },
-                ]
-              : [
-                  { title: "My Quizzes", desc: "null" },
-                  { title: "My Grades", desc: "null" },
-                  { title: "Feedback", desc: "null" },
-                ]
-            ).map((c) => (
-              <div
-                key={c.title}
-                className="rounded-2xl bg-white border shadow-sm hover:shadow-md transition overflow-hidden"
+  return (
+    <PageShell title={selectedCourse.code}>
+      <div className="rounded-2xl bg-white border shadow-sm overflow-hidden">
+        <div className="h-2 bg-[#FFC72C]" />
+
+        <div className="p-6">
+          {/* row */}
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div className="text-sm text-gray-600">
+              {selectedCourse.term} • Instructor: {selectedCourse.instructor_name}
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setPage("grades")}
+                className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
               >
-                <div className="h-2 bg-[#FFC72C]" />
-                <div className="p-5">
-                  <div className="text-base font-bold">{c.title}</div>
-                  <div className="text-sm text-gray-600 mt-1">{c.desc}</div>
-                </div>
+                Grades
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedCourse(null);
+                  setPage("home");
+                }}
+                className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
+              >
+                Back to courses
+              </button>
+            </div>
+          </div>
+
+          {/* header */}
+          <div className="mt-6 rounded-2xl border overflow-hidden">
+            <div className="grid grid-cols-1 md:grid-cols-12 bg-gray-50 text-xs font-bold text-gray-600">
+              <div className="md:col-span-7 p-3 border-b md:border-b-0 md:border-r">
+                Item
               </div>
-            ))}
+              <div className="md:col-span-3 p-3 border-b md:border-b-0 md:border-r">
+                Completion
+              </div>
+              <div className="md:col-span-2 p-3">
+                Score
+              </div>
+            </div>
+
+            {/* rpws */}
+            <div className="divide-y">
+              {items.length === 0 ? (
+                <div className="p-4 text-sm text-gray-600">
+                  No assignments or quizzes yet.
+                </div>
+              ) : (
+                items.map((it) => (
+                  <button
+                    key={it.id}
+                    type="button"
+                    onClick={() => alert(`Open: ${it.title}`)}
+                    className="w-full text-left hover:bg-gray-50 transition"
+                  >
+                    <div className="grid grid-cols-1 md:grid-cols-12">
+                      
+                      {/* Item */}
+                      <div className="md:col-span-7 p-4 md:border-r">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="font-bold text-[#4E3629]">
+                            {it.title}
+                          </div>
+                          <div className="shrink-0">{pill(it.type)}</div>
+                        </div>
+
+                        <div className="text-sm text-gray-600 mt-1">
+                          {it.dueText}
+                        </div>
+
+                        {it.windowText ? (
+                          <div className="text-xs text-gray-500 mt-1">
+                            {it.windowText}
+                          </div>
+                        ) : null}
+                      </div>
+
+                      {/* completion */}
+                      <div className="md:col-span-3 p-4 md:border-r text-sm text-gray-700">
+                        {it.submissionsText ?? "-"}
+                      </div>
+
+                      {/* score */}
+                      <div className="md:col-span-2 p-4 text-sm text-gray-700">
+                        {it.scoreText ?? "-"}
+                      </div>
+
+                    </div>
+                  </button>
+                ))
+              )}
+            </div>
           </div>
         </div>
-      </PageShell>
-    );
+      </div>
+    </PageShell>
+  );
+}
+
+if (page === "instructorCourse" && selectedInstructorCourse) {
+  const items = DEMO_COURSE_ITEMS[selectedInstructorCourse.id] ?? [];
+
+  const pill = (t: CourseItemType) => (
+    <span
+      className={[
+        "inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold",
+        t === "Assignment" ? "bg-gray-50" : "bg-white",
+      ].join(" ")}
+    >
+      {t}
+    </span>
+  );
+
+  const statusFor = (it: CourseItem) => {
+    const s = (it.submissionsText ?? "").toLowerCase();
+    if (!s) return "—";
+    if (s.includes("not started")) return "Not started";
+    if (s.includes("submission")) return "Submissions received";
+    return it.submissionsText ?? "—";
+  };
+
+  return (
+    <PageShell title={`${selectedInstructorCourse.code} (Instructor)`}>
+      <div className="rounded-2xl bg-white border shadow-sm overflow-hidden">
+        <div className="h-2 bg-[#FFC72C]" />
+
+        <div className="p-6">
+          {/* top row */}
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div className="text-sm text-gray-600">
+              {selectedInstructorCourse.term} • Instructor:{" "}
+              {selectedInstructorCourse.instructor_name}
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setPage("instructorGrades")}
+                className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
+              >
+                Gradebook
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedInstructorCourse(null);
+                  setPage("home");
+                }}
+                className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
+              >
+                Back to courses
+              </button>
+            </div>
+          </div>
+
+          {/* instructor actions */}
+          <div className="mt-6 rounded-2xl border bg-gray-50 p-4">
+            <div className="text-xs font-bold text-gray-600">Instructor Actions</div>
+
+            <div className="mt-3 flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => alert("Create Assignment (demo)")}
+                className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
+              >
+                Create Assignment
+              </button>
+
+              <button
+                type="button"
+                onClick={() => alert("Create Quiz (demo)")}
+                className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
+              >
+                Create Quiz
+              </button>
+
+              <button
+                type="button"
+                onClick={() => alert("View Submissions (demo)")}
+                className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
+              >
+                View Submissions
+              </button>
+            </div>
+          </div>
+
+          {/* table */}
+          <div className="mt-6 rounded-2xl border overflow-hidden">
+            <div className="grid grid-cols-1 md:grid-cols-12 bg-gray-50 text-xs font-bold text-gray-600">
+              <div className="md:col-span-7 p-3 border-b md:border-b-0 md:border-r">
+                Item
+              </div>
+              <div className="md:col-span-3 p-3 border-b md:border-b-0 md:border-r">
+                Submissions
+              </div>
+              <div className="md:col-span-2 p-3">Actions</div>
+            </div>
+
+            <div className="divide-y">
+              {items.length === 0 ? (
+                <div className="p-4 text-sm text-gray-600">
+                  No assignments or quizzes yet.
+                </div>
+              ) : (
+                items.map((it) => (
+                  <div key={it.id} className="grid grid-cols-1 md:grid-cols-12">
+                    {/* item */}
+                    <div className="md:col-span-7 p-4 md:border-r">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="font-bold text-[#4E3629]">{it.title}</div>
+                        <div className="shrink-0">{pill(it.type)}</div>
+                      </div>
+
+                      <div className="text-sm text-gray-600 mt-1">{it.dueText}</div>
+
+                      {it.windowText ? (
+                        <div className="text-xs text-gray-500 mt-1">{it.windowText}</div>
+                      ) : null}
+                    </div>
+
+                    {/* submissions */}
+                    <div className="md:col-span-3 p-4 md:border-r">
+                      <div className="text-sm text-gray-700">
+                        {it.submissionsText ?? "—"}
+                      </div>
+                      <div className="text-xs text-gray-500 mt-1">
+                        Status: {statusFor(it)}
+                      </div>
+                    </div>
+
+                    {/* actions */}
+                    <div className="md:col-span-2 p-4 flex md:block items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => alert(`Open submissions for: ${it.title} (demo)`)}
+                        className="px-3 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-xs font-semibold"
+                      >
+                        Submissions
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => alert(`Quick grade: ${it.title} (demo)`)}
+                        className="mt-0 md:mt-2 px-3 py-2 rounded-full bg-[#4E3629] text-white border border-[#4E3629] shadow-sm hover:opacity-95 transition text-xs font-semibold"
+                      >
+                        Gradebook
+                      </button>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </PageShell>
+  );
+}
+
+if (page === "instructorGrades" && selectedInstructorCourse) {
+  const items = DEMO_COURSE_ITEMS[selectedInstructorCourse.id] ?? [];
+
+  const pill = (t: CourseItemType) => (
+    <span
+      className={[
+        "inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold",
+        t === "Assignment" ? "bg-gray-50" : "bg-white",
+      ].join(" ")}
+    >
+      {t}
+    </span>
+  );
+
+  return (
+    <PageShell title={`${selectedInstructorCourse.code} Gradebook`}>
+      <div className="rounded-2xl bg-white border shadow-sm overflow-hidden">
+        <div className="h-2 bg-[#FFC72C]" />
+
+        <div className="p-6">
+          {/* Top row */}
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div className="text-sm text-gray-600">
+              {selectedInstructorCourse.term} • Instructor:{" "}
+              {selectedInstructorCourse.instructor_name}
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setPage("instructorCourse")}
+                className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
+              >
+                Assignments &amp; Quizzes
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedInstructorCourse(null);
+                  setPage("home");
+                }}
+                className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
+              >
+                Back to courses
+              </button>
+            </div>
+          </div>
+
+          {/* header */}
+          <div className="mt-6 rounded-2xl border overflow-hidden">
+            <div className="grid grid-cols-1 md:grid-cols-12 bg-gray-50 text-xs font-bold text-gray-600">
+              <div className="md:col-span-7 p-3 border-b md:border-b-0 md:border-r">
+                Item
+              </div>
+
+              <div className="md:col-span-3 p-3 border-b md:border-b-0 md:border-r">
+                Score
+              </div>
+
+              <div className="md:col-span-2 p-3">Eval</div>
+            </div>
+
+            <div className="divide-y">
+              {items.length === 0 ? (
+                <div className="p-4 text-sm text-gray-600">No grades yet.</div>
+              ) : (
+                items.map((it) => (
+                  <div key={it.id} className="grid grid-cols-1 md:grid-cols-12">
+                    {/* item */}
+                    <div className="md:col-span-7 p-4 md:border-r">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="font-bold text-[#4E3629]">
+                          {it.title}
+                        </div>
+                        <div className="shrink-0">{pill(it.type)}</div>
+                      </div>
+
+                      <div className="text-sm text-gray-600 mt-1">
+                        {it.dueText}
+                      </div>
+
+                      {it.windowText ? (
+                        <div className="text-xs text-gray-500 mt-1">
+                          {it.windowText}
+                        </div>
+                      ) : null}
+                    </div>
+
+                    {/* score */}
+                    <div className="md:col-span-3 p-4 md:border-r text-sm text-gray-700">
+                      {it.scoreText ?? "-"}
+                    </div>
+
+                    {/* eval */}
+                    <div className="md:col-span-2 p-4 text-sm text-gray-700">
+                      {it.evalText ?? ""}
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </PageShell>
+  );
+}
+
+if (page === "grades" && selectedCourse) {
+  const items = DEMO_COURSE_ITEMS[selectedCourse.id] ?? [];
+
+  const pill = (t: CourseItemType) => (
+    <span
+      className={[
+        "inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold",
+        t === "Assignment" ? "bg-gray-50" : "bg-white",
+      ].join(" ")}
+    >
+      {t}
+    </span>
+  );
+
+  return (
+    <PageShell title={`${selectedCourse.code} Grades`}>
+      <div className="rounded-2xl bg-white border shadow-sm overflow-hidden">
+        <div className="h-2 bg-[#FFC72C]" />
+
+        <div className="p-6">
+          {/* Top row */}
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div className="text-sm text-gray-600">
+              {selectedCourse.term} • Instructor: {selectedCourse.instructor_name}
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setPage("course")}
+                className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
+              >
+                Assignments &amp; Quizzes
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedCourse(null);
+                  setPage("home");
+                }}
+                className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
+              >
+                Back to courses
+              </button>
+            </div>
+          </div>
+
+          {/* header */}
+          <div className="mt-6 rounded-2xl border overflow-hidden">
+            <div className="grid grid-cols-1 md:grid-cols-12 bg-gray-50 text-xs font-bold text-gray-600">
+              <div className="md:col-span-7 p-3 border-b md:border-b-0 md:border-r">
+                Item
+              </div>
+
+              <div className="md:col-span-3 p-3 border-b md:border-b-0 md:border-r">
+                Score
+              </div>
+
+              <div className="md:col-span-2 p-3">
+                Eval
+              </div>
+            </div>
+
+            <div className="divide-y">
+              {items.length === 0 ? (
+                <div className="p-4 text-sm text-gray-600">
+                  No grades yet.
+                </div>
+              ) : (
+                items.map((it) => (
+                  <div key={it.id} className="grid grid-cols-1 md:grid-cols-12">
+
+                    {/* item */}
+                    <div className="md:col-span-7 p-4 md:border-r">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="font-bold text-[#4E3629]">
+                          {it.title}
+                        </div>
+                        <div className="shrink-0">{pill(it.type)}</div>
+                      </div>
+
+                      <div className="text-sm text-gray-600 mt-1">
+                        {it.dueText}
+                      </div>
+
+                      {it.windowText ? (
+                        <div className="text-xs text-gray-500 mt-1">
+                          {it.windowText}
+                        </div>
+                      ) : null}
+                    </div>
+
+                    {/* score */}
+                    <div className="md:col-span-3 p-4 md:border-r text-sm text-gray-700">
+                      {it.scoreText ?? "-"}
+                    </div>
+
+                    {/* eval */}
+                    <div className="md:col-span-2 p-4 text-sm text-gray-700">
+                      {it.evalText ?? ""}
+                    </div>
+
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </PageShell>
+  );
+}
+
+
+  // ---------- logged ----------
+if (loginresult && session && (page === "login" || page === "home")) {
+  const isInstructor = session.role === ROLES.instructor;
+
+  return (
+    <PageShell title={isInstructor ? "Instructor Home" : "Student Home"}>
+      <div className="rounded-2xl bg-white border shadow-sm p-6">
+        <p className="text-gray-700">
+          Signed in as{" "}
+          <span className="font-semibold">{loginresult.user.username}</span>{" "}
+          ({isInstructor ? "Instructor" : "Student"}).
+        </p>
+
+        {isInstructor ? (
+          <div className="mt-6">
+            <div className="flex items-end justify-between gap-4">
+              <div className="text-lg font-extrabold tracking-tight">
+                My Courses
+              </div>
+
+              <div className="text-xs text-gray-500">
+                {DEMO_INSTRUCTOR_COURSES.length} teaching
+              </div>
+            </div>
+
+            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {DEMO_INSTRUCTOR_COURSES.map((course) => (
+                <button
+                  key={course.id}
+                  type="button"
+                  onClick={() => {
+                    setSelectedInstructorCourse(course);
+                    setPage("instructorCourse");
+                  }}
+                  className="text-left rounded-2xl bg-white border shadow-sm hover:shadow-md transition overflow-hidden"
+                >
+                  <div className="h-2 bg-[#FFC72C]" />
+
+                  <div className="p-5">
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <div className="text-base font-bold">
+                          {course.code}
+                        </div>
+
+                        <div className="text-sm text-gray-700 mt-1">
+                          {course.title}
+                        </div>
+                      </div>
+
+                      <span className="inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold bg-gray-50">
+                        {course.term}
+                      </span>
+                    </div>
+
+                    <div className="text-xs text-gray-500 mt-3">
+                      Instructor: {course.instructor_name}
+                    </div>
+
+                    <div className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#4E3629]">
+                      Open course <span aria-hidden>→</span>
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+
+            {DEMO_INSTRUCTOR_COURSES.length === 0 && (
+              <div className="mt-4 rounded-2xl border bg-gray-50 px-4 py-3 text-sm text-gray-700">
+                You’re not teaching any courses yet.
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="mt-6">
+            <div className="flex items-end justify-between gap-4">
+              <div className="text-lg font-extrabold tracking-tight">
+                My Courses
+              </div>
+
+              <div className="text-xs text-gray-500">
+                {studentCourses.length} enrolled
+              </div>
+            </div>
+
+            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {studentCourses.map((course) => (
+                <button
+                  key={course.id}
+                  type="button"
+                  onClick={() => {
+                    setSelectedCourse(course);
+                    setPage("course");
+                  }}
+                  className="text-left rounded-2xl bg-white border shadow-sm hover:shadow-md transition overflow-hidden"
+                >
+                  <div className="h-2 bg-[#FFC72C]" />
+
+                  <div className="p-5">
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <div className="text-base font-bold">
+                          {course.code}
+                        </div>
+
+                        <div className="text-sm text-gray-700 mt-1">
+                          {course.title}
+                        </div>
+                      </div>
+
+                      <span className="inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold bg-gray-50">
+                        {course.term}
+                      </span>
+                    </div>
+
+                    <div className="text-xs text-gray-500 mt-3">
+                      Instructor: {course.instructor_name}
+                    </div>
+
+                    <div className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#4E3629]">
+                      Open course <span aria-hidden>→</span>
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+
+            {studentCourses.length === 0 && (
+              <div className="mt-4 rounded-2xl border bg-gray-50 px-4 py-3 text-sm text-gray-700">
+                You’re not enrolled in any courses yet.
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </PageShell>
+  );
+}
+
+// ---------- authenticated fallback ----------
+if (session && loginresult) {
+  return (
+    <PageShell title="Home">
+      <div className="rounded-2xl bg-white border shadow-sm p-6">
+        <div className="text-sm text-gray-700">
+          You’re signed in, but that page isn’t available right now.
+        </div>
+
+        <div className="mt-4">
+          <button
+            type="button"
+            onClick={() => setPage("home")}
+            className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
+          >
+            Back to Home
+          </button>
+        </div>
+      </div>
+    </PageShell>
+  );
+}
+
+  // ---------- Forgot Password ----------
+  if (page === "forgotPassword") {
+    return <ForgotPassword />;
   }
 
   // ---------- login ----------
@@ -457,7 +1202,7 @@ if (page === "registration") {
             </div>
           </div>
 
-          {/* Role toggle */}
+          {/* roles */}
           <div className="mt-5 flex gap-2">
             <button
               type="button"
@@ -536,6 +1281,15 @@ if (page === "registration") {
             >
               Sign in
             </button>
+            <div className="text-center mt-4">
+              <button
+                type="button"
+                onClick={() => setPage("forgotPassword")}
+                className="text-sm text-blue-600 hover:underline"
+              >
+                Forgot Password?
+              </button>
+            </div>
           </form>
         </div>
       </main>
@@ -546,3 +1300,5 @@ if (page === "registration") {
     </div>
   );
 }
+
+
