@@ -8,9 +8,7 @@ app_name = "grading"
 router = DefaultRouter()
 router.register(r"", views.GradingViewSet, basename="grading")
 
-
 urlpatterns = [
     path("statistics/", views.grading_statistics, name="statistics"),
-    path("submissions/", views.GradingViewSet.my_submissions, name="submissions"),
     path("", include(router.urls)),
 ]
