@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import ForgotPassword from './ForgotPassword';
 
 const ROLES= {
@@ -19,6 +19,12 @@ type Page=
   | "instructorCourse"
   | "instructorGrades";
 
+type HistoryState = {
+  page: Page;
+  courseId?: number;
+  instructorCourseId?: number;
+};
+
 type Course= {
   id: number;
   code: string;
@@ -26,20 +32,6 @@ type Course= {
   term: string;
   instructor_name: string;
 };
-
-const DEMO_COURSES: Course[] = [
-  { id: 1, code: "ECE 1234", title: "ECE", term: "Spring 2026", instructor_name: "Dr. Johnson" },
-];
-
-const DEMO_INSTRUCTOR_COURSES: Course[] = [
-  {
-    id: 1,
-    code: "ECE 1234",
-    title: "ECE",
-    term: "Spring 2026",
-    instructor_name: "Dr. Johnson",
-  },
-];
 
 type CourseItemType= "Assignment" | "Quiz";
 
@@ -111,6 +103,7 @@ export default function App() {
   const [selectedCourse, setSelectedCourse]= useState<Course | null>(null);
   const [studentCourses, setStudentCourses]= useState<Course[]>([]);
   const [selectedInstructorCourse, setSelectedInstructorCourse]= useState<Course | null>(null);
+  const [instructorCourses, setInstructorCourses]= useState<Course[]>([]);
   const [session, setSession]= useState<{ role: Role; email: string } | null>(
     null
   );
@@ -119,16 +112,85 @@ export default function App() {
     return email.trim().length > 0 && pw.trim().length > 0;
   }, [email, pw]);
 
+function navigateTo(
+  nextPage: Page,
+  options?: {
+    course?: Course | null;
+    instructorCourse?: Course | null;
+    replace?: boolean;
+  }
+) {
+  const nextCourse= options?.course ?? null;
+  const nextInstructorCourse= options?.instructorCourse ?? null;
+
+  setSelectedCourse(nextCourse);
+  setSelectedInstructorCourse(nextInstructorCourse);
+  setPage(nextPage);
+
+  const historyState: HistoryState= {
+    page: nextPage,
+    courseId: nextCourse?.id,
+    instructorCourseId: nextInstructorCourse?.id,
+  };
+
+  if (options?.replace) {
+    window.history.replaceState(historyState, "", window.location.pathname);
+  } else {
+    window.history.pushState(historyState, "", window.location.pathname);
+  }
+}
+
+useEffect(() => {
+  const handlePopState= (event: PopStateEvent) => {
+    const state= event.state as HistoryState | null;
+
+    if (!state) {
+      setPage("login");
+      setSelectedCourse(null);
+      setSelectedInstructorCourse(null);
+      return;
+    }
+
+    setPage(state.page);
+
+    if (state.courseId) {
+      const foundStudentCourse= studentCourses.find((c) => c.id === state.courseId) ?? null;
+      setSelectedCourse(foundStudentCourse);
+    } else {
+      setSelectedCourse(null);
+    }
+
+    if (state.instructorCourseId) {
+      const foundInstructorCourse =
+        instructorCourses.find((c) => c.id === state.instructorCourseId) ?? null;
+      setSelectedInstructorCourse(foundInstructorCourse);
+    } else {
+      setSelectedInstructorCourse(null);
+    }
+  };
+
+  window.addEventListener("popstate", handlePopState);
+  return () => window.removeEventListener("popstate", handlePopState);
+}, [studentCourses, instructorCourses]);
+
+useEffect(() => {
+  window.history.replaceState(
+    { page: "login" } satisfies HistoryState,
+    "",
+    window.location.pathname
+  );
+}, []);
+
 async function registerUser(e: React.FormEvent) {
   e.preventDefault();
   setError(null);
 
-  const form = e.target as HTMLFormElement;
-  const formData = new FormData(form);
-  const formObj = Object.fromEntries(formData.entries());
+  const form= e.target as HTMLFormElement;
+  const formData= new FormData(form);
+  const formObj= Object.fromEntries(formData.entries());
 
   try {
-    const response = await fetch("http://127.0.0.1:8000/api/users/auth/register/", {
+    const response= await fetch("http://127.0.0.1:8000/api/users/auth/register/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -146,7 +208,7 @@ async function registerUser(e: React.FormEvent) {
     if (response.ok) {
       form.reset();
       setRegSuccess(true);
-      setPage("login");
+      navigateTo("login",{ replace: true });
 
       setTimeout(() => {
         setRegSuccess(false);
@@ -166,15 +228,15 @@ async function registerUser(e: React.FormEvent) {
   }
 }
   
-  async function fetchStudentCourses(accessToken: string) {
+  async function fetchCourses(accessToken: string, userRole: Role) {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/courses/", {
+      const response= await fetch("http://127.0.0.1:8000/api/courses/", {
         method: "GET",
         headers: {
-          "Content-Type": "application/json",
+         "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
-       },
-     });
+        },
+      });
 
       const data = await response.json();
       console.log("courses response:", response.status, data);
@@ -183,10 +245,14 @@ async function registerUser(e: React.FormEvent) {
         throw new Error("Failed to fetch courses");
       }
 
-      setStudentCourses(data);
+      if (userRole === "student") {
+       setStudentCourses(data);
+      } else {
+        setInstructorCourses(data);
+     }
     } catch (err) {
-      console.error(err);
-      setError("Could not load courses.");
+     console.error(err);
+     setError("Could not load courses.");
     }
   }
 
@@ -209,11 +275,10 @@ async function registerUser(e: React.FormEvent) {
         setLoginResult(data);
         setSession({ role, email: email.trim() });
 
-        if (role === "student") {
-          await fetchStudentCourses(data.tokens.access);
-        }
+        await fetchCourses(data.tokens.access, role);
 
-        setPage("home");
+        navigateTo("home", { replace: true });
+
       } else {
 
         const err_response = await response.json();
@@ -232,9 +297,10 @@ async function registerUser(e: React.FormEvent) {
     setPw("");
     setError(null);
     setRole("student");
-    setPage("login");
+    navigateTo("login", { replace: true });
     setLoginResult(null);
     setStudentCourses([]);
+    setInstructorCourses([]);
     setSelectedCourse(null);
     setSelectedInstructorCourse(null);
   }
@@ -261,7 +327,7 @@ async function registerUser(e: React.FormEvent) {
         <nav className="flex items-center gap-2">
           {session ? (
             <button
-            onClick={() => setPage("home")}
+            onClick={() => navigateTo("home")}
             className={[
               "px-4 py-2 rounded-full border shadow-sm text-sm font-semibold transition",
               page === "home"
@@ -274,7 +340,7 @@ async function registerUser(e: React.FormEvent) {
           </button>
           ): null}
           <button
-            onClick={() => setPage("about")}
+            onClick={() => navigateTo("about")}
             className={[
               "px-4 py-2 rounded-full border shadow-sm text-sm font-semibold transition",
               page === "about"
@@ -287,7 +353,7 @@ async function registerUser(e: React.FormEvent) {
           </button>
 
           <button
-            onClick={() => setPage("contact")}
+            onClick={() => navigateTo("contact")}
             className={[
               "px-4 py-2 rounded-full border shadow-sm text-sm font-semibold transition",
               page === "contact"
@@ -309,7 +375,7 @@ async function registerUser(e: React.FormEvent) {
             </button>
           ) : (
             <button
-              onClick={() => setPage("login")}
+              onClick={() => navigateTo("login")}
               className={[
                 "ml-1 px-4 py-2 rounded-full border shadow-sm text-sm font-semibold transition",
                 page === "login"
@@ -323,7 +389,7 @@ async function registerUser(e: React.FormEvent) {
           )}
 
           <button
-            onClick={() => setPage("registration")}
+            onClick={() => navigateTo("registration")}
             className={[
               "px-4 py-2 rounded-full border shadow-sm text-sm font-semibold transition",
               page === "registration"
@@ -543,7 +609,7 @@ if (page === "course" && selectedCourse) {
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                onClick={() => setPage("grades")}
+                onClick={() => navigateTo("grades", { course: selectedCourse })}
                 className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
               >
                 Grades
@@ -552,8 +618,7 @@ if (page === "course" && selectedCourse) {
               <button
                 type="button"
                 onClick={() => {
-                  setSelectedCourse(null);
-                  setPage("home");
+                  navigateTo("home");
                 }}
                 className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
               >
@@ -672,7 +737,7 @@ if (page === "instructorCourse" && selectedInstructorCourse) {
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                onClick={() => setPage("instructorGrades")}
+                onClick={() => navigateTo("instructorGrades", { instructorCourse: selectedInstructorCourse })}
                 className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
               >
                 Gradebook
@@ -681,8 +746,7 @@ if (page === "instructorCourse" && selectedInstructorCourse) {
               <button
                 type="button"
                 onClick={() => {
-                  setSelectedInstructorCourse(null);
-                  setPage("home");
+                  navigateTo("home");
                 }}
                 className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
               >
@@ -825,7 +889,7 @@ if (page === "instructorGrades" && selectedInstructorCourse) {
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                onClick={() => setPage("instructorCourse")}
+                onClick={() => navigateTo("instructorCourse", { instructorCourse: selectedInstructorCourse })}
                 className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
               >
                 Assignments &amp; Quizzes
@@ -834,8 +898,7 @@ if (page === "instructorGrades" && selectedInstructorCourse) {
               <button
                 type="button"
                 onClick={() => {
-                  setSelectedInstructorCourse(null);
-                  setPage("home");
+                  navigateTo("home");
                 }}
                 className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
               >
@@ -933,7 +996,7 @@ if (page === "grades" && selectedCourse) {
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                onClick={() => setPage("course")}
+                onClick={() => navigateTo("course", { course: selectedCourse })}
                 className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
               >
                 Assignments &amp; Quizzes
@@ -942,8 +1005,7 @@ if (page === "grades" && selectedCourse) {
               <button
                 type="button"
                 onClick={() => {
-                  setSelectedCourse(null);
-                  setPage("home");
+                  navigateTo("home");
                 }}
                 className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
               >
@@ -1040,18 +1102,17 @@ if (loginresult && session && (page === "login" || page === "home")) {
               </div>
 
               <div className="text-xs text-gray-500">
-                {DEMO_INSTRUCTOR_COURSES.length} teaching
+                {instructorCourses.length} teaching
               </div>
             </div>
 
             <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {DEMO_INSTRUCTOR_COURSES.map((course) => (
+              {instructorCourses.map((course) => (
                 <button
                   key={course.id}
                   type="button"
                   onClick={() => {
-                    setSelectedInstructorCourse(course);
-                    setPage("instructorCourse");
+                    navigateTo("instructorCourse", { instructorCourse: course });
                   }}
                   className="text-left rounded-2xl bg-white border shadow-sm hover:shadow-md transition overflow-hidden"
                 >
@@ -1086,7 +1147,7 @@ if (loginresult && session && (page === "login" || page === "home")) {
               ))}
             </div>
 
-            {DEMO_INSTRUCTOR_COURSES.length === 0 && (
+            {instructorCourses.length === 0 && (
               <div className="mt-4 rounded-2xl border bg-gray-50 px-4 py-3 text-sm text-gray-700">
                 You’re not teaching any courses yet.
               </div>
@@ -1110,8 +1171,7 @@ if (loginresult && session && (page === "login" || page === "home")) {
                   key={course.id}
                   type="button"
                   onClick={() => {
-                    setSelectedCourse(course);
-                    setPage("course");
+                    navigateTo("course", { course });
                   }}
                   className="text-left rounded-2xl bg-white border shadow-sm hover:shadow-md transition overflow-hidden"
                 >
@@ -1170,7 +1230,7 @@ if (session && loginresult) {
         <div className="mt-4">
           <button
             type="button"
-            onClick={() => setPage("home")}
+            onClick={() => navigateTo("home")}
             className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
           >
             Back to Home
@@ -1284,7 +1344,7 @@ if (session && loginresult) {
             <div className="text-center mt-4">
               <button
                 type="button"
-                onClick={() => setPage("forgotPassword")}
+                onClick={() => navigateTo("forgotPassword")}
                 className="text-sm text-blue-600 hover:underline"
               >
                 Forgot Password?
