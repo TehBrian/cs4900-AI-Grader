@@ -17,7 +17,8 @@ type Page=
   | "course"
   | "grades"
   | "instructorCourse"
-  | "instructorGrades";
+  | "instructorGrades"
+  | "createCourse";
 
 type HistoryState = {
   page: Page;
@@ -180,6 +181,53 @@ useEffect(() => {
     window.location.pathname
   );
 }, []);
+
+async function createCourse(e: React.FormEvent) {
+  e.preventDefault();
+  setError(null);
+
+  const form= e.target as HTMLFormElement;
+  const formData= new FormData(form);
+  const formObj= Object.fromEntries(formData.entries());
+
+  try {
+    const response= await fetch("http://127.0.0.1:8000/api/courses/create_course/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        course_code: formObj.course_code,
+        title: formObj.title,
+        term: formObj.term,
+        instructor_name: loginresult!.user.username ?? "username failed",
+        instructor_id: loginresult!.user.id ?? -1,
+      }),
+    });
+
+    if (response.ok) {
+      form.reset();
+      setRegSuccess(true);
+      await fetchCourses(loginresult!.tokens.access ?? 0, role);
+      navigateTo("home",{ replace: true });
+
+      setTimeout(() => {
+        setRegSuccess(false);
+      }, 3000);
+    } else {
+      const err_response = await response.json();
+      let err_msg = "";
+
+      Object.entries(err_response).forEach((i) => {
+        err_msg += i[1] + "\n";
+      });
+
+      setError(err_msg);
+    }
+  } catch (err) {
+    alert("Failed to connect.");
+  }
+}
 
 async function registerUser(e: React.FormEvent) {
   e.preventDefault();
@@ -445,6 +493,80 @@ async function registerUser(e: React.FormEvent) {
         <div className="rounded-2xl bg-white border shadow-sm p-6 text-gray-700">
           <p className="leading-relaxed">contact details to us ig</p>
         </div>
+      </PageShell>
+    );
+  }
+
+  if (page === "createCourse") {
+        return (
+      <PageShell title="Create course">
+      <div className="w-full">
+        <div className="rounded-3xl bg-white border shadow-sm p-6 md:p-8 w-full">
+          <form method="post" onSubmit={createCourse} className="space-y-6">
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="text-sm font-semibold text-gray-700">
+                  Title
+                </label>
+                <input
+                  name="title"
+                  required
+                  placeholder="Software Systems Development II"
+                  className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-semibold text-gray-700">
+                  Course code
+                </label>
+                <input
+                  name="course_code"
+                  required
+                  placeholder="CS 4910"
+                  className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                />
+              </div>
+            </div>
+
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="text-sm font-semibold text-gray-700">
+                  term
+                </label>
+                <input
+                  name="term"
+                  required
+                  placeholder="spring"
+                  className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                />
+              </div>
+            </div>
+
+
+
+            {error && (
+              <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                {error}
+              </div>
+            )}
+
+
+            {/* button */}
+            <div className="flex justify-end pt-4">
+              <button
+                type="submit"
+                className="px-8 py-3 rounded-2xl font-bold transition shadow-sm bg-[#4E3629] text-white hover:opacity-95"
+              >
+                Submit
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
       </PageShell>
     );
   }
@@ -1152,6 +1274,20 @@ if (loginresult && session && (page === "login" || page === "home")) {
                 You’re not teaching any courses yet.
               </div>
             )}
+            <div className="flex justify-end gap-6">
+              <div className="">
+                <button
+                  type="button"
+                  onClick={() => {
+                    navigateTo("createCourse", );
+                  }}
+                  className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
+                >
+                  Create course
+                </button>
+              </div>
+            </div>
+
           </div>
         ) : (
           <div className="mt-6">
