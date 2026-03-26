@@ -50,6 +50,7 @@ class Course(models.Model):
     # Enrollment
     enrolled_students = models.ManyToManyField(
         User,
+        blank=True,
         through="CourseEnrollment",
         related_name="enrolled_courses",
         limit_choices_to={"role": "student"},

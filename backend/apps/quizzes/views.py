@@ -23,14 +23,35 @@ class CourseViewSet(viewsets.ModelViewSet):
     ViewSet for Courses
 
     Endpoints:
-    - GET /api/courses/ - List all courses
     - POST /api/course/ - Create course
+    - GET /api/courses/ - List all courses
     - GET /api/courses/{id}/ - Get course details
     """
 
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     permission_classes = [AllowAny]
+
+    @action(detail=False, methods=["post"])
+    def create_course(self, request):
+        request.data["semester"] = request.data.pop("term")
+        serializer = CourseSerializer(data=request.data)
+        if serializer.is_valid():
+            try:
+                course = serializer.save()
+                print(f"course: {course}")
+                return Response([], status=status.HTTP_200_OK)
+            except:
+                print("serial failed")
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=False, methods=["get"])
+    def list_courses(self, request):
+        ...
+
+    @action(detail=False, methods=["get"])
+    def details(self, request):
+        ...
 
 
 class QuizViewSet(viewsets.ModelViewSet):

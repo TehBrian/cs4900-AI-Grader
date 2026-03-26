@@ -11,32 +11,43 @@ from .models import (
     QuizAttempt,
     QuizStatistics,
 )
+from ..users.models import CustomUser
+
 
 
 class CourseSerializer(serializers.ModelSerializer):
     """Serializer for Course"""
-
-    instructor_name= serializers.SerializerMethodField()
-    code= serializers.CharField(source="course_code")
-    term= serializers.SerializerMethodField()
+    instructor_id= serializers.IntegerField()
 
     class Meta:
         model= Course
         fields= [
-            "id",
-            "code",
             "title",
-            "term",
-            "instructor_name",
+            "course_code",
+            "semester",
+            "instructor_id",
         ]
 
-    def get_instructor_name(self, obj):
-        full_name= obj.instructor.get_full_name()
-        return full_name if full_name else obj.instructor.username
+    def create(self, validated_data):
+        print("In serial create!\n")
+        print(validated_data)
+        instructor = CustomUser.objects.get(id=validated_data["instructor_id"])
+        course = Course.objects.create(
+            title=validated_data["title"],
+            course_code=validated_data["course_code"],
+            semester=validated_data["semester"],
+            description="",
+            year=2026,  #TODO: get year
+            instructor=instructor
 
-    def get_term(self, obj):
-        return f"{obj.semester.title()} {obj.year}"
-
+        )
+        return course
+    
+    def update(self, instance, validated_data):
+        """ Allow course editing
+        serializer = CourseSerializer(instance, data=data)
+        """
+        ...
 
 class CourseEnrollmentSerializer(serializers.ModelSerializer):
     """Serializer for CourseEnrollment"""
