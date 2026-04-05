@@ -1,14 +1,13 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState } from "react";
 import ForgotPassword from './ForgotPassword';
-import QuizTemplate from './QuizTemplate';
 
-const ROLES= {
+const ROLES = {
   student: "student",
   instructor: "instructor"
 } as const;
 
-type Role= "student" | "instructor";
-type Page=
+type Role = "student" | "instructor";
+type Page =
   | "login"
   | "forgotPassword"
   | "about"
@@ -16,29 +15,35 @@ type Page=
   | "registration"
   | "home"
   | "course"
-  | "quiz"
   | "grades"
   | "instructorCourse"
-  | "instructorGrades"
-  | "createCourse";
+  | "instructorGrades";
 
-type HistoryState = {
-  page: Page;
-  courseId?: number;
-  instructorCourseId?: number;
-};
-
-type Course= {
-  id: number;
+type Course = {
+  id: string;
   code: string;
   title: string;
   term: string;
-  instructor_name: string;
+  instructor: string;
 };
 
-type CourseItemType= "Assignment" | "Quiz";
+const DEMO_COURSES: Course[] = [
+  { id: "ece1234", code: "ECE 1234", title: "ECE", term: "Spring 2026", instructor: "Dr. Johnson" },
+];
 
-type CourseItem= {
+const DEMO_INSTRUCTOR_COURSES: Course[] = [
+  {
+    id: "ece1234",
+    code: "ECE 1234",
+    title: "ECE",
+    term: "Spring 2026",
+    instructor: "Dr. Johnson",
+  },
+];
+
+type CourseItemType = "Assignment" | "Quiz";
+
+type CourseItem = {
   id: string;
   type: CourseItemType;
   title: string;
@@ -50,28 +55,30 @@ type CourseItem= {
   evalText?: string; // optional 
 };
 
-const DEMO_COURSE_ITEMS: Record<number, CourseItem[]> = {
-  1: [
+const DEMO_COURSE_ITEMS: Record<string, CourseItem[]> = {
+  ece1234: [
     {
-      id: "q1",
-      type: "Quiz",
-      title: "Week 1 Quiz",
-      dueText: "Available now",
-      submissionsText: "Not started",
+      id: "a1",
+      type: "Assignment",
+      title: "meow",
+      dueText: "Due on Jan 30, 2026 11:59 PM",
+      windowText: "Jan 14 - Jan 30",
+      submissionsText: "2 Submissions, 1 Files",
       scoreText: "- / 10",
       evalText: "",
     },
     {
-      id: "q2",
+      id: "q1",
       type: "Quiz",
-      title: "Midterm Quiz",
-      dueText: "Available now",
+      title: "miau",
+      dueText: "Due on Feb 18, 2026 11:59 PM",
       submissionsText: "Not started",
       scoreText: "- / 10",
       evalText: "",
     },
   ],
 };
+
 interface User {
   id: number,
   username: string,
@@ -80,229 +87,85 @@ interface User {
   first_name: string,
   last_name: string
 }
-
-interface Tokens {
-  refresh: string;
-  access: string;
+interface Token {
+  refresh: string,
+  access: string
 }
-
 interface LoginResult {
-  user: User;
-  tokens: Tokens;
+  user: User,
+  token: Token
 }
 
 export default function App() {
-  const [page, setPage]= useState<Page>("login");
-  const [selectedQuizId, setSelectedQuizId] = useState<number | null>(null);
-  const [regSuccess, setRegSuccess]= useState<boolean>(false);
-  const [role, setRole]= useState<Role>("student");
-  const [email, setEmail]= useState("");
-  const [pw, setPw]= useState("");
-  const [error, setError]= useState<string | null>(null);
+  const [page, setPage] = useState<Page>("login");
 
-  const [loginresult, setLoginResult]= useState<LoginResult | null>(null);
-  const [selectedCourse, setSelectedCourse]= useState<Course | null>(null);
-  const [studentCourses, setStudentCourses]= useState<Course[]>([]);
-  const [selectedInstructorCourse, setSelectedInstructorCourse]= useState<Course | null>(null);
-  const [instructorCourses, setInstructorCourses]= useState<Course[]>([]);
-  const [session, setSession]= useState<{ role: Role; email: string } | null>(
+  const [regSuccess, setRegSuccess] = useState<Boolean>(false);
+
+  const [role, setRole] = useState<Role>("student");
+  const [email, setEmail] = useState("");
+  const [pw, setPw] = useState("");
+  const [error, setError] = useState<string | null>(null);
+
+  const [loginresult, setLoginResult] = useState<LoginResult | null>(null);
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
+  const [selectedInstructorCourse, setSelectedInstructorCourse] = useState<Course | null>(null);
+  const [session, setSession] = useState<{ role: Role; email: string } | null>(
     null
   );
 
-  const canSubmit= useMemo(() => {
+  const canSubmit = useMemo(() => {
     return email.trim().length > 0 && pw.trim().length > 0;
   }, [email, pw]);
-  const [courseQuizzes, setCourseQuizzes] = useState<any[]>([]);
-function navigateTo(
-  nextPage: Page,
-  options?: {
-    course?: Course | null;
-    instructorCourse?: Course | null;
-    replace?: boolean;
-  }
-) {
-  const nextCourse= options?.course ?? null;
-  const nextInstructorCourse= options?.instructorCourse ?? null;
 
-  setSelectedCourse(nextCourse);
-  setSelectedInstructorCourse(nextInstructorCourse);
-  setPage(nextPage);
+  async function registerUser(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
 
-  const historyState: HistoryState= {
-    page: nextPage,
-    courseId: nextCourse?.id,
-    instructorCourseId: nextInstructorCourse?.id,
-  };
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
 
-  if (options?.replace) {
-    window.history.replaceState(historyState, "", window.location.pathname);
-  } else {
-    window.history.pushState(historyState, "", window.location.pathname);
-  }
-}
+    const formObj = Object.fromEntries(formData.entries());
+    form.reset();
 
-useEffect(() => {
-  const handlePopState= (event: PopStateEvent) => {
-    const state= event.state as HistoryState | null;
-
-    if (!state) {
-      setPage("login");
-      setSelectedCourse(null);
-      setSelectedInstructorCourse(null);
-      return;
-    }
-
-    setPage(state.page);
-
-    if (state.courseId) {
-      const foundStudentCourse= studentCourses.find((c) => c.id === state.courseId) ?? null;
-      setSelectedCourse(foundStudentCourse);
-    } else {
-      setSelectedCourse(null);
-    }
-
-    if (state.instructorCourseId) {
-      const foundInstructorCourse =
-        instructorCourses.find((c) => c.id === state.instructorCourseId) ?? null;
-      setSelectedInstructorCourse(foundInstructorCourse);
-    } else {
-      setSelectedInstructorCourse(null);
-    }
-  };
-
-  window.addEventListener("popstate", handlePopState);
-  return () => window.removeEventListener("popstate", handlePopState);
-}, [studentCourses, instructorCourses]);
-
-useEffect(() => {
-  window.history.replaceState(
-    { page: "login" } satisfies HistoryState,
-    "",
-    window.location.pathname
-  );
-}, []);
-
-async function createCourse(e: React.FormEvent) {
-  e.preventDefault();
-  setError(null);
-
-  const form= e.target as HTMLFormElement;
-  const formData= new FormData(form);
-  const formObj= Object.fromEntries(formData.entries());
-
-  try {
-    const response= await fetch("http://127.0.0.1:8000/api/courses/create_course/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        course_code: formObj.course_code,
-        title: formObj.title,
-        term: formObj.term,
-        instructor_name: loginresult!.user.username ?? "username failed",
-        instructor_id: loginresult!.user.id ?? -1,
-      }),
-    });
-
-    if (response.ok) {
-      form.reset();
-      setRegSuccess(true);
-      await fetchCourses(loginresult!.tokens.access ?? 0, role);
-      navigateTo("home",{ replace: true });
-
-      setTimeout(() => {
-        setRegSuccess(false);
-      }, 3000);
-    } else {
-      const err_response = await response.json();
-      let err_msg = "";
-
-      Object.entries(err_response).forEach((i) => {
-        err_msg += i[1] + "\n";
-      });
-
-      setError(err_msg);
-    }
-  } catch (err) {
-    alert("Failed to connect.");
-  }
-}
-
-async function registerUser(e: React.FormEvent) {
-  e.preventDefault();
-  setError(null);
-
-  const form= e.target as HTMLFormElement;
-  const formData= new FormData(form);
-  const formObj= Object.fromEntries(formData.entries());
-
-  try {
-    const response= await fetch("http://127.0.0.1:8000/api/users/auth/register/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        first_name: formObj.first_name,
-        last_name: formObj.last_name,
-        email: formObj.email,
-        username: formObj.username,
-        password: formObj.password,
-        role: formObj.role,
-      }),
-    });
-
-    if (response.ok) {
-      form.reset();
-      setRegSuccess(true);
-      navigateTo("login",{ replace: true });
-
-      setTimeout(() => {
-        setRegSuccess(false);
-      }, 3000);
-    } else {
-      const err_response = await response.json();
-      let err_msg = "";
-
-      Object.entries(err_response).forEach((i) => {
-        err_msg += i[1] + "\n";
-      });
-
-      setError(err_msg);
-    }
-  } catch (err) {
-    alert("Failed to connect.");
-  }
-}
-  
-  async function fetchCourses(accessToken: string, userRole: Role) {
     try {
-      const response= await fetch("http://127.0.0.1:8000/api/courses/", {
-        method: "GET",
+      const response = await fetch("http://127.0.0.1:8000/api/users/auth/register/", {
+        method: "POST",
         headers: {
-         "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
+          'content-Type': "application/json",
         },
+        body: JSON.stringify({
+          first_name: formObj.first_name,
+          last_name: formObj.last_name,
+          email: formObj.email,
+          username: formObj.username,
+          password: formObj.password,
+          role: formObj.role
+        })
       });
 
-      const data = await response.json();
-      console.log("courses response:", response.status, data);
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch courses");
+      if (response.ok) {
+        setRegSuccess(true);
+        setPage("login");
+        const timer = setTimeout(() => {
+          setRegSuccess(false);
+        }, 3000);
+        return () => clearTimeout(timer);
+      } else {
+        const err_response = await response.json();
+        var err_msg = "";
+        Object.entries(err_response).forEach((i) => {
+          err_msg += i[1] + '\n';
+        });
+        setError(err_msg);
+        return;
       }
 
-      if (userRole === "student") {
-       setStudentCourses(data);
-      } else {
-        setInstructorCourses(data);
-     }
     } catch (err) {
-     console.error(err);
-     setError("Could not load courses.");
+      alert("Failed to connect.");
     }
+
   }
+
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -321,14 +184,8 @@ async function registerUser(e: React.FormEvent) {
         const data = await response.json();
 
         setLoginResult(data);
-        setSession({ role, email: email.trim() });
-
-        await fetchCourses(data.tokens.access, role);
-
-        navigateTo("home", { replace: true });
-
+        setSession({role, email: email.trim()});
       } else {
-
         const err_response = await response.json();
         setError(err_response.error);
         return;
@@ -345,12 +202,8 @@ async function registerUser(e: React.FormEvent) {
     setPw("");
     setError(null);
     setRole("student");
-    navigateTo("login", { replace: true });
+    setPage("login");
     setLoginResult(null);
-    setStudentCourses([]);
-    setInstructorCourses([]);
-    setSelectedCourse(null);
-    setSelectedInstructorCourse(null);
   }
 
   // ---------- layout ----------
@@ -375,7 +228,7 @@ async function registerUser(e: React.FormEvent) {
         <nav className="flex items-center gap-2">
           {session ? (
             <button
-            onClick={() => navigateTo("home")}
+            onClick={() => setPage("home")}
             className={[
               "px-4 py-2 rounded-full border shadow-sm text-sm font-semibold transition",
               page === "home"
@@ -388,7 +241,7 @@ async function registerUser(e: React.FormEvent) {
           </button>
           ): null}
           <button
-            onClick={() => navigateTo("about")}
+            onClick={() => setPage("about")}
             className={[
               "px-4 py-2 rounded-full border shadow-sm text-sm font-semibold transition",
               page === "about"
@@ -401,7 +254,7 @@ async function registerUser(e: React.FormEvent) {
           </button>
 
           <button
-            onClick={() => navigateTo("contact")}
+            onClick={() => setPage("contact")}
             className={[
               "px-4 py-2 rounded-full border shadow-sm text-sm font-semibold transition",
               page === "contact"
@@ -423,7 +276,7 @@ async function registerUser(e: React.FormEvent) {
             </button>
           ) : (
             <button
-              onClick={() => navigateTo("login")}
+              onClick={() => setPage("login")}
               className={[
                 "ml-1 px-4 py-2 rounded-full border shadow-sm text-sm font-semibold transition",
                 page === "login"
@@ -437,7 +290,7 @@ async function registerUser(e: React.FormEvent) {
           )}
 
           <button
-            onClick={() => navigateTo("registration")}
+            onClick={() => setPage("registration")}
             className={[
               "px-4 py-2 rounded-full border shadow-sm text-sm font-semibold transition",
               page === "registration"
@@ -493,80 +346,6 @@ async function registerUser(e: React.FormEvent) {
         <div className="rounded-2xl bg-white border shadow-sm p-6 text-gray-700">
           <p className="leading-relaxed">contact details to us ig</p>
         </div>
-      </PageShell>
-    );
-  }
-
-  if (page === "createCourse") {
-        return (
-      <PageShell title="Create course">
-      <div className="w-full">
-        <div className="rounded-3xl bg-white border shadow-sm p-6 md:p-8 w-full">
-          <form method="post" onSubmit={createCourse} className="space-y-6">
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="text-sm font-semibold text-gray-700">
-                  Title
-                </label>
-                <input
-                  name="title"
-                  required
-                  placeholder="Software Systems Development II"
-                  className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
-                />
-              </div>
-
-              <div>
-                <label className="text-sm font-semibold text-gray-700">
-                  Course code
-                </label>
-                <input
-                  name="course_code"
-                  required
-                  placeholder="CS 4910"
-                  className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
-                />
-              </div>
-            </div>
-
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="text-sm font-semibold text-gray-700">
-                  term
-                </label>
-                <input
-                  name="term"
-                  required
-                  placeholder="spring"
-                  className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
-                />
-              </div>
-            </div>
-
-
-
-            {error && (
-              <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-                {error}
-              </div>
-            )}
-
-
-            {/* button */}
-            <div className="flex justify-end pt-4">
-              <button
-                type="submit"
-                className="px-8 py-3 rounded-2xl font-bold transition shadow-sm bg-[#4E3629] text-white hover:opacity-95"
-              >
-                Submit
-              </button>
-            </div>
-
-          </form>
-        </div>
-      </div>
       </PageShell>
     );
   }
@@ -703,10 +482,8 @@ if (page === "registration") {
 }
 
 if (page === "course" && selectedCourse) {
-  console.log("Selected course:", selectedCourse);
-  console.log("Course ID:", selectedCourse.id);
   const items = DEMO_COURSE_ITEMS[selectedCourse.id] ?? [];
-  console.log("Items found:", items);
+
   const pill = (t: CourseItemType) => (
     <span
       className={[
@@ -727,13 +504,13 @@ if (page === "course" && selectedCourse) {
           {/* row */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="text-sm text-gray-600">
-              {selectedCourse.term} • Instructor: {selectedCourse.instructor_name}
+              {selectedCourse.term} • Instructor: {selectedCourse.instructor}
             </div>
 
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                onClick={() => navigateTo("grades", { course: selectedCourse })}
+                onClick={() => setPage("grades")}
                 className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
               >
                 Grades
@@ -742,7 +519,8 @@ if (page === "course" && selectedCourse) {
               <button
                 type="button"
                 onClick={() => {
-                  navigateTo("home");
+                  setSelectedCourse(null);
+                  setPage("home");
                 }}
                 className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
               >
@@ -776,14 +554,7 @@ if (page === "course" && selectedCourse) {
                   <button
                     key={it.id}
                     type="button"
-                    onClick={() => {
-                      if (it.type === "Quiz") {
-                        setSelectedQuizId(parseInt(it.id.replace('q', '')));
-                        navigateTo("quiz");
-                      } else {
-                        alert(`Open: ${it.title}`);
-                      }
-                   }}
+                    onClick={() => alert(`Open: ${it.title}`)}
                     className="w-full text-left hover:bg-gray-50 transition"
                   >
                     <div className="grid grid-cols-1 md:grid-cols-12">
@@ -862,13 +633,13 @@ if (page === "instructorCourse" && selectedInstructorCourse) {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="text-sm text-gray-600">
               {selectedInstructorCourse.term} • Instructor:{" "}
-              {selectedInstructorCourse.instructor_name}
+              {selectedInstructorCourse.instructor}
             </div>
 
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                onClick={() => navigateTo("instructorGrades", { instructorCourse: selectedInstructorCourse })}
+                onClick={() => setPage("instructorGrades")}
                 className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
               >
                 Gradebook
@@ -877,7 +648,8 @@ if (page === "instructorCourse" && selectedInstructorCourse) {
               <button
                 type="button"
                 onClick={() => {
-                  navigateTo("home");
+                  setSelectedInstructorCourse(null);
+                  setPage("home");
                 }}
                 className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
               >
@@ -1014,13 +786,13 @@ if (page === "instructorGrades" && selectedInstructorCourse) {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="text-sm text-gray-600">
               {selectedInstructorCourse.term} • Instructor:{" "}
-              {selectedInstructorCourse.instructor_name}
+              {selectedInstructorCourse.instructor}
             </div>
 
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                onClick={() => navigateTo("instructorCourse", { instructorCourse: selectedInstructorCourse })}
+                onClick={() => setPage("instructorCourse")}
                 className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
               >
                 Assignments &amp; Quizzes
@@ -1029,7 +801,8 @@ if (page === "instructorGrades" && selectedInstructorCourse) {
               <button
                 type="button"
                 onClick={() => {
-                  navigateTo("home");
+                  setSelectedInstructorCourse(null);
+                  setPage("home");
                 }}
                 className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
               >
@@ -1121,13 +894,13 @@ if (page === "grades" && selectedCourse) {
           {/* Top row */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="text-sm text-gray-600">
-              {selectedCourse.term} • Instructor: {selectedCourse.instructor_name}
+              {selectedCourse.term} • Instructor: {selectedCourse.instructor}
             </div>
 
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                onClick={() => navigateTo("course", { course: selectedCourse })}
+                onClick={() => setPage("course")}
                 className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
               >
                 Assignments &amp; Quizzes
@@ -1136,7 +909,8 @@ if (page === "grades" && selectedCourse) {
               <button
                 type="button"
                 onClick={() => {
-                  navigateTo("home");
+                  setSelectedCourse(null);
+                  setPage("home");
                 }}
                 className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
               >
@@ -1210,10 +984,7 @@ if (page === "grades" && selectedCourse) {
     </PageShell>
   );
 }
-  // ---------- Quiz Template ----------
-if (page === "quiz" && selectedQuizId) {
-  return <QuizTemplate setPage={setPage} quizId={selectedQuizId} />;
-}
+
 
   // ---------- logged ----------
 if (loginresult && session && (page === "login" || page === "home")) {
@@ -1236,17 +1007,18 @@ if (loginresult && session && (page === "login" || page === "home")) {
               </div>
 
               <div className="text-xs text-gray-500">
-                {instructorCourses.length} teaching
+                {DEMO_INSTRUCTOR_COURSES.length} teaching
               </div>
             </div>
 
             <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {instructorCourses.map((course) => (
+              {DEMO_INSTRUCTOR_COURSES.map((course) => (
                 <button
                   key={course.id}
                   type="button"
                   onClick={() => {
-                    navigateTo("instructorCourse", { instructorCourse: course });
+                    setSelectedInstructorCourse(course);
+                    setPage("instructorCourse");
                   }}
                   className="text-left rounded-2xl bg-white border shadow-sm hover:shadow-md transition overflow-hidden"
                 >
@@ -1270,7 +1042,7 @@ if (loginresult && session && (page === "login" || page === "home")) {
                     </div>
 
                     <div className="text-xs text-gray-500 mt-3">
-                      Instructor: {course.instructor_name}
+                      Instructor: {course.instructor}
                     </div>
 
                     <div className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#4E3629]">
@@ -1281,25 +1053,11 @@ if (loginresult && session && (page === "login" || page === "home")) {
               ))}
             </div>
 
-            {instructorCourses.length === 0 && (
+            {DEMO_INSTRUCTOR_COURSES.length === 0 && (
               <div className="mt-4 rounded-2xl border bg-gray-50 px-4 py-3 text-sm text-gray-700">
                 You’re not teaching any courses yet.
               </div>
             )}
-            <div className="flex justify-end gap-6">
-              <div className="">
-                <button
-                  type="button"
-                  onClick={() => {
-                    navigateTo("createCourse", );
-                  }}
-                  className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
-                >
-                  Create course
-                </button>
-              </div>
-            </div>
-
           </div>
         ) : (
           <div className="mt-6">
@@ -1309,17 +1067,18 @@ if (loginresult && session && (page === "login" || page === "home")) {
               </div>
 
               <div className="text-xs text-gray-500">
-                {studentCourses.length} enrolled
+                {DEMO_COURSES.length} enrolled
               </div>
             </div>
 
             <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {studentCourses.map((course) => (
+              {DEMO_COURSES.map((course) => (
                 <button
                   key={course.id}
                   type="button"
                   onClick={() => {
-                    navigateTo("course", { course });
+                    setSelectedCourse(course);
+                    setPage("course");
                   }}
                   className="text-left rounded-2xl bg-white border shadow-sm hover:shadow-md transition overflow-hidden"
                 >
@@ -1343,7 +1102,7 @@ if (loginresult && session && (page === "login" || page === "home")) {
                     </div>
 
                     <div className="text-xs text-gray-500 mt-3">
-                      Instructor: {course.instructor_name}
+                      Instructor: {course.instructor}
                     </div>
 
                     <div className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#4E3629]">
@@ -1354,7 +1113,7 @@ if (loginresult && session && (page === "login" || page === "home")) {
               ))}
             </div>
 
-            {studentCourses.length === 0 && (
+            {DEMO_COURSES.length === 0 && (
               <div className="mt-4 rounded-2xl border bg-gray-50 px-4 py-3 text-sm text-gray-700">
                 You’re not enrolled in any courses yet.
               </div>
@@ -1378,7 +1137,7 @@ if (session && loginresult) {
         <div className="mt-4">
           <button
             type="button"
-            onClick={() => navigateTo("home")}
+            onClick={() => setPage("home")}
             className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
           >
             Back to Home
@@ -1388,11 +1147,6 @@ if (session && loginresult) {
     </PageShell>
   );
 }
-
-  // ---------- Forgot Password ----------
-  if (page === "forgotPassword") {
-    return <ForgotPassword />;
-  }
 
   // ---------- login ----------
   return (
@@ -1489,15 +1243,6 @@ if (session && loginresult) {
             >
               Sign in
             </button>
-            <div className="text-center mt-4">
-              <button
-                type="button"
-                onClick={() => navigateTo("forgotPassword")}
-                className="text-sm text-blue-600 hover:underline"
-              >
-                Forgot Password?
-              </button>
-            </div>
           </form>
         </div>
       </main>

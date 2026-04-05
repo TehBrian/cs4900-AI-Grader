@@ -93,7 +93,7 @@ class QuizViewSet(viewsets.ModelViewSet):
     def problems(self, request, pk=None):
         """Get all problems for a quiz"""
         quiz = self.get_object()
-        problems = quiz.quizproblem_set.all()
+        problems = quiz.quiz_problems.all()
         serializer = QuizProblemSerializer(problems, many=True)
         return Response(serializer.data)
 

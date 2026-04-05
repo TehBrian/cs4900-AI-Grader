@@ -22,6 +22,7 @@ class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model= Course
         fields= [
+            "id",
             "title",
             "course_code",
             "semester",
@@ -56,15 +57,27 @@ class CourseEnrollmentSerializer(serializers.ModelSerializer):
         model = CourseEnrollment
         fields = "__all__"
 
-
 class QuizProblemSerializer(serializers.ModelSerializer):
     """Serializer for QuizProblem"""
-
+    problem_text = serializers.CharField(source="problem.question_text", read_only=True)
+    problem_title = serializers.CharField(source="problem.title", read_only=True)
+    
     class Meta:
         model = QuizProblem
-        fields = "__all__"
-
-
+        fields = [
+            "id",
+            "problem_order",
+            "points",
+            "custom_instructions",
+            "time_limit_override",
+            "parameter_overrides",
+            "quiz",
+            "problem",
+            "problem_text",
+            "problem_title",
+        ]
+    
+  
 class QuizListSerializer(serializers.ModelSerializer):
     """Serializer for listing quizzes"""
 
