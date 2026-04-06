@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-class mcp_client:
+class mcp_client():
     def __init__(self):
         #Initialize session and client objects
         self.session: Optional[ClientSession] = None
@@ -36,6 +36,10 @@ class mcp_client:
         tools = response.tools
         print("\nConnected to server with tools:", [tool.name for tool in tools])
 
+        response = await self.session.list_resources()
+        resources = response.resources
+        print("\nConnected to server with resources:", [(resource.name, resource.description) for resource in resources])
+
     async def process_query(self, query: str) -> str:
         """Proccess a query using Claude and available tools"""
         messages = [
@@ -55,7 +59,7 @@ class mcp_client:
 
         #Initiate Claude API call #This could potentially be changed later
         response = self.anthropic.messages.create(
-            model ="claude-sonnet-4-20260304",
+            model ="claude-haiku-4-5-20251001",
             max_tokens=1000,
             messages=messages,
             tools=available_tools
