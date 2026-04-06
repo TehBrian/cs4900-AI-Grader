@@ -25,23 +25,26 @@ def get_submission(submission_id: int, student_id : int):
 def grade_submission(score: float, feedback: str):
        return submit_grade(score, feedback)
 
-@mcp.tool()
-def ai_submit(answers):
-       return send_answers(answers)
-
 #Register Resources
-@mcp.resource("files://")
-def list_rubrics():
-       path = Path(RUBRIC_PATH)
-       path('.').glob('*')
+@mcp.resource("dir://rubrics")
+def list_rubrics() -> list[str]:
+       return[str(f) for f in RUBRIC_PATH.iterdir()]
+       
 
-@mcp.resource("file://{file_name}")
-def get_rubric(file_name:str):
-       path = RUBRIC_PATH / file_name
-       file_contents = path.read_text()
-       return file_contents
+@mcp.resource("file://{file_name}/")
+def get_rubric(file_name: str) -> str | bytes:
+       file_path = RUBRIC_PATH / file_name
+       try:
+              if file_name.lower().endswith('.pdf'):
+                     return file_path.read_bytes()
+              else:
+                     return file_path.read_text()
+       except FileNotFoundError:
+              if file_name.lower().endswith('.pdf'):
+                     return "PDF not found."
+              else: return "File not found"
 
-
+@mcp.prompt()
 
 
 def main():

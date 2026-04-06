@@ -26,4 +26,8 @@ class Grade(base_model):
         super().__init__(id)
         self.score = score
         self.feedback = feedback
+
+class Answers(base_model):
+    def __init__(self, answers):
+        self.answers = answers
                 
