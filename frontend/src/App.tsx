@@ -71,6 +71,17 @@ const DEMO_COURSE_ITEMS: Record<number, CourseItem[]> = {
       evalText: "",
     },
   ],
+  2: [
+    {
+      id: "q3",
+      type: "Quiz",
+      title: "Problem 8.3 - Antenna Definitions",
+      dueText: "Available now",
+      submissionsText: "Not started",
+      scoreText: "- / 10",
+      evalText: "",
+    },
+  ],
 };
 interface User {
   id: number,

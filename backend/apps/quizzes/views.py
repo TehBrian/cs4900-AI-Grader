@@ -13,10 +13,10 @@ from .serializers import (
     QuizListSerializer,
     QuizDetailSerializer,
     QuizProblemSerializer,
+    QuizProblemDetailSerializer,
     QuizAttemptSerializer,
     QuizStatisticsSerializer,
 )
-
 
 class CourseViewSet(viewsets.ModelViewSet):
     """
@@ -91,10 +91,10 @@ class QuizViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=["get"])
     def problems(self, request, pk=None):
-        """Get all problems for a quiz"""
+        """Get all problems for a quiz with answer boxes"""
         quiz = self.get_object()
         problems = quiz.quiz_problems.all()
-        serializer = QuizProblemSerializer(problems, many=True)
+        serializer = QuizProblemDetailSerializer(problems, many=True)
         return Response(serializer.data)
 
     @action(detail=True, methods=["post"])

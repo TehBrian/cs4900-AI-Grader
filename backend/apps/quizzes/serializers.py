@@ -10,6 +10,8 @@ from .models import (
     QuizProblem,
     QuizAttempt,
     QuizStatistics,
+    AnswerBox,
+    AnswerSubmission,
 )
 from ..users.models import CustomUser
 
@@ -127,3 +129,57 @@ class QuizStatisticsSerializer(serializers.ModelSerializer):
     class Meta:
         model = QuizStatistics
         fields = "__all__"
+class AnswerBoxSerializer(serializers.ModelSerializer):
+    """Serializer for Answer Boxes"""
+    class Meta:
+        model = AnswerBox
+        fields = [
+            'id',
+            'box_number',
+            'box_label',
+            'placeholder_text',
+            'expected_answer',
+            'allow_approximation',
+            'approximation_tolerance',
+            'points',
+            'answer_template',  # NEW
+            'is_readonly',      # NEW
+        ]
+
+class AnswerSubmissionSerializer(serializers.ModelSerializer):
+    """Serializer for Answer Submissions"""
+    class Meta:
+        model = AnswerSubmission
+        fields = [
+            'id',
+            'answer_box',
+            'student_answer',
+            'is_correct',
+            'ai_feedback',
+            'points_earned',
+            'graded_at',
+            'submitted_at',
+        ]
+
+
+class QuizProblemDetailSerializer(serializers.ModelSerializer):
+    """Detailed serializer for QuizProblem with answer boxes"""
+    problem_text = serializers.CharField(source="problem.question_text", read_only=True)
+    problem_title = serializers.CharField(source="problem.title", read_only=True)
+    answer_boxes = AnswerBoxSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = QuizProblem
+        fields = [
+            "id",
+            "problem_order",
+            "points",
+            "custom_instructions",
+            "time_limit_override",
+            "parameter_overrides",
+            "quiz",
+            "problem",
+            "problem_text",
+            "problem_title",
+            "answer_boxes",
+        ]
