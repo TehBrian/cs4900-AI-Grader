@@ -30,8 +30,6 @@ class CourseSerializer(serializers.ModelSerializer):
         ]
 
     def create(self, validated_data):
-        print("In serial create!\n")
-        print(validated_data)
         instructor = CustomUser.objects.get(id=validated_data["instructor_id"])
         course = Course.objects.create(
             title=validated_data["title"],

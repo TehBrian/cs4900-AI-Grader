@@ -8,11 +8,11 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from django.utils import timezone
 
-from .models import StudentSubmission, GradingResult
+from .models import Submission, GradingResult
 from apps.problems.models import Problem
 from apps.users.models import CustomUser
 from .engines import GradingCoordinator
-from .serializers import StudentSubmissionSerializer
+from .serializers import SubmissionSerializer
 
 
 class GradingViewSet(viewsets.ViewSet):
@@ -38,25 +38,25 @@ class GradingViewSet(viewsets.ViewSet):
             "student_id": 1
         }
         """
-        problem_id = request.data.get("problem_id")
-        answer = request.data.get("answer")
+        quiz_id = request.data.get("quiz_id")
         student_id = request.data.get("student_id", 1)
+        content = request.data.get("content")
 
-        if not problem_id or not answer:
-            return Response(
-                {"error": "problem_id and answer are required"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        # if not problem_id or not answer:
+        #     return Response(
+        #         {"error": "problem_id and answer are required"},
+        #         status=status.HTTP_400_BAD_REQUEST,
+        #     )
+
+        # try:
+        #     problem = Problem.objects.get(id=problem_id)
+        # except Problem.DoesNotExist:
+        #     return Response(
+        #         {"error": "Problem not found"}, status=status.HTTP_404_NOT_FOUND
+        #     )
 
         try:
-            problem = Problem.objects.get(id=problem_id)
-        except Problem.DoesNotExist:
-            return Response(
-                {"error": "Problem not found"}, status=status.HTTP_404_NOT_FOUND
-            )
-
-        try:
-            student = CustomUser.objects.get(id=student_id)
+            _ = CustomUser.objects.get(id=student_id)
         except CustomUser.DoesNotExist:
             return Response(
                 {"error": "Student not found"}, status=status.HTTP_404_NOT_FOUND
@@ -64,50 +64,45 @@ class GradingViewSet(viewsets.ViewSet):
 
         # Count attempts
         attempt_number = (
-            StudentSubmission.objects.filter(student=student, problem=problem).count()
+            Submission.objects.filter(student_id=student_id, problem=quiz_id).count()
             + 1
         )
 
         # Create submission
-        submission = StudentSubmission.objects.create(
-            student=student,
-            problem=problem,
-            student_answer=answer,
-            raw_input=answer,
-            expected_answer=problem.solution_expression,
+        submission = Submission.objects.create(
+            student_id=student_id,
+            quiz_id=quiz_id,
+            content=content,
             attempt_number=attempt_number,
             status="grading",
         )
 
-        submission.start_grading()
+        # # set grading [status, started_at] fields
+        # submission.start_grading()
 
-        # Grade the submission
-        grading_result = self.grading_coordinator.grade(problem, answer)
+        # # Grade the submission
+        # #   May need to process json before passing to func
+        # grading_result = self.grading_coordinator.grade(content)
 
-        # Update submission with results
-        submission.complete_grading(
-            is_correct=grading_result["correct"], score=grading_result["score"]
-        )
-        submission.grading_method = grading_result.get("method", "unknown")
-        submission.save(update_fields=["grading_method"])
+        # # Update submission with results
+        # submission.complete_grading(
+        #     is_correct=grading_result["correct"], score=grading_result["score"]
+        # )
+        # submission.grading_method = grading_result.get("method", "unknown")
+        # submission.save(update_fields=["grading_method"])
 
-        # Create grading result
-        GradingResult.objects.create(
-            submission=submission,
-            feedback_message=grading_result.get("feedback", ""),
-            processing_time=0.1,  # Placeholder
-            cas_result=grading_result.get("details", {}),
-        )
+        # # Create grading result
+        # GradingResult.objects.create(
+        #     submission=submission,
+        #     feedback_message=grading_result.get("feedback", ""),
+        #     processing_time=0.1,  # Placeholder
+        #     cas_result=grading_result.get("details", {}),
+        # )
 
         # Return result
         return Response(
             {
-                "submission_id": str(submission.submission_id),
-                "score": grading_result["score"],
-                "is_correct": grading_result["correct"],
-                "feedback": grading_result.get("feedback", ""),
-                "grading_method": grading_result.get("method"),
-                "details": grading_result.get("details", {}),
+                "submission_datetime": str(submission.submitted_at),
                 "attempt_number": attempt_number,
             }
         )
