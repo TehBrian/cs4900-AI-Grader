@@ -7,7 +7,7 @@ type QuizPage = "quiz" | "details" | "submit";
 
 interface Props {
   setPage: React.Dispatch<React.SetStateAction<any>>;
-  quizId?: number;
+  quizId: number;
 }
 
 interface AnswerBox {
@@ -37,7 +37,7 @@ interface Quiz {
   description: string;
 }
 
-export default function Quiztemplate({ setPage, quizId = 3 }: Props) {
+export default function Quiztemplate({ setPage, quizId }: Props) {
   const [page, setLocalPage] = useState<QuizPage>("quiz");
   const [boxAnswers, setBoxAnswers] = useState<Record<number, string>>({});
   const [activeMathBoxId, setActiveMathBoxId] = useState<number | null>(null);

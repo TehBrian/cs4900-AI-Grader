@@ -49,11 +49,10 @@ type CourseItem= {
   gradeText?: string; // optional
   evalText?: string; // optional 
 };
-
 const DEMO_COURSE_ITEMS: Record<number, CourseItem[]> = {
-  1: [
+  4: [
     {
-      id: "q1",
+      id: "q6",
       type: "Quiz",
       title: "Week 1 Quiz",
       dueText: "Available now",
@@ -62,7 +61,7 @@ const DEMO_COURSE_ITEMS: Record<number, CourseItem[]> = {
       evalText: "",
     },
     {
-      id: "q2",
+      id: "q7",
       type: "Quiz",
       title: "Midterm Quiz",
       dueText: "Available now",
@@ -83,6 +82,7 @@ const DEMO_COURSE_ITEMS: Record<number, CourseItem[]> = {
     },
   ],
 };
+
 interface User {
   id: number,
   username: string,
