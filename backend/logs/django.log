@@ -1096,3 +1096,10 @@ WARNING 2026-04-08 20:43:48,061 log Not Found: /api/quizzes/5/
 WARNING 2026-04-08 20:43:48,077 log Not Found: /api/quizzes/5/problems/
 WARNING 2026-04-08 20:43:48,077 log Not Found: /api/quizzes/5/
 WARNING 2026-04-08 20:43:48,094 log Not Found: /api/quizzes/5/problems/
+INFO 2026-04-09 13:25:52,625 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-09 13:49:54,539 log Not Found: /api/quizzes/8/
+WARNING 2026-04-09 13:49:54,544 log Not Found: /api/quizzes/8/
+WARNING 2026-04-09 13:49:54,550 log Not Found: /api/quizzes/8/problems/
+WARNING 2026-04-09 13:49:54,552 log Not Found: /api/quizzes/8/problems/
+WARNING 2026-04-09 14:47:21,200 log Not Found: /api/quizzes/10/
+WARNING 2026-04-09 14:47:21,650 log Not Found: /api/quizzes/10/problems/

@@ -80,6 +80,15 @@ const DEMO_COURSE_ITEMS: Record<number, CourseItem[]> = {
       scoreText: "- / 10",
       evalText: "",
     },
+    {
+      id: "12",
+      type: "Quiz",
+      title: "Problem 8.4 - Beam Pattern Derivation",
+      dueText: "Available now",
+      submissionsText: "Not started",
+      scoreText: "- / 40",
+      evalText: "",
+    },
   ],
 };
 
