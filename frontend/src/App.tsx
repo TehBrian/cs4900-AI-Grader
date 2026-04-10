@@ -81,7 +81,7 @@ const DEMO_COURSE_ITEMS: Record<number, CourseItem[]> = {
       evalText: "",
     },
     {
-      id: "12",
+      id: "13",
       type: "Quiz",
       title: "Problem 8.4 - Beam Pattern Derivation",
       dueText: "Available now",
