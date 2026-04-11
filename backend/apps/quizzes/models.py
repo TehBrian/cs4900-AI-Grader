@@ -482,3 +482,5 @@ class AnswerSubmission(models.Model):
     
     def __str__(self):
         return f"{self.attempt.student.username} - Box #{self.answer_box.box_number}"
+    
+

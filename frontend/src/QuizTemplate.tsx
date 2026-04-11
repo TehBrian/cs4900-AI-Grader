@@ -50,11 +50,22 @@ export default function Quiztemplate({ setPage, quizId }: Props) {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
+  const [attemptNumber, setAttemptNumber] = useState(1);
+  const [maxAttempts, setMaxAttempts] = useState(0);
+  const [attemptId, setAttemptId] = useState<string | null>(null);
+  const [previousAttempts, setPreviousAttempts] = useState<any[]>([]);
 
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const attemptCreatedRef = useRef<boolean>(false);
 
   useEffect(() => {
-    fetchQuizData();
+    attemptCreatedRef.current = false; // Reset for new quiz
+    
+    const initQuiz = async () => {
+      await fetchQuizData();
+      await createAttempt();
+    };
+    initQuiz();
   }, [quizId]);
 
   useEffect(() => {
@@ -80,6 +91,7 @@ export default function Quiztemplate({ setPage, quizId }: Props) {
         const quizData = await quizResponse.json();
         setQuiz(quizData);
         setTimeRemaining(quizData.time_limit * 60);
+        setMaxAttempts(quizData.max_attempts || 0);
       }
 
       const problemsResponse = await fetch(`http://127.0.0.1:8000/api/quizzes/${quizId}/problems/`);
@@ -87,10 +99,60 @@ export default function Quiztemplate({ setPage, quizId }: Props) {
         const problemsData = await problemsResponse.json();
         setQuestions(problemsData);
       }
+
+      // Fetch previous attempts
+      try {
+        const attemptsResponse = await fetch(`http://127.0.0.1:8000/api/quizzes/${quizId}/my_attempts/`);
+        if (attemptsResponse.ok) {
+          const attemptsData = await attemptsResponse.json();
+          setPreviousAttempts(attemptsData.attempts || []);
+          setAttemptNumber((attemptsData.total_attempts || 0) + 1);
+        }
+      } catch (err) {
+        console.log('Could not fetch attempts, using attempt 1');
+        setAttemptNumber(1);
+      }
     } catch (err) {
       console.error('Failed to load quiz:', err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const createAttempt = async () => {
+    // Prevent duplicate creation using ref
+    if (attemptCreatedRef.current) {
+      console.log('Attempt creation already in progress, skipping');
+      return;
+    }
+    
+    attemptCreatedRef.current = true;
+    
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/quizzes/${quizId}/start_attempt/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setAttemptId(data.attempt_id);
+        setAttemptNumber(data.attempt_number);
+        setMaxAttempts(data.max_attempts);
+        console.log(`Started attempt ${data.attempt_number} of ${data.max_attempts}`);
+      } else {
+        const error = await response.json();
+        console.error('Failed to create attempt:', error);
+        if (response.status === 400) {
+          alert(error.error);
+        }
+        attemptCreatedRef.current = false; // Reset on error
+      }
+    } catch (err) {
+      console.error('Error creating attempt:', err);
+      attemptCreatedRef.current = false; // Reset on error
     }
   };
 
@@ -111,9 +173,27 @@ export default function Quiztemplate({ setPage, quizId }: Props) {
 
   const handleSubmit = async () => {
     await saveAnswers();
+    
+    // Mark attempt as submitted in backend
+    if (attemptId) {
+      try {
+        await fetch(`http://127.0.0.1:8000/api/quizzes/${quizId}/submit_attempt/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            attempt_id: attemptId,
+            answers: boxAnswers,
+          }),
+        });
+      } catch (err) {
+        console.error('Failed to submit attempt:', err);
+      }
+    }
+    
     setLocalPage("submit");
   };
-
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -291,9 +371,16 @@ export default function Quiztemplate({ setPage, quizId }: Props) {
             ← Exit Quiz
           </button>
 
-          <h1 className="text-2xl font-extrabold text-[#4E3629]">
-            {quiz?.title || "Quiz"}
-          </h1>
+          <div className="text-center">
+            <h1 className="text-2xl font-extrabold text-[#4E3629]">
+              {quiz?.title || "Quiz"}
+            </h1>
+            {maxAttempts > 0 && (
+              <div className="text-sm text-gray-600 mt-1">
+                Attempt {attemptNumber} of {maxAttempts}
+              </div>
+            )}
+          </div>
 
           <div className="flex flex-col items-end gap-1">
             <div className={`text-lg font-bold ${timeRemaining < 300 ? 'text-red-600' : 'text-gray-700'}`}>
@@ -391,18 +478,30 @@ export default function Quiztemplate({ setPage, quizId }: Props) {
         {page === "submit" && (
           <div className="text-center">
             <h1 className="text-3xl font-extrabold mb-4">Submitted 🎉</h1>
-            <p className="text-gray-600 mb-6">
-              Your quiz has been submitted successfully.
+            <p className="text-gray-600 mb-4">
+              Attempt {attemptNumber} of {maxAttempts} completed
             </p>
-            <button
-              onClick={() => setPage("course")}
-              className="rounded-2xl bg-[#4E3629] text-white px-6 py-3 font-semibold hover:opacity-90"
-            >
-              Return to Course
-            </button>
+            
+            <div className="flex gap-4 justify-center mt-6">
+              {attemptNumber < maxAttempts && (
+                <button
+                  onClick={() => window.location.reload()}
+                  className="rounded-2xl border-2 border-[#4E3629] text-[#4E3629] px-6 py-3 font-semibold hover:bg-gray-50"
+                >
+                  Try Again ({maxAttempts - attemptNumber} attempts left)
+                </button>
+              )}
+              
+              <button
+                onClick={() => setPage("course")}
+                className="rounded-2xl bg-[#4E3629] text-white px-6 py-3 font-semibold hover:opacity-90"
+              >
+                Return to Course
+              </button>
+            </div>
           </div>
         )}
-      </div>
+        </div>
 
       {activeMathBoxId !== null && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/25 z-50">

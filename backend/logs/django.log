@@ -1106,3 +1106,81 @@ WARNING 2026-04-09 14:47:21,650 log Not Found: /api/quizzes/10/problems/
 INFO 2026-04-09 16:11:14,165 autoreload Watching for file changes with StatReloader
 INFO 2026-04-09 21:22:25,492 autoreload Watching for file changes with StatReloader
 INFO 2026-04-09 22:07:01,111 autoreload Watching for file changes with StatReloader
+INFO 2026-04-09 22:20:54,453 autoreload Watching for file changes with StatReloader
+INFO 2026-04-10 13:24:08,260 autoreload Watching for file changes with StatReloader
+INFO 2026-04-10 13:29:09,406 autoreload /home/ubuntu/phase2-work/cs4900-AI-Grader/backend/apps/problems/models.py changed, reloading.
+INFO 2026-04-10 13:29:11,529 autoreload Watching for file changes with StatReloader
+INFO 2026-04-10 19:32:30,216 autoreload /home/ubuntu/phase2-work/cs4900-AI-Grader/backend/apps/quizzes/models.py changed, reloading.
+INFO 2026-04-10 19:32:30,769 autoreload Watching for file changes with StatReloader
+INFO 2026-04-10 19:37:28,218 autoreload /home/ubuntu/phase2-work/cs4900-AI-Grader/backend/apps/quizzes/models.py changed, reloading.
+INFO 2026-04-10 19:37:29,397 autoreload Watching for file changes with StatReloader
+INFO 2026-04-10 19:39:04,331 autoreload /home/ubuntu/phase2-work/cs4900-AI-Grader/backend/apps/quizzes/models.py changed, reloading.
+INFO 2026-04-10 19:39:04,800 autoreload Watching for file changes with StatReloader
+INFO 2026-04-10 20:15:34,745 autoreload /home/ubuntu/phase2-work/cs4900-AI-Grader/backend/apps/quizzes/views.py changed, reloading.
+INFO 2026-04-10 20:15:36,668 autoreload Watching for file changes with StatReloader
+INFO 2026-04-10 20:17:21,032 autoreload /home/ubuntu/phase2-work/cs4900-AI-Grader/backend/apps/quizzes/views.py changed, reloading.
+INFO 2026-04-10 20:17:24,593 autoreload Watching for file changes with StatReloader
+INFO 2026-04-10 20:56:29,533 autoreload /home/ubuntu/phase2-work/cs4900-AI-Grader/backend/apps/quizzes/views.py changed, reloading.
+INFO 2026-04-10 20:56:35,976 autoreload Watching for file changes with StatReloader
+INFO 2026-04-10 20:56:52,036 autoreload /home/ubuntu/phase2-work/cs4900-AI-Grader/backend/apps/quizzes/views.py changed, reloading.
+INFO 2026-04-10 20:56:53,722 autoreload Watching for file changes with StatReloader
+INFO 2026-04-10 21:03:21,374 autoreload /home/ubuntu/phase2-work/cs4900-AI-Grader/backend/apps/quizzes/views.py changed, reloading.
+INFO 2026-04-10 21:03:22,222 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-10 21:03:59,355 log Unauthorized: /api/quizzes/15/start_attempt/
+WARNING 2026-04-10 21:03:59,388 log Unauthorized: /api/quizzes/15/start_attempt/
+WARNING 2026-04-10 21:04:08,107 log Unauthorized: /api/quizzes/15/start_attempt/
+WARNING 2026-04-10 21:04:08,172 log Unauthorized: /api/quizzes/15/start_attempt/
+INFO 2026-04-10 21:04:29,684 autoreload /home/ubuntu/phase2-work/cs4900-AI-Grader/backend/apps/quizzes/views.py changed, reloading.
+INFO 2026-04-10 21:04:30,255 autoreload Watching for file changes with StatReloader
+INFO 2026-04-10 21:06:07,908 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-10 21:06:20,177 log Unauthorized: /api/quizzes/15/start_attempt/
+WARNING 2026-04-10 21:06:20,231 log Unauthorized: /api/quizzes/15/start_attempt/
+WARNING 2026-04-10 21:06:29,957 log Unauthorized: /api/quizzes/15/start_attempt/
+WARNING 2026-04-10 21:06:29,972 log Unauthorized: /api/quizzes/15/start_attempt/
+WARNING 2026-04-10 21:07:36,209 log Unauthorized: /api/quizzes/15/start_attempt/
+WARNING 2026-04-10 21:07:36,316 log Unauthorized: /api/quizzes/15/start_attempt/
+WARNING 2026-04-10 21:07:54,020 log Unauthorized: /api/quizzes/15/start_attempt/
+WARNING 2026-04-10 21:07:54,053 log Unauthorized: /api/quizzes/15/start_attempt/
+INFO 2026-04-10 22:02:53,825 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-10 22:03:33,755 log Unauthorized: /api/quizzes/15/start_attempt/
+WARNING 2026-04-10 22:03:33,918 log Unauthorized: /api/quizzes/15/start_attempt/
+WARNING 2026-04-10 22:03:43,305 log Unauthorized: /api/quizzes/15/start_attempt/
+WARNING 2026-04-10 22:03:43,340 log Unauthorized: /api/quizzes/15/start_attempt/
+INFO 2026-04-10 22:10:57,610 autoreload /home/ubuntu/phase2-work/cs4900-AI-Grader/backend/apps/quizzes/views.py changed, reloading.
+INFO 2026-04-10 22:11:01,036 autoreload Watching for file changes with StatReloader
+INFO 2026-04-10 22:11:38,896 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-10 22:12:26,270 log Bad Request: /api/quizzes/7/start_attempt/
+WARNING 2026-04-10 22:13:04,901 log Bad Request: /api/quizzes/15/start_attempt/
+WARNING 2026-04-10 22:18:46,587 log Bad Request: /api/quizzes/15/start_attempt/
+WARNING 2026-04-10 22:18:50,353 log Bad Request: /api/quizzes/15/start_attempt/
+WARNING 2026-04-10 22:18:59,294 log Bad Request: /api/quizzes/15/start_attempt/
+WARNING 2026-04-10 22:19:06,099 log Bad Request: /api/quizzes/15/start_attempt/
+WARNING 2026-04-10 22:19:50,589 log Bad Request: /api/users/auth/register/
+WARNING 2026-04-10 22:20:57,437 log Bad Request: /api/quizzes/15/start_attempt/
+WARNING 2026-04-10 22:20:57,454 log Bad Request: /api/quizzes/15/start_attempt/
+WARNING 2026-04-10 22:21:24,291 log Bad Request: /api/quizzes/16/start_attempt/
+WARNING 2026-04-10 22:21:30,467 log Bad Request: /api/quizzes/16/start_attempt/
+INFO 2026-04-10 22:35:02,050 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-10 22:50:05,821 log Bad Request: /api/quizzes/16/start_attempt/
+WARNING 2026-04-10 22:50:09,194 log Bad Request: /api/quizzes/16/start_attempt/
+WARNING 2026-04-10 22:50:17,384 log Bad Request: /api/quizzes/16/start_attempt/
+WARNING 2026-04-10 22:50:19,001 log Bad Request: /api/quizzes/16/start_attempt/
+WARNING 2026-04-10 22:50:40,241 log Bad Request: /api/quizzes/16/start_attempt/
+WARNING 2026-04-10 22:50:46,454 log Bad Request: /api/quizzes/15/start_attempt/
+WARNING 2026-04-10 22:50:48,400 log Bad Request: /api/quizzes/15/start_attempt/
+WARNING 2026-04-10 22:51:30,634 log Bad Request: /api/quizzes/16/start_attempt/
+WARNING 2026-04-10 22:51:32,772 log Bad Request: /api/quizzes/16/start_attempt/
+WARNING 2026-04-10 22:52:14,264 log Unauthorized: /api/users/auth/login/
+WARNING 2026-04-10 22:52:23,292 log Bad Request: /api/quizzes/16/start_attempt/
+WARNING 2026-04-10 22:52:25,313 log Bad Request: /api/quizzes/16/start_attempt/
+WARNING 2026-04-10 22:52:33,185 log Bad Request: /api/quizzes/15/start_attempt/
+WARNING 2026-04-10 22:52:48,929 log Bad Request: /api/quizzes/16/start_attempt/
+WARNING 2026-04-10 22:52:57,573 log Bad Request: /api/quizzes/16/start_attempt/
+WARNING 2026-04-10 22:53:04,286 log Bad Request: /api/quizzes/16/start_attempt/
+WARNING 2026-04-10 22:53:05,533 log Bad Request: /api/quizzes/16/start_attempt/
+WARNING 2026-04-10 22:53:13,758 log Bad Request: /api/quizzes/16/start_attempt/
+WARNING 2026-04-10 22:53:18,980 log Bad Request: /api/quizzes/16/start_attempt/
+WARNING 2026-04-10 22:53:21,194 log Bad Request: /api/quizzes/16/start_attempt/
+INFO 2026-04-10 23:07:39,373 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-10 23:09:11,387 log Bad Request: /api/quizzes/6/start_attempt/
+WARNING 2026-04-10 23:41:35,541 log Bad Request: /api/quizzes/6/start_attempt/

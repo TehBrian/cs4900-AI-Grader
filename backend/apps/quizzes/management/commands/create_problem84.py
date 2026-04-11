@@ -8,7 +8,7 @@ from datetime import timedelta
 User = get_user_model()
 
 class Command(BaseCommand):
-    help = 'Create Problem 8.4 - Beam Pattern Derivation (4 attempts)'
+    help = 'Create Problem 8.4 CORRECT - 1 question, 4 attempts allowed'
 
     def handle(self, *args, **options):
         instructor, _ = User.objects.get_or_create(
@@ -27,24 +27,25 @@ class Command(BaseCommand):
         if old_quiz:
             old_quiz.delete()
 
+        # Create quiz with max_attempts = 4 (SPONSOR REQUIREMENT)
         quiz = Quiz.objects.create(
             title='Problem 8.4 - Beam Pattern Derivation',
             course=course,
-            description='Multi-step derivation proving Ωp = 4π/Dmax',
+            description='Multi-step derivation. Students can attempt 4 times.',
             quiz_type='homework',
             time_limit=60,
             available_from=timezone.now(),
             available_until=timezone.now() + timedelta(days=30),
-            max_attempts=10,
+            max_attempts=4,  # CHANGED: 4 attempts instead of 10
             show_correct_answers=True,
             is_published=True,
             created_by=instructor,
-            total_points=40.0,
+            total_points=25.0,  # CHANGED: 25 points (5 steps × 5 points)
         )
 
-        # QUESTION 1 (Page 1) - Answer boxes at steps 1, 3, and 4
-        p1 = Problem.objects.create(
-            title='Problem 8.4 - Question 1',
+        # Create ONE problem with all 5 steps (NOT 4 questions!)
+        problem = Problem.objects.create(
+            title='Beam Pattern Derivation',
             difficulty='advanced',
             author=instructor,
             question_text='''Complete the derivation steps indicated below to show that
@@ -59,159 +60,55 @@ where Ωₚ is the antenna beam pattern and Dₘₐₓ is the directivity.
 
 2. Express the integrand in step 1 in terms of P(R,θ,φ):
 
-3. Express Ωₚ now in terms of U(Ω):
-
 [ANSWER_BOX_2]
 
-4. Express the integral in step 3 as two fractions as shown:
-
-(−)∫[U(Ω)/U₀]dΩ
+3. Express Ωₚ now in terms of U(Ω):
 
 [ANSWER_BOX_3]
 
-5. Apply the directivity relationships to give the following integral form:
-
-This integral then evaluates to give the final form desired.''',
-            solution_expression='', solution_explanation=''
-        )
-        qp1 = QuizProblem.objects.create(quiz=quiz, problem=p1, problem_order=1, points=10.0)
-        
-        AnswerBox.objects.create(
-            quiz_problem=qp1, box_number=1, box_label='Ωₚ = ',
-            expected_answer=r'\int P_n(\theta,\phi) \, d\Omega', points=3.0
-        )
-        AnswerBox.objects.create(
-            quiz_problem=qp1, box_number=2, box_label='Ωₚ = ',
-            expected_answer=r'\int \frac{U(\Omega)}{U_{\max}} \, d\Omega', points=4.0
-        )
-        AnswerBox.objects.create(
-            quiz_problem=qp1, box_number=3, box_label='Ωₚ = ',
-            expected_answer=r'\frac{U_{\max}}{U_0} \int \frac{U(\Omega)}{U_{\max}} \, d\Omega', points=3.0
-        )
-
-        # QUESTION 2 (Page 2) - Answer boxes at steps 1 and 5
-        p2 = Problem.objects.create(
-            title='Problem 8.4 - Question 2',
-            difficulty='advanced',
-            author=instructor,
-            question_text='''Complete the derivation steps indicated below to show that
-
-Ωₚ = 4π/Dₘₐₓ
-
-where Ωₚ is the antenna beam pattern and Dₘₐₓ is the directivity.
-
-1. Write the definition for Ωₚ, in terms of Pₙ(θ,φ):
-
-[ANSWER_BOX_1]
-
-2. Express the integrand in step 1 in terms of P(R,θ,φ):
-
-3. Express Ωₚ now in terms of U(Ω):
-
 4. Express the integral in step 3 as two fractions as shown:
 
 (−)∫[U(Ω)/U₀]dΩ
 
+[ANSWER_BOX_4]
+
 5. Apply the directivity relationships to give the following integral form:
 
-[ANSWER_BOX_2]
+[ANSWER_BOX_5]
 
 This integral then evaluates to give the final form desired.''',
-            solution_expression='', solution_explanation=''
+            solution_expression='',
+            solution_explanation='Progressive learning through multiple attempts'
         )
-        qp2 = QuizProblem.objects.create(quiz=quiz, problem=p2, problem_order=2, points=10.0)
+
+        # Create ONE quiz problem (not 4!)
+        qp = QuizProblem.objects.create(quiz=quiz, problem=problem, problem_order=1, points=25.0)
         
+        # Create 5 answer boxes (one for each step)
         AnswerBox.objects.create(
-            quiz_problem=qp2, box_number=1, box_label='Ωₚ = ',
+            quiz_problem=qp, box_number=1, box_label='Ωₚ = ',
             expected_answer=r'\int P_n(\theta,\phi) \, d\Omega', points=5.0
         )
         AnswerBox.objects.create(
-            quiz_problem=qp2, box_number=2, box_label='Ωₚ = ',
+            quiz_problem=qp, box_number=2, box_label='Ωₚ = ',
+            expected_answer=r'\int \frac{P(R,\theta,\phi)}{P_{\max}} \, d\Omega', points=5.0
+        )
+        AnswerBox.objects.create(
+            quiz_problem=qp, box_number=3, box_label='Ωₚ = ',
+            expected_answer=r'\int \frac{U(\Omega)}{U_{\max}} \, d\Omega', points=5.0
+        )
+        AnswerBox.objects.create(
+            quiz_problem=qp, box_number=4, box_label='Ωₚ = ',
+            expected_answer=r'\frac{U_{\max}}{U_0} \int \frac{U(\Omega)}{U_{\max}} \, d\Omega', points=5.0
+        )
+        AnswerBox.objects.create(
+            quiz_problem=qp, box_number=5, box_label='Ωₚ = ',
             expected_answer=r'\frac{4\pi}{D_{\max}}', points=5.0
         )
 
-        # QUESTION 3 (Page 3) - Answer boxes at steps 3 and 4
-        p3 = Problem.objects.create(
-            title='Problem 8.4 - Question 3',
-            difficulty='advanced',
-            author=instructor,
-            question_text='''Complete the derivation steps indicated below to show that
-
-Ωₚ = 4π/Dₘₐₓ
-
-where Ωₚ is the antenna beam pattern and Dₘₐₓ is the directivity.
-
-1. Write the definition for Ωₚ, in terms of Pₙ(θ,φ):
-
-2. Express the integrand in step 1 in terms of P(R,θ,φ):
-
-3. Express Ωₚ now in terms of U(Ω):
-
-[ANSWER_BOX_1]
-
-4. Express the integral in step 3 as two fractions as shown:
-
-(−)∫[U(Ω)/U₀]dΩ
-
-[ANSWER_BOX_2]
-
-5. Apply the directivity relationships to give the following integral form:
-
-This integral then evaluates to give the final form desired.''',
-            solution_expression='', solution_explanation=''
-        )
-        qp3 = QuizProblem.objects.create(quiz=quiz, problem=p3, problem_order=3, points=10.0)
-        
-        AnswerBox.objects.create(
-            quiz_problem=qp3, box_number=1, box_label='Ωₚ = ',
-            expected_answer=r'\int \frac{U(\Omega)}{U_{\max}} \, d\Omega', points=5.0
-        )
-        AnswerBox.objects.create(
-            quiz_problem=qp3, box_number=2, box_label='Ωₚ = ',
-            expected_answer=r'\frac{U_{\max}}{U_0} \int \frac{U(\Omega)}{U_0} \, d\Omega', points=5.0
-        )
-
-        # QUESTION 4 (Page 4) - Answer boxes at steps 3 and 4
-        p4 = Problem.objects.create(
-            title='Problem 8.4 - Question 4',
-            difficulty='advanced',
-            author=instructor,
-            question_text='''Complete the derivation steps indicated below to show that
-
-Ωₚ = 4π/Dₘₐₓ
-
-where Ωₚ is the antenna beam pattern and Dₘₐₓ is the directivity.
-
-1. Write the definition for Ωₚ, in terms of Pₙ(θ,φ):
-
-2. Express the integrand in step 1 in terms of P(R,θ,φ):
-
-3. Express Ωₚ now in terms of U(Ω):
-
-[ANSWER_BOX_1]
-
-4. Express the integral in step 3 as two fractions as shown:
-
-(−)∫[U(Ω)/U₀]dΩ
-
-[ANSWER_BOX_2]
-
-5. Apply the directivity relationships to give the following integral form:
-
-<b>This integral then evaluates to give the final form desired.''',
-            solution_expression='', solution_explanation=''
-        )
-        qp4 = QuizProblem.objects.create(quiz=quiz, problem=p4, problem_order=4, points=10.0)
-        
-        AnswerBox.objects.create(
-            quiz_problem=qp4, box_number=1, box_label='Ωₚ = ',
-            expected_answer=r'\int \frac{U(\Omega)}{U_{\max}} \, d\Omega', points=5.0
-        )
-        AnswerBox.objects.create(
-            quiz_problem=qp4, box_number=2, box_label='Ωₚ = ',
-            expected_answer=r'\frac{U_0}{U_{\max}} \int \frac{U(\Omega)}{U_0} \, d\Omega', points=5.0
-        )
-
-        self.stdout.write(self.style.SUCCESS('\n=== Problem 8.4 Complete ==='))
+        self.stdout.write(self.style.SUCCESS('\n=== Problem 8.4 CORRECTED ==='))
         self.stdout.write(f'Quiz ID: {quiz.id}')
-        self.stdout.write(f'4 questions (attempts), total 40 points')
+        self.stdout.write(f'Questions: 1 (with 5 steps)')
+        self.stdout.write(f'Answer boxes: 5')
+        self.stdout.write(f'Max attempts: 4')
+        self.stdout.write(f'Total points: 25')
