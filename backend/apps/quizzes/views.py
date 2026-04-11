@@ -14,7 +14,7 @@ from .serializers import (
     QuizDetailSerializer,
     QuizProblemSerializer,
     QuizAttemptSerializer,
-    QuizStatisticsSerializer,
+    QuizSerializer,
 )
 
 
@@ -38,8 +38,7 @@ class CourseViewSet(viewsets.ModelViewSet):
         serializer = CourseSerializer(data=request.data)
         if serializer.is_valid():
             try:
-                course = serializer.save()
-                print(f"course: {course}")
+                serializer.save()
                 return Response([], status=status.HTTP_200_OK)
             except:
                 print("serial failed")
@@ -88,6 +87,19 @@ class QuizViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(is_published=is_published.lower() == "true")
 
         return queryset
+
+    @action(detail=False, methods=["post"])
+    def create_quiz(self, request):
+        serializer = QuizSerializer(data=request.data)
+        if serializer.is_valid():
+            try:
+                course = serializer.save()
+                print(f"course: {course}")
+                return Response([], status=status.HTTP_200_OK)
+            except:
+                print("serial failed")
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
     @action(detail=True, methods=["get"])
     def problems(self, request, pk=None):

@@ -41,11 +41,12 @@ class CourseSerializer(serializers.ModelSerializer):
 
         )
         return course
-    
+
     def update(self, instance, validated_data):
         """ Allow course editing
         serializer = CourseSerializer(instance, data=data)
         """
+        #TODO: Update course info
         ...
 
 class CourseEnrollmentSerializer(serializers.ModelSerializer):
@@ -54,6 +55,27 @@ class CourseEnrollmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = CourseEnrollment
         fields = "__all__"
+
+class QuizSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Quiz
+        fields = [
+            "id",
+            "title",
+            "course",
+            "quiz_type",
+            "problems",
+            "time_limit",
+            "available_from",
+            "available_until",
+            "max_attempts",
+            "allow_review",
+            "total_points",
+        ]
+
+    def create(self, validated_data):
+        return Quiz.objects.create(**validated_data)
 
 class QuizProblemSerializer(serializers.ModelSerializer):
     """Serializer for QuizProblem"""
@@ -74,8 +96,8 @@ class QuizProblemSerializer(serializers.ModelSerializer):
             "problem_text",
             "problem_title",
         ]
-    
-  
+
+
 class QuizListSerializer(serializers.ModelSerializer):
     """Serializer for listing quizzes"""
 
