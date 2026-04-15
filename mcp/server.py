@@ -4,7 +4,8 @@ from pathlib import Path
 from mcp.server.fastmcp import FastMCP, Context
 from mcp.server.session import ServerSession
 from mcp.types import SamplingMessage, TextContent, CallToolResult
-import json
+import json, asyncio, os, traceback
+
 
 #Import tools
 from tools.submissions import fetch_submission
@@ -16,7 +17,6 @@ from tools.grading import submit_grade
 mcp = FastMCP("AI Symbolic Grader", json_response=True, stateless_http = True)
 BASE_PATH = Path.cwd()
 RUBRIC_PATH = BASE_PATH / "resources" / "rubrics" 
-
 
 #Register tools
 
@@ -70,7 +70,7 @@ def get_rubric(file_name: str) -> str | bytes:
               else: return "File not found"
 
 @mcp.tool()
-async def grade_quiz_submission(student_id: int, ctx: Context[ServerSession, None]) -> str:
+async def grade_quiz_submission(student_id: int, ctx: Context[ServerSession, None]) -> CallToolResult:
        #Grade a quiz submission using AI.
 
        #fetch required data
@@ -80,56 +80,14 @@ async def grade_quiz_submission(student_id: int, ctx: Context[ServerSession, Non
        #Set structured data to another variable
        submission_struct = submission_result.structuredContent
        quiz_struct = quiz_data_result.structuredContent
-
-
-       #Grading prompt
-       grading_prompt = f"""
-       Please grade the following quiz submission. For each problem solve the problem based on the question_text field and then grade the students answers against your answers.
-       Your answer will be the correct answer in each case.
-       The students answers and the problems are already in the same order.
-
-       Student Submission:
-       {json.dumps(submission_struct, indent=2)}
-
-       Quiz Problems:
-       {json.dumps(quiz_struct, indent=2)}
-
-       For each problem, provide:
-       1. Problem ID
-       2. Student's answer
-       3. Solved answer
-       4. Score (0 or points available)
-       5. Brief feedback
-
-       Return the results as a JSON array with this structure:
-       [
-              {{
-                     "problem_id": 1,
-                     "student_answer": "student's answer",
-                     "solved_answer": "solved answer",
-                     "score": 1.0,
-                     "max_points": 1.0,
-                     "feedback": Brief feedback on the answer"
-              }}
-
-       ]
-       """
        
-       #Use sampling to grade the submission
-       result = await ctx.session.create_message(
-              messages=[
-                     SamplingMessage(
-                            role = "user",
-                            content = TextContent(type="text", text = grading_prompt),
-                     )
-              ], max_tokens=1000,
-       )
-
-       return result.content.text if result.content.type == "text" else str(result.content)
-
-
-
-
+       return CallToolResult(  
+        content=[TextContent(type="text", text="Submission and Quiz fetch successful")],  
+        structuredContent={  
+            "submission_struct": submission_result.structuredContent,  
+            "quiz_struct": quiz_data_result.structuredContent 
+        }  
+    )
 
 def main():
        mcp.run(transport="streamable-http")
