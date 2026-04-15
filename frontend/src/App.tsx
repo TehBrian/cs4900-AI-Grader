@@ -72,6 +72,7 @@ type CourseItem= {
   gradeText?: string; // optional 
   evalText?: string; // optional 
 };
+
 const DEMO_COURSE_ITEMS: Record<number, CourseItem[]> = {
   4: [
     {
@@ -590,10 +591,48 @@ function updateQuizProblem(
         setCourseQuizzes([]);
       }
 
+      setCourseQuizzes(data);
       console.log("setCourseQuizzes finished");
     } catch (err) {
       console.error("fetchQuizzes failed:", err);
       setError("Could not fetch quizzes.");
+    }
+  }
+
+  async function handleQuizSubmission(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+
+
+    const form= e.target as HTMLFormElement;
+    const formData= new FormData(form);
+
+    try {
+      const response = await fetch("https://127.0.0.1:8000/api/grading/submit/", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(
+          {
+            quiz_id: selectedQuizId,
+            student_id: loginresult?.user.id,
+            content: formData,
+          }
+        )
+      });
+
+      /*if (response.ok) {
+        const data = await response.json();
+      } */
+      if (!response.ok) {
+        const err_response = await response.json();
+        setError(err_response.error);
+        return;
+      }
+
+    } catch (err) {
+      alert("Failed to submit quiz.");
     }
   }
 
@@ -621,7 +660,6 @@ function updateQuizProblem(
         navigateTo("home", { replace: true });
 
       } else {
-
         const err_response = await response.json();
         setError(err_response.error);
         return;
@@ -629,7 +667,6 @@ function updateQuizProblem(
     } catch (err) {
       alert("Failed to connect to database.");
     }
-
   }
 
   function logout() {
