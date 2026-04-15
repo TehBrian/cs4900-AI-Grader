@@ -100,6 +100,14 @@ class QuizViewSet(viewsets.ModelViewSet):
                 print("serial failed")
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    @action(detail=False, methods=["get"])
+    def get_course_quizzes(self, request):
+        course_id = request.data.get("course_id", None)
+        if course_id:
+            course_quizzes = Quiz.objects.filter(course=course_id)
+            if not len(course_quizzes) > 0:
+                return Response([], status=status.HTTP_200_OK)
+            return Response(course_quizzes)
 
     @action(detail=True, methods=["get"])
     def problems(self, request, pk=None):

@@ -37,6 +37,20 @@ type Course= {
   instructor_name: string;
 };
 
+type Quiz = {
+  title: string;
+  description: string;
+  course_id: number;
+  quiz_type: string;
+  problems: Record<string, string>[];
+  time_limit: number;
+  available_from: Date;
+  available_until: Date;
+  max_attempts: number;
+  show_correct_answers: boolean;
+  show_solution_after: boolean;
+}
+
 type CourseItemType= "Assignment" | "Quiz";
 
 type CourseItem= {
@@ -137,6 +151,7 @@ export default function App() {
   total_points: "",
   problems: "",
   });
+  const [courseQuizzes, setCourseQuizzes] = useState<Quiz[]>([]);
   const [session, setSession]= useState<{ role: Role; email: string } | null>(
     null
   );
@@ -144,7 +159,7 @@ export default function App() {
   const canSubmit= useMemo(() => {
     return email.trim().length > 0 && pw.trim().length > 0;
   }, [email, pw]);
-  const [courseQuizzes, setCourseQuizzes] = useState<any[]>([]);
+
 function navigateTo(
   nextPage: Page,
   options?: {
@@ -189,6 +204,7 @@ useEffect(() => {
     if (state.courseId) {
       const foundStudentCourse= studentCourses.find((c) => c.id === state.courseId) ?? null;
       setSelectedCourse(foundStudentCourse);
+      fetchQuizzes(loginresult!.tokens.access ?? 0, foundStudentCourse!.id ?? 0);
     } else {
       setSelectedCourse(null);
     }
@@ -197,6 +213,7 @@ useEffect(() => {
       const foundInstructorCourse =
         instructorCourses.find((c) => c.id === state.instructorCourseId) ?? null;
       setSelectedInstructorCourse(foundInstructorCourse);
+      fetchQuizzes(loginresult!.tokens.access ?? 0, foundInstructorCourse!.id ?? 0);
     } else {
       setSelectedInstructorCourse(null);
     }
@@ -400,6 +417,31 @@ async function registerUser(e: React.FormEvent) {
     }
   }
 
+  async function fetchQuizzes(accessToken: string, courseID: number) {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/quizzes/${courseID}/`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        }
+      });
+
+      const data = await response.json();
+      console.log("quiz fetch response: ", response.status, data);
+
+      if (!response.ok) {
+        throw new Error("Quiz fetch response not ok.");
+      }
+
+      setCourseQuizzes(data);
+    }
+    catch (err) {
+      console.error(err);
+      setError("Could not fetch quizzes.");
+    }
+  }
+
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
@@ -444,6 +486,7 @@ async function registerUser(e: React.FormEvent) {
     navigateTo("login", { replace: true });
     setLoginResult(null);
     setStudentCourses([]);
+    setCourseQuizzes([]);
     setInstructorCourses([]);
     setSelectedCourse(null);
     setSelectedInstructorCourse(null);
@@ -1100,6 +1143,7 @@ if (page === "course" && selectedCourse) {
 
 if (page === "instructorCourse" && selectedInstructorCourse) {
   const items = DEMO_COURSE_ITEMS[selectedInstructorCourse.id] ?? [];
+  fetchQuizzes(loginresult!.tokens.access ?? 0, selectedInstructorCourse.id);
 
   const pill = (t: CourseItemType) => (
     <span
