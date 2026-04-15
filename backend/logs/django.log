@@ -1150,3 +1150,6 @@ INFO 2026-04-15 16:20:11,713 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/
 INFO 2026-04-15 16:20:12,186 autoreload Watching for file changes with StatReloader
 INFO 2026-04-15 16:25:31,664 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/quizzes/views.py changed, reloading.
 INFO 2026-04-15 16:25:32,109 autoreload Watching for file changes with StatReloader
+INFO 2026-04-15 18:05:42,967 autoreload Watching for file changes with StatReloader
+INFO 2026-04-15 18:19:37,591 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-15 18:40:28,883 log Not Found: /favicon.ico

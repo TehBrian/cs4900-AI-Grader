@@ -44,8 +44,8 @@ type Quiz = {
   quiz_type: string;
   problems: Record<string, string>[];
   time_limit: number;
-  available_from: Date;
-  available_until: Date;
+  available_from: string | null;
+  available_until: string | null;
   max_attempts: number;
   show_correct_answers: boolean;
   show_solution_after: boolean;
@@ -160,6 +160,25 @@ export default function App() {
     return email.trim().length > 0 && pw.trim().length > 0;
   }, [email, pw]);
 
+  function mapQuizzesToCourseItems(quizzes: unknown): CourseItem[] {
+  if (!Array.isArray(quizzes)) {
+    console.log("mapQuizzesToCourseItems got non-array:", quizzes);
+    return [];
+  }
+
+  return quizzes.map((quiz: any, index: number) => ({
+    id: String(index + 1),
+    type: "Quiz",
+    title: quiz.title ?? "Untitled Quiz",
+    dueText: quiz.available_until
+      ? `Due: ${new Date(quiz.available_until).toLocaleString()}`
+      : "No due date",
+    submissionsText: "Not started",
+    scoreText: "-",
+    evalText: "",
+  }));
+}
+
 function navigateTo(
   nextPage: Page,
   options?: {
@@ -204,7 +223,6 @@ useEffect(() => {
     if (state.courseId) {
       const foundStudentCourse= studentCourses.find((c) => c.id === state.courseId) ?? null;
       setSelectedCourse(foundStudentCourse);
-      fetchQuizzes(loginresult!.tokens.access ?? 0, foundStudentCourse!.id ?? 0);
     } else {
       setSelectedCourse(null);
     }
@@ -213,7 +231,6 @@ useEffect(() => {
       const foundInstructorCourse =
         instructorCourses.find((c) => c.id === state.instructorCourseId) ?? null;
       setSelectedInstructorCourse(foundInstructorCourse);
-      fetchQuizzes(loginresult!.tokens.access ?? 0, foundInstructorCourse!.id ?? 0);
     } else {
       setSelectedInstructorCourse(null);
     }
@@ -230,6 +247,34 @@ useEffect(() => {
     window.location.pathname
   );
 }, []);
+
+useEffect(() => {
+  if (
+    page === "instructorCourse" &&
+    selectedInstructorCourse &&
+    loginresult?.tokens.access
+  ) {
+    console.log("INSTRUCTOR effect running");
+    console.log("instructor page:", page);
+    console.log("instructor selected course:", selectedInstructorCourse);
+    console.log("instructor course id:", selectedInstructorCourse.id);
+    fetchQuizzes(loginresult.tokens.access, selectedInstructorCourse.id);
+  }
+}, [page, selectedInstructorCourse, loginresult]);
+
+useEffect(() => {
+  if (
+    page === "course" &&
+    selectedCourse &&
+    loginresult?.tokens.access
+  ) {
+    console.log("STUDENT effect running");
+    console.log("student page:", page);
+    console.log("student selected course:", selectedCourse);
+    console.log("student course id:", selectedCourse.id);
+    fetchQuizzes(loginresult.tokens.access, selectedCourse.id);
+  }
+}, [page, selectedCourse, loginresult]);
 
 async function createCourse(e: React.FormEvent) {
   e.preventDefault();
@@ -418,28 +463,48 @@ async function registerUser(e: React.FormEvent) {
   }
 
   async function fetchQuizzes(accessToken: string, courseID: number) {
-    try {
-      const response = await fetch(`http://127.0.0.1:8000/api/quizzes/${courseID}/`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        }
-      });
+  try {
+    console.log("fetchQuizzes called with courseID:", courseID);
+    console.log("access token exists:", !!accessToken);
 
-      const data = await response.json();
-      console.log("quiz fetch response: ", response.status, data);
-
-      if (!response.ok) {
-        throw new Error("Quiz fetch response not ok.");
+  const response = await fetch(`http://127.0.0.1:8000/api/quizzes/?course=${courseID}`, {      
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       }
+    });
 
-      setCourseQuizzes(data);
+    console.log("quiz fetch raw status:", response.status);
+
+    const data = await response.json();
+  console.log("quiz fetch response data:", data);
+
+  if (!response.ok) {
+    throw new Error("Quiz fetch response not ok.");
+  }
+
+  if (Array.isArray(data)) {
+    setCourseQuizzes(data);
+  } else if (Array.isArray(data.results)) {
+    setCourseQuizzes(data.results);
+  } else if (Array.isArray(data.quizzes)) {
+    setCourseQuizzes(data.quizzes);
+  } else {
+    console.log("Unexpected quiz response shape:", data);
+    setCourseQuizzes([]);
+  }
+
+    if (!response.ok) {
+      throw new Error("Quiz fetch response not ok.");
     }
-    catch (err) {
-      console.error(err);
-      setError("Could not fetch quizzes.");
-    }
+
+    setCourseQuizzes(data);
+    console.log("setCourseQuizzes finished");
+  } catch (err) {
+    console.error("fetchQuizzes failed:", err);
+    setError("Could not fetch quizzes.");
+  }
   }
 
   async function handleLogin(e: React.FormEvent) {
@@ -1016,8 +1081,9 @@ if (page === "registration") {
 if (page === "course" && selectedCourse) {
   console.log("Selected course:", selectedCourse);
   console.log("Course ID:", selectedCourse.id);
-  const items = DEMO_COURSE_ITEMS[selectedCourse.id] ?? [];
-  console.log("Items found:", items);
+  console.log("Rendering student course page");
+  console.log("student courseQuizzes state:", courseQuizzes);
+  const items = mapQuizzesToCourseItems(courseQuizzes);
   const pill = (t: CourseItemType) => (
     <span
       className={[
@@ -1142,9 +1208,9 @@ if (page === "course" && selectedCourse) {
 }
 
 if (page === "instructorCourse" && selectedInstructorCourse) {
-  const items = DEMO_COURSE_ITEMS[selectedInstructorCourse.id] ?? [];
-  fetchQuizzes(loginresult!.tokens.access ?? 0, selectedInstructorCourse.id);
-
+  const items = mapQuizzesToCourseItems(courseQuizzes);
+  console.log("Rendering instructor course page");
+  console.log("instructor courseQuizzes state:", courseQuizzes);
   const pill = (t: CourseItemType) => (
     <span
       className={[
