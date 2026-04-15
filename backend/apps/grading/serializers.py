@@ -24,11 +24,12 @@ class StudentSubmissionSerializer(serializers.ModelSerializer):
         model = StudentSubmission
         fields = [
             "submission_id",
-            "problem",
+            "quiz",
             "problem_title",
             "student",
             "student_username",
             "student_answer",
+            "expected_answer",
             "is_correct",
             "score",
             "grading_method",

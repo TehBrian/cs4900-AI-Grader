@@ -1,11 +1,14 @@
 from domain.api_client import get_submission
 from domain.models import Submission
+import traceback
 
-def fetch_submission(submission_id: int, student_id: int):
-    data = get_submission(submission_id, student_id)
+def fetch_submission(student_id: int):
+    data = get_submission(student_id)
+    try: 
+        submission = Submission(data[0]['submission_id'], data[0]['quiz'], data[0]['student'], data[0]['student_answer'])
 
-    submission = Submission(id = data[id],
-                            student_id = data["student_id"],
-                            contents = data["contents"],
-                            )
+    except Exception as e:
+        print(f"Processing Error: {e}")
+        traceback.print_exc()
+    
     return submission

@@ -39,10 +39,16 @@ class CourseEnrollmentSerializer(serializers.ModelSerializer):
 
 class QuizProblemSerializer(serializers.ModelSerializer):
     """Serializer for QuizProblem"""
+    question_text = serializers.SerializerMethodField()
 
     class Meta:
         model = QuizProblem
         fields = "__all__"
+
+        extra_fields = ['question_text']
+
+    def get_question_text(self, obj):
+        return obj.problem.question_text
 
 
 class QuizListSerializer(serializers.ModelSerializer):

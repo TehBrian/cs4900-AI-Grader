@@ -73,6 +73,10 @@ class StudentSubmission(models.Model):
         "problems.Problem", on_delete=models.CASCADE, related_name="submissions"
     )
 
+    quiz = models.ForeignKey(
+        "quizzes.Quiz", on_delete=models.CASCADE, related_name="submissions", null=True
+    )
+
     # Submission content
     student_answer = models.TextField(help_text="Student's answer in LaTeX format")
     raw_input = models.TextField(help_text="Original student input before processing")
