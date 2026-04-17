@@ -3,7 +3,6 @@
 
 // Enhanced Quiz Template with Timer, Autosave, and Backend Integration
 import React, { useState, useRef, useMemo, useEffect } from "react";
-import "katex/dist/katex.min.css";
 import katex from "katex";
 import { BlockMath } from "react-katex";
 
@@ -95,9 +94,12 @@ export default function Quiztemplate({ setPage, quizId = 1 }: Props) {
         const problemsData = await problemsResponse.json();
         // Convert backend problems to Question format
         const formattedQuestions: Question[] = problemsData.map((p: any) => ({
-          id: p.id,
+          id: p.linked_problem_id ?? p.id,
           text: p.problem_text || p.problem_title || "Question",
+          latex: p.problem_latex || undefined,
           type: "text" as const,
+          problem_text: p.problem_text,
+          problem_title: p.problem_title,
         }));
         setQuestions(formattedQuestions);
       }
@@ -333,9 +335,10 @@ export default function Quiztemplate({ setPage, quizId = 1 }: Props) {
             <div className="space-y-10">
               {questions.map((q, index) => (
                 <div key={q.id} id={`question-${q.id}`}>
-                  <p className="font-semibold mb-2 text-lg">
-                    Question {index + 1}: {q.text}
-                  </p>
+                  <div className="font-semibold mb-2 text-lg">
+                    <span className="mr-2">Question {index + 1}:</span>
+                    <span dangerouslySetInnerHTML={{ __html: q.text }} />
+                  </div>
                   {q.latex && <BlockMath math={q.latex} />}
 
                   {q.type === "multiple" && q.options?.map((opt) => (

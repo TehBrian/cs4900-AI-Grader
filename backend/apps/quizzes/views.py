@@ -71,6 +71,8 @@ class QuizViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == "list":
             return QuizListSerializer
+        if self.action == "create":
+            return QuizSerializer
         return QuizDetailSerializer
 
     def get_queryset(self):

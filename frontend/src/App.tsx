@@ -38,6 +38,7 @@ type Course= {
 };
 
 type Quiz = {
+  id: number;
   title: string;
   description: string;
   course_id: number;
@@ -50,6 +51,13 @@ type Quiz = {
   show_correct_answers: boolean;
   show_solution_after: boolean;
 }
+
+type ProblemOption = {
+  id: number;
+  title: string;
+  question_text: string;
+  question_latex?: string;
+};
 
 type CourseItemType= "Assignment" | "Quiz";
 
@@ -149,9 +157,17 @@ export default function App() {
   max_attempts: "1",
   allow_review: true,
   total_points: "",
-  problems: "",
+  problems: [] as {
+    problem_id: number;
+    problem_order: number;
+    points: number;
+    custom_instructions?: string;
+    time_limit_override?: number | null;
+    parameter_overrides?: Record<string, any>;
+    }[],
   });
   const [courseQuizzes, setCourseQuizzes] = useState<Quiz[]>([]);
+  const [availableProblems, setAvailableProblems] = useState<ProblemOption[]>([]);
   const [session, setSession]= useState<{ role: Role; email: string } | null>(
     null
   );
@@ -166,8 +182,8 @@ export default function App() {
     return [];
   }
 
-  return quizzes.map((quiz: any, index: number) => ({
-    id: String(index + 1),
+  return quizzes.map((quiz: any) => ({
+    id: String(quiz.id),
     type: "Quiz",
     title: quiz.title ?? "Untitled Quiz",
     dueText: quiz.available_until
@@ -276,6 +292,12 @@ useEffect(() => {
   }
 }, [page, selectedCourse, loginresult]);
 
+useEffect(() => {
+  if (page === "createQuiz" && loginresult?.tokens.access) {
+    fetchAvailableProblems(loginresult.tokens.access);
+  }
+}, [page, loginresult]);
+
 async function createCourse(e: React.FormEvent) {
   e.preventDefault();
   setError(null);
@@ -350,7 +372,7 @@ async function createQuiz(e: React.FormEvent) {
         max_attempts: quizForm.max_attempts ? Number(quizForm.max_attempts) : 1,
         allow_review: quizForm.allow_review,
         total_points: quizForm.total_points ? Number(quizForm.total_points) : 0,
-    
+        problems: quizForm.problems,
       }),
     });
     
@@ -365,7 +387,7 @@ async function createQuiz(e: React.FormEvent) {
         max_attempts: "1",
         allow_review: true,
         total_points: "",
-        problems: "",
+        problems: [],
       });
 
       navigateTo("instructorCourse", {
@@ -462,49 +484,117 @@ async function registerUser(e: React.FormEvent) {
     }
   }
 
-  async function fetchQuizzes(accessToken: string, courseID: number) {
-  try {
-    console.log("fetchQuizzes called with courseID:", courseID);
-    console.log("access token exists:", !!accessToken);
+  async function fetchAvailableProblems(accessToken: string) {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/problems/", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
 
-  const response = await fetch(`http://127.0.0.1:8000/api/quizzes/?course=${courseID}`, {      
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
+      const data = await response.json();
+      console.log("available problems:", data);
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch problems");
       }
-    });
 
-    console.log("quiz fetch raw status:", response.status);
-
-    const data = await response.json();
-  console.log("quiz fetch response data:", data);
-
-  if (!response.ok) {
-    throw new Error("Quiz fetch response not ok.");
+      if (Array.isArray(data)) {
+        setAvailableProblems(data);
+      } else if (Array.isArray(data.results)) {
+      setAvailableProblems(data.results);
+      } else {
+        setAvailableProblems([]);
+      }
+    } catch (err) {
+      console.error(err);
+      setError("Could not load problems.");
+    }
   }
 
-  if (Array.isArray(data)) {
-    setCourseQuizzes(data);
-  } else if (Array.isArray(data.results)) {
-    setCourseQuizzes(data.results);
-  } else if (Array.isArray(data.quizzes)) {
-    setCourseQuizzes(data.quizzes);
-  } else {
-    console.log("Unexpected quiz response shape:", data);
-    setCourseQuizzes([]);
-  }
-
-    if (!response.ok) {
-      throw new Error("Quiz fetch response not ok.");
+  function addProblemToQuiz(problemId: number) {
+  setQuizForm((prev) => {
+    if (prev.problems.some((p) => p.problem_id === problemId)) {
+      return prev;
     }
 
-    setCourseQuizzes(data);
-    console.log("setCourseQuizzes finished");
-  } catch (err) {
-    console.error("fetchQuizzes failed:", err);
-    setError("Could not fetch quizzes.");
-  }
+    return {
+      ...prev,
+      problems: [
+        ...prev.problems,
+        {
+          problem_id: problemId,
+          problem_order: prev.problems.length + 1,
+          points: 1,
+          custom_instructions: "",
+          time_limit_override: null,
+          parameter_overrides: {},
+        },
+      ],
+    };
+  });
+}
+
+function removeProblemFromQuiz(problemId: number) {
+  setQuizForm((prev) => ({
+    ...prev,
+    problems: prev.problems.filter((p) => p.problem_id !== problemId),
+  }));
+}
+
+function updateQuizProblem(
+  problemId: number,
+  field: "problem_order" | "points",
+  value: number
+) {
+  setQuizForm((prev) => ({
+    ...prev,
+    problems: prev.problems.map((p) =>
+      p.problem_id === problemId ? { ...p, [field]: value } : p
+    ),
+  }));
+}
+
+  async function fetchQuizzes(accessToken: string, courseID: number) {
+    try {
+      console.log("fetchQuizzes called with courseID:", courseID);
+      console.log("access token exists:", !!accessToken);
+
+      const response = await fetch(`http://127.0.0.1:8000/api/quizzes/?course=${courseID}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        }
+      });
+
+      console.log("quiz fetch raw status:", response.status);
+
+      const data = await response.json();
+      console.log("quiz fetch response data:", data);
+
+      if (!response.ok) {
+        throw new Error("Quiz fetch response not ok.");
+      }
+
+      if (Array.isArray(data)) {
+        setCourseQuizzes(data);
+      } else if (Array.isArray(data.results)) {
+        setCourseQuizzes(data.results);
+      } else if (Array.isArray(data.quizzes)) {
+        setCourseQuizzes(data.quizzes);
+      } else {
+        console.log("Unexpected quiz response shape:", data);
+        setCourseQuizzes([]);
+      }
+
+      console.log("setCourseQuizzes finished");
+    } catch (err) {
+      console.error("fetchQuizzes failed:", err);
+      setError("Could not fetch quizzes.");
+    }
   }
 
   async function handleLogin(e: React.FormEvent) {
@@ -919,6 +1009,96 @@ if (page === "createQuiz" && selectedInstructorCourse) {
               </div>
             )}
 
+            <div>
+              <label className="text-sm font-semibold text-gray-700 block mb-2">
+                Select Problems
+              </label>
+
+              <div className="space-y-3">
+                {availableProblems.length === 0 ? (
+                  <div className="text-sm text-gray-500">No problems available.</div>
+                ) : (
+                  availableProblems.map((problem) => {
+                    const selected = quizForm.problems.find(
+                      (p) => p.problem_id === problem.id
+                    );
+
+                    return (
+                      <div key={problem.id} className="rounded-2xl border p-4 bg-white">
+                        <div className="flex items-center justify-between gap-4">
+                          <div>
+                            <div className="font-semibold">{problem.title}</div>
+                            <div className="text-sm text-gray-500">{problem.question_text}</div>
+                          </div>
+
+                          {!selected ? (
+                            <button
+                              type="button"
+                              onClick={() => addProblemToQuiz(problem.id)}
+                              className="px-4 py-2 rounded-xl border bg-white hover:bg-gray-50"
+                            >
+                              Add
+                            </button>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => removeProblemFromQuiz(problem.id)}
+                              className="px-4 py-2 rounded-xl border bg-red-50 hover:bg-red-100"
+                            >
+                              Remove
+                            </button>
+                          )}
+                        </div>
+
+                        {selected && (
+                          <div className="grid grid-cols-2 gap-4 mt-4">
+                            <div>
+                              <label className="text-xs font-semibold text-gray-600">
+                                Order
+                              </label>
+                              <input
+                                type="number"
+                                min="1"
+                                value={selected.problem_order}
+                                onChange={(e) =>
+                                  updateQuizProblem(
+                                    problem.id,
+                                    "problem_order",
+                                    Number(e.target.value)
+                                  )
+                                }
+                                className="mt-1 w-full rounded-xl border px-3 py-2"
+                              />
+                            </div>
+
+                            <div>
+                              <label className="text-xs font-semibold text-gray-600">
+                                Points
+                              </label>
+                              <input
+                                type="number"
+                                min="0.1"
+                                step="0.1"
+                                value={selected.points}
+                                onChange={(e) =>
+                                  updateQuizProblem(
+                                    problem.id,
+                                    "points",
+                                    Number(e.target.value)
+                                  )
+                                }
+                                className="mt-1 w-full rounded-xl border px-3 py-2"
+                              />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
+
             <div className="flex justify-end gap-3 pt-4">
               <button
                 type="button"
@@ -1155,7 +1335,7 @@ if (page === "course" && selectedCourse) {
                     type="button"
                     onClick={() => {
                       if (it.type === "Quiz") {
-                        setSelectedQuizId(parseInt(it.id.replace('q', '')));
+                        setSelectedQuizId(Number(it.id));
                         navigateTo("quiz");
                       } else {
                         alert(`Open: ${it.title}`);

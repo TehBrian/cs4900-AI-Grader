@@ -56,7 +56,16 @@ class CourseEnrollmentSerializer(serializers.ModelSerializer):
         model = CourseEnrollment
         fields = "__all__"
 
+class QuizProblemCreateSerializer(serializers.Serializer):
+    problem_id = serializers.IntegerField()
+    problem_order = serializers.IntegerField()
+    points = serializers.FloatField(required=False, default=1.0)
+    custom_instructions = serializers.CharField(required=False, allow_blank=True, default="")
+    time_limit_override = serializers.IntegerField(required=False, allow_null=True)
+    parameter_overrides = serializers.JSONField(required=False, default=dict)
+
 class QuizSerializer(serializers.ModelSerializer):
+    problems = QuizProblemCreateSerializer(many=True, write_only=True, required=False)
 
     class Meta:
         model = Quiz
@@ -64,6 +73,7 @@ class QuizSerializer(serializers.ModelSerializer):
             "id",
             "title",
             "course",
+            "created_by",
             "quiz_type",
             "problems",
             "time_limit",
@@ -75,13 +85,30 @@ class QuizSerializer(serializers.ModelSerializer):
         ]
 
     def create(self, validated_data):
-        return Quiz.objects.create(**validated_data)
+        problems_data = validated_data.pop("problems", [])
+        quiz = Quiz.objects.create(**validated_data)
+
+        for item in problems_data:
+            QuizProblem.objects.create(
+                quiz=quiz,
+                problem_id=item["problem_id"],
+                problem_order=item["problem_order"],
+                points=item.get("points", 1.0),
+                custom_instructions=item.get("custom_instructions", ""),
+                time_limit_override=item.get("time_limit_override"),
+                parameter_overrides=item.get("parameter_overrides", {}),
+            )
+
+        quiz.calculate_total_points()
+        return quiz
 
 class QuizProblemSerializer(serializers.ModelSerializer):
     """Serializer for QuizProblem"""
     problem_text = serializers.CharField(source="problem.question_text", read_only=True)
     problem_title = serializers.CharField(source="problem.title", read_only=True)
-    
+    problem_latex = serializers.CharField(source="problem.question_latex", read_only=True)
+    linked_problem_id = serializers.IntegerField(source="problem.id", read_only=True)
+
     class Meta:
         model = QuizProblem
         fields = [
@@ -93,8 +120,10 @@ class QuizProblemSerializer(serializers.ModelSerializer):
             "parameter_overrides",
             "quiz",
             "problem",
+            "linked_problem_id",
             "problem_text",
             "problem_title",
+            "problem_latex",
         ]
 
 

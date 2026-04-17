@@ -1153,3 +1153,17 @@ INFO 2026-04-15 16:25:32,109 autoreload Watching for file changes with StatReloa
 INFO 2026-04-15 18:05:42,967 autoreload Watching for file changes with StatReloader
 INFO 2026-04-15 18:19:37,591 autoreload Watching for file changes with StatReloader
 WARNING 2026-04-15 18:40:28,883 log Not Found: /favicon.ico
+INFO 2026-04-16 20:02:06,697 autoreload Watching for file changes with StatReloader
+INFO 2026-04-16 20:07:11,888 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-16 20:07:53,029 log Not Found: /favicon.ico
+INFO 2026-04-16 21:59:30,272 autoreload C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\quizzes\serializers.py changed, reloading.
+INFO 2026-04-16 21:59:31,647 autoreload Watching for file changes with StatReloader
+INFO 2026-04-16 22:18:22,848 autoreload C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\quizzes\serializers.py changed, reloading.
+INFO 2026-04-16 22:18:24,124 autoreload Watching for file changes with StatReloader
+INFO 2026-04-16 22:19:38,979 autoreload C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\quizzes\serializers.py changed, reloading.
+INFO 2026-04-16 22:19:39,992 autoreload Watching for file changes with StatReloader
+INFO 2026-04-16 22:20:38,215 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-16 22:21:18,639 log Not Found: /favicon.ico
+INFO 2026-04-16 22:24:07,491 autoreload C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\quizzes\views.py changed, reloading.
+INFO 2026-04-16 22:24:08,795 autoreload Watching for file changes with StatReloader
+INFO 2026-04-17 09:12:35,566 autoreload Watching for file changes with StatReloader
