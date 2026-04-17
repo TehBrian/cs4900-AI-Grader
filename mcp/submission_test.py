@@ -42,7 +42,7 @@ async def main():
             User Info:
             {json.dumps(result.structuredContent['user_struct'], indent=2)}
 
-            Return the results with this structure: "quiz_title,win_number,earned_points,overall_feedback"
+            Return the results with this structure: "quiz_title,win_number,earned_points,overall_feedback,"
             """
             grading_prompt_2 = "If x equals 4. What is x*5?"
 
