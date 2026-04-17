@@ -9,6 +9,7 @@ from rest_framework.permissions import AllowAny
 from django.utils import timezone
 
 from .models import Submission, GradingResult
+from apps.quizzes.models import Quiz
 from apps.problems.models import Problem
 from apps.users.models import CustomUser
 from .engines import GradingCoordinator
@@ -56,26 +57,28 @@ class GradingViewSet(viewsets.ViewSet):
         #     )
 
         try:
-            _ = CustomUser.objects.get(id=student_id)
+            student = CustomUser.objects.get(id=student_id)
+            quiz = Quiz.objects.get(id=quiz_id)
+                    # Count attempts
+            attempt_number = (
+                Submission.objects.filter(student_id=student, quiz_id=quiz).count()
+                + 1
+            )
+
+            # Create submission
+            submission = Submission.objects.create(
+                student_id=student,
+                quiz_id=quiz,
+                content=content,
+                attempt_number=attempt_number,
+                status="grading",
+            )
         except CustomUser.DoesNotExist:
             return Response(
                 {"error": "Student not found"}, status=status.HTTP_404_NOT_FOUND
             )
 
-        # Count attempts
-        attempt_number = (
-            Submission.objects.filter(student_id=student_id, problem=quiz_id).count()
-            + 1
-        )
 
-        # Create submission
-        submission = Submission.objects.create(
-            student_id=student_id,
-            quiz_id=quiz_id,
-            content=content,
-            attempt_number=attempt_number,
-            status="grading",
-        )
 
         # # set grading [status, started_at] fields
         # submission.start_grading()

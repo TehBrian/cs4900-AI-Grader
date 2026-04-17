@@ -1,6 +1,8 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect, useRef } from "react";
 import ForgotPassword from './ForgotPassword';
 import QuizTemplate from './QuizTemplate';
+import katex from "katex";
+import { BlockMath } from "react-katex";
 
 const ROLES= {
   student: "student",
@@ -172,6 +174,79 @@ export default function App() {
   const [session, setSession]= useState<{ role: Role; email: string } | null>(
     null
   );
+
+    const textRefs = useRef<Record<number, HTMLDivElement | null>>({});
+  
+    const caretRanges = useRef<Record<number, Range>>({});
+    const [activeMathId, setActiveMathId] = useState<number | null>(null);
+    const [mathInput, setMathInput] = useState<string>("");
+
+  const handleKeyDown = (e: React.KeyboardEvent, qid: number) => {
+      if (e.key !== "Backspace") return;
+  
+      const sel = window.getSelection();
+      if (!sel || sel.rangeCount === 0) return;
+  
+      const range = sel.getRangeAt(0);
+      if (!range.collapsed) return;
+  
+      const node = range.startContainer;
+  
+      if (node.nodeType === Node.TEXT_NODE && range.startOffset === 0) {
+        const previousSibling = node.previousSibling as HTMLElement | null;
+        if (previousSibling && previousSibling.classList?.contains("math-block")) {
+          e.preventDefault();
+          previousSibling.remove();
+        }
+      }
+    };
+
+  const openMathPopup = () => {
+    console.log("open math popup");
+    setActiveMathId(1);
+    setMathInput("");
+  };
+
+  const insertMathAtCaret = () => {
+      if (activeMathId === null || !mathInput) return;
+  
+      const container = textRefs.current[activeMathId];
+      if (!container) return;
+  
+      const mathWrapper = document.createElement("span");
+      mathWrapper.contentEditable = "false";
+      mathWrapper.style.display = "inline-block";
+      mathWrapper.className = "math-block";
+  
+      mathWrapper.innerHTML = katex.renderToString(mathInput, {
+        throwOnError: false,
+      });
+  
+      const spaceNode = document.createTextNode(" ");
+      const range = caretRanges.current[activeMathId];
+  
+      if (range) {
+        range.deleteContents();
+        range.insertNode(spaceNode);
+        range.insertNode(mathWrapper);
+  
+        const newRange = document.createRange();
+        newRange.setStartAfter(spaceNode);
+        newRange.collapse(true);
+  
+        const sel = window.getSelection();
+        if (sel) {
+          sel.removeAllRanges();
+          sel.addRange(newRange);
+        }
+      } else {
+        container.appendChild(mathWrapper);
+        container.appendChild(spaceNode);
+      }
+  
+      setActiveMathId(null);
+      setMathInput("");
+    };
 
   const canSubmit= useMemo(() => {
     return email.trim().length > 0 && pw.trim().length > 0;
@@ -515,28 +590,49 @@ async function registerUser(e: React.FormEvent) {
     }
   }
 
-  function addProblemToQuiz(problemId: number) {
-  setQuizForm((prev) => {
-    if (prev.problems.some((p) => p.problem_id === problemId)) {
-      return prev;
-    }
+  // function addProblemToQuiz(problemId: number) {
+  //   setQuizForm((prev) => {
+  //     if (prev.problems.some((p) => p.problem_id === problemId)) {
+  //       return prev;
+  //     }
 
-    return {
-      ...prev,
-      problems: [
-        ...prev.problems,
-        {
-          problem_id: problemId,
-          problem_order: prev.problems.length + 1,
-          points: 1,
-          custom_instructions: "",
-          time_limit_override: null,
-          parameter_overrides: {},
-        },
-      ],
-    };
-  });
-}
+  //     return {
+  //       ...prev,
+  //       problems: [
+  //         ...prev.problems,
+  //         {
+  //           problem_id: problemId,
+  //           problem_order: prev.problems.length + 1,
+  //           points: 1,
+  //           custom_instructions: "",
+  //           time_limit_override: null,
+  //           parameter_overrides: {},
+  //         },
+  //       ],
+  //     };
+  //   });
+  // }
+
+  function addProblemToQuiz() {
+    return (
+      <div className="relative">
+                      <div
+                        contentEditable
+                        suppressContentEditableWarning
+                        className="w-full border rounded-xl p-3 pr-10 min-h-[100px] focus:outline-none focus:ring-2 focus:ring-[#4E3629] whitespace-pre-wrap"
+                      />
+                      <input required name="problem text" placeholder="write problem text here..." className="mt-1 w-full rounded- 2x1 border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"  />
+                      <button
+                        type="button"
+                        onClick={() => openMathPopup()}
+                        className="absolute bottom-2 right-2 text-gray-500 hover:text-black text-lg"
+                        title="Insert Math (LaTeX)"
+                      >
+                        ∑
+                      </button>
+                    </div>
+    );
+  }
 
 function removeProblemFromQuiz(problemId: number) {
   setQuizForm((prev) => ({
@@ -1053,7 +1149,11 @@ if (page === "createQuiz" && selectedInstructorCourse) {
 
               <div className="space-y-3">
                 {availableProblems.length === 0 ? (
-                  <div className="text-sm text-gray-500">No problems available.</div>
+                  <button type="button"
+                           onClick={() => openMathPopup()}
+                           className="px-4 py-2 rounded-xl border bg-white hover:bg-gray-50">
+                            Add problem
+                  </button>
                 ) : (
                   availableProblems.map((problem) => {
                     const selected = quizForm.problems.find(
@@ -1071,7 +1171,7 @@ if (page === "createQuiz" && selectedInstructorCourse) {
                           {!selected ? (
                             <button
                               type="button"
-                              onClick={() => addProblemToQuiz(problem.id)}
+                              onClick={() => addProblemToQuiz()}
                               className="px-4 py-2 rounded-xl border bg-white hover:bg-gray-50"
                             >
                               Add
@@ -1811,7 +1911,7 @@ if (page === "grades" && selectedCourse) {
 }
   // ---------- Quiz Template ----------
 if (page === "quiz" && selectedQuizId) {
-  return <QuizTemplate setPage={setPage} quizId={selectedQuizId} />;
+  return <QuizTemplate setPage={setPage} quizId={selectedQuizId} userId={loginresult?.user.id} />;
 }
 
   // ---------- logged ----------
@@ -2107,5 +2207,3 @@ if (session && loginresult) {
     </div>
   );
 }
-
-

@@ -11,6 +11,7 @@ type QuizPage = "quiz" | "details" | "submit";
 interface Props {
   setPage: React.Dispatch<React.SetStateAction<any>>;
   quizId?: number;
+  userId?: number;
 }
 
 interface Question {
@@ -30,7 +31,7 @@ interface Quiz {
   description: string;
 }
 
-export default function Quiztemplate({ setPage, quizId = 1 }: Props) {
+export default function QuizTemplate({ setPage, quizId, userId}: Props) {
   const [page, setLocalPage] = useState<QuizPage>("quiz");
   const [multipleAnswers, setMultipleAnswers] = useState<Record<number, string>>({});
   const [textAnswers, setTextAnswers] = useState<Record<number, string>>({});
@@ -49,6 +50,46 @@ export default function Quiztemplate({ setPage, quizId = 1 }: Props) {
   const textRefs = useRef<Record<number, HTMLDivElement | null>>({});
   const caretRanges = useRef<Record<number, Range>>({});
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+
+
+    async function handleQuizSubmission(e: React.FormEvent) {
+      e.preventDefault();
+      //setError(null);
+      setLocalPage("details")
+  
+      const form= e.target as HTMLFormElement;
+      const formData= new FormData(form);
+  
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/grading/submit/", {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(
+            {
+              quiz_id: quizId,
+              student_id: userId,
+              content: formData,
+            }
+          )
+        });
+  
+        /*if (response.ok) {
+          const data = await response.json();
+        } */
+        if (!response.ok) {
+          const err_response = await response.json();
+          //setError(err_response.error);
+          return;
+        }
+  
+      } catch (err) {
+        alert("Failed to submit quiz.");
+      }
+    }
+  
 
   // Fetch quiz data from backend
   useEffect(() => {
@@ -331,62 +372,62 @@ export default function Quiztemplate({ setPage, quizId = 1 }: Props) {
         )}
 
         {page === "quiz" && (
-          <>
-            <div className="space-y-10">
-              {questions.map((q, index) => (
-                <div key={q.id} id={`question-${q.id}`}>
-                  <div className="font-semibold mb-2 text-lg">
-                    <span className="mr-2">Question {index + 1}:</span>
-                    <span dangerouslySetInnerHTML={{ __html: q.text }} />
-                  </div>
-                  {q.latex && <BlockMath math={q.latex} />}
-
-                  {q.type === "multiple" && q.options?.map((opt) => (
-                    <button
-                      key={opt}
-                      onClick={() => selectAnswer(q.id, opt)}
-                      className={[
-                        "w-full text-left px-4 py-3 rounded-xl border mb-2 transition",
-                        multipleAnswers[q.id] === opt
-                          ? "bg-[#4E3629] text-white border-[#4E3629]"
-                          : "bg-white hover:bg-gray-50",
-                      ].join(" ")}
-                    >
-                      {opt}
-                    </button>
-                  ))}
-
-                  {q.type === "text" && (
-                    <div className="relative">
-                      <div
-                        ref={(el) => {
-                          textRefs.current[q.id] = el;
-                        }}
-                        contentEditable
-                        suppressContentEditableWarning
-                        onInput={() => handleInput(q.id)}
-                        onKeyUp={() => saveCaret(q.id)}
-                        onClick={() => saveCaret(q.id)}
-                        onKeyDown={(e) => handleKeyDown(e, q.id)}
-                        className="w-full border rounded-xl p-3 pr-10 min-h-[100px] focus:outline-none focus:ring-2 focus:ring-[#4E3629] whitespace-pre-wrap"
-                        dangerouslySetInnerHTML={{ __html: textAnswers[q.id] || "" }}
-                      />
-
-                      <button
-                        type="button"
-                        onClick={() => openMathPopup(q.id)}
-                        className="absolute bottom-2 right-2 text-gray-500 hover:text-black text-lg"
-                        title="Insert Math (LaTeX)"
-                      >
-                        ∑
-                      </button>
-                    </div>
-                  )}
+        <>
+        <form onSubmit={handleQuizSubmission}>
+          <div className="space-y-10">
+            {questions.map((q, index) => (
+              <div key={q.id} id={`question-${q.id}`}>
+                <div className="font-semibold mb-2 text-lg">
+                  <span className="mr-2">Question {index + 1}:</span>
+                  <span dangerouslySetInnerHTML={{ __html: q.text }} />
                 </div>
-              ))}
-            </div>
+                {q.latex && <BlockMath math={q.latex} />}
 
-            <div className="mt-10 flex gap-4">
+                {q.type === "multiple" && q.options?.map((opt) => (
+                  <button
+                    key={opt}
+                    onClick={() => selectAnswer(q.id, opt)}
+                    className={[
+                      "w-full text-left px-4 py-3 rounded-xl border mb-2 transition",
+                      multipleAnswers[q.id] === opt
+                        ? "bg-[#4E3629] text-white border-[#4E3629]"
+                        : "bg-white hover:bg-gray-50",
+                    ].join(" ")}
+                  >
+                    {opt}
+                  </button>
+                ))}
+
+                {q.type === "text" && (
+                  <div className="relative">
+                    <div
+                      ref={(el) => {
+                        textRefs.current[q.id] = el;
+                      } }
+                      contentEditable
+                      suppressContentEditableWarning
+                      onInput={() => handleInput(q.id)}
+                      onKeyUp={() => saveCaret(q.id)}
+                      onClick={() => saveCaret(q.id)}
+                      onKeyDown={(e) => handleKeyDown(e, q.id)}
+                      className="w-full border rounded-xl p-3 pr-10 min-h-[100px] focus:outline-none focus:ring-2 focus:ring-[#4E3629] whitespace-pre-wrap"
+                      dangerouslySetInnerHTML={{ __html: textAnswers[q.id] || "" }} />
+
+                    <button
+                      type="button"
+                      onClick={() => openMathPopup(q.id)}
+                      className="absolute bottom-2 right-2 text-gray-500 hover:text-black text-lg"
+                      title="Insert Math (LaTeX)"
+                    >
+                      ∑
+                    </button>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-10 flex gap-4">
               <button
                 onClick={() => saveAnswers()}
                 disabled={saving}
@@ -396,13 +437,13 @@ export default function Quiztemplate({ setPage, quizId = 1 }: Props) {
               </button>
 
               <button
-                onClick={() => setLocalPage("details")}
+                type="submit"
                 className="flex-1 rounded-2xl bg-[#4E3629] text-white py-3 font-bold hover:opacity-90"
               >
                 Review Answers
               </button>
-            </div>
-          </>
+          </div>
+        </form></>
         )}
 
         {page === "details" && (
@@ -435,7 +476,7 @@ export default function Quiztemplate({ setPage, quizId = 1 }: Props) {
               </button>
 
               <button
-                onClick={handleSubmit}
+                onClick={() => setPage("home")}
                 className="flex-1 rounded-2xl bg-[#4E3629] text-white py-3 font-bold hover:opacity-90"
               >
                 Submit Quiz

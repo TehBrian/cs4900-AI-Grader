@@ -131,7 +131,7 @@ class Submission(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.student.username} → {self.problem.title} (Attempt {self.attempt_number})"
+        return f"{self.student_id.username} → {self.quiz_id.title} (Attempt {self.attempt_number})"
 
     @property
     def grading_duration(self):
