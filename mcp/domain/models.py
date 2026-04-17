@@ -32,7 +32,16 @@ class Quiz(base_model):
         self.problems = problems
         self.title = title
         self.course = course
-        
+
+class User(base_model):
+    student_id: int
+    student_email: str
+    win_number: int
+
+    def __init__(self, student_id, student_email, win_number):
+        self.student_id = student_id
+        self.student_email = student_email
+        self.win_number = win_number        
         
 class Problem(base_model):
     problem_id: int
@@ -52,12 +61,10 @@ class Rubric(base_model):
         self.criteria = criteria
 
 class Grade(base_model):
-    def __init__(self, submission_id, student_id, score, feedback):
-        self.submission_id = submission_id
-        self.student_id = student_id
-        self.score = score
-        self.feedback = feedback
-
+    result: str
+    def __init__(self, result:str):
+        self.result = result
+        
 class Answers(base_model):
     def __init__(self, answers):
         self.answers = answers

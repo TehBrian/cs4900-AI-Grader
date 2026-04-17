@@ -14,8 +14,12 @@ def get_quiz(quiz_id:int):
     response = requests.get(f"{BASE_URL}{endpoint}{quiz_id}")
     return response.json()
 
+def get_user(student_id:int):
+    endpoint = "/users/info/?student_id="
+    response = requests.get(f"{BASE_URL}{endpoint}{student_id}")
+    return response.json()
 
-
-def post_grade(submission_id: int, student_id: int, grade):
-    response = requests.post((BASE_URL + "")) #API for backend post would go here
+def post_grade(result:str):
+    endpoint = "grading/results/"
+    response = requests.post(f"{BASE_URL}{endpoint}{result}") #API for backend post would go here
     return response

@@ -154,3 +154,18 @@ class AuthViewSet(viewsets.ViewSet):
                 "Access-Control-Allow-Headers": "*",
             },
         )
+
+class UserViewSet(viewsets.ViewSet):
+    @action(detail=False, methods=["get"], permission_classes=[AllowAny])
+    def info(self, request):
+        """
+        Get user info based on student_id
+
+        GET /api/user/info/
+        """
+
+        student_id = request.query_params.get("student_id")
+        info = CustomUser.objects.get(id=student_id)
+
+        serializer = UserSerializer(info)
+        return Response(serializer.data)

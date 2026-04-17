@@ -38,26 +38,11 @@ async def main():
         
             Quiz Problems:
             {json.dumps(result.structuredContent['quiz_struct'], indent=2)}
-        
-            For each problem, provide:
-            1. Problem ID
-            2. Student's answer
-            3. Solved answer
-            4. Score (0 or points available)
-            5. Brief feedback
-        
-            Return the results as a JSON array with this structure:
-            [
-                   {{
-                          "problem_id": 1,
-                          "student_answer": "student's answer",
-                          "solved_answer": "solved answer",
-                          "score": 1.0,
-                          "max_points": 1.0,
-                          "feedback": Brief feedback on the answer"
-                   }}
-        
-            ]
+
+            User Info:
+            {json.dumps(result.structuredContent['user_struct'], indent=2)}
+
+            Return the results with this structure: "quiz_title,win_number,earned_points,overall_feedback"
             """
             grading_prompt_2 = "If x equals 4. What is x*5?"
 
@@ -67,10 +52,9 @@ async def main():
                           model= "claude-haiku-4-5-20251001",
                           max_tokens=1000,
                           messages=[
-                                 {"role": "user", "content": grading_prompt_2}
+                                 {"role": "user", "content": grading_prompt}
                           ]
                    )
-                   print(response)
                    print(response.content[0].text)
                    return 0
 

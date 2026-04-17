@@ -11,6 +11,7 @@ import json, asyncio, os, traceback
 from tools.submissions import fetch_submission
 from tools.quiz import fetch_quiz
 from tools.grading import submit_grade
+from tools.user import fetch_user
 #from tools.grading import send_answers
 
 
@@ -46,9 +47,22 @@ async def get_quiz(quiz_id: int):
               }
        )
 
+@mcp.tool("Get_user_info")
+async def get_user(student_id: int):
+       user = fetch_user(student_id)
+       return CallToolResult(
+              content=[TextContent(type="text", text=str(user.__dict__))],
+              structuredContent={
+                     "student_id": user.student_id,
+                     "student_email": user.student_email,
+                     "student_WIN" : user.win_number
+              }
+       )
+
+
 @mcp.tool()
-def grade_submission(submission_id, student_name:str, score: float, feedback: str):
-       return submit_grade(submission_id, student_name, score, feedback)
+def post_submission(result:str):
+       return submit_grade(result)
 
 #Register Resources
 @mcp.resource("dir://rubrics")
@@ -76,16 +90,19 @@ async def grade_quiz_submission(student_id: int, ctx: Context[ServerSession, Non
        #fetch required data
        submission_result = await ctx.fastmcp.call_tool("Get_submission_using_student_ID", {"student_id": student_id})
        quiz_data_result = await ctx.fastmcp.call_tool("Get_quiz_using_quiz_ID", {"quiz_id": submission_result.structuredContent.get("quiz_id")})
-       
+       user_result = await ctx.fastmcp.call_tool("Get_user_info", {"student_id": student_id})
+
        #Set structured data to another variable
        submission_struct = submission_result.structuredContent
        quiz_struct = quiz_data_result.structuredContent
+       user_struct = user_result.structuredContent
        
        return CallToolResult(  
-        content=[TextContent(type="text", text="Submission and Quiz fetch successful")],  
+        content=[TextContent(type="text", text="Submission, Quiz, and User fetch successful")],  
         structuredContent={  
             "submission_struct": submission_result.structuredContent,  
-            "quiz_struct": quiz_data_result.structuredContent 
+            "quiz_struct": quiz_data_result.structuredContent,
+            "user_struct": user_result.structuredContent
         }  
     )
 
