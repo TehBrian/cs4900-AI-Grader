@@ -5,6 +5,7 @@
 import React, { useState, useRef, useMemo, useEffect } from "react";
 import katex from "katex";
 import { BlockMath } from "react-katex";
+import { InlineMath } from "react-katex";
 
 type QuizPage = "quiz" | "details" | "submit";
 
@@ -317,8 +318,20 @@ export default function QuizTemplate({ setPage, quizId, userId}: Props) {
     );
   }
 
+  function renderTextWithLatex(text: string) {
+    const parts = text.split(/(\$.*?\$)/g);
+
+    return parts.map((part, index) => {
+      if (part.startsWith("$") && part.endsWith("$")) {
+        const math = part.slice(1, -1);
+        return <InlineMath key={index} math={math} />; // uses inline math to place it in correct spot
+      }
+      return <span key={index}>{part}</span>;
+    });
+  }
+
   return (
-    <div className="min-h-screen bg-gray-100 flex justify-center px-4 py-12">
+    <div className="min-h-screen bg-gray-100 flex justify-center px-4 py-12 font-serif">
       {/* Question Navigation Sidebar */}
       <div className="hidden md:flex flex-col gap-3 fixed top-32 left-8 w-20">
         {questions.map((q, index) => (
@@ -377,12 +390,9 @@ export default function QuizTemplate({ setPage, quizId, userId}: Props) {
           <div className="space-y-10">
             {questions.map((q, index) => (
               <div key={q.id} id={`question-${q.id}`}>
-                <div className="font-semibold mb-2 text-lg">
-                  <span className="mr-2">Question {index + 1}:</span>
-                  <span dangerouslySetInnerHTML={{ __html: q.text }} />
-                </div>
-                {q.latex && <BlockMath math={q.latex} />}
-
+                  <p className="mb-2 text-lg whitespace-pre-wrap">
+                    {renderTextWithLatex(q.text)}
+                    </p>
                 {q.type === "multiple" && q.options?.map((opt) => (
                   <button
                     key={opt}
@@ -399,28 +409,32 @@ export default function QuizTemplate({ setPage, quizId, userId}: Props) {
                 ))}
 
                 {q.type === "text" && (
-                  <div className="relative">
-                    <div
-                      ref={(el) => {
-                        textRefs.current[q.id] = el;
-                      } }
-                      contentEditable
-                      suppressContentEditableWarning
-                      onInput={() => handleInput(q.id)}
-                      onKeyUp={() => saveCaret(q.id)}
-                      onClick={() => saveCaret(q.id)}
-                      onKeyDown={(e) => handleKeyDown(e, q.id)}
-                      className="w-full border rounded-xl p-3 pr-10 min-h-[100px] focus:outline-none focus:ring-2 focus:ring-[#4E3629] whitespace-pre-wrap"
-                      dangerouslySetInnerHTML={{ __html: textAnswers[q.id] || "" }} />
+                  <div className="flex items-center gap-3 mt-2">
+                    <div className="ml-auto relative">
+                      <div
+                        ref={(el) => {
+                          textRefs.current[q.id] = el;
+                        } }
+                        contentEditable
+                        suppressContentEditableWarning
+                        onInput={() => handleInput(q.id)}
+                        onKeyUp={() => saveCaret(q.id)}
+                        onClick={() => saveCaret(q.id)}
+                        onKeyDown={(e) => handleKeyDown(e, q.id)}
+                        className = "w-40 min-h-[36px] max-h-[60px] overflow-y-auto border rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#4E3629] whitespace-pre-wrap"
+                        // dangerouslySetInnerHTML={{ __html: textAnswers[q.id] || "" }} 
+                        
+                        />
 
-                    <button
-                      type="button"
-                      onClick={() => openMathPopup(q.id)}
-                      className="absolute bottom-2 right-2 text-gray-500 hover:text-black text-lg"
-                      title="Insert Math (LaTeX)"
-                    >
-                      ∑
-                    </button>
+                      <button
+                        type="button"
+                        onClick={() => openMathPopup(q.id)}
+                        className="absolute -right-7 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black text-sm"
+                        title="Insert Math (LaTeX)"
+                      >
+                        ∑
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>
