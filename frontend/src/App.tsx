@@ -1905,13 +1905,7 @@ if (page === "grades" && selectedCourse) {
 }
   // ---------- Quiz Template ----------
 if (page === "quiz" && selectedQuizId) {
-  return (
-    <QuizTemplate
-      quizId={selectedQuizId}
-      userId={loginresult?.user.id}
-      onExit={() => navigateTo("course", { course: selectedCourse })}
-    />
-  );
+  return <QuizTemplate setPage={setPage} quizId={selectedQuizId} userId={loginresult?.user.id} />;
 }
 
   // ---------- logged ----------
