@@ -137,6 +137,31 @@ interface LoginResult {
   tokens: Tokens;
 }
 
+function PageShell({
+  title,
+  topBar,
+  children,
+}: {
+  title: string;
+  topBar: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="min-h-screen bg-gray-50 text-gray-900">
+      {topBar}
+      <main className="max-w-5xl mx-auto px-4 py-10">
+        <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight">
+          {title}
+        </h1>
+        <div className="mt-4">{children}</div>
+      </main>
+      <footer className="max-w-5xl mx-auto px-4 pb-10 text-center text-xs text-gray-500">
+        © {new Date().getFullYear()} • WMU
+      </footer>
+    </div>
+  );
+}
+
 export default function App() {
   const [page, setPage]= useState<Page>("login");
   const [selectedQuizId, setSelectedQuizId] = useState<number | null>(null);
@@ -881,32 +906,9 @@ function updateQuizProblem(
   );
 
   // ---------- pgs ----------
-  function PageShell({
-    title,
-    children,
-  }: {
-    title: string;
-    children: React.ReactNode;
-  }) {
-    return (
-      <div className="min-h-screen bg-gray-50 text-gray-900">
-        {TopBar}
-        <main className="max-w-5xl mx-auto px-4 py-10">
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight">
-            {title}
-          </h1>
-          <div className="mt-4">{children}</div>
-        </main>
-        <footer className="max-w-5xl mx-auto px-4 pb-10 text-center text-xs text-gray-500">
-          © {new Date().getFullYear()} • WMU
-        </footer>
-      </div>
-    );
-  }
-
   if (page === "about") {
     return (
-      <PageShell title="About">
+      <PageShell title="About" topBar={TopBar}>
         <div className="rounded-2xl bg-white border shadow-sm p-6 text-gray-700">
           <p className="leading-relaxed">bla bla bla this is the explanation</p>
         </div>
@@ -916,7 +918,7 @@ function updateQuizProblem(
 
   if (page === "contact") {
     return (
-      <PageShell title="Contact">
+      <PageShell title="Contact" topBar={TopBar}>
         <div className="rounded-2xl bg-white border shadow-sm p-6 text-gray-700">
           <p className="leading-relaxed">contact details to us ig</p>
         </div>
@@ -926,7 +928,7 @@ function updateQuizProblem(
 
   if (page === "createCourse") {
         return (
-      <PageShell title="Create course">
+      <PageShell title="Create course" topBar={TopBar}>
       <div className="w-full">
         <div className="rounded-3xl bg-white border shadow-sm p-6 md:p-8 w-full">
           <form method="post" onSubmit={createCourse} className="space-y-6">
@@ -1000,7 +1002,7 @@ function updateQuizProblem(
 
 if (page === "createQuiz" && selectedInstructorCourse) {
   return (
-    <PageShell title="Create quiz">
+    <PageShell title="Create quiz" topBar={TopBar}>
       <div className="w-full">
         <div className="rounded-3xl bg-white border shadow-sm p-6 md:p-8 w-full">
           <form method="post" onSubmit={createQuiz} className="space-y-6">
@@ -1266,7 +1268,7 @@ if (page === "createQuiz" && selectedInstructorCourse) {
 
 if (page === "registration") {
   return (
-    <PageShell title="Registration">
+    <PageShell title="Registration" topBar={TopBar}>
       <div className="w-full">
         <div className="rounded-3xl bg-white border shadow-sm p-6 md:p-8 w-full">
           <form method="post" onSubmit={registerUser} className="space-y-6">
@@ -1413,7 +1415,7 @@ if (page === "course" && selectedCourse) {
   );
 
   return (
-    <PageShell title={selectedCourse.code}>
+    <PageShell title={selectedCourse.code} topBar={TopBar}>
       <div className="rounded-2xl bg-white border shadow-sm overflow-hidden">
         <div className="h-2 bg-[#FFC72C]" />
 
@@ -1548,7 +1550,7 @@ if (page === "instructorCourse" && selectedInstructorCourse) {
   };
 
   return (
-    <PageShell title={`${selectedInstructorCourse.code} (Instructor)`}>
+    <PageShell title="Instructor" topBar={TopBar}>
       <div className="rounded-2xl bg-white border shadow-sm overflow-hidden">
         <div className="h-2 bg-[#FFC72C]" />
 
@@ -1556,8 +1558,7 @@ if (page === "instructorCourse" && selectedInstructorCourse) {
           {/* top row */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="text-sm text-gray-600">
-              {selectedInstructorCourse.term} • Instructor:{" "}
-              {selectedInstructorCourse.instructor_name}
+              <div></div>
             </div>
 
             <div className="flex items-center gap-2">
@@ -1586,13 +1587,6 @@ if (page === "instructorCourse" && selectedInstructorCourse) {
             <div className="text-xs font-bold text-gray-600">Instructor Actions</div>
 
             <div className="mt-3 flex flex-wrap gap-2">
-              <button
-                type="button"
-                onClick={() => alert("Create Assignment (demo)")}
-                className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
-              >
-                Create Assignment
-              </button>
 
               <button
                 type="button"
@@ -1704,7 +1698,7 @@ if (page === "instructorGrades" && selectedInstructorCourse) {
   );
 
   return (
-    <PageShell title={`${selectedInstructorCourse.code} Gradebook`}>
+    <PageShell title={`${selectedInstructorCourse.code} Gradebook`} topBar={TopBar}>
       <div className="rounded-2xl bg-white border shadow-sm overflow-hidden">
         <div className="h-2 bg-[#FFC72C]" />
 
@@ -1812,7 +1806,7 @@ if (page === "grades" && selectedCourse) {
   );
 
   return (
-    <PageShell title={`${selectedCourse.code} Grades`}>
+    <PageShell title={`${selectedCourse.code} Grades`} topBar={TopBar}>
       <div className="rounded-2xl bg-white border shadow-sm overflow-hidden">
         <div className="h-2 bg-[#FFC72C]" />
 
@@ -1911,7 +1905,13 @@ if (page === "grades" && selectedCourse) {
 }
   // ---------- Quiz Template ----------
 if (page === "quiz" && selectedQuizId) {
-  return <QuizTemplate setPage={setPage} quizId={selectedQuizId} userId={loginresult?.user.id} />;
+  return (
+    <QuizTemplate
+      quizId={selectedQuizId}
+      userId={loginresult?.user.id}
+      onExit={() => navigateTo("course", { course: selectedCourse })}
+    />
+  );
 }
 
   // ---------- logged ----------
@@ -1919,7 +1919,7 @@ if (loginresult && session && (page === "login" || page === "home")) {
   const isInstructor = session.role === ROLES.instructor;
 
   return (
-    <PageShell title={isInstructor ? "Instructor Home" : "Student Home"}>
+    <PageShell title={isInstructor ? "Instructor Home" : "Student Home"} topBar={TopBar}>
       <div className="rounded-2xl bg-white border shadow-sm p-6">
         <p className="text-gray-700">
           Signed in as{" "}
@@ -2068,7 +2068,7 @@ if (loginresult && session && (page === "login" || page === "home")) {
 // ---------- authenticated fallback ----------
 if (session && loginresult) {
   return (
-    <PageShell title="Home">
+    <PageShell title="Home" topBar={TopBar}>
       <div className="rounded-2xl bg-white border shadow-sm p-6">
         <div className="text-sm text-gray-700">
           You’re signed in, but that page isn’t available right now.
