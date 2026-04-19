@@ -2,7 +2,7 @@
 // autosaving answers, a timer, an extra detail page just for instructions
 
 // Enhanced Quiz Template with Timer, Autosave, and Backend Integration
-import React, { useState, useRef, useMemo, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import katex from "katex";
 import { BlockMath } from "react-katex";
 import { InlineMath } from "react-katex";
@@ -10,9 +10,10 @@ import { InlineMath } from "react-katex";
 type QuizPage = "quiz" | "details" | "submit";
 
 interface Props {
-  setPage: React.Dispatch<React.SetStateAction<any>>;
+  onExit: () => void;
   quizId?: number;
   userId?: number;
+  course?: any;
 }
 
 interface Question {
@@ -32,7 +33,7 @@ interface Quiz {
   description: string;
 }
 
-export default function QuizTemplate({ setPage, quizId, userId}: Props) {
+export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
   const [page, setLocalPage] = useState<QuizPage>("quiz");
   const [multipleAnswers, setMultipleAnswers] = useState<Record<number, string>>({});
   const [textAnswers, setTextAnswers] = useState<Record<number, string>>({});
@@ -357,7 +358,7 @@ export default function QuizTemplate({ setPage, quizId, userId}: Props) {
         {/* Header with Timer */}
         <div className="flex items-center justify-between mb-8">
           <button
-            onClick={() => setPage("course")}
+            onClick={onExit}
             className="text-sm font-semibold text-gray-600 hover:text-black"
           >
             ← Exit Quiz
@@ -388,7 +389,7 @@ export default function QuizTemplate({ setPage, quizId, userId}: Props) {
         <>
         <form onSubmit={handleQuizSubmission}>
           <div className="space-y-10">
-            {questions.map((q, index) => (
+            {questions.map((q) => (
               <div key={q.id} id={`question-${q.id}`}>
                   <p className="mb-2 text-lg whitespace-pre-wrap">
                     {renderTextWithLatex(q.text)}
@@ -490,7 +491,7 @@ export default function QuizTemplate({ setPage, quizId, userId}: Props) {
               </button>
 
               <button
-                onClick={() => setPage("home")}
+                onClick={onExit}
                 className="flex-1 rounded-2xl bg-[#4E3629] text-white py-3 font-bold hover:opacity-90"
               >
                 Submit Quiz
@@ -506,7 +507,7 @@ export default function QuizTemplate({ setPage, quizId, userId}: Props) {
               Your quiz has been submitted successfully.
             </p>
             <button
-              onClick={() => setPage("course")}
+              onClick={onExit}
               className="rounded-2xl bg-[#4E3629] text-white px-6 py-3 font-semibold hover:opacity-90"
             >
               Return to Course
