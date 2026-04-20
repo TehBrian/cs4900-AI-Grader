@@ -1,6 +1,8 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect, useRef } from "react";
 import ForgotPassword from './ForgotPassword';
 import QuizTemplate from './QuizTemplate';
+import katex from "katex";
+import { BlockMath } from "react-katex";
 
 const ROLES= {
   student: "student",
@@ -20,7 +22,8 @@ type Page=
   | "grades"
   | "instructorCourse"
   | "instructorGrades"
-  | "createCourse";
+  | "createCourse"
+  | "createQuiz";
 
 type HistoryState = {
   page: Page;
@@ -36,6 +39,28 @@ type Course= {
   instructor_name: string;
 };
 
+type Quiz = {
+  id: number;
+  title: string;
+  description: string;
+  course_id: number;
+  quiz_type: string;
+  problems: Record<string, string>[];
+  time_limit: number;
+  available_from: string | null;
+  available_until: string | null;
+  max_attempts: number;
+  show_correct_answers: boolean;
+  show_solution_after: boolean;
+}
+
+type ProblemOption = {
+  id: number;
+  title: string;
+  question_text: string;
+  question_latex?: string;
+};
+
 type CourseItemType= "Assignment" | "Quiz";
 
 type CourseItem= {
@@ -45,8 +70,8 @@ type CourseItem= {
   dueText: string;
   windowText?: string; // optional 
   submissionsText?: string; // optional 
-  scoreText?: string; // optional
-  gradeText?: string; // optional
+  scoreText?: string; // optional 
+  gradeText?: string; // optional 
   evalText?: string; // optional 
 };
 
@@ -112,6 +137,30 @@ interface LoginResult {
   tokens: Tokens;
 }
 
+function PageShell({
+  title,
+  topBar,
+  children,
+}: {
+  title: string;
+  topBar: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="min-h-screen bg-gray-50 text-gray-900">
+      {topBar}
+      <main className="max-w-5xl mx-auto px-4 py-10">
+        <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight">
+          {title}
+        </h1>
+        <div className="mt-4">{children}</div>
+      </main>
+      <footer className="max-w-5xl mx-auto px-4 pb-10 text-center text-xs text-gray-500">
+        © {new Date().getFullYear()} • WMU
+      </footer>
+    </div>
+  );
+}
 
 export default function App() {
   const [page, setPage]= useState<Page>("login");
@@ -127,14 +176,125 @@ export default function App() {
   const [studentCourses, setStudentCourses]= useState<Course[]>([]);
   const [selectedInstructorCourse, setSelectedInstructorCourse]= useState<Course | null>(null);
   const [instructorCourses, setInstructorCourses]= useState<Course[]>([]);
+  const [quizForm, setQuizForm]= useState({
+  title: "",
+  quiz_type: "practice",
+  time_limit: "",
+  available_from: "",
+  available_until: "",
+  max_attempts: "1",
+  allow_review: true,
+  total_points: "",
+  problems: [] as {
+    title: string;
+    question_text: string;
+    correct_answer: string;
+    problem_order: number;
+    points: number;
+    }[],
+  });
+  const [courseQuizzes, setCourseQuizzes] = useState<Quiz[]>([]);
+  const [availableProblems, setAvailableProblems] = useState<ProblemOption[]>([]);
   const [session, setSession]= useState<{ role: Role; email: string } | null>(
     null
   );
 
+    const textRefs = useRef<Record<number, HTMLDivElement | null>>({});
+  
+    const caretRanges = useRef<Record<number, Range>>({});
+    const [activeMathId, setActiveMathId] = useState<number | null>(null);
+    const [mathInput, setMathInput] = useState<string>("");
+
+  const handleKeyDown = (e: React.KeyboardEvent, qid: number) => {
+      if (e.key !== "Backspace") return;
+  
+      const sel = window.getSelection();
+      if (!sel || sel.rangeCount === 0) return;
+  
+      const range = sel.getRangeAt(0);
+      if (!range.collapsed) return;
+  
+      const node = range.startContainer;
+  
+      if (node.nodeType === Node.TEXT_NODE && range.startOffset === 0) {
+        const previousSibling = node.previousSibling as HTMLElement | null;
+        if (previousSibling && previousSibling.classList?.contains("math-block")) {
+          e.preventDefault();
+          previousSibling.remove();
+        }
+      }
+    };
+
+  const openMathPopup = () => {
+    console.log("open math popup");
+    setActiveMathId(1);
+    setMathInput("");
+  };
+
+  const insertMathAtCaret = () => {
+      if (activeMathId === null || !mathInput) return;
+  
+      const container = textRefs.current[activeMathId];
+      if (!container) return;
+  
+      const mathWrapper = document.createElement("span");
+      mathWrapper.contentEditable = "false";
+      mathWrapper.style.display = "inline-block";
+      mathWrapper.className = "math-block";
+  
+      mathWrapper.innerHTML = katex.renderToString(mathInput, {
+        throwOnError: false,
+      });
+  
+      const spaceNode = document.createTextNode(" ");
+      const range = caretRanges.current[activeMathId];
+  
+      if (range) {
+        range.deleteContents();
+        range.insertNode(spaceNode);
+        range.insertNode(mathWrapper);
+  
+        const newRange = document.createRange();
+        newRange.setStartAfter(spaceNode);
+        newRange.collapse(true);
+  
+        const sel = window.getSelection();
+        if (sel) {
+          sel.removeAllRanges();
+          sel.addRange(newRange);
+        }
+      } else {
+        container.appendChild(mathWrapper);
+        container.appendChild(spaceNode);
+      }
+  
+      setActiveMathId(null);
+      setMathInput("");
+    };
+
   const canSubmit= useMemo(() => {
     return email.trim().length > 0 && pw.trim().length > 0;
   }, [email, pw]);
-  const [courseQuizzes, setCourseQuizzes] = useState<any[]>([]);
+
+  function mapQuizzesToCourseItems(quizzes: unknown): CourseItem[] {
+  if (!Array.isArray(quizzes)) {
+    console.log("mapQuizzesToCourseItems got non-array:", quizzes);
+    return [];
+  }
+
+  return quizzes.map((quiz: any) => ({
+    id: String(quiz.id),
+    type: "Quiz",
+    title: quiz.title ?? "Untitled Quiz",
+    dueText: quiz.available_until
+      ? `Due: ${new Date(quiz.available_until).toLocaleString()}`
+      : "No due date",
+    submissionsText: "Not started",
+    scoreText: "-",
+    evalText: "",
+  }));
+}
+
 function navigateTo(
   nextPage: Page,
   options?: {
@@ -204,6 +364,40 @@ useEffect(() => {
   );
 }, []);
 
+useEffect(() => {
+  if (
+    page === "instructorCourse" &&
+    selectedInstructorCourse &&
+    loginresult?.tokens.access
+  ) {
+    console.log("INSTRUCTOR effect running");
+    console.log("instructor page:", page);
+    console.log("instructor selected course:", selectedInstructorCourse);
+    console.log("instructor course id:", selectedInstructorCourse.id);
+    fetchQuizzes(loginresult.tokens.access, selectedInstructorCourse.id);
+  }
+}, [page, selectedInstructorCourse, loginresult]);
+
+useEffect(() => {
+  if (
+    page === "course" &&
+    selectedCourse &&
+    loginresult?.tokens.access
+  ) {
+    console.log("STUDENT effect running");
+    console.log("student page:", page);
+    console.log("student selected course:", selectedCourse);
+    console.log("student course id:", selectedCourse.id);
+    fetchQuizzes(loginresult.tokens.access, selectedCourse.id);
+  }
+}, [page, selectedCourse, loginresult]);
+
+useEffect(() => {
+  if (page === "createQuiz" && loginresult?.tokens.access) {
+    fetchAvailableProblems(loginresult.tokens.access);
+  }
+}, [page, loginresult]);
+
 async function createCourse(e: React.FormEvent) {
   e.preventDefault();
   setError(null);
@@ -245,6 +439,73 @@ async function createCourse(e: React.FormEvent) {
       });
 
       setError(err_msg);
+    }
+  } catch (err) {
+    alert("Failed to connect.");
+  }
+}
+
+async function createQuiz(e: React.FormEvent) {
+  e.preventDefault();
+  setError(null);
+
+  if (!selectedInstructorCourse || !loginresult) {
+    setError("No course selected.");
+    return;
+  }
+
+  try {
+    const response= await fetch("http://127.0.0.1:8000/api/quizzes/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${loginresult.tokens.access}`,
+      },
+      body: JSON.stringify({
+        title: quizForm.title,
+        course: selectedInstructorCourse.id,
+        created_by: loginresult.user.id,
+        quiz_type: quizForm.quiz_type,
+        time_limit: quizForm.time_limit ? Number(quizForm.time_limit) : null,
+        available_from: quizForm.available_from || null,
+        available_until: quizForm.available_until || null,
+        max_attempts: quizForm.max_attempts ? Number(quizForm.max_attempts) : 1,
+        allow_review: quizForm.allow_review,
+        total_points: quizForm.total_points ? Number(quizForm.total_points) : 0,
+        problems: quizForm.problems.map((p) => ({
+          ...p,
+          question_latex: "",
+        })),
+        }),
+    });
+    
+
+    if (response.ok) {
+      setQuizForm({
+        title: "",
+        quiz_type: "practice",
+        time_limit: "",
+        available_from: "",
+        available_until: "",
+        max_attempts: "1",
+        allow_review: true,
+        total_points: "",
+        problems: [],
+      });
+
+      navigateTo("instructorCourse", {
+        instructorCourse: selectedInstructorCourse,
+        replace: true,
+      });
+    } else {
+      const err_response = await response.json();
+      let err_msg = "";
+
+      Object.entries(err_response).forEach((i) => {
+        err_msg += i[1] + "\n";
+      });
+
+      setError(err_msg || "Failed to create quiz.");
     }
   } catch (err) {
     alert("Failed to connect.");
@@ -326,6 +587,201 @@ async function registerUser(e: React.FormEvent) {
     }
   }
 
+  async function fetchAvailableProblems(accessToken: string) {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/problems/", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      const data = await response.json();
+      console.log("available problems:", data);
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch problems");
+      }
+
+      if (Array.isArray(data)) {
+        setAvailableProblems(data);
+      } else if (Array.isArray(data.results)) {
+      setAvailableProblems(data.results);
+      } else {
+        setAvailableProblems([]);
+      }
+    } catch (err) {
+      console.error(err);
+      setError("Could not load problems.");
+    }
+  }
+
+  // function addProblemToQuiz(problemId: number) {
+  //   setQuizForm((prev) => {
+  //     if (prev.problems.some((p) => p.problem_id === problemId)) {
+  //       return prev;
+  //     }
+
+  //     return {
+  //       ...prev,
+  //       problems: [
+  //         ...prev.problems,
+  //         {
+  //           problem_id: problemId,
+  //           problem_order: prev.problems.length + 1,
+  //           points: 1,
+  //           custom_instructions: "",
+  //           time_limit_override: null,
+  //           parameter_overrides: {},
+  //         },
+  //       ],
+  //     };
+  //   });
+  // }
+
+ // function addProblemToQuiz() {
+  //  return (
+   //   <div className="relative">
+    //                  <div
+    //                    contentEditable
+    //                    suppressContentEditableWarning
+    //                    className="w-full border rounded-xl p-3 pr-10 min-h-[100px] focus:outline-none focus:ring-2 focus:ring-[#4E3629] whitespace-pre-wrap"
+    //                  />
+    //                  <input required name="problem text" placeholder="write problem text here..." className="mt-1 w-full rounded- 2x1 border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"  />
+     //                 <button
+     //                   type="button"
+    //                    onClick={() => openMathPopup()}
+    //                    className="absolute bottom-2 right-2 text-gray-500 hover:text-black text-lg"
+    //                    title="Insert Math (LaTeX)"
+     //                 >
+    //                    ∑
+     //                 </button>
+     //               </div>
+   // );
+ // }
+
+ function addProblemToQuiz() {
+  setQuizForm((prev) => ({
+    ...prev,
+    problems: [
+      ...prev.problems,
+      {
+        title: "",
+        question_text: "",
+        correct_answer: "",
+        problem_order: prev.problems.length + 1,
+        points: 1,
+      },
+    ],
+  }));
+}
+
+//function removeProblemFromQuiz(problemId: number) {
+ // setQuizForm((prev) => ({
+ //   ...prev,
+ //   problems: prev.problems.filter((p) => p.problem_id !== problemId),
+ // }));
+//}
+
+function removeProblemFromQuiz(index: number) {
+  setQuizForm((prev) => ({
+    ...prev,
+    problems: prev.problems.filter((_, i) => i !== index),
+  }));
+}
+
+function updateQuizProblem(
+  index: number,
+  field: "title" | "question_text" | "correct_answer" | "problem_order" | "points",
+  value: string | number
+) {
+  setQuizForm((prev) => ({
+    ...prev,
+    problems: prev.problems.map((problem, i) =>
+      i === index ? { ...problem, [field]: value } : problem
+    ),
+  }));
+}
+
+  async function fetchQuizzes(accessToken: string, courseID: number) {
+    try {
+      console.log("fetchQuizzes called with courseID:", courseID);
+      console.log("access token exists:", !!accessToken);
+
+      const response = await fetch(`http://127.0.0.1:8000/api/quizzes/?course=${courseID}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        }
+      });
+
+      console.log("quiz fetch raw status:", response.status);
+
+      const data = await response.json();
+      console.log("quiz fetch response data:", data);
+
+      if (!response.ok) {
+        throw new Error("Quiz fetch response not ok.");
+      }
+
+      if (Array.isArray(data)) {
+        setCourseQuizzes(data);
+      } else if (Array.isArray(data.results)) {
+        setCourseQuizzes(data.results);
+      } else if (Array.isArray(data.quizzes)) {
+        setCourseQuizzes(data.quizzes);
+      } else {
+        console.log("Unexpected quiz response shape:", data);
+        setCourseQuizzes([]);
+      }
+
+      setCourseQuizzes(data);
+      console.log("setCourseQuizzes finished");
+    } catch (err) {
+      console.error("fetchQuizzes failed:", err);
+      setError("Could not fetch quizzes.");
+    }
+  }
+
+  async function handleQuizSubmission(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+
+
+    const form= e.target as HTMLFormElement;
+    const formData= new FormData(form);
+
+    try {
+      const response = await fetch("https://127.0.0.1:8000/api/grading/submit/", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(
+          {
+            quiz_id: selectedQuizId,
+            student_id: loginresult?.user.id,
+            content: formData,
+          }
+        )
+      });
+
+      /*if (response.ok) {
+        const data = await response.json();
+      } */
+      if (!response.ok) {
+        const err_response = await response.json();
+        setError(err_response.error);
+        return;
+      }
+
+    } catch (err) {
+      alert("Failed to submit quiz.");
+    }
+  }
+
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
@@ -350,7 +806,6 @@ async function registerUser(e: React.FormEvent) {
         navigateTo("home", { replace: true });
 
       } else {
-
         const err_response = await response.json();
         setError(err_response.error);
         return;
@@ -358,7 +813,6 @@ async function registerUser(e: React.FormEvent) {
     } catch (err) {
       alert("Failed to connect to database.");
     }
-
   }
 
   function logout() {
@@ -370,6 +824,7 @@ async function registerUser(e: React.FormEvent) {
     navigateTo("login", { replace: true });
     setLoginResult(null);
     setStudentCourses([]);
+    setCourseQuizzes([]);
     setInstructorCourses([]);
     setSelectedCourse(null);
     setSelectedInstructorCourse(null);
@@ -476,32 +931,9 @@ async function registerUser(e: React.FormEvent) {
   );
 
   // ---------- pgs ----------
-  function PageShell({
-    title,
-    children,
-  }: {
-    title: string;
-    children: React.ReactNode;
-  }) {
-    return (
-      <div className="min-h-screen bg-gray-50 text-gray-900">
-        {TopBar}
-        <main className="max-w-5xl mx-auto px-4 py-10">
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight">
-            {title}
-          </h1>
-          <div className="mt-4">{children}</div>
-        </main>
-        <footer className="max-w-5xl mx-auto px-4 pb-10 text-center text-xs text-gray-500">
-          © {new Date().getFullYear()} • WMU
-        </footer>
-      </div>
-    );
-  }
-
   if (page === "about") {
     return (
-      <PageShell title="About">
+      <PageShell title="About" topBar={TopBar}>
         <div className="rounded-2xl bg-white border shadow-sm p-6 text-gray-700">
           <p className="leading-relaxed">bla bla bla this is the explanation</p>
         </div>
@@ -511,7 +943,7 @@ async function registerUser(e: React.FormEvent) {
 
   if (page === "contact") {
     return (
-      <PageShell title="Contact">
+      <PageShell title="Contact" topBar={TopBar}>
         <div className="rounded-2xl bg-white border shadow-sm p-6 text-gray-700">
           <p className="leading-relaxed">contact details to us ig</p>
         </div>
@@ -521,7 +953,7 @@ async function registerUser(e: React.FormEvent) {
 
   if (page === "createCourse") {
         return (
-      <PageShell title="Create course">
+      <PageShell title="Create course" topBar={TopBar}>
       <div className="w-full">
         <div className="rounded-3xl bg-white border shadow-sm p-6 md:p-8 w-full">
           <form method="post" onSubmit={createCourse} className="space-y-6">
@@ -593,9 +1025,276 @@ async function registerUser(e: React.FormEvent) {
     );
   }
 
+if (page === "createQuiz" && selectedInstructorCourse) {
+  return (
+    <PageShell title="Create quiz" topBar={TopBar}>
+      <div className="w-full">
+        <div className="rounded-3xl bg-white border shadow-sm p-6 md:p-8 w-full">
+          <form method="post" onSubmit={createQuiz} className="space-y-6">
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="text-sm font-semibold text-gray-700">
+                  Title
+                </label>
+                <input
+                  value={quizForm.title}
+                  onChange={(e) =>
+                    setQuizForm({ ...quizForm, title: e.target.value })
+                  }
+                  required
+                  placeholder="Quiz 1"
+                  className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-semibold text-gray-700">
+                  Quiz type
+                </label>
+                <select
+                  value={quizForm.quiz_type}
+                  onChange={(e) =>
+                    setQuizForm({ ...quizForm, quiz_type: e.target.value })
+                  }
+                  className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                >
+                  <option value="practice">Practice</option>
+                  <option value="quiz">Graded</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="text-sm font-semibold text-gray-700">
+                  Time limit
+                </label>
+                <input
+                  type="number"
+                  min="1"
+                  value={quizForm.time_limit}
+                  onChange={(e) =>
+                    setQuizForm({ ...quizForm, time_limit: e.target.value })
+                  }
+                  placeholder="30"
+                  className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-semibold text-gray-700">
+                  Max attempts
+                </label>
+                <input
+                  type="number"
+                  min="1"
+                  value={quizForm.max_attempts}
+                  onChange={(e) =>
+                    setQuizForm({ ...quizForm, max_attempts: e.target.value })
+                  }
+                  placeholder="1"
+                  className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="text-sm font-semibold text-gray-700">
+                  Available from
+                </label>
+                <input
+                  type="datetime-local"
+                  value={quizForm.available_from}
+                  onChange={(e) =>
+                    setQuizForm({ ...quizForm, available_from: e.target.value })
+                  }
+                  className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-semibold text-gray-700">
+                  Available until
+                </label>
+                <input
+                  type="datetime-local"
+                  value={quizForm.available_until}
+                  onChange={(e) =>
+                    setQuizForm({ ...quizForm, available_until: e.target.value })
+                  }
+                  className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="text-sm font-semibold text-gray-700">
+                Total points
+              </label>
+              <input
+                type="number"
+                min="0"
+                value={quizForm.total_points}
+                onChange={(e) =>
+                  setQuizForm({ ...quizForm, total_points: e.target.value })
+                }
+                placeholder="100"
+                className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-semibold text-gray-700 block mb-2">
+                Review
+              </label>
+
+              <label className="flex items-center gap-2 rounded-2xl border px-4 py-3 bg-white hover:bg-gray-50 cursor-pointer w-full">
+                <input
+                  type="checkbox"
+                  checked={quizForm.allow_review}
+                  onChange={(e) =>
+                    setQuizForm({ ...quizForm, allow_review: e.target.checked })
+                  }
+                  className="accent-[#4E3629]"
+                />
+                <span className="font-semibold">Allow review after submission</span>
+              </label>
+            </div>
+
+            {error && (
+              <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                {error}
+              </div>
+            )}
+
+            <div>
+              <label className="text-sm font-semibold text-gray-700 block mb-3">
+                Make Problems
+              </label>
+
+              <div className="space-y-5">
+                {quizForm.problems.map((problem, index) => (
+                  <div key={index} className="rounded-3xl border bg-white p-5">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-xl font-bold">Problem {index + 1}</h3>
+                      <button
+                        type="button"
+                        onClick={() => removeProblemFromQuiz(index)}
+                        className="px-4 py-2 rounded-2xl border bg-red-50 hover:bg-red-100 text-sm font-medium"
+                      >
+                        Remove
+                      </button>
+                    </div>
+
+                    <div className="space-y-4">
+                      <input
+                        type="text"
+                        value={problem.title}
+                        onChange={(e) =>
+                          updateQuizProblem(index, "title", e.target.value)
+                        }
+                        placeholder="Title"
+                        className="w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                      />
+
+                      <textarea
+                        value={problem.question_text}
+                        onChange={(e) =>
+                          updateQuizProblem(index, "question_text", e.target.value)
+                        }
+                        placeholder="Question text"
+                        rows={5}
+                        className="w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none resize-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                      />
+
+                      <input
+                        type="text"
+                        value={problem.correct_answer}
+                        onChange={(e) =>
+                          updateQuizProblem(index, "correct_answer", e.target.value)
+                        }
+                        placeholder="Correct answer"
+                        className="w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                      />
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="text-sm font-semibold text-gray-700">
+                            Problem Order
+                          </label>
+                          <input
+                            type="number"
+                            min="1"
+                            value={problem.problem_order}
+                            onChange={(e) =>
+                              updateQuizProblem(index, "problem_order", Number(e.target.value))
+                            }
+                            className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="text-sm font-semibold text-gray-700">
+                            Points
+                          </label>
+                        <input
+                          type="number"
+                          min="1"
+                          value={problem.points}
+                          onChange={(e) =>
+                            updateQuizProblem(index, "points", Number(e.target.value))
+                          }
+                          className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              <button
+                type="button"
+                onClick={addProblemToQuiz}
+                className="px-6 py-3 rounded-2xl bg-white border shadow-sm hover:shadow transition text-base font-medium"
+              >
+                Add Problem
+              </button>
+            </div>
+          </div>
+
+            <div className="flex justify-end gap-3 pt-4">
+              <button
+                type="button"
+                onClick={() =>
+                  navigateTo("instructorCourse", {
+                    instructorCourse: selectedInstructorCourse,
+                  })
+                }
+                className="px-8 py-3 rounded-2xl font-bold transition shadow-sm bg-white border hover:shadow"
+              >
+                Cancel
+              </button>
+
+              <button
+                type="submit"
+                className="px-8 py-3 rounded-2xl font-bold transition shadow-sm bg-[#4E3629] text-white hover:opacity-95"
+              >
+                Submit
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </PageShell>
+  );
+}
+
 if (page === "registration") {
   return (
-    <PageShell title="Registration">
+    <PageShell title="Registration" topBar={TopBar}>
       <div className="w-full">
         <div className="rounded-3xl bg-white border shadow-sm p-6 md:p-8 w-full">
           <form method="post" onSubmit={registerUser} className="space-y-6">
@@ -727,8 +1426,9 @@ if (page === "registration") {
 if (page === "course" && selectedCourse) {
   console.log("Selected course:", selectedCourse);
   console.log("Course ID:", selectedCourse.id);
-  const items = DEMO_COURSE_ITEMS[selectedCourse.id] ?? [];
-  console.log("Items found:", items);
+  console.log("Rendering student course page");
+  console.log("student courseQuizzes state:", courseQuizzes);
+  const items = mapQuizzesToCourseItems(courseQuizzes);
   const pill = (t: CourseItemType) => (
     <span
       className={[
@@ -741,7 +1441,7 @@ if (page === "course" && selectedCourse) {
   );
 
   return (
-    <PageShell title={selectedCourse.code}>
+    <PageShell title={selectedCourse.code} topBar={TopBar}>
       <div className="rounded-2xl bg-white border shadow-sm overflow-hidden">
         <div className="h-2 bg-[#FFC72C]" />
 
@@ -800,7 +1500,7 @@ if (page === "course" && selectedCourse) {
                     type="button"
                     onClick={() => {
                       if (it.type === "Quiz") {
-                        setSelectedQuizId(parseInt(it.id.replace('q', '')));
+                        setSelectedQuizId(Number(it.id));
                         navigateTo("quiz");
                       } else {
                         alert(`Open: ${it.title}`);
@@ -853,8 +1553,9 @@ if (page === "course" && selectedCourse) {
 }
 
 if (page === "instructorCourse" && selectedInstructorCourse) {
-  const items = DEMO_COURSE_ITEMS[selectedInstructorCourse.id] ?? [];
-
+  const items = mapQuizzesToCourseItems(courseQuizzes);
+  console.log("Rendering instructor course page");
+  console.log("instructor courseQuizzes state:", courseQuizzes);
   const pill = (t: CourseItemType) => (
     <span
       className={[
@@ -875,7 +1576,7 @@ if (page === "instructorCourse" && selectedInstructorCourse) {
   };
 
   return (
-    <PageShell title={`${selectedInstructorCourse.code} (Instructor)`}>
+    <PageShell title="Instructor" topBar={TopBar}>
       <div className="rounded-2xl bg-white border shadow-sm overflow-hidden">
         <div className="h-2 bg-[#FFC72C]" />
 
@@ -883,8 +1584,7 @@ if (page === "instructorCourse" && selectedInstructorCourse) {
           {/* top row */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="text-sm text-gray-600">
-              {selectedInstructorCourse.term} • Instructor:{" "}
-              {selectedInstructorCourse.instructor_name}
+              <div></div>
             </div>
 
             <div className="flex items-center gap-2">
@@ -913,17 +1613,14 @@ if (page === "instructorCourse" && selectedInstructorCourse) {
             <div className="text-xs font-bold text-gray-600">Instructor Actions</div>
 
             <div className="mt-3 flex flex-wrap gap-2">
-              <button
-                type="button"
-                onClick={() => alert("Create Assignment (demo)")}
-                className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
-              >
-                Create Assignment
-              </button>
 
               <button
                 type="button"
-                onClick={() => alert("Create Quiz (demo)")}
+                onClick={() => 
+                  navigateTo("createQuiz", {
+                    instructorCourse: selectedInstructorCourse
+                  })
+                }
                 className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
               >
                 Create Quiz
@@ -978,9 +1675,6 @@ if (page === "instructorCourse" && selectedInstructorCourse) {
                       <div className="text-sm text-gray-700">
                         {it.submissionsText ?? "—"}
                       </div>
-                      <div className="text-xs text-gray-500 mt-1">
-                        Status: {statusFor(it)}
-                      </div>
                     </div>
 
                     {/* actions */}
@@ -1027,7 +1721,7 @@ if (page === "instructorGrades" && selectedInstructorCourse) {
   );
 
   return (
-    <PageShell title={`${selectedInstructorCourse.code} Gradebook`}>
+    <PageShell title={`${selectedInstructorCourse?.title} Gradebook`} topBar={TopBar}>
       <div className="rounded-2xl bg-white border shadow-sm overflow-hidden">
         <div className="h-2 bg-[#FFC72C]" />
 
@@ -1135,7 +1829,7 @@ if (page === "grades" && selectedCourse) {
   );
 
   return (
-    <PageShell title={`${selectedCourse.code} Grades`}>
+    <PageShell title={`${selectedCourse.code} Grades`} topBar={TopBar}>
       <div className="rounded-2xl bg-white border shadow-sm overflow-hidden">
         <div className="h-2 bg-[#FFC72C]" />
 
@@ -1234,7 +1928,11 @@ if (page === "grades" && selectedCourse) {
 }
   // ---------- Quiz Template ----------
 if (page === "quiz" && selectedQuizId) {
-  return <QuizTemplate setPage={setPage} quizId={selectedQuizId} />;
+  return <QuizTemplate onExit={() => navigateTo("home", 
+    { course: selectedCourse})} 
+    quizId={selectedQuizId} 
+    userId={loginresult?.user.id}
+    course = {selectedCourse} />;
 }
 
   // ---------- logged ----------
@@ -1242,7 +1940,7 @@ if (loginresult && session && (page === "login" || page === "home")) {
   const isInstructor = session.role === ROLES.instructor;
 
   return (
-    <PageShell title={isInstructor ? "Instructor Home" : "Student Home"}>
+    <PageShell title={isInstructor ? "Instructor Home" : "Student Home"} topBar={TopBar}>
       <div className="rounded-2xl bg-white border shadow-sm p-6">
         <p className="text-gray-700">
           Signed in as{" "}
@@ -1391,7 +2089,7 @@ if (loginresult && session && (page === "login" || page === "home")) {
 // ---------- authenticated fallback ----------
 if (session && loginresult) {
   return (
-    <PageShell title="Home">
+    <PageShell title="Home" topBar={TopBar}>
       <div className="rounded-2xl bg-white border shadow-sm p-6">
         <div className="text-sm text-gray-700">
           You’re signed in, but that page isn’t available right now.
@@ -1530,5 +2228,3 @@ if (session && loginresult) {
     </div>
   );
 }
-
-

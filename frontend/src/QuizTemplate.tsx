@@ -1,13 +1,19 @@
-// Enhanced Quiz Template with Inline Answer Boxes
+// some things to add that is back end stuff sort of:
+// autosaving answers, a timer, an extra detail page just for instructions
+
+// Enhanced Quiz Template with Timer, Autosave, and Backend Integration
 import React, { useState, useRef, useEffect } from "react";
-import "katex/dist/katex.min.css";
+import katex from "katex";
 import { BlockMath } from "react-katex";
+import { InlineMath } from "react-katex";
 
 type QuizPage = "quiz" | "details" | "submit";
 
 interface Props {
-  setPage: React.Dispatch<React.SetStateAction<any>>;
-  quizId: number;
+  onExit: () => void;
+  quizId?: number;
+  userId?: number;
+  course?: any;
 }
 
 interface AnswerBox {
@@ -37,7 +43,7 @@ interface Quiz {
   description: string;
 }
 
-export default function Quiztemplate({ setPage, quizId }: Props) {
+export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
   const [page, setLocalPage] = useState<QuizPage>("quiz");
   const [boxAnswers, setBoxAnswers] = useState<Record<number, string>>({});
   const [activeMathBoxId, setActiveMathBoxId] = useState<number | null>(null);
@@ -58,6 +64,47 @@ export default function Quiztemplate({ setPage, quizId }: Props) {
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const attemptCreatedRef = useRef<boolean>(false);
 
+
+
+    async function handleQuizSubmission(e: React.FormEvent) {
+      e.preventDefault();
+      //setError(null);
+      setLocalPage("details")
+  
+      const form= e.target as HTMLFormElement;
+      const formData= new FormData(form);
+  
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/grading/submit/", {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(
+            {
+              quiz_id: quizId,
+              student_id: userId,
+              content: formData,
+            }
+          )
+        });
+  
+        /*if (response.ok) {
+          const data = await response.json();
+        } */
+        if (!response.ok) {
+          const err_response = await response.json();
+          //setError(err_response.error);
+          return;
+        }
+  
+      } catch (err) {
+        alert("Failed to submit quiz.");
+      }
+    }
+  
+
+  // Fetch quiz data from backend
   useEffect(() => {
     attemptCreatedRef.current = false; // Reset for new quiz
     
@@ -97,20 +144,16 @@ export default function Quiztemplate({ setPage, quizId }: Props) {
       const problemsResponse = await fetch(`http://127.0.0.1:8000/api/quizzes/${quizId}/problems/`);
       if (problemsResponse.ok) {
         const problemsData = await problemsResponse.json();
-        setQuestions(problemsData);
-      }
-
-      // Fetch previous attempts
-      try {
-        const attemptsResponse = await fetch(`http://127.0.0.1:8000/api/quizzes/${quizId}/my_attempts/`);
-        if (attemptsResponse.ok) {
-          const attemptsData = await attemptsResponse.json();
-          setPreviousAttempts(attemptsData.attempts || []);
-          setAttemptNumber((attemptsData.total_attempts || 0) + 1);
-        }
-      } catch (err) {
-        console.log('Could not fetch attempts, using attempt 1');
-        setAttemptNumber(1);
+        // Convert backend problems to Question format
+        const formattedQuestions: Question[] = problemsData.map((p: any) => ({
+          id: p.linked_problem_id ?? p.id,
+          text: p.problem_text || p.problem_title || "Question",
+          latex: p.problem_latex || undefined,
+          type: "text" as const,
+          problem_text: p.problem_text,
+          problem_title: p.problem_title,
+        }));
+        setQuestions(formattedQuestions);
       }
     } catch (err) {
       console.error('Failed to load quiz:', err);
@@ -340,8 +383,21 @@ export default function Quiztemplate({ setPage, quizId }: Props) {
     );
   }
 
+  function renderTextWithLatex(text: string) {
+    const parts = text.split(/(\$.*?\$)/g);
+
+    return parts.map((part, index) => {
+      if (part.startsWith("$") && part.endsWith("$")) {
+        const math = part.slice(1, -1);
+        return <InlineMath key={index} math={math} />; // uses inline math to place it in correct spot
+      }
+      return <span key={index}>{part}</span>;
+    });
+  }
+
   return (
-    <div className="min-h-screen bg-gray-100 flex justify-center px-4 py-12">
+    <div className="min-h-screen bg-gray-100 flex justify-center px-4 py-12 font-serif">
+      {/* Question Navigation Sidebar */}
       <div className="hidden md:flex flex-col gap-3 fixed top-32 left-8 w-20">
         {questions.map((q, index) => (
           <button
@@ -365,7 +421,7 @@ export default function Quiztemplate({ setPage, quizId }: Props) {
       <div className="w-full max-w-4xl bg-white rounded-3xl border shadow-lg p-8 md:p-12">
         <div className="flex items-center justify-between mb-8">
           <button
-            onClick={() => setPage("course")}
+            onClick={onExit}
             className="text-sm font-semibold text-gray-600 hover:text-black"
           >
             ← Exit Quiz
@@ -399,21 +455,63 @@ export default function Quiztemplate({ setPage, quizId }: Props) {
         )}
 
         {page === "quiz" && (
-          <>
-            <div className="space-y-10">
-              {questions.map((q, index) => (
-                <div key={q.id} id={`question-${q.id}`} className="border-b pb-8">
-                  <h2 className="text-xl font-bold mb-4 text-[#4E3629]">
-                    Question {index + 1}: {q.problem_title}
-                  </h2>
-                  <div className="text-gray-700 leading-relaxed">
-                    {renderQuestionText(q)}
-                  </div>
-                </div>
-              ))}
-            </div>
+        <>
+        <form onSubmit={handleQuizSubmission}>
+          <div className="space-y-10">
+            {questions.map((q) => (
+              <div key={q.id} id={`question-${q.id}`}>
+                  <p className="mb-2 text-lg whitespace-pre-wrap">
+                    {renderTextWithLatex(q.text)}
+                    </p>
+                {q.type === "multiple" && q.options?.map((opt) => (
+                  <button
+                    key={opt}
+                    onClick={() => selectAnswer(q.id, opt)}
+                    className={[
+                      "w-full text-left px-4 py-3 rounded-xl border mb-2 transition",
+                      multipleAnswers[q.id] === opt
+                        ? "bg-[#4E3629] text-white border-[#4E3629]"
+                        : "bg-white hover:bg-gray-50",
+                    ].join(" ")}
+                  >
+                    {opt}
+                  </button>
+                ))}
 
-            <div className="mt-10 flex gap-4">
+                {q.type === "text" && (
+                  <div className="flex items-center gap-3 mt-2">
+                    <div className="ml-auto relative">
+                      <div
+                        ref={(el) => {
+                          textRefs.current[q.id] = el;
+                        } }
+                        contentEditable
+                        suppressContentEditableWarning
+                        onInput={() => handleInput(q.id)}
+                        onKeyUp={() => saveCaret(q.id)}
+                        onClick={() => saveCaret(q.id)}
+                        onKeyDown={(e) => handleKeyDown(e, q.id)}
+                        className = "w-40 min-h-[36px] max-h-[60px] overflow-y-auto border rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#4E3629] whitespace-pre-wrap"
+                        // dangerouslySetInnerHTML={{ __html: textAnswers[q.id] || "" }} 
+                        
+                        />
+
+                      <button
+                        type="button"
+                        onClick={() => openMathPopup(q.id)}
+                        className="absolute -right-7 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black text-sm"
+                        title="Insert Math (LaTeX)"
+                      >
+                        ∑
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-10 flex gap-4">
               <button
                 onClick={() => saveAnswers()}
                 disabled={saving}
@@ -423,13 +521,13 @@ export default function Quiztemplate({ setPage, quizId }: Props) {
               </button>
 
               <button
-                onClick={() => setLocalPage("details")}
+                type="submit"
                 className="flex-1 rounded-2xl bg-[#4E3629] text-white py-3 font-bold hover:opacity-90"
               >
                 Review Answers
               </button>
-            </div>
-          </>
+          </div>
+        </form></>
         )}
 
         {page === "details" && (
@@ -465,7 +563,7 @@ export default function Quiztemplate({ setPage, quizId }: Props) {
               </button>
 
               <button
-                onClick={handleSubmit}
+                onClick={onExit}
                 className="flex-1 rounded-2xl bg-[#4E3629] text-white py-3 font-bold hover:opacity-90"
               >
                 Submit Quiz
@@ -481,24 +579,12 @@ export default function Quiztemplate({ setPage, quizId }: Props) {
             <p className="text-gray-600 mb-4">
               Attempt {attemptNumber} of {maxAttempts} completed
             </p>
-            
-            <div className="flex gap-4 justify-center mt-6">
-              {attemptNumber < maxAttempts && (
-                <button
-                  onClick={() => window.location.reload()}
-                  className="rounded-2xl border-2 border-[#4E3629] text-[#4E3629] px-6 py-3 font-semibold hover:bg-gray-50"
-                >
-                  Try Again ({maxAttempts - attemptNumber} attempts left)
-                </button>
-              )}
-              
-              <button
-                onClick={() => setPage("course")}
-                className="rounded-2xl bg-[#4E3629] text-white px-6 py-3 font-semibold hover:opacity-90"
-              >
-                Return to Course
-              </button>
-            </div>
+            <button
+              onClick={onExit}
+              className="rounded-2xl bg-[#4E3629] text-white px-6 py-3 font-semibold hover:opacity-90"
+            >
+              Return to Course
+            </button>
           </div>
         )}
         </div>

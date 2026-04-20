@@ -62,8 +62,9 @@ const ForgotPassword: React.FC = () => {
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: '50px auto', padding: '20px', border: '1px solid #ccc', borderRadius: '8px' }}>
-      <h2>Forgot Password</h2>
+    <div className="min-h-screen bg-gray-50 text-gray-900 flex items-center justify-center">
+      <div className="w-full max-w-md rounded-3xl bg-white border shadow-sm p-6 md:p-7">
+      <h2 className="text-2xl font-extrabold tracking-tight">Forgot Password</h2>
 
       {!showResetForm ? (
         <form onSubmit={handleForgotPassword}>
@@ -74,10 +75,10 @@ const ForgotPassword: React.FC = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              style={{ width: '100%', padding: '8px', marginTop: '5px' }}
+              className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
             />
           </div>
-          <button type="submit" style={{ width: '100%', padding: '10px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+          <button type="submit" className="w-full rounded-2xl font-bold py-3 transition shadow-sm bg-[#4E3629] text-white hover:opacity-95">
             Send Reset Instructions
           </button>
         </form>
@@ -91,7 +92,7 @@ const ForgotPassword: React.FC = () => {
               onChange={(e) => setNewPassword(e.target.value)}
               required
               minLength={6}
-              style={{ width: '100%', padding: '8px', marginTop: '5px' }}
+              className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
             />
           </div>
           <button type="submit" style={{ width: '100%', padding: '10px', backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
@@ -100,9 +101,10 @@ const ForgotPassword: React.FC = () => {
         </form>
       )}
 
-      {message && <p style={{ color: 'green', marginTop: '15px' }}>{message}</p>}
-      {error && <p style={{ color: 'red', marginTop: '15px' }}>{error}</p>}
-    </div>
+      {message && <div className="rounded-2xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700 mt-4">{message}</div>}
+      {error && <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 mt-4">{error}</div>}
+     </div>
+  </div>
   );
 };
 

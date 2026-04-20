@@ -14,6 +14,7 @@ from .models import (
     AnswerSubmission,
 )
 from ..users.models import CustomUser
+from ..problems.models import Problem
 
 
 
@@ -32,8 +33,6 @@ class CourseSerializer(serializers.ModelSerializer):
         ]
 
     def create(self, validated_data):
-        print("In serial create!\n")
-        print(validated_data)
         instructor = CustomUser.objects.get(id=validated_data["instructor_id"])
         course = Course.objects.create(
             title=validated_data["title"],
@@ -45,11 +44,12 @@ class CourseSerializer(serializers.ModelSerializer):
 
         )
         return course
-    
+
     def update(self, instance, validated_data):
         """ Allow course editing
         serializer = CourseSerializer(instance, data=data)
         """
+        #TODO: Update course info
         ...
 
 class CourseEnrollmentSerializer(serializers.ModelSerializer):
@@ -58,6 +58,62 @@ class CourseEnrollmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = CourseEnrollment
         fields = "__all__"
+
+class QuizProblemCreateSerializer(serializers.Serializer):
+    title = serializers.CharField()
+    question_text = serializers.CharField()
+    question_latex = serializers.CharField(required=False, allow_blank=True, default="")
+    correct_answer = serializers.CharField(required=False, allow_blank=True, default="")
+    problem_order = serializers.IntegerField()
+    points = serializers.FloatField(required=False, default=1.0)
+    custom_instructions = serializers.CharField(required=False, allow_blank=True, default="")
+    time_limit_override = serializers.IntegerField(required=False, allow_null=True)
+    parameter_overrides = serializers.JSONField(required=False, default=dict)
+
+class QuizSerializer(serializers.ModelSerializer):
+    problems = QuizProblemCreateSerializer(many=True, write_only=True, required=False)
+
+    class Meta:
+        model = Quiz
+        fields = [
+            "id",
+            "title",
+            "course",
+            "created_by",
+            "quiz_type",
+            "problems",
+            "time_limit",
+            "available_from",
+            "available_until",
+            "max_attempts",
+            "allow_review",
+            "total_points",
+        ]
+
+    def create(self, validated_data):
+        problems_data = validated_data.pop("problems", [])
+        quiz = Quiz.objects.create(**validated_data)
+
+        for item in problems_data:
+            problem = Problem.objects.create(
+                title=item["title"],
+                question_text=item["question_text"],
+                question_latex=item.get("question_latex", ""),
+                author=quiz.created_by,
+            )
+
+            QuizProblem.objects.create(
+                quiz=quiz,
+                problem=problem,
+                problem_order=item["problem_order"],
+                points=item.get("points", 1.0),
+                custom_instructions=item.get("custom_instructions", ""),
+                time_limit_override=item.get("time_limit_override"),
+                parameter_overrides=item.get("parameter_overrides", {}),
+            )
+
+        quiz.calculate_total_points()
+        return quiz
 
 class QuizProblemSerializer(serializers.ModelSerializer):
     """Serializer for QuizProblem"""

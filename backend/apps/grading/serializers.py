@@ -1,6 +1,6 @@
 # apps/grading/serializers.py
 from rest_framework import serializers
-from .models import StudentSubmission, GradingResult
+from .models import Submission, GradingResult
 
 
 class GradingResultSerializer(serializers.ModelSerializer):
@@ -11,18 +11,19 @@ class GradingResultSerializer(serializers.ModelSerializer):
         ]
 
 
-class StudentSubmissionSerializer(serializers.ModelSerializer):
+class SubmissionSerializer(serializers.ModelSerializer):
     problem_title = serializers.CharField(source="problem.title", read_only=True)
     student_username = serializers.CharField(source="student.username", read_only=True)
     result = GradingResultSerializer(read_only=True)
 
     class Meta:
-        model = StudentSubmission
+        model = Submission
         fields = [
             "submission_id",
-            "quiz",
+            "student_id",
+            "quiz_id",
+            "content",
             "problem_title",
-            "student",
             "student_username",
             "student_answer",
             "expected_answer",
@@ -32,5 +33,4 @@ class StudentSubmissionSerializer(serializers.ModelSerializer):
             "submitted_at",
             "status",
             "attempt_number",
-            "result",
         ]
