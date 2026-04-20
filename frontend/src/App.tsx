@@ -186,12 +186,11 @@ export default function App() {
   allow_review: true,
   total_points: "",
   problems: [] as {
-    problem_id: number;
+    title: string;
+    question_text: string;
+    correct_answer: string;
     problem_order: number;
     points: number;
-    custom_instructions?: string;
-    time_limit_override?: number | null;
-    parameter_overrides?: Record<string, any>;
     }[],
   });
   const [courseQuizzes, setCourseQuizzes] = useState<Quiz[]>([]);
@@ -473,8 +472,11 @@ async function createQuiz(e: React.FormEvent) {
         max_attempts: quizForm.max_attempts ? Number(quizForm.max_attempts) : 1,
         allow_review: quizForm.allow_review,
         total_points: quizForm.total_points ? Number(quizForm.total_points) : 0,
-        problems: quizForm.problems,
-      }),
+        problems: quizForm.problems.map((p) => ({
+          ...p,
+          question_latex: "",
+        })),
+        }),
     });
     
 
@@ -638,43 +640,66 @@ async function registerUser(e: React.FormEvent) {
   //   });
   // }
 
-  function addProblemToQuiz() {
-    return (
-      <div className="relative">
-                      <div
-                        contentEditable
-                        suppressContentEditableWarning
-                        className="w-full border rounded-xl p-3 pr-10 min-h-[100px] focus:outline-none focus:ring-2 focus:ring-[#4E3629] whitespace-pre-wrap"
-                      />
-                      <input required name="problem text" placeholder="write problem text here..." className="mt-1 w-full rounded- 2x1 border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"  />
-                      <button
-                        type="button"
-                        onClick={() => openMathPopup()}
-                        className="absolute bottom-2 right-2 text-gray-500 hover:text-black text-lg"
-                        title="Insert Math (LaTeX)"
-                      >
-                        ∑
-                      </button>
-                    </div>
-    );
-  }
+ // function addProblemToQuiz() {
+  //  return (
+   //   <div className="relative">
+    //                  <div
+    //                    contentEditable
+    //                    suppressContentEditableWarning
+    //                    className="w-full border rounded-xl p-3 pr-10 min-h-[100px] focus:outline-none focus:ring-2 focus:ring-[#4E3629] whitespace-pre-wrap"
+    //                  />
+    //                  <input required name="problem text" placeholder="write problem text here..." className="mt-1 w-full rounded- 2x1 border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"  />
+     //                 <button
+     //                   type="button"
+    //                    onClick={() => openMathPopup()}
+    //                    className="absolute bottom-2 right-2 text-gray-500 hover:text-black text-lg"
+    //                    title="Insert Math (LaTeX)"
+     //                 >
+    //                    ∑
+     //                 </button>
+     //               </div>
+   // );
+ // }
 
-function removeProblemFromQuiz(problemId: number) {
+ function addProblemToQuiz() {
   setQuizForm((prev) => ({
     ...prev,
-    problems: prev.problems.filter((p) => p.problem_id !== problemId),
+    problems: [
+      ...prev.problems,
+      {
+        title: "",
+        question_text: "",
+        correct_answer: "",
+        problem_order: prev.problems.length + 1,
+        points: 1,
+      },
+    ],
+  }));
+}
+
+//function removeProblemFromQuiz(problemId: number) {
+ // setQuizForm((prev) => ({
+ //   ...prev,
+ //   problems: prev.problems.filter((p) => p.problem_id !== problemId),
+ // }));
+//}
+
+function removeProblemFromQuiz(index: number) {
+  setQuizForm((prev) => ({
+    ...prev,
+    problems: prev.problems.filter((_, i) => i !== index),
   }));
 }
 
 function updateQuizProblem(
-  problemId: number,
-  field: "problem_order" | "points",
-  value: number
+  index: number,
+  field: "title" | "question_text" | "correct_answer" | "problem_order" | "points",
+  value: string | number
 ) {
   setQuizForm((prev) => ({
     ...prev,
-    problems: prev.problems.map((p) =>
-      p.problem_id === problemId ? { ...p, [field]: value } : p
+    problems: prev.problems.map((problem, i) =>
+      i === index ? { ...problem, [field]: value } : problem
     ),
   }));
 }
@@ -1035,7 +1060,7 @@ if (page === "createQuiz" && selectedInstructorCourse) {
                   className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
                 >
                   <option value="practice">Practice</option>
-                  <option value="graded">Graded</option>
+                  <option value="quiz">Graded</option>
                 </select>
               </div>
             </div>
@@ -1145,96 +1170,97 @@ if (page === "createQuiz" && selectedInstructorCourse) {
             )}
 
             <div>
-              <label className="text-sm font-semibold text-gray-700 block mb-2">
-                Select Problems
+              <label className="text-sm font-semibold text-gray-700 block mb-3">
+                Make Problems
               </label>
 
-              <div className="space-y-3">
-                {availableProblems.length === 0 ? (
-                  <button type="button"
-                           onClick={() => openMathPopup()}
-                           className="px-4 py-2 rounded-xl border bg-white hover:bg-gray-50">
-                            Add problem
-                  </button>
-                ) : (
-                  availableProblems.map((problem) => {
-                    const selected = quizForm.problems.find(
-                      (p) => p.problem_id === problem.id
-                    );
-
-                    return (
-                      <div key={problem.id} className="rounded-2xl border p-4 bg-white">
-                        <div className="flex items-center justify-between gap-4">
-                          <div>
-                            <div className="font-semibold">{problem.title}</div>
-                            <div className="text-sm text-gray-500">{problem.question_text}</div>
-                          </div>
-
-                          {!selected ? (
-                            <button
-                              type="button"
-                              onClick={() => addProblemToQuiz()}
-                              className="px-4 py-2 rounded-xl border bg-white hover:bg-gray-50"
-                            >
-                              Add
-                            </button>
-                          ) : (
-                            <button
-                              type="button"
-                              onClick={() => removeProblemFromQuiz(problem.id)}
-                              className="px-4 py-2 rounded-xl border bg-red-50 hover:bg-red-100"
-                            >
-                              Remove
-                            </button>
-                          )}
-                        </div>
-
-                        {selected && (
-                          <div className="grid grid-cols-2 gap-4 mt-4">
-                            <div>
-                              <label className="text-xs font-semibold text-gray-600">
-                                Order
-                              </label>
-                              <input
-                                type="number"
-                                min="1"
-                                value={selected.problem_order}
-                                onChange={(e) =>
-                                  updateQuizProblem(
-                                    problem.id,
-                                    "problem_order",
-                                    Number(e.target.value)
-                                  )
-                                }
-                                className="mt-1 w-full rounded-xl border px-3 py-2"
-                              />
-                            </div>
-
-                            <div>
-                              <label className="text-xs font-semibold text-gray-600">
-                                Points
-                              </label>
-                              <input
-                                type="number"
-                                min="0.1"
-                                step="0.1"
-                                value={selected.points}
-                                onChange={(e) =>
-                                  updateQuizProblem(
-                                    problem.id,
-                                    "points",
-                                    Number(e.target.value)
-                                  )
-                                }
-                                className="mt-1 w-full rounded-xl border px-3 py-2"
-                              />
-                          </div>
-                        </div>
-                      )}
+              <div className="space-y-5">
+                {quizForm.problems.map((problem, index) => (
+                  <div key={index} className="rounded-3xl border bg-white p-5">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-xl font-bold">Problem {index + 1}</h3>
+                      <button
+                        type="button"
+                        onClick={() => removeProblemFromQuiz(index)}
+                        className="px-4 py-2 rounded-2xl border bg-red-50 hover:bg-red-100 text-sm font-medium"
+                      >
+                        Remove
+                      </button>
                     </div>
-                  );
-                })
-              )}
+
+                    <div className="space-y-4">
+                      <input
+                        type="text"
+                        value={problem.title}
+                        onChange={(e) =>
+                          updateQuizProblem(index, "title", e.target.value)
+                        }
+                        placeholder="Title"
+                        className="w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                      />
+
+                      <textarea
+                        value={problem.question_text}
+                        onChange={(e) =>
+                          updateQuizProblem(index, "question_text", e.target.value)
+                        }
+                        placeholder="Question text"
+                        rows={5}
+                        className="w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none resize-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                      />
+
+                      <input
+                        type="text"
+                        value={problem.correct_answer}
+                        onChange={(e) =>
+                          updateQuizProblem(index, "correct_answer", e.target.value)
+                        }
+                        placeholder="Correct answer"
+                        className="w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                      />
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="text-sm font-semibold text-gray-700">
+                            Problem Order
+                          </label>
+                          <input
+                            type="number"
+                            min="1"
+                            value={problem.problem_order}
+                            onChange={(e) =>
+                              updateQuizProblem(index, "problem_order", Number(e.target.value))
+                            }
+                            className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="text-sm font-semibold text-gray-700">
+                            Points
+                          </label>
+                        <input
+                          type="number"
+                          min="1"
+                          value={problem.points}
+                          onChange={(e) =>
+                            updateQuizProblem(index, "points", Number(e.target.value))
+                          }
+                          className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              <button
+                type="button"
+                onClick={addProblemToQuiz}
+                className="px-6 py-3 rounded-2xl bg-white border shadow-sm hover:shadow transition text-base font-medium"
+              >
+                Add Problem
+              </button>
             </div>
           </div>
 
@@ -1649,9 +1675,6 @@ if (page === "instructorCourse" && selectedInstructorCourse) {
                       <div className="text-sm text-gray-700">
                         {it.submissionsText ?? "—"}
                       </div>
-                      <div className="text-xs text-gray-500 mt-1">
-                        Status: {statusFor(it)}
-                      </div>
                     </div>
 
                     {/* actions */}
@@ -1698,7 +1721,7 @@ if (page === "instructorGrades" && selectedInstructorCourse) {
   );
 
   return (
-    <PageShell title={`${selectedInstructorCourse.code} Gradebook`} topBar={TopBar}>
+    <PageShell title={`${selectedInstructorCourse?.title} Gradebook`} topBar={TopBar}>
       <div className="rounded-2xl bg-white border shadow-sm overflow-hidden">
         <div className="h-2 bg-[#FFC72C]" />
 

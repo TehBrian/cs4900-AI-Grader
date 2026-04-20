@@ -12,6 +12,7 @@ from .models import (
     QuizStatistics,
 )
 from ..users.models import CustomUser
+from ..problems.models import Problem
 
 
 
@@ -57,7 +58,10 @@ class CourseEnrollmentSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class QuizProblemCreateSerializer(serializers.Serializer):
-    problem_id = serializers.IntegerField()
+    title = serializers.CharField()
+    question_text = serializers.CharField()
+    question_latex = serializers.CharField(required=False, allow_blank=True, default="")
+    correct_answer = serializers.CharField(required=False, allow_blank=True, default="")
     problem_order = serializers.IntegerField()
     points = serializers.FloatField(required=False, default=1.0)
     custom_instructions = serializers.CharField(required=False, allow_blank=True, default="")
@@ -89,9 +93,16 @@ class QuizSerializer(serializers.ModelSerializer):
         quiz = Quiz.objects.create(**validated_data)
 
         for item in problems_data:
+            problem = Problem.objects.create(
+                title=item["title"],
+                question_text=item["question_text"],
+                question_latex=item.get("question_latex", ""),
+                author=quiz.created_by,
+            )
+
             QuizProblem.objects.create(
                 quiz=quiz,
-                problem_id=item["problem_id"],
+                problem=problem,
                 problem_order=item["problem_order"],
                 points=item.get("points", 1.0),
                 custom_instructions=item.get("custom_instructions", ""),

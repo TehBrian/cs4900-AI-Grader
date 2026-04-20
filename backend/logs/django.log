@@ -1850,3 +1850,2273 @@ Traceback (most recent call last):
     return super().execute(query, params)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 django.db.utils.OperationalError: no such table: submissions
+ERROR 2026-04-18 21:42:21,760 log Internal Server Error: /api/grading/submit/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: submissions
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\grading\views.py", line 64, in submit
+    Submission.objects.filter(student_id=student, quiz_id=quiz).count()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 608, in count
+    return self.query.get_count(using=self.db)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 568, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 554, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: submissions
+ERROR 2026-04-18 21:42:26,187 log Internal Server Error: /api/grading/submit/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: submissions
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\grading\views.py", line 64, in submit
+    Submission.objects.filter(student_id=student, quiz_id=quiz).count()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 608, in count
+    return self.query.get_count(using=self.db)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 568, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 554, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: submissions
+ERROR 2026-04-18 21:43:01,353 log Internal Server Error: /api/grading/submit/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: submissions
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\grading\views.py", line 64, in submit
+    Submission.objects.filter(student_id=student, quiz_id=quiz).count()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 608, in count
+    return self.query.get_count(using=self.db)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 568, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 554, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: submissions
+ERROR 2026-04-18 21:43:04,331 log Internal Server Error: /api/grading/submit/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: submissions
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\grading\views.py", line 64, in submit
+    Submission.objects.filter(student_id=student, quiz_id=quiz).count()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 608, in count
+    return self.query.get_count(using=self.db)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 568, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 554, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: submissions
+ERROR 2026-04-18 21:43:29,797 log Internal Server Error: /api/grading/submit/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: submissions
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\grading\views.py", line 64, in submit
+    Submission.objects.filter(student_id=student, quiz_id=quiz).count()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 608, in count
+    return self.query.get_count(using=self.db)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 568, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 554, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: submissions
+ERROR 2026-04-18 21:44:01,062 log Internal Server Error: /api/grading/submit/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: submissions
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\grading\views.py", line 64, in submit
+    Submission.objects.filter(student_id=student, quiz_id=quiz).count()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 608, in count
+    return self.query.get_count(using=self.db)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 568, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 554, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: submissions
+ERROR 2026-04-18 21:44:20,788 log Internal Server Error: /api/grading/submit/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: submissions
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\grading\views.py", line 64, in submit
+    Submission.objects.filter(student_id=student, quiz_id=quiz).count()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 608, in count
+    return self.query.get_count(using=self.db)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 568, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 554, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: submissions
+ERROR 2026-04-18 21:44:25,871 log Internal Server Error: /api/grading/submit/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: submissions
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\grading\views.py", line 64, in submit
+    Submission.objects.filter(student_id=student, quiz_id=quiz).count()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 608, in count
+    return self.query.get_count(using=self.db)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 568, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 554, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: submissions
+ERROR 2026-04-18 21:44:54,511 log Internal Server Error: /api/grading/submit/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: submissions
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\grading\views.py", line 64, in submit
+    Submission.objects.filter(student_id=student, quiz_id=quiz).count()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 608, in count
+    return self.query.get_count(using=self.db)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 568, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 554, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: submissions
+ERROR 2026-04-18 21:44:59,482 log Internal Server Error: /api/grading/submit/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: submissions
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\grading\views.py", line 64, in submit
+    Submission.objects.filter(student_id=student, quiz_id=quiz).count()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 608, in count
+    return self.query.get_count(using=self.db)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 568, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 554, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: submissions
+ERROR 2026-04-18 21:47:02,019 log Internal Server Error: /api/grading/submit/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: submissions
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\grading\views.py", line 64, in submit
+    Submission.objects.filter(student_id=student, quiz_id=quiz).count()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 608, in count
+    return self.query.get_count(using=self.db)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 568, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 554, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: submissions
+INFO 2026-04-18 21:56:47,120 autoreload C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\quizzes\serializers.py changed, reloading.
+INFO 2026-04-18 21:56:48,328 autoreload Watching for file changes with StatReloader
+INFO 2026-04-18 21:57:20,180 autoreload C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\quizzes\serializers.py changed, reloading.
+INFO 2026-04-18 21:57:21,112 autoreload Watching for file changes with StatReloader
+INFO 2026-04-18 22:00:24,707 autoreload C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\quizzes\serializers.py changed, reloading.
+INFO 2026-04-18 22:00:25,368 autoreload Watching for file changes with StatReloader
+INFO 2026-04-18 22:00:34,195 autoreload C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\quizzes\serializers.py changed, reloading.
+INFO 2026-04-18 22:00:34,821 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-18 22:13:49,007 log Bad Request: /api/quizzes/
+WARNING 2026-04-18 22:13:50,399 log Bad Request: /api/quizzes/
+WARNING 2026-04-18 22:23:50,475 log Bad Request: /api/quizzes/
+WARNING 2026-04-18 22:24:19,841 log Bad Request: /api/quizzes/
+WARNING 2026-04-18 22:24:20,704 log Bad Request: /api/quizzes/
+WARNING 2026-04-18 22:24:23,661 log Bad Request: /api/quizzes/
+WARNING 2026-04-18 22:24:43,746 log Bad Request: /api/quizzes/
+WARNING 2026-04-18 22:24:54,083 log Bad Request: /api/quizzes/
+WARNING 2026-04-18 22:26:26,078 log Bad Request: /api/quizzes/
+WARNING 2026-04-18 22:26:34,819 log Bad Request: /api/quizzes/
+WARNING 2026-04-18 22:26:35,721 log Bad Request: /api/quizzes/
+INFO 2026-04-19 22:16:42,049 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-19 22:18:16,184 log Bad Request: /api/quizzes/
+INFO 2026-04-19 22:21:34,576 autoreload Watching for file changes with StatReloader
+INFO 2026-04-20 06:50:30,317 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-20 07:08:23,998 log Bad Request: /api/quizzes/
+WARNING 2026-04-20 07:08:41,193 log Bad Request: /api/quizzes/
+WARNING 2026-04-20 07:12:28,400 log Bad Request: /api/quizzes/
+WARNING 2026-04-20 07:12:33,034 log Bad Request: /api/quizzes/
+WARNING 2026-04-20 07:12:43,337 log Bad Request: /api/quizzes/
+WARNING 2026-04-20 07:12:45,021 log Bad Request: /api/quizzes/
+WARNING 2026-04-20 07:12:49,268 log Bad Request: /api/quizzes/
+WARNING 2026-04-20 07:13:45,223 log Bad Request: /api/quizzes/
+WARNING 2026-04-20 07:21:23,928 log Bad Request: /api/quizzes/
+WARNING 2026-04-20 07:21:52,646 log Bad Request: /api/quizzes/
+WARNING 2026-04-20 07:23:54,925 log Bad Request: /api/quizzes/
+WARNING 2026-04-20 07:23:55,422 log Bad Request: /api/quizzes/
+WARNING 2026-04-20 07:23:55,667 log Bad Request: /api/quizzes/
+WARNING 2026-04-20 07:24:12,052 log Bad Request: /api/quizzes/
+WARNING 2026-04-20 07:29:07,461 log Bad Request: /api/quizzes/
+WARNING 2026-04-20 07:29:11,095 log Bad Request: /api/quizzes/
+WARNING 2026-04-20 07:29:11,286 log Bad Request: /api/quizzes/
+WARNING 2026-04-20 07:29:11,469 log Bad Request: /api/quizzes/
+WARNING 2026-04-20 07:29:11,685 log Bad Request: /api/quizzes/
+WARNING 2026-04-20 07:29:11,883 log Bad Request: /api/quizzes/
+WARNING 2026-04-20 07:29:12,070 log Bad Request: /api/quizzes/
+WARNING 2026-04-20 07:29:36,478 log Bad Request: /api/quizzes/
+INFO 2026-04-20 07:38:47,817 autoreload C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\quizzes\serializers.py changed, reloading.
+INFO 2026-04-20 07:38:48,986 autoreload Watching for file changes with StatReloader
+ERROR 2026-04-20 07:38:52,902 log Internal Server Error: /api/quizzes/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\mixins.py", line 19, in create
+    self.perform_create(serializer)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\mixins.py", line 24, in perform_create
+    serializer.save()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\quizzes\serializers.py", line 96, in create
+    problem = Problem.objects.create(
+              ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 656, in create
+    obj = self.model(**kwargs)
+          ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\base.py", line 567, in __init__
+    raise TypeError(
+TypeError: Problem() got unexpected keyword arguments: 'correct_answer'
+ERROR 2026-04-20 07:38:57,422 log Internal Server Error: /api/quizzes/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\mixins.py", line 19, in create
+    self.perform_create(serializer)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\mixins.py", line 24, in perform_create
+    serializer.save()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\quizzes\serializers.py", line 96, in create
+    problem = Problem.objects.create(
+              ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 656, in create
+    obj = self.model(**kwargs)
+          ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\base.py", line 567, in __init__
+    raise TypeError(
+TypeError: Problem() got unexpected keyword arguments: 'correct_answer'
+INFO 2026-04-20 07:39:16,542 autoreload C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\quizzes\serializers.py changed, reloading.
+INFO 2026-04-20 07:39:17,558 autoreload Watching for file changes with StatReloader
+ERROR 2026-04-20 07:39:18,680 log Internal Server Error: /api/quizzes/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\mixins.py", line 19, in create
+    self.perform_create(serializer)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\mixins.py", line 24, in perform_create
+    serializer.save()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\quizzes\serializers.py", line 97, in create
+    problem = Problem.objects.create(
+              ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 656, in create
+    obj = self.model(**kwargs)
+          ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\base.py", line 567, in __init__
+    raise TypeError(
+TypeError: Problem() got unexpected keyword arguments: 'correct_answer'
+INFO 2026-04-20 07:40:38,642 autoreload Watching for file changes with StatReloader
+ERROR 2026-04-20 07:41:15,477 log Internal Server Error: /api/quizzes/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\mixins.py", line 19, in create
+    self.perform_create(serializer)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\mixins.py", line 24, in perform_create
+    serializer.save()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\quizzes\serializers.py", line 97, in create
+    problem = Problem.objects.create(
+              ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 656, in create
+    obj = self.model(**kwargs)
+          ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\base.py", line 567, in __init__
+    raise TypeError(
+TypeError: Problem() got unexpected keyword arguments: 'correct_answer'
+INFO 2026-04-20 07:44:58,660 autoreload C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\quizzes\serializers.py changed, reloading.
+INFO 2026-04-20 07:44:59,767 autoreload Watching for file changes with StatReloader
+ERROR 2026-04-20 07:45:00,933 log Internal Server Error: /api/quizzes/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: NOT NULL constraint failed: problems.author_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\mixins.py", line 19, in create
+    self.perform_create(serializer)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\mixins.py", line 24, in perform_create
+    serializer.save()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\quizzes\serializers.py", line 96, in create
+    problem = Problem.objects.create(
+              ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 658, in create
+    obj.save(force_insert=True, using=self.db)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\base.py", line 814, in save
+    self.save_base(
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\base.py", line 877, in save_base
+    updated = self._save_table(
+              ^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\base.py", line 1020, in _save_table
+    results = self._do_insert(
+              ^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\base.py", line 1061, in _do_insert
+    return manager._insert(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 1805, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1822, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: NOT NULL constraint failed: problems.author_id
+ERROR 2026-04-20 07:45:03,513 log Internal Server Error: /api/quizzes/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: NOT NULL constraint failed: problems.author_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\mixins.py", line 19, in create
+    self.perform_create(serializer)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\mixins.py", line 24, in perform_create
+    serializer.save()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\quizzes\serializers.py", line 96, in create
+    problem = Problem.objects.create(
+              ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 658, in create
+    obj.save(force_insert=True, using=self.db)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\base.py", line 814, in save
+    self.save_base(
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\base.py", line 877, in save_base
+    updated = self._save_table(
+              ^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\base.py", line 1020, in _save_table
+    results = self._do_insert(
+              ^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\base.py", line 1061, in _do_insert
+    return manager._insert(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 1805, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1822, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: NOT NULL constraint failed: problems.author_id
+ERROR 2026-04-20 07:45:05,533 log Internal Server Error: /api/quizzes/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: NOT NULL constraint failed: problems.author_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\mixins.py", line 19, in create
+    self.perform_create(serializer)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\mixins.py", line 24, in perform_create
+    serializer.save()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\quizzes\serializers.py", line 96, in create
+    problem = Problem.objects.create(
+              ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 658, in create
+    obj.save(force_insert=True, using=self.db)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\base.py", line 814, in save
+    self.save_base(
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\base.py", line 877, in save_base
+    updated = self._save_table(
+              ^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\base.py", line 1020, in _save_table
+    results = self._do_insert(
+              ^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\base.py", line 1061, in _do_insert
+    return manager._insert(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 1805, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1822, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: NOT NULL constraint failed: problems.author_id
+ERROR 2026-04-20 07:45:14,129 log Internal Server Error: /api/quizzes/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: NOT NULL constraint failed: problems.author_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\mixins.py", line 19, in create
+    self.perform_create(serializer)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\mixins.py", line 24, in perform_create
+    serializer.save()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\serializers.py", line 212, in save
+    self.instance = self.create(validated_data)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\quizzes\serializers.py", line 96, in create
+    problem = Problem.objects.create(
+              ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 658, in create
+    obj.save(force_insert=True, using=self.db)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\base.py", line 814, in save
+    self.save_base(
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\base.py", line 877, in save_base
+    updated = self._save_table(
+              ^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\base.py", line 1020, in _save_table
+    results = self._do_insert(
+              ^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\base.py", line 1061, in _do_insert
+    return manager._insert(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 1805, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1822, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: NOT NULL constraint failed: problems.author_id
+INFO 2026-04-20 07:46:51,565 autoreload C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\quizzes\serializers.py changed, reloading.
+INFO 2026-04-20 07:46:52,812 autoreload Watching for file changes with StatReloader
+ERROR 2026-04-20 07:47:13,800 log Internal Server Error: /api/grading/submit/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: submissions
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\grading\views.py", line 64, in submit
+    Submission.objects.filter(student_id=student, quiz_id=quiz).count()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 608, in count
+    return self.query.get_count(using=self.db)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 568, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 554, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: submissions
+ERROR 2026-04-20 07:48:46,207 log Internal Server Error: /api/grading/submit/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: submissions
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\grading\views.py", line 64, in submit
+    Submission.objects.filter(student_id=student, quiz_id=quiz).count()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 608, in count
+    return self.query.get_count(using=self.db)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 568, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 554, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: submissions
+ERROR 2026-04-20 07:48:51,697 log Internal Server Error: /api/grading/submit/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: submissions
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\grading\views.py", line 64, in submit
+    Submission.objects.filter(student_id=student, quiz_id=quiz).count()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 608, in count
+    return self.query.get_count(using=self.db)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 568, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 554, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: submissions
+ERROR 2026-04-20 07:49:03,864 log Internal Server Error: /api/grading/submit/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: submissions
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\grading\views.py", line 64, in submit
+    Submission.objects.filter(student_id=student, quiz_id=quiz).count()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 608, in count
+    return self.query.get_count(using=self.db)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 568, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 554, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: submissions
+INFO 2026-04-20 07:50:37,231 autoreload Watching for file changes with StatReloader
+ERROR 2026-04-20 07:50:58,853 log Internal Server Error: /api/grading/submit/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: submissions
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\grading\views.py", line 64, in submit
+    Submission.objects.filter(student_id=student, quiz_id=quiz).count()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 608, in count
+    return self.query.get_count(using=self.db)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 568, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 554, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: submissions
+ERROR 2026-04-20 08:03:28,856 log Internal Server Error: /api/grading/submit/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: submissions
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\grading\views.py", line 64, in submit
+    Submission.objects.filter(student_id=student, quiz_id=quiz).count()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 608, in count
+    return self.query.get_count(using=self.db)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 568, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 554, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: submissions
+ERROR 2026-04-20 08:05:34,442 log Internal Server Error: /api/grading/submit/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: submissions
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\grading\views.py", line 64, in submit
+    Submission.objects.filter(student_id=student, quiz_id=quiz).count()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 608, in count
+    return self.query.get_count(using=self.db)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 568, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 554, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: submissions
+ERROR 2026-04-20 08:05:43,306 log Internal Server Error: /api/grading/submit/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: submissions
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\grading\views.py", line 64, in submit
+    Submission.objects.filter(student_id=student, quiz_id=quiz).count()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 608, in count
+    return self.query.get_count(using=self.db)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 568, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 554, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: submissions
+ERROR 2026-04-20 08:06:05,321 log Internal Server Error: /api/grading/submit/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: submissions
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\grading\views.py", line 64, in submit
+    Submission.objects.filter(student_id=student, quiz_id=quiz).count()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 608, in count
+    return self.query.get_count(using=self.db)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 568, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 554, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: submissions
+ERROR 2026-04-20 08:06:12,649 log Internal Server Error: /api/grading/submit/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: submissions
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 56, in wrapper_view
+    return view_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\backend\apps\grading\views.py", line 64, in submit
+    Submission.objects.filter(student_id=student, quiz_id=quiz).count()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 608, in count
+    return self.query.get_count(using=self.db)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 568, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\query.py", line 554, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: submissions
+WARNING 2026-04-20 08:08:40,937 log Not Found: /favicon.ico
+ERROR 2026-04-20 08:34:46,450 log Internal Server Error: /admin/quizzes/quiz/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: submissions
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\contrib\admin\options.py", line 688, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\utils\decorators.py", line 134, in _wrapper_view
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\cache.py", line 62, in _wrapper_view_func
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\contrib\admin\sites.py", line 242, in inner
+    return view(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\utils\decorators.py", line 46, in _wrapper
+    return bound_method(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\utils\decorators.py", line 134, in _wrapper_view
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1959, in changelist_view
+    response = self.response_action(
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1593, in response_action
+    response = func(self, request, queryset)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\contrib\admin\actions.py", line 39, in delete_selected
+    ) = modeladmin.get_deleted_objects(queryset, request)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\contrib\admin\options.py", line 2101, in get_deleted_objects
+    return get_deleted_objects(objs, request, self.admin_site)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\contrib\admin\utils.py", line 121, in get_deleted_objects
+    collector.collect(objs)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\contrib\admin\utils.py", line 187, in collect
+    return super().collect(objs, source_attr=source_attr, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\deletion.py", line 348, in collect
+    if getattr(on_delete, "lazy_sub_objs", False) or sub_objs:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 412, in __bool__
+    self._fetch_all()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 1881, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: submissions
+ERROR 2026-04-20 08:34:50,429 log Internal Server Error: /admin/quizzes/quiz/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: submissions
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\contrib\admin\options.py", line 688, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\utils\decorators.py", line 134, in _wrapper_view
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\cache.py", line 62, in _wrapper_view_func
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\contrib\admin\sites.py", line 242, in inner
+    return view(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\utils\decorators.py", line 46, in _wrapper
+    return bound_method(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\utils\decorators.py", line 134, in _wrapper_view
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1959, in changelist_view
+    response = self.response_action(
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1593, in response_action
+    response = func(self, request, queryset)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\contrib\admin\actions.py", line 39, in delete_selected
+    ) = modeladmin.get_deleted_objects(queryset, request)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\contrib\admin\options.py", line 2101, in get_deleted_objects
+    return get_deleted_objects(objs, request, self.admin_site)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\contrib\admin\utils.py", line 121, in get_deleted_objects
+    collector.collect(objs)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\contrib\admin\utils.py", line 187, in collect
+    return super().collect(objs, source_attr=source_attr, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\deletion.py", line 348, in collect
+    if getattr(on_delete, "lazy_sub_objs", False) or sub_objs:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 412, in __bool__
+    self._fetch_all()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 1881, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: submissions
+ERROR 2026-04-20 08:35:00,178 log Internal Server Error: /admin/quizzes/quiz/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: submissions
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\contrib\admin\options.py", line 688, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\utils\decorators.py", line 134, in _wrapper_view
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\views\decorators\cache.py", line 62, in _wrapper_view_func
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\contrib\admin\sites.py", line 242, in inner
+    return view(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\utils\decorators.py", line 46, in _wrapper
+    return bound_method(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\utils\decorators.py", line 134, in _wrapper_view
+    response = view_func(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1959, in changelist_view
+    response = self.response_action(
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\contrib\admin\options.py", line 1593, in response_action
+    response = func(self, request, queryset)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\contrib\admin\actions.py", line 39, in delete_selected
+    ) = modeladmin.get_deleted_objects(queryset, request)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\contrib\admin\options.py", line 2101, in get_deleted_objects
+    return get_deleted_objects(objs, request, self.admin_site)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\contrib\admin\utils.py", line 121, in get_deleted_objects
+    collector.collect(objs)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\contrib\admin\utils.py", line 187, in collect
+    return super().collect(objs, source_attr=source_attr, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\deletion.py", line 348, in collect
+    if getattr(on_delete, "lazy_sub_objs", False) or sub_objs:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 412, in __bool__
+    self._fetch_all()
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 1881, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 102, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 84, in _execute
+    with self.db.wrap_database_errors:
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Project\cs4900-AI-Grader\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: submissions
