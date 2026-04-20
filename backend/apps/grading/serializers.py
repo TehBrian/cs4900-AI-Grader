@@ -7,11 +7,7 @@ class GradingResultSerializer(serializers.ModelSerializer):
     class Meta:
         model = GradingResult
         fields = [
-            "feedback_message",
-            "hint_message",
-            "processing_time",
-            "cas_confidence",
-            "ai_confidence",
+            "ai_result"
         ]
 
 
@@ -24,11 +20,12 @@ class StudentSubmissionSerializer(serializers.ModelSerializer):
         model = StudentSubmission
         fields = [
             "submission_id",
-            "problem",
+            "quiz",
             "problem_title",
             "student",
             "student_username",
             "student_answer",
+            "expected_answer",
             "is_correct",
             "score",
             "grading_method",

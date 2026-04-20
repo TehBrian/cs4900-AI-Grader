@@ -61,25 +61,18 @@ class CourseEnrollmentSerializer(serializers.ModelSerializer):
 
 class QuizProblemSerializer(serializers.ModelSerializer):
     """Serializer for QuizProblem"""
-    problem_text = serializers.CharField(source="problem.question_text", read_only=True)
-    problem_title = serializers.CharField(source="problem.title", read_only=True)
-    
+    question_text = serializers.SerializerMethodField()
+
     class Meta:
         model = QuizProblem
-        fields = [
-            "id",
-            "problem_order",
-            "points",
-            "custom_instructions",
-            "time_limit_override",
-            "parameter_overrides",
-            "quiz",
-            "problem",
-            "problem_text",
-            "problem_title",
-        ]
-    
-  
+        fields = "__all__"
+
+        extra_fields = ['question_text']
+
+    def get_question_text(self, obj):
+        return obj.problem.question_text
+
+
 class QuizListSerializer(serializers.ModelSerializer):
     """Serializer for listing quizzes"""
 

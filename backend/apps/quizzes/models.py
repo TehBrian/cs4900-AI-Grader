@@ -244,6 +244,10 @@ class QuizProblem(models.Model):
         help_text="Override default parameter ranges for this quiz",
     )
 
+    @property
+    def question_text(self):
+        return self.problem.question_text
+
     class Meta:
         db_table = "quiz_problems"
         verbose_name = "Quiz Problem"

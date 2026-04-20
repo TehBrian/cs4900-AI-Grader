@@ -7,12 +7,16 @@ from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from django.utils import timezone
+from django.shortcuts import get_object_or_404
 
 from .models import StudentSubmission, GradingResult
 from apps.problems.models import Problem
 from apps.users.models import CustomUser
 from .engines import GradingCoordinator
-from .serializers import StudentSubmissionSerializer
+from .serializers import StudentSubmissionSerializer, GradingResultSerializer
+
+#from mcp.client import mcp_client
+from pathlib import Path
 
 
 class GradingViewSet(viewsets.ViewSet):
@@ -228,6 +232,29 @@ class GradingViewSet(viewsets.ViewSet):
 
         serializer = StudentSubmissionSerializer(submissions, many=True)
         return Response(serializer.data)
+    
+    @action(detail=False, methods=["POST"])
+    def ai_result_submit(self, request):
+        "Submit AI results to backend"
+
+        submission_id = request.data.get("submission_id")
+        result = request.data.get("result")
+
+        submission_obj = get_object_or_404(StudentSubmission, submission_id=submission_id)
+       
+        created = GradingResult.objects.create(
+            submission = submission_obj,
+            ai_result = result
+        )
+        return Response({"status": "success"}, status=201 if created else 200)
+    
+    @action(detail=False, methods=["GET"])
+    def get_results(self, request):
+        win_number = request.query_params.get("win_number")
+        results = GradingResult.objects.filter(submission__student__win_number = win_number)
+
+        serializer = GradingResultSerializer(results, many=True)
+        return Response(serializer.data)        
 
 
 @api_view(["GET"])
