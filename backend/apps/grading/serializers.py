@@ -33,4 +33,5 @@ class SubmissionSerializer(serializers.ModelSerializer):
             "submitted_at",
             "status",
             "attempt_number",
+            "result",
         ]
