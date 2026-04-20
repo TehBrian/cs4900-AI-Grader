@@ -14,8 +14,7 @@ from apps.quizzes.models import Quiz
 from apps.problems.models import Problem
 from apps.users.models import CustomUser
 from .engines import GradingCoordinator
-from .serializers import SubmissionSerializer
-from .serializers import StudentSubmissionSerializer, GradingResultSerializer
+from .serializers import SubmissionSerializer, GradingResultSerializer
 
 #from mcp.client import mcp_client
 from pathlib import Path
@@ -73,7 +72,7 @@ class GradingViewSet(viewsets.ViewSet):
             # Create submission
             submission = Submission.objects.create(
                 student_id=student,
-                quiz_id=quiz,
+                quiz=quiz,
                 content=content,
                 attempt_number=attempt_number,
                 status="grading",
@@ -148,12 +147,12 @@ class GradingViewSet(viewsets.ViewSet):
 
         # Count attempts
         attempt_number = (
-            StudentSubmission.objects.filter(student=student, problem=problem).count()
+            Submission.objects.filter(student=student, problem=problem).count()
             + 1
         )
 
         # Create submission
-        submission = StudentSubmission.objects.create(
+        submission = Submission.objects.create(
             student=student,
             problem=problem,
             student_answer=str(step_answers),
@@ -225,11 +224,11 @@ class GradingViewSet(viewsets.ViewSet):
         """Get submissions for a student"""
         student_id = request.query_params.get("student_id", 1)
 
-        submissions = StudentSubmission.objects.filter(student_id=student_id).order_by(
+        submissions = Submission.objects.filter(student_id=student_id).order_by(
             "-submitted_at"
         )[:10]
 
-        serializer = StudentSubmissionSerializer(submissions, many=True)
+        serializer = SubmissionSerializer(submissions, many=True)
         return Response(serializer.data)
     
     @action(detail=False, methods=["POST"])
@@ -239,7 +238,7 @@ class GradingViewSet(viewsets.ViewSet):
         submission_id = request.data.get("submission_id")
         result = request.data.get("result")
 
-        submission_obj = get_object_or_404(StudentSubmission, submission_id=submission_id)
+        submission_obj = get_object_or_404(Submission, submission_id=submission_id)
        
         created = GradingResult.objects.create(
             submission = submission_obj,
@@ -260,8 +259,8 @@ class GradingViewSet(viewsets.ViewSet):
 @permission_classes([AllowAny])
 def grading_statistics(request):
     """Get grading statistics"""
-    total_submissions = StudentSubmission.objects.count()
-    correct_submissions = StudentSubmission.objects.filter(is_correct=True).count()
+    total_submissions = Submission.objects.count()
+    correct_submissions = Submission.objects.filter(is_correct=True).count()
 
     accuracy = (
         (correct_submissions / total_submissions * 100) if total_submissions > 0 else 0
@@ -269,8 +268,8 @@ def grading_statistics(request):
 
     # Grading method breakdown
     method_stats = {}
-    for method, _ in StudentSubmission._meta.get_field("grading_method").choices:
-        count = StudentSubmission.objects.filter(grading_method=method).count()
+    for method, _ in Submission._meta.get_field("grading_method").choices:
+        count = Submission.objects.filter(grading_method=method).count()
         method_stats[method] = count
 
     return Response(
@@ -280,7 +279,7 @@ def grading_statistics(request):
             "incorrect_submissions": total_submissions - correct_submissions,
             "accuracy": round(accuracy, 2),
             "by_method": method_stats,
-            "pending": StudentSubmission.objects.filter(status="pending").count(),
-            "completed": StudentSubmission.objects.filter(status="completed").count(),
+            "pending": Submission.objects.filter(status="pending").count(),
+            "completed": Submission.objects.filter(status="completed").count(),
         }
     )

@@ -65,7 +65,7 @@ class Submission(models.Model):
     )
 
     # IDs
-    submission_id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    submission_id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False, auto_created=True)
     student_id = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="submissions"
     )
@@ -153,7 +153,7 @@ class Submission(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.student_id.username} → {self.quiz_id.title} (Attempt {self.attempt_number})"
+        return f"{self.student_id.username} → {self.quiz.title} (Attempt {self.attempt_number})"
 
     @property
     def grading_duration(self):

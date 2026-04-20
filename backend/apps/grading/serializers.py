@@ -21,7 +21,7 @@ class SubmissionSerializer(serializers.ModelSerializer):
         fields = [
             "submission_id",
             "student_id",
-            "quiz_id",
+            "quiz",
             "content",
             "problem_title",
             "student_username",
