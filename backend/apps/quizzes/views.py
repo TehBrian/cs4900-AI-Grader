@@ -6,6 +6,7 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
+from django.utils import timezone
 
 from .models import Course, Quiz, QuizProblem, QuizAttempt, QuizStatistics
 from .serializers import (
@@ -13,10 +14,10 @@ from .serializers import (
     QuizListSerializer,
     QuizDetailSerializer,
     QuizProblemSerializer,
+    QuizProblemDetailSerializer,
     QuizAttemptSerializer,
     QuizSerializer,
 )
-
 
 class CourseViewSet(viewsets.ModelViewSet):
     """
@@ -113,24 +114,129 @@ class QuizViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=["get"])
     def problems(self, request, pk=None):
-        """Get all problems for a quiz"""
+        """Get all problems for a quiz with answer boxes"""
         quiz = self.get_object()
         problems = quiz.quiz_problems.all()
-        serializer = QuizProblemSerializer(problems, many=True)
+        serializer = QuizProblemDetailSerializer(problems, many=True)
         return Response(serializer.data)
 
     @action(detail=True, methods=["post"])
     def start_attempt(self, request, pk=None):
         """Start a new quiz attempt"""
         quiz = self.get_object()
-
+        user = request.user if request.user.is_authenticated else None
+        
+        #if not user:
+            #return Response(
+                #{'error': 'Authentication required'},
+                #status=status.HTTP_401_UNAUTHORIZED
+            #)
+        # For testing, use a default user if not authenticated
+        if not user:
+            from django.contrib.auth import get_user_model
+            User = get_user_model()
+            user, _ = User.objects.get_or_create(username='test_student', defaults={'email': 'test@example.com'})
+        
+        
+        # Count existing attempts
+        attempt_count = QuizAttempt.objects.filter(
+            quiz=quiz, 
+            student=user
+        ).count()
+        
+        # Check if max attempts reached
+        if attempt_count >= quiz.max_attempts:
+            return Response(
+                {'error': f'Maximum attempts ({quiz.max_attempts}) reached'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
         # Create new attempt
         attempt = QuizAttempt.objects.create(
-            quiz=quiz, student=request.user if request.user.is_authenticated else None
+            quiz=quiz,
+            student=user,
+            attempt_number=attempt_count + 1,
+            status='in_progress'
         )
+        
+        return Response({
+            'attempt_id': str(attempt.attempt_id),
+            'attempt_number': attempt.attempt_number,
+            'max_attempts': quiz.max_attempts,
+            'attempts_remaining': quiz.max_attempts - attempt.attempt_number
+        }, status=status.HTTP_201_CREATED)
+    
+    @action(detail=True, methods=["get"])
+    def my_attempts(self, request, pk=None):
+        """Get all attempts for current user on this quiz"""
+        quiz = self.get_object()
+        user = request.user if request.user.is_authenticated else None
+        
+        #if not user:
+            #return Response({
+               # 'attempts': [],
+                #'total_attempts': 0,
+                #'max_attempts': quiz.max_attempts,
+                #'attempts_remaining': quiz.max_attempts
+           # })
 
-        serializer = QuizAttemptSerializer(attempt)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # For testing, use a default user if not authenticated
+        if not user:
+            from django.contrib.auth import get_user_model
+            User = get_user_model()
+            user, _ = User.objects.get_or_create(username='test_student', defaults={'email': 'test@example.com'})
+        
+        attempts = QuizAttempt.objects.filter(
+            quiz=quiz,
+            student=user
+        ).order_by('-attempt_number')
+        
+        attempt_data = [{
+            'attempt_number': a.attempt_number,
+            'status': a.status,
+            'started_at': a.started_at,
+            'submitted_at': a.submitted_at,
+            'score': a.raw_score,
+            'percentage': a.percentage_score
+        } for a in attempts]
+        
+        return Response({
+            'attempts': attempt_data,
+            'total_attempts': len(attempt_data),
+            'max_attempts': quiz.max_attempts,
+            'attempts_remaining': quiz.max_attempts - len(attempt_data)
+        })
+    @action(detail=True, methods=["post"])
+    def submit_attempt(self, request, pk=None):
+        """Submit a quiz attempt"""
+        quiz = self.get_object()
+        attempt_id = request.data.get('attempt_id')
+        answers = request.data.get('answers', {})
+        
+        try:
+            attempt = QuizAttempt.objects.get(attempt_id=attempt_id, quiz=quiz)
+            attempt.status = 'submitted'
+            attempt.submitted_at = timezone.now()
+            
+            # Calculate time spent
+            if attempt.started_at:
+                time_delta = timezone.now() - attempt.started_at
+                attempt.time_spent = int(time_delta.total_seconds())
+            
+            # TODO: Calculate score based on answers
+            # For now, just mark as submitted
+            attempt.save()
+            
+            return Response({
+                'message': 'Attempt submitted successfully',
+                'attempt_number': attempt.attempt_number,
+                'status': attempt.status
+            })
+        except QuizAttempt.DoesNotExist:
+            return Response(
+                {'error': 'Attempt not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
 
 
 @api_view(["GET"])

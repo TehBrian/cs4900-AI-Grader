@@ -98,22 +98,22 @@ const DEMO_COURSE_ITEMS: Record<number, CourseItem[]> = {
   ],
   2: [
     {
-      id: "q3",
+      id: "q15",
       type: "Quiz",
       title: "Problem 8.3 - Antenna Definitions",
       dueText: "Available now",
       submissionsText: "Not started",
       scoreText: "- / 10",
-      evalText: "",
+      evalText: "Up to 7 attempts",
     },
     {
-      id: "12",
+      id: "q16",
       type: "Quiz",
       title: "Problem 8.4 - Beam Pattern Derivation",
       dueText: "Available now",
       submissionsText: "Not started",
-      scoreText: "- / 40",
-      evalText: "",
+      scoreText: "- / 25",
+      evalText: "Up to 4 attempts",
     },
   ],
 };

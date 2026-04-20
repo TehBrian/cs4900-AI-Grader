@@ -69,13 +69,35 @@ class Submission(models.Model):
     student_id = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="submissions"
     )
-    quiz_id = models.ForeignKey(
-        "quizzes.Quiz", on_delete=models.CASCADE, related_name="submissions"
-    )
-
+   
     # Submission content
     content = models.JSONField(default=dict, help_text="User submission content")
 
+    problem = models.ForeignKey(
+        "problems.Problem", on_delete=models.CASCADE, related_name="submissions", null=True
+    )
+
+    quiz = models.ForeignKey(
+        "quizzes.Quiz", on_delete=models.CASCADE, related_name="submissions",
+    )
+
+    # Submission content
+    student_answer = models.TextField(help_text="Student's answer in LaTeX format")
+    raw_input = models.TextField(help_text="Original student input before processing", blank=True)
+
+    # Problem instance data
+    problem_parameters = models.JSONField(
+        default=dict,
+        help_text="Parameter values used for this specific problem instance",
+        blank=True
+    )
+    expected_answer = models.TextField(
+        help_text="Calculated expected answer for these parameters",
+        blank=True
+    )
+
+    # Grading results
+    is_correct = models.BooleanField(null=True, blank=True)
     score = models.FloatField(
         null=True,
         blank=True,
@@ -338,18 +360,16 @@ class GradingResult(models.Model):
     submission = models.OneToOneField(
         Submission, on_delete=models.CASCADE, related_name="result"
     )
-
     # Detailed grading information
     cas_result = models.JSONField(
         null=True, blank=True, help_text="Results from CAS evaluation"
     )
-    ai_result = models.JSONField(
-        null=True, blank=True, help_text="Results from AI evaluation"
+    ai_result = models.TextField(null=True, blank=True, help_text="Results from AI evaluation"
     )
 
     # Equivalency checking details
     equivalency_steps = models.JSONField(
-        default=list, help_text="Step-by-step equivalency checking process"
+        default=list, help_text="Step-by-step equivalency checking process", blank=True, null=True
     )
 
     # Feedback generation
@@ -370,7 +390,7 @@ class GradingResult(models.Model):
     )
 
     # Performance metrics
-    processing_time = models.FloatField(help_text="Total processing time in seconds")
+    processing_time = models.FloatField(help_text="Total processing time in seconds", blank=True, null=True)
     memory_usage = models.FloatField(
         null=True, blank=True, help_text="Peak memory usage in MB"
     )
