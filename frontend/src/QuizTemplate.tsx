@@ -73,7 +73,7 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
             {
               quiz_id: quizId,
               student_id: userId,
-              content: formData,
+              content: Object.fromEntries(formData.entries()),
             }
           )
         });
@@ -412,6 +412,9 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
                 {q.type === "text" && (
                   <div className="flex items-center gap-3 mt-2">
                     <div className="ml-auto relative">
+                      {/*
+                      <input name={`question_${q.id}`}/>
+                      */}
                       <div
                         ref={(el) => {
                           textRefs.current[q.id] = el;
