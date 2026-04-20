@@ -935,7 +935,9 @@ function updateQuizProblem(
     return (
       <PageShell title="About" topBar={TopBar}>
         <div className="rounded-2xl bg-white border shadow-sm p-6 text-gray-700">
-          <p className="leading-relaxed">bla bla bla this is the explanation</p>
+          <p className="leading-relaxed">
+            An application that can give and grade problem solutions that are symbolic in nature combining both quiz delivery with intelligent AI-powered grading.
+          </p>
         </div>
       </PageShell>
     );
@@ -945,7 +947,10 @@ function updateQuizProblem(
     return (
       <PageShell title="Contact" topBar={TopBar}>
         <div className="rounded-2xl bg-white border shadow-sm p-6 text-gray-700">
-          <p className="leading-relaxed">contact details to us ig</p>
+          <p className="leading-relaxed space-y-1">
+            <p>CS 4910 Spring Group 6</p>
+            <p>Dr. Dean Johnson: dean.johnson@wmich.edu </p>
+            </p>
         </div>
       </PageShell>
     );
@@ -1449,7 +1454,7 @@ if (page === "course" && selectedCourse) {
           {/* row */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="text-sm text-gray-600">
-              {selectedCourse.term} • Instructor: {selectedCourse.instructor_name}
+              {selectedCourse.term} {selectedCourse.instructor_name}
             </div>
 
             <div className="flex items-center gap-2">
@@ -1729,8 +1734,7 @@ if (page === "instructorGrades" && selectedInstructorCourse) {
           {/* Top row */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="text-sm text-gray-600">
-              {selectedInstructorCourse.term} • Instructor:{" "}
-              {selectedInstructorCourse.instructor_name}
+              {selectedInstructorCourse.term} {selectedInstructorCourse.instructor_name}
             </div>
 
             <div className="flex items-center gap-2">
@@ -1829,7 +1833,10 @@ if (page === "grades" && selectedCourse) {
   );
 
   return (
-    <PageShell title={`${selectedCourse.code} Grades`} topBar={TopBar}>
+    <PageShell 
+      title={`${selectedCourse.title || selectedCourse.code || "Course"} Grades`} 
+      topBar={TopBar}
+      >
       <div className="rounded-2xl bg-white border shadow-sm overflow-hidden">
         <div className="h-2 bg-[#FFC72C]" />
 
@@ -1837,7 +1844,7 @@ if (page === "grades" && selectedCourse) {
           {/* Top row */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="text-sm text-gray-600">
-              {selectedCourse.term} • Instructor: {selectedCourse.instructor_name}
+              {selectedCourse.term} {selectedCourse.instructor_name}
             </div>
 
             <div className="flex items-center gap-2">
@@ -2063,7 +2070,7 @@ if (loginresult && session && (page === "login" || page === "home")) {
                     </div>
 
                     <div className="text-xs text-gray-500 mt-3">
-                      Instructor: {course.instructor_name}
+                      Instructor: {course.instructor_name || "Unknown"}
                     </div>
 
                     <div className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#4E3629]">
