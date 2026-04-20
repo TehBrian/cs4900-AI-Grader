@@ -73,7 +73,7 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
             {
               quiz_id: quizId,
               student_id: userId,
-              content: Object.fromEntries(formData.entries()),
+              content: textAnswers,
             }
           )
         });
