@@ -7,11 +7,7 @@ class GradingResultSerializer(serializers.ModelSerializer):
     class Meta:
         model = GradingResult
         fields = [
-            "feedback_message",
-            "hint_message",
-            "processing_time",
-            "cas_confidence",
-            "ai_confidence",
+            "ai_result"
         ]
 
 

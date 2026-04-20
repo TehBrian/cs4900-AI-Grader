@@ -2780,3 +2780,1786 @@ apps.users.models.CustomUser.DoesNotExist: CustomUser matching query does not ex
 WARNING 2026-04-17 09:11:37,224 log Not Found: /api/api/users/info/
 WARNING 2026-04-17 09:12:05,000 log Not Found: /api/api/users/info/
 WARNING 2026-04-17 09:12:44,359 log Not Found: /api/api/users/info/
+WARNING 2026-04-17 10:00:31,445 log Not Found: /api/grading/gradingresult/
+INFO 2026-04-17 10:23:46,277 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py changed, reloading.
+INFO 2026-04-17 10:23:48,637 autoreload Watching for file changes with StatReloader
+INFO 2026-04-17 10:47:54,778 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py changed, reloading.
+INFO 2026-04-17 10:47:55,926 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-17 10:48:11,178 log Not Found: /api/grading/ai_result_submit/
+WARNING 2026-04-17 10:48:17,122 log Not Found: /api/grading/ai_result_submit
+INFO 2026-04-17 11:04:56,170 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\models.py changed, reloading.
+INFO 2026-04-17 11:04:57,892 autoreload Watching for file changes with StatReloader
+INFO 2026-04-17 11:05:09,484 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\models.py changed, reloading.
+INFO 2026-04-17 11:05:11,084 autoreload Watching for file changes with StatReloader
+INFO 2026-04-17 11:05:30,558 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py changed, reloading.
+INFO 2026-04-17 11:05:31,916 autoreload Watching for file changes with StatReloader
+INFO 2026-04-17 17:09:55,583 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py changed, reloading.
+INFO 2026-04-17 17:09:56,864 autoreload Watching for file changes with StatReloader
+INFO 2026-04-17 17:11:09,648 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\models.py changed, reloading.
+INFO 2026-04-17 17:11:10,906 autoreload Watching for file changes with StatReloader
+INFO 2026-04-17 17:13:04,084 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py changed, reloading.
+INFO 2026-04-17 17:13:05,114 autoreload Watching for file changes with StatReloader
+INFO 2026-04-17 17:15:01,034 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py changed, reloading.
+INFO 2026-04-17 17:15:02,030 autoreload Watching for file changes with StatReloader
+INFO 2026-04-17 17:15:40,457 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-17 17:43:21,747 log Not Found: /apigrading/ai_result_submit/
+WARNING 2026-04-17 17:44:08,929 log Not Found: /apigrading/ai_result_submit/
+INFO 2026-04-17 17:44:37,496 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-17 17:44:56,943 log Not Found: /api/grading/ai_result_submit/
+WARNING 2026-04-17 17:46:18,536 log Not Found: /api/grading/ai_result_submit/
+INFO 2026-04-17 17:46:57,639 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py changed, reloading.
+INFO 2026-04-17 17:46:58,785 autoreload Watching for file changes with StatReloader
+INFO 2026-04-17 17:47:29,813 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py changed, reloading.
+INFO 2026-04-17 17:47:31,019 autoreload Watching for file changes with StatReloader
+INFO 2026-04-17 17:49:00,573 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py changed, reloading.
+INFO 2026-04-17 17:49:01,590 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-17 17:49:17,757 log Method Not Allowed: /api/grading/ai_result_submit/
+INFO 2026-04-17 17:49:36,397 autoreload Watching for file changes with StatReloader
+ERROR 2026-04-17 17:49:46,544 log Internal Server Error: /api/grading/ai_result_submit/
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\fields\__init__.py", line 2128, in get_prep_value
+    return int(value)
+ValueError: invalid literal for int() with base 10: '75947f52-6265-4a6b-abf1-15c2e262cd7e'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py", line 242, in ai_result_submit
+    GradingResult.objects.create(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        submission_id = submission_id,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        ai_result = result
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 665, in create
+    obj.save(force_insert=True, using=self.db)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1008, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1210, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 1873, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1881, in execute_sql
+    for sql, params in self.as_sql():
+                       ~~~~~~~~~~~^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1806, in as_sql
+    self.prepare_value(field, self.pre_save_val(field, obj))
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1741, in prepare_value
+    return field.get_db_prep_save(value, connection=self.connection)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\fields\related.py", line 1190, in get_db_prep_save
+    return self.target_field.get_db_prep_save(value, connection=connection)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\fields\__init__.py", line 1012, in get_db_prep_save
+    return self.get_db_prep_value(value, connection=connection, prepared=False)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\fields\__init__.py", line 2820, in get_db_prep_value
+    value = self.get_prep_value(value)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\fields\__init__.py", line 2130, in get_prep_value
+    raise e.__class__(
+        "Field '%s' expected a number but got %r." % (self.name, value),
+    ) from e
+ValueError: Field 'id' expected a number but got '75947f52-6265-4a6b-abf1-15c2e262cd7e'.
+INFO 2026-04-17 17:52:08,733 autoreload Watching for file changes with StatReloader
+ERROR 2026-04-17 17:55:43,233 log Internal Server Error: /api/grading/ai_result_submit/
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\fields\__init__.py", line 2128, in get_prep_value
+    return int(value)
+ValueError: invalid literal for int() with base 10: '75947f52-6265-4a6b-abf1-15c2e262cd7e'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py", line 242, in ai_result_submit
+    GradingResult.objects.create(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        submission_id = submission_id,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        ai_result = result
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 665, in create
+    obj.save(force_insert=True, using=self.db)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1008, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1210, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 1873, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1881, in execute_sql
+    for sql, params in self.as_sql():
+                       ~~~~~~~~~~~^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1806, in as_sql
+    self.prepare_value(field, self.pre_save_val(field, obj))
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1741, in prepare_value
+    return field.get_db_prep_save(value, connection=self.connection)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\fields\related.py", line 1190, in get_db_prep_save
+    return self.target_field.get_db_prep_save(value, connection=connection)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\fields\__init__.py", line 1012, in get_db_prep_save
+    return self.get_db_prep_value(value, connection=connection, prepared=False)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\fields\__init__.py", line 2820, in get_db_prep_value
+    value = self.get_prep_value(value)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\fields\__init__.py", line 2130, in get_prep_value
+    raise e.__class__(
+        "Field '%s' expected a number but got %r." % (self.name, value),
+    ) from e
+ValueError: Field 'id' expected a number but got '75947f52-6265-4a6b-abf1-15c2e262cd7e'.
+INFO 2026-04-17 17:58:23,132 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py changed, reloading.
+INFO 2026-04-17 17:58:24,367 autoreload Watching for file changes with StatReloader
+INFO 2026-04-17 17:59:55,163 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py changed, reloading.
+INFO 2026-04-17 17:59:56,373 autoreload Watching for file changes with StatReloader
+ERROR 2026-04-17 18:00:14,490 log Internal Server Error: /api/grading/ai_result_submit/
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py", line 242, in ai_result_submit
+    submission_obj = StudentSubmission.objects.get_object_or_404(StudentSubmission, submission_id=submission_id)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Manager' object has no attribute 'get_object_or_404'
+INFO 2026-04-17 18:01:50,576 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py changed, reloading.
+INFO 2026-04-17 18:01:51,730 autoreload Watching for file changes with StatReloader
+INFO 2026-04-17 18:01:59,554 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py changed, reloading.
+INFO 2026-04-17 18:02:00,754 autoreload Watching for file changes with StatReloader
+INFO 2026-04-17 18:03:21,629 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py changed, reloading.
+INFO 2026-04-17 18:03:22,807 autoreload Watching for file changes with StatReloader
+ERROR 2026-04-17 18:03:32,423 log Internal Server Error: /api/grading/ai_result_submit/
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: NOT NULL constraint failed: grading_results.processing_time
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py", line 245, in ai_result_submit
+    GradingResult.objects.create(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        submission = submission_obj,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        ai_result = result
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 665, in create
+    obj.save(force_insert=True, using=self.db)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1008, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1210, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 1873, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1882, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: NOT NULL constraint failed: grading_results.processing_time
+INFO 2026-04-17 18:05:19,102 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\models.py changed, reloading.
+INFO 2026-04-17 18:05:20,337 autoreload Watching for file changes with StatReloader
+ERROR 2026-04-17 18:05:31,552 log Internal Server Error: /api/grading/ai_result_submit/
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: NOT NULL constraint failed: grading_results.processing_time
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py", line 245, in ai_result_submit
+    GradingResult.objects.create(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        submission = submission_obj,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        ai_result = result
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 665, in create
+    obj.save(force_insert=True, using=self.db)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1008, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1210, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 1873, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1882, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: NOT NULL constraint failed: grading_results.processing_time
+INFO 2026-04-17 18:05:46,154 autoreload Watching for file changes with StatReloader
+ERROR 2026-04-17 18:06:04,268 log Internal Server Error: /api/grading/ai_result_submit/
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: NOT NULL constraint failed: grading_results.processing_time
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py", line 245, in ai_result_submit
+    GradingResult.objects.create(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        submission = submission_obj,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        ai_result = result
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 665, in create
+    obj.save(force_insert=True, using=self.db)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1008, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1210, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 1873, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1882, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: NOT NULL constraint failed: grading_results.processing_time
+INFO 2026-04-17 18:07:58,818 autoreload Watching for file changes with StatReloader
+INFO 2026-04-17 18:11:25,487 autoreload Watching for file changes with StatReloader
+INFO 2026-04-17 18:12:00,486 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\models.py changed, reloading.
+INFO 2026-04-17 18:12:01,590 autoreload Watching for file changes with StatReloader
+INFO 2026-04-20 09:16:25,144 autoreload Watching for file changes with StatReloader
+INFO 2026-04-20 09:19:36,398 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py changed, reloading.
+INFO 2026-04-20 09:19:38,232 autoreload Watching for file changes with StatReloader
+INFO 2026-04-20 09:20:00,890 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py changed, reloading.
+INFO 2026-04-20 09:20:02,757 autoreload Watching for file changes with StatReloader
+INFO 2026-04-20 09:20:30,328 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py changed, reloading.
+INFO 2026-04-20 09:20:32,228 autoreload Watching for file changes with StatReloader
+INFO 2026-04-20 09:21:35,867 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\serializers.py changed, reloading.
+INFO 2026-04-20 09:21:37,676 autoreload Watching for file changes with StatReloader
+INFO 2026-04-20 09:22:06,761 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py changed, reloading.
+INFO 2026-04-20 09:22:08,687 autoreload Watching for file changes with StatReloader
+INFO 2026-04-20 09:22:23,217 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py changed, reloading.
+INFO 2026-04-20 09:22:24,944 autoreload Watching for file changes with StatReloader
+INFO 2026-04-20 09:24:04,601 autoreload Watching for file changes with StatReloader
+ERROR 2026-04-20 09:26:24,936 log Internal Server Error: /api/grading/ai_result_submit/
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: UNIQUE constraint failed: grading_results.submission_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py", line 245, in ai_result_submit
+    GradingResult.objects.create(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        submission = submission_obj,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        ai_result = result
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 665, in create
+    obj.save(force_insert=True, using=self.db)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1008, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1210, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 1873, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1882, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: UNIQUE constraint failed: grading_results.submission_id
+ERROR 2026-04-20 09:28:08,123 log Internal Server Error: /api/grading/ai_result_submit/
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: UNIQUE constraint failed: grading_results.submission_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py", line 245, in ai_result_submit
+    GradingResult.objects.create(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        submission = submission_obj,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        ai_result = result
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 665, in create
+    obj.save(force_insert=True, using=self.db)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1008, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1210, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 1873, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1882, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: UNIQUE constraint failed: grading_results.submission_id
+ERROR 2026-04-20 09:29:29,084 log Internal Server Error: /api/grading/ai_result_submit/
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: UNIQUE constraint failed: grading_results.submission_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py", line 245, in ai_result_submit
+    GradingResult.objects.create(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        submission = submission_obj,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        ai_result = result
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 665, in create
+    obj.save(force_insert=True, using=self.db)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1008, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1210, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 1873, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1882, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: UNIQUE constraint failed: grading_results.submission_id
+ERROR 2026-04-20 09:30:36,069 log Internal Server Error: /api/grading/ai_result_submit/
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: UNIQUE constraint failed: grading_results.submission_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py", line 245, in ai_result_submit
+    GradingResult.objects.create(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        submission = submission_obj,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        ai_result = result
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 665, in create
+    obj.save(force_insert=True, using=self.db)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1008, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1210, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 1873, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1882, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: UNIQUE constraint failed: grading_results.submission_id
+ERROR 2026-04-20 09:32:07,101 log Internal Server Error: /api/grading/ai_result_submit/
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: UNIQUE constraint failed: grading_results.submission_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py", line 245, in ai_result_submit
+    GradingResult.objects.create(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        submission = submission_obj,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        ai_result = result
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 665, in create
+    obj.save(force_insert=True, using=self.db)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1008, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1210, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 1873, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1882, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: UNIQUE constraint failed: grading_results.submission_id
+INFO 2026-04-20 09:37:49,807 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py changed, reloading.
+INFO 2026-04-20 09:37:51,413 autoreload Watching for file changes with StatReloader
+INFO 2026-04-20 09:38:03,722 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py changed, reloading.
+INFO 2026-04-20 09:38:05,377 autoreload Watching for file changes with StatReloader
+INFO 2026-04-20 09:39:40,334 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py changed, reloading.
+INFO 2026-04-20 09:39:41,957 autoreload Watching for file changes with StatReloader
+ERROR 2026-04-20 10:05:41,050 log Internal Server Error: /api/grading/ai_result_submit/
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 948, in get_or_create
+    return self.get(**kwargs), False
+           ~~~~~~~~^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 635, in get
+    raise self.model.DoesNotExist(
+        "%s matching query does not exist." % self.model._meta.object_name
+    )
+apps.grading.models.GradingResult.DoesNotExist: GradingResult matching query does not exist.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: UNIQUE constraint failed: grading_results.submission_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py", line 245, in ai_result_submit
+    obj, created = GradingResult.objects.update_or_create(
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        submission = submission_obj,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        ai_result = result
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 990, in update_or_create
+    obj, created = self.select_for_update().get_or_create(
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        create_defaults, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 955, in get_or_create
+    return self.create(**params), True
+           ~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 665, in create
+    obj.save(force_insert=True, using=self.db)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1008, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1210, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 1873, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1882, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: UNIQUE constraint failed: grading_results.submission_id
+ERROR 2026-04-20 10:07:27,784 log Internal Server Error: /api/grading/ai_result_submit/
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 948, in get_or_create
+    return self.get(**kwargs), False
+           ~~~~~~~~^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 635, in get
+    raise self.model.DoesNotExist(
+        "%s matching query does not exist." % self.model._meta.object_name
+    )
+apps.grading.models.GradingResult.DoesNotExist: GradingResult matching query does not exist.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: UNIQUE constraint failed: grading_results.submission_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py", line 245, in ai_result_submit
+    obj, created = GradingResult.objects.update_or_create(
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        submission = submission_obj,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        ai_result = result
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 990, in update_or_create
+    obj, created = self.select_for_update().get_or_create(
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        create_defaults, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 955, in get_or_create
+    return self.create(**params), True
+           ~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 665, in create
+    obj.save(force_insert=True, using=self.db)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1008, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1210, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 1873, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1882, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: UNIQUE constraint failed: grading_results.submission_id
+INFO 2026-04-20 10:08:29,558 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py changed, reloading.
+INFO 2026-04-20 10:08:31,235 autoreload Watching for file changes with StatReloader
+INFO 2026-04-20 10:10:50,832 autoreload Watching for file changes with StatReloader
+ERROR 2026-04-20 10:11:10,053 log Internal Server Error: /api/grading/ai_result_submit/
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 948, in get_or_create
+    return self.get(**kwargs), False
+           ~~~~~~~~^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 635, in get
+    raise self.model.DoesNotExist(
+        "%s matching query does not exist." % self.model._meta.object_name
+    )
+apps.grading.models.GradingResult.DoesNotExist: GradingResult matching query does not exist.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: UNIQUE constraint failed: grading_results.submission_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py", line 245, in ai_result_submit
+    obj, created = GradingResult.objects.update_or_create(
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        submission = submission_obj,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        ai_result = result
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 990, in update_or_create
+    obj, created = self.select_for_update().get_or_create(
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        create_defaults, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 955, in get_or_create
+    return self.create(**params), True
+           ~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 665, in create
+    obj.save(force_insert=True, using=self.db)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1008, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1210, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 1873, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1882, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: UNIQUE constraint failed: grading_results.submission_id
+INFO 2026-04-20 10:12:35,538 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py changed, reloading.
+INFO 2026-04-20 10:12:37,125 autoreload Watching for file changes with StatReloader
+INFO 2026-04-20 10:12:45,226 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py changed, reloading.
+INFO 2026-04-20 10:12:46,517 autoreload Watching for file changes with StatReloader
+ERROR 2026-04-20 10:12:53,535 log Internal Server Error: /api/grading/ai_result_submit/
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: UNIQUE constraint failed: grading_results.submission_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py", line 245, in ai_result_submit
+    created = GradingResult.objects.create(
+        submission = submission_obj,
+        ai_result = result
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 665, in create
+    obj.save(force_insert=True, using=self.db)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1008, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1210, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 1873, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1882, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: UNIQUE constraint failed: grading_results.submission_id
+INFO 2026-04-20 10:13:32,285 autoreload Watching for file changes with StatReloader
+ERROR 2026-04-20 10:14:47,167 log Internal Server Error: /api/grading/ai_result_submit/
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: UNIQUE constraint failed: grading_results.submission_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\views.py", line 245, in ai_result_submit
+    created = GradingResult.objects.create(
+        submission = submission_obj,
+        ai_result = result
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 665, in create
+    obj.save(force_insert=True, using=self.db)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1008, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1210, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 1873, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1882, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: UNIQUE constraint failed: grading_results.submission_id
+INFO 2026-04-20 10:30:14,961 autoreload Watching for file changes with StatReloader
+INFO 2026-04-20 10:34:42,428 autoreload C:\Users\khurt\Documents\CS 4900\ai-project\ai_repo\cs4900-AI-Grader\backend\apps\grading\serializers.py changed, reloading.
+INFO 2026-04-20 10:34:43,963 autoreload Watching for file changes with StatReloader

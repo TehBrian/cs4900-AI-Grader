@@ -83,6 +83,7 @@ class Problem(models.Model):
     variables = models.JSONField(
         default=dict,
         help_text="Variable definitions: {var_name: {min: val, max: val, type: 'int'|'float', step: val}}",
+        blank=True,
     )
 
     # Answer configuration
