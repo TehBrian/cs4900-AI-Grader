@@ -24,6 +24,7 @@ interface Question {
   options?: string[];
   problem_text?: string;
   problem_title?: string;
+  figure?: string;
 }
 
 interface Quiz {
@@ -143,6 +144,7 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
           type: "text" as const,
           problem_text: p.problem_text,
           problem_title: p.problem_title,
+          figure: p.figure || p.figure_url || undefined,
         }));
         setQuestions(formattedQuestions);
       }
@@ -394,6 +396,15 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
                   <p className="mb-2 text-lg whitespace-pre-wrap">
                     {renderTextWithLatex(q.text)}
                     </p>
+                    {q.figure && (
+                      <div className="mb-4">
+                        <img
+                          src={q.figure}
+                          alt= "figure"
+                          className="max-h-80 rounded-xl border"
+                        />
+                      </div>
+                    )}
                 {q.type === "multiple" && q.options?.map((opt) => (
                   <button
                     key={opt}
