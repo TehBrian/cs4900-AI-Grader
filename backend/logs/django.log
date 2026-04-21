@@ -1184,3 +1184,248 @@ WARNING 2026-04-10 22:53:21,194 log Bad Request: /api/quizzes/16/start_attempt/
 INFO 2026-04-10 23:07:39,373 autoreload Watching for file changes with StatReloader
 WARNING 2026-04-10 23:09:11,387 log Bad Request: /api/quizzes/6/start_attempt/
 WARNING 2026-04-10 23:41:35,541 log Bad Request: /api/quizzes/6/start_attempt/
+INFO 2026-04-20 17:13:55,679 autoreload Watching for file changes with StatReloader
+INFO 2026-04-20 17:16:52,669 autoreload Watching for file changes with StatReloader
+INFO 2026-04-20 17:18:52,731 autoreload Watching for file changes with StatReloader
+INFO 2026-04-20 17:19:34,515 autoreload Watching for file changes with StatReloader
+INFO 2026-04-20 17:20:39,712 autoreload Watching for file changes with StatReloader
+INFO 2026-04-20 17:21:10,576 autoreload Watching for file changes with StatReloader
+ERROR 2026-04-20 17:21:26,840 log Internal Server Error: /api/users/auth/login/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: users
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\backend\apps\users\views.py", line 182, in login
+    if len(q_result) > 1:
+       ~~~^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 372, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 2000, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 95, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1624, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: users
+ERROR 2026-04-20 17:21:28,685 log Internal Server Error: /api/users/auth/login/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: users
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\backend\apps\users\views.py", line 182, in login
+    if len(q_result) > 1:
+       ~~~^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 372, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 2000, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 95, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1624, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: users
+INFO 2026-04-20 17:22:07,452 autoreload Watching for file changes with StatReloader
+ERROR 2026-04-20 17:22:24,302 log Internal Server Error: /api/users/auth/login/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: users
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\backend\apps\users\views.py", line 182, in login
+    if len(q_result) > 1:
+       ~~~^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 372, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 2000, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 95, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1624, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: users
+INFO 2026-04-20 17:23:00,600 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-20 17:23:06,971 log Unauthorized: /api/users/auth/login/
+WARNING 2026-04-20 17:23:26,723 log Unauthorized: /api/users/auth/login/
+WARNING 2026-04-20 17:23:43,524 log Not Found: /favicon.ico
+INFO 2026-04-20 17:25:00,989 autoreload Watching for file changes with StatReloader
+INFO 2026-04-20 18:43:29,366 autoreload C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\backend\apps\grading\serializers.py changed, reloading.
+INFO 2026-04-20 18:43:30,184 autoreload Watching for file changes with StatReloader
+INFO 2026-04-20 20:04:28,557 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-20 20:04:40,437 log Not Found: /api/courses/1/submissions/
+WARNING 2026-04-20 20:04:49,465 log Not Found: /api/courses/1/submissions/
+WARNING 2026-04-20 20:05:17,214 log Not Found: /api/courses/1/submissions/
+WARNING 2026-04-20 20:05:22,798 log Not Found: /api/courses/1/submissions/
+WARNING 2026-04-20 20:12:24,955 log Not Found: /api/courses/1/submissions/
+WARNING 2026-04-20 20:12:28,961 log Not Found: /api/courses/1/submissions/
+WARNING 2026-04-20 20:12:56,854 log Not Found: /api/courses/1/submissions/
+WARNING 2026-04-20 20:14:39,772 log Not Found: /api/courses/1/submissions/
+WARNING 2026-04-20 20:14:42,547 log Not Found: /api/courses/1/submissions/
+INFO 2026-04-20 21:06:50,151 autoreload C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\backend\apps\grading\views.py changed, reloading.
+INFO 2026-04-20 21:06:50,879 autoreload Watching for file changes with StatReloader
+INFO 2026-04-20 21:09:35,539 autoreload Watching for file changes with StatReloader
+INFO 2026-04-20 21:10:44,543 autoreload Watching for file changes with StatReloader
+INFO 2026-04-20 21:13:50,716 autoreload Watching for file changes with StatReloader
+INFO 2026-04-20 21:14:26,064 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-20 21:14:55,658 log Not Found: /api/courses/1/submissions/
+WARNING 2026-04-20 21:15:01,325 log Not Found: /api/courses/1/submissions/
