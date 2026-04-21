@@ -3,6 +3,7 @@ import ForgotPassword from './ForgotPassword';
 import QuizTemplate from './QuizTemplate';
 import katex from "katex";
 import { BlockMath } from "react-katex";
+import ViewSubmissions, { Submission } from './ViewSubmissions';
 
 const ROLES= {
   student: "student",
@@ -23,7 +24,9 @@ type Page=
   | "instructorCourse"
   | "instructorGrades"
   | "createCourse"
-  | "createQuiz";
+  | "createQuiz"
+  | "viewSubmissions"
+  | "submissionDetails";
 
 type HistoryState = {
   page: Page;
@@ -176,6 +179,7 @@ export default function App() {
   const [studentCourses, setStudentCourses]= useState<Course[]>([]);
   const [selectedInstructorCourse, setSelectedInstructorCourse]= useState<Course | null>(null);
   const [instructorCourses, setInstructorCourses]= useState<Course[]>([]);
+  const [selectedSubmission, setSelectedSubmission] = useState<Submission | null>(null);
   const [quizForm, setQuizForm]= useState({
   title: "",
   quiz_type: "practice",
@@ -191,6 +195,8 @@ export default function App() {
     correct_answer: string;
     problem_order: number;
     points: number;
+    figure: File | null;
+    figurePreview: string;
     }[],
   });
   const [courseQuizzes, setCourseQuizzes] = useState<Quiz[]>([]);
@@ -672,6 +678,8 @@ async function registerUser(e: React.FormEvent) {
         correct_answer: "",
         problem_order: prev.problems.length + 1,
         points: 1,
+        figure: null,
+        figurePreview: "",
       },
     ],
   }));
@@ -693,8 +701,8 @@ function removeProblemFromQuiz(index: number) {
 
 function updateQuizProblem(
   index: number,
-  field: "title" | "question_text" | "correct_answer" | "problem_order" | "points",
-  value: string | number
+  field: "title" | "question_text" | "correct_answer" | "problem_order" | "points" | "figure" | "figurePreview",
+  value: string | number | File | null
 ) {
   setQuizForm((prev) => ({
     ...prev,
@@ -947,10 +955,10 @@ function updateQuizProblem(
     return (
       <PageShell title="Contact" topBar={TopBar}>
         <div className="rounded-2xl bg-white border shadow-sm p-6 text-gray-700">
-          <p className="leading-relaxed space-y-1">
+          <div className="leading-relaxed space-y-1">
             <p>CS 4910 Spring Group 6</p>
             <p>Dr. Dean Johnson: dean.johnson@wmich.edu </p>
-            </p>
+            </div>
         </div>
       </PageShell>
     );
@@ -1213,6 +1221,49 @@ if (page === "createQuiz" && selectedInstructorCourse) {
                         rows={5}
                         className="w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none resize-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
                       />
+
+                      <div>
+                        <label className="text-sm font-semibold text-gray-700">
+                          Figure (PNG)
+                        </label>
+
+                        <input
+                          type="file"
+                          accept="image/png"
+                          className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0] || null;
+
+                            if (!file) {
+                              updateQuizProblem(index, "figure", null);
+                              updateQuizProblem(index, "figurePreview", "");
+                              return;
+                            }
+
+                            if (file.type !== "image/png") {
+                              alert("Please upload a PNG image only.");
+                              e.target.value = "";
+                              return;
+                            }
+
+                            updateQuizProblem(index, "figure", file);
+                            updateQuizProblem(index, "figurePreview", URL.createObjectURL(file));
+                          }}
+                        />
+                      </div>
+
+                      {problem.figurePreview && (
+                        <div className="rounded-2xl border bg-gray-50 p-4 mt-2">
+                          <p className="text-sm font-semibold text-gray-700 mb-3">
+                            Figure Preview
+                          </p>
+                          <img
+                            src={problem.figurePreview}
+                            alt={`Problem ${index + 1} figure`}
+                            className="max-h-64 rounded-xl border"
+                          />
+                        </div>
+                      )}
 
                       <input
                         type="text"
@@ -1633,7 +1684,11 @@ if (page === "instructorCourse" && selectedInstructorCourse) {
 
               <button
                 type="button"
-                onClick={() => alert("View Submissions (demo)")}
+                onClick={() =>
+                  navigateTo("viewSubmissions", {
+                    instructorCourse: selectedInstructorCourse,
+                  })
+                }
                 className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
               >
                 View Submissions
@@ -1685,20 +1740,28 @@ if (page === "instructorCourse" && selectedInstructorCourse) {
                     {/* actions */}
                     <div className="md:col-span-2 p-4 flex md:block items-center gap-2">
                       <button
-                        type="button"
-                        onClick={() => alert(`Open submissions for: ${it.title} (demo)`)}
-                        className="px-3 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-xs font-semibold"
-                      >
-                        Submissions
-                      </button>
+                          type="button"
+                          onClick={() =>
+                            navigateTo("viewSubmissions", {
+                              instructorCourse: selectedInstructorCourse,
+                            })
+                          }
+                          className="px-3 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-xs font-semibold"
+                        >
+                          Submissions
+                        </button>
 
                       <button
                         type="button"
-                        onClick={() => alert(`Quick grade: ${it.title} (demo)`)}
+                        onClick={() =>
+                          navigateTo("instructorGrades", {
+                            instructorCourse: selectedInstructorCourse,
+                          })
+                        }
                         className="mt-0 md:mt-2 px-3 py-2 rounded-full bg-[#4E3629] text-white border border-[#4E3629] shadow-sm hover:opacity-95 transition text-xs font-semibold"
                       >
                         Gradebook
-                      </button>
+                    </button>
                     </div>
                   </div>
                 ))
@@ -1940,6 +2003,103 @@ if (page === "quiz" && selectedQuizId) {
     quizId={selectedQuizId} 
     userId={loginresult?.user.id}
     course = {selectedCourse} />;
+}
+
+if (page === "viewSubmissions" && selectedInstructorCourse) {
+  return (
+    <ViewSubmissions
+      courseId={selectedInstructorCourse.id}
+      courseCode={selectedInstructorCourse.code}
+      onBack={() =>
+        navigateTo("instructorCourse", {
+          instructorCourse: selectedInstructorCourse,
+        })
+      }
+      onOpenSubmission={(submission) => {
+        setSelectedSubmission(submission);
+        navigateTo("submissionDetails", {
+          instructorCourse: selectedInstructorCourse,
+        });
+      }}
+    />
+  );
+}
+
+if (page === "submissionDetails" && selectedSubmission && selectedInstructorCourse) {
+  return (
+    <PageShell title="Submission Details" topBar={TopBar}>
+      <div className="rounded-2xl bg-white border shadow-sm overflow-hidden">
+        <div className="h-2 bg-[#FFC72C]" />
+
+        <div className="p-6 space-y-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-sm text-gray-500">Quiz</div>
+              <div className="text-xl font-bold text-[#4E3629]">
+                {selectedSubmission.quiz_title}
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() =>
+                navigateTo("viewSubmissions", {
+                  instructorCourse: selectedInstructorCourse,
+                })
+              }
+              className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
+            >
+              Back to Submissions
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="rounded-2xl border bg-gray-50 p-4">
+              <div className="text-sm text-gray-500">Student</div>
+              <div className="font-semibold text-gray-900">
+                {selectedSubmission.student}
+              </div>
+            </div>
+
+            <div className="rounded-2xl border bg-gray-50 p-4">
+              <div className="text-sm text-gray-500">Attempt</div>
+              <div className="font-semibold text-gray-900">
+                #{selectedSubmission.attempt_number}
+              </div>
+            </div>
+
+            <div className="rounded-2xl border bg-gray-50 p-4">
+              <div className="text-sm text-gray-500">Status</div>
+              <div className="font-semibold text-gray-900">
+                {selectedSubmission.status.replace("_", " ")}
+              </div>
+            </div>
+
+            <div className="rounded-2xl border bg-gray-50 p-4">
+              <div className="text-sm text-gray-500">Score</div>
+              <div className="font-semibold text-gray-900">
+                {selectedSubmission.score ?? "—"}
+              </div>
+            </div>
+
+            <div className="rounded-2xl border bg-gray-50 p-4">
+              <div className="text-sm text-gray-500">Started At</div>
+              <div className="font-semibold text-gray-900">
+                {selectedSubmission.started_at || "—"}
+              </div>
+            </div>
+
+            <div className="rounded-2xl border bg-gray-50 p-4">
+              <div className="text-sm text-gray-500">Submitted At</div>
+              <div className="font-semibold text-gray-900">
+                {selectedSubmission.submitted_at || "—"}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </PageShell>
+  );
 }
 
   // ---------- logged ----------
