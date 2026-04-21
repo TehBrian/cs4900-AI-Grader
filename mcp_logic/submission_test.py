@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 import traceback, json, os
 
 class QuizGraderClient:
-    def __init__(self, base_url="http://127.0.0.1:8000/mcp"):
+    def __init__(self, base_url="http://127.0.0.1:4000/mcp"):
         load_dotenv()
         self.base_url = base_url
         self.api_key = os.getenv("ANTHROPIC API KEY")
@@ -28,7 +28,7 @@ class QuizGraderClient:
                      post_result = await session.call_tool("post_submission", {"submission_id": result.structuredContent['submission_struct']['submission_id'], "result": ai_response.content[0].text})
 
                      print(f"Success: {post_result.content[0].text}")
-                     return 0
+                     return ai_response.content[0].text
                  
         except Exception as e:
             return f"An error occured during grading: {str(e)}"
@@ -78,7 +78,7 @@ if __name__ == "__main__":
 #
 #            #Call quiz grading tool
 #            print("Calling grade_quiz_submission Tool...")
-#            result = await session.call_tool("grade_quiz_submission", {"student_id": 4})
+#            result = await session.call_tool("grade_quiz_submission", {"student_id": 2})
 #            print(f"Result: {result.content[0].text}")
 #
 #            #Grading prompt

@@ -16,8 +16,13 @@ from apps.users.models import CustomUser
 from .engines import GradingCoordinator
 from .serializers import SubmissionSerializer, GradingResultSerializer
 
-#from mcp.client import mcp_client
+#Import class for grading submission
+import asyncio, sys 
 from pathlib import Path
+root_path = Path(__file__).resolve().parents[3] 
+sys.path.append(str(root_path))
+from mcp_logic.submission_test import QuizGraderClient
+
 
 
 class GradingViewSet(viewsets.ViewSet):
@@ -81,6 +86,8 @@ class GradingViewSet(viewsets.ViewSet):
             return Response(
                 {"error": "Student not found"}, status=status.HTTP_404_NOT_FOUND
             )
+        grader = QuizGraderClient()
+        results = asyncio.run(grader.run_grading_workflow(student_id=student_id))
 
 
 
@@ -111,6 +118,7 @@ class GradingViewSet(viewsets.ViewSet):
             {
                 "submission_datetime": str(submission.submitted_at),
                 "attempt_number": attempt_number,
+                "results": results,
             }
         )
 

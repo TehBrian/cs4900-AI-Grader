@@ -15,7 +15,7 @@ from tools.user import fetch_user
 #from tools.grading import send_answers
 
 
-mcp = FastMCP("AI Symbolic Grader", json_response=True, stateless_http = True)
+mcp = FastMCP("AI Symbolic Grader", json_response=True, stateless_http = True, port=4000)
 BASE_PATH = Path.cwd()
 RUBRIC_PATH = BASE_PATH / "resources" / "rubrics" 
 
