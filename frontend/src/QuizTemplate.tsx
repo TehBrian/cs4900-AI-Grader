@@ -477,12 +477,12 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
 
         {page === "details" && (
           <>
-            <h1 className="text-3xl font-extrabold mb-6 text-center">Review Answers</h1>
+            <h1 className="text-3xl mb-6 text-center">Review Answers</h1>
 
             <div className="space-y-6">
-              {questions.map((q, index) => (
-                <div key={q.id} className="border-b pb-4">
-                  <p className="font-semibold mb-2">Question {index + 1}: {q.text}</p>
+              {questions.map((q) => (
+                <div key={q.id} className="border-b pb-4 whitespace-pre-wrap">
+                  <p className="mb-2">{renderTextWithLatex(q.text)}</p>
                   {multipleAnswers[q.id] && (
                     <p className="text-gray-700">Answer: {multipleAnswers[q.id]}</p>
                   )}
