@@ -1429,3 +1429,31 @@ INFO 2026-04-20 21:13:50,716 autoreload Watching for file changes with StatReloa
 INFO 2026-04-20 21:14:26,064 autoreload Watching for file changes with StatReloader
 WARNING 2026-04-20 21:14:55,658 log Not Found: /api/courses/1/submissions/
 WARNING 2026-04-20 21:15:01,325 log Not Found: /api/courses/1/submissions/
+INFO 2026-04-20 23:38:50,806 autoreload Watching for file changes with StatReloader
+INFO 2026-04-20 23:40:01,839 _client HTTP Request: POST http://127.0.0.1:4000/mcp "HTTP/1.1 200 OK"
+INFO 2026-04-20 23:40:01,840 streamable_http Negotiated protocol version: 2025-11-25
+INFO 2026-04-20 23:40:01,843 _client HTTP Request: POST http://127.0.0.1:4000/mcp "HTTP/1.1 202 Accepted"
+INFO 2026-04-20 23:40:01,890 _client HTTP Request: POST http://127.0.0.1:4000/mcp "HTTP/1.1 200 OK"
+INFO 2026-04-20 23:40:01,895 _client HTTP Request: POST http://127.0.0.1:4000/mcp "HTTP/1.1 200 OK"
+WARNING 2026-04-20 23:40:19,805 log Not Found: /favicon.ico
+INFO 2026-04-20 23:43:01,097 autoreload Watching for file changes with StatReloader
+INFO 2026-04-20 23:43:26,208 _client HTTP Request: POST http://127.0.0.1:4000/mcp "HTTP/1.1 200 OK"
+INFO 2026-04-20 23:43:26,208 streamable_http Negotiated protocol version: 2025-11-25
+INFO 2026-04-20 23:43:26,211 _client HTTP Request: POST http://127.0.0.1:4000/mcp "HTTP/1.1 202 Accepted"
+INFO 2026-04-20 23:43:26,242 _client HTTP Request: POST http://127.0.0.1:4000/mcp "HTTP/1.1 200 OK"
+INFO 2026-04-20 23:43:26,245 _client HTTP Request: POST http://127.0.0.1:4000/mcp "HTTP/1.1 200 OK"
+WARNING 2026-04-20 23:47:13,026 log Bad Request: /api/quizzes/
+INFO 2026-04-20 23:47:55,940 _client HTTP Request: POST http://127.0.0.1:4000/mcp "HTTP/1.1 200 OK"
+INFO 2026-04-20 23:47:55,940 streamable_http Negotiated protocol version: 2025-11-25
+INFO 2026-04-20 23:47:55,942 _client HTTP Request: POST http://127.0.0.1:4000/mcp "HTTP/1.1 202 Accepted"
+INFO 2026-04-20 23:47:55,977 _client HTTP Request: POST http://127.0.0.1:4000/mcp "HTTP/1.1 200 OK"
+INFO 2026-04-20 23:47:55,981 _client HTTP Request: POST http://127.0.0.1:4000/mcp "HTTP/1.1 200 OK"
+WARNING 2026-04-20 23:57:09,437 log Not Found: /api/courses/1/submissions/
+WARNING 2026-04-20 23:57:21,373 log Not Found: /api/courses/1/submissions/
+INFO 2026-04-21 00:24:23,400 autoreload C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\backend\apps\problems\models.py changed, reloading.
+INFO 2026-04-21 00:24:24,837 autoreload Watching for file changes with StatReloader
+INFO 2026-04-21 00:39:01,320 autoreload C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\backend\apps\quizzes\serializers.py changed, reloading.
+INFO 2026-04-21 00:39:02,199 autoreload Watching for file changes with StatReloader
+INFO 2026-04-21 00:44:49,835 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-21 01:19:07,368 log Not Found: /api/courses/1/submissions/
+WARNING 2026-04-21 01:19:17,424 log Not Found: /api/courses/1/submissions/

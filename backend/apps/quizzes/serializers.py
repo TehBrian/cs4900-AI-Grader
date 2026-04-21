@@ -69,6 +69,7 @@ class QuizProblemCreateSerializer(serializers.Serializer):
     custom_instructions = serializers.CharField(required=False, allow_blank=True, default="")
     time_limit_override = serializers.IntegerField(required=False, allow_null=True)
     parameter_overrides = serializers.JSONField(required=False, default=dict)
+    figure = serializers.CharField(required=False, allow_blank=True, default="")
 
 class QuizSerializer(serializers.ModelSerializer):
     problems = QuizProblemCreateSerializer(many=True, write_only=True, required=False)
@@ -95,11 +96,14 @@ class QuizSerializer(serializers.ModelSerializer):
         quiz = Quiz.objects.create(**validated_data)
 
         for item in problems_data:
+            figure = item.get("figure", "")
+
             problem = Problem.objects.create(
                 title=item["title"],
                 question_text=item["question_text"],
                 question_latex=item.get("question_latex", ""),
                 author=quiz.created_by,
+                supplementary_files=[figure] if figure else [],
             )
 
             QuizProblem.objects.create(
@@ -216,6 +220,8 @@ class QuizProblemDetailSerializer(serializers.ModelSerializer):
     problem_text = serializers.CharField(source="problem.question_text", read_only=True)
     problem_title = serializers.CharField(source="problem.title", read_only=True)
     answer_boxes = AnswerBoxSerializer(many=True, read_only=True)
+    figure = serializers.SerializerMethodField()
+
     
     class Meta:
         model = QuizProblem
@@ -231,4 +237,10 @@ class QuizProblemDetailSerializer(serializers.ModelSerializer):
             "problem_text",
             "problem_title",
             "answer_boxes",
+            "figure",
         ]
+
+    def get_figure(self, obj):
+        files = obj.problem.supplementary_files or []
+        return files[0] if files else None
+        

@@ -400,11 +400,11 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
                       <div className="mb-4">
                         <img
                           src={q.figure}
-                          alt= "figure"
+                          alt={`Question ${q.id} figure`}
                           className="max-h-80 rounded-xl border"
                         />
                       </div>
-                    )}
+                  )}
                 {q.type === "multiple" && q.options?.map((opt) => (
                   <button
                     key={opt}
@@ -477,22 +477,40 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
 
         {page === "details" && (
           <>
-            <h1 className="text-3xl mb-6 text-center">Review Answers</h1>
+            <h1 className="text-3xl font-extrabold mb-6 text-center">Review Answers</h1>
 
             <div className="space-y-6">
-              {questions.map((q) => (
-                <div key={q.id} className="border-b pb-4 whitespace-pre-wrap">
-                  <p className="mb-2">{renderTextWithLatex(q.text)}</p>
-                  {multipleAnswers[q.id] && (
-                    <p className="text-gray-700">Answer: {multipleAnswers[q.id]}</p>
-                  )}
-                  {textAnswers[q.id] && (
-                    <div className="text-gray-700" dangerouslySetInnerHTML={{ __html: textAnswers[q.id] }} />
-                  )}
-                  {!multipleAnswers[q.id] && !textAnswers[q.id] && (
-                    <p className="text-red-500 italic">Not answered</p>
-                  )}
-                </div>
+              {questions.map((q, index) => (
+              <div key={q.id} className="border-b pb-4">
+                <p className="font-semibold mb-2">
+                  Question {index + 1}: {renderTextWithLatex(q.text)}
+                </p>
+
+                {q.figure && (
+                  <div className="mb-3">
+                    <img
+                      src={q.figure}
+                      alt={`Question ${q.id} figure`}
+                      className="max-h-80 rounded-xl border"
+                    />
+                  </div>
+                )}
+
+                {multipleAnswers[q.id] && (
+                  <p className="text-gray-700">Answer: {multipleAnswers[q.id]}</p>
+                )}
+
+                {textAnswers[q.id] && (
+                  <div
+                    className="text-gray-700"
+                    dangerouslySetInnerHTML={{ __html: textAnswers[q.id] }}
+                  />
+                )}
+
+                {!multipleAnswers[q.id] && !textAnswers[q.id] && (
+                  <p className="text-red-500 italic">Not answered</p>
+                )}
+              </div>
               ))}
             </div>
 

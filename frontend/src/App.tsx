@@ -38,7 +38,7 @@ type Course= {
   id: number;
   code: string;
   title: string;
-  term: string;
+  semester: string;
   instructor_name: string;
 };
 
@@ -195,7 +195,7 @@ export default function App() {
     correct_answer: string;
     problem_order: number;
     points: number;
-    figure: File | null;
+    figure: string;
     figurePreview: string;
     }[],
   });
@@ -479,8 +479,13 @@ async function createQuiz(e: React.FormEvent) {
         allow_review: quizForm.allow_review,
         total_points: quizForm.total_points ? Number(quizForm.total_points) : 0,
         problems: quizForm.problems.map((p) => ({
-          ...p,
+          title: p.title,
+          question_text: p.question_text,
           question_latex: "",
+          correct_answer: p.correct_answer,
+          problem_order: p.problem_order,
+          points: p.points,
+          figure: p.figure || "",
         })),
         }),
     });
@@ -678,7 +683,7 @@ async function registerUser(e: React.FormEvent) {
         correct_answer: "",
         problem_order: prev.problems.length + 1,
         points: 1,
-        figure: null,
+        figure: "",
         figurePreview: "",
       },
     ],
@@ -702,7 +707,7 @@ function removeProblemFromQuiz(index: number) {
 function updateQuizProblem(
   index: number,
   field: "title" | "question_text" | "correct_answer" | "problem_order" | "points" | "figure" | "figurePreview",
-  value: string | number | File | null
+  value: string | number | null
 ) {
   setQuizForm((prev) => ({
     ...prev,
@@ -1235,7 +1240,7 @@ if (page === "createQuiz" && selectedInstructorCourse) {
                             const file = e.target.files?.[0] || null;
 
                             if (!file) {
-                              updateQuizProblem(index, "figure", null);
+                              updateQuizProblem(index, "figure", "");
                               updateQuizProblem(index, "figurePreview", "");
                               return;
                             }
@@ -1246,8 +1251,15 @@ if (page === "createQuiz" && selectedInstructorCourse) {
                               return;
                             }
 
-                            updateQuizProblem(index, "figure", file);
-                            updateQuizProblem(index, "figurePreview", URL.createObjectURL(file));
+                            const reader = new FileReader();
+
+                            reader.onloadend = () => {
+                              const result = typeof reader.result === "string" ? reader.result : "";
+                              updateQuizProblem(index, "figure", result);
+                              updateQuizProblem(index, "figurePreview", result);
+                            };
+
+                            reader.readAsDataURL(file);
                           }}
                         />
                       </div>
@@ -1505,7 +1517,7 @@ if (page === "course" && selectedCourse) {
           {/* row */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="text-sm text-gray-600">
-              {selectedCourse.term} {selectedCourse.instructor_name}
+              Term: {selectedCourse.semester} {selectedCourse.instructor_name}
             </div>
 
             <div className="flex items-center gap-2">
@@ -1797,7 +1809,7 @@ if (page === "instructorGrades" && selectedInstructorCourse) {
           {/* Top row */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="text-sm text-gray-600">
-              {selectedInstructorCourse.term} {selectedInstructorCourse.instructor_name}
+              {selectedInstructorCourse.semester} {selectedInstructorCourse.instructor_name}
             </div>
 
             <div className="flex items-center gap-2">
@@ -1806,7 +1818,7 @@ if (page === "instructorGrades" && selectedInstructorCourse) {
                 onClick={() => navigateTo("instructorCourse", { instructorCourse: selectedInstructorCourse })}
                 className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
               >
-                Assignments &amp; Quizzes
+                Quizzes
               </button>
 
               <button
@@ -1907,7 +1919,7 @@ if (page === "grades" && selectedCourse) {
           {/* Top row */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="text-sm text-gray-600">
-              {selectedCourse.term} {selectedCourse.instructor_name}
+              {selectedCourse.semester} {selectedCourse.instructor_name}
             </div>
 
             <div className="flex items-center gap-2">
@@ -1916,7 +1928,7 @@ if (page === "grades" && selectedCourse) {
                 onClick={() => navigateTo("course", { course: selectedCourse })}
                 className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
               >
-                Assignments &amp; Quizzes
+                Quizzes
               </button>
 
               <button
@@ -2146,21 +2158,19 @@ if (loginresult && session && (page === "login" || page === "home")) {
                           {course.code}
                         </div>
 
-                        <div className="text-sm text-gray-700 mt-1">
+                        <div className="text-md text-gray-700 mt-1 font-bold">
                           {course.title}
                         </div>
                       </div>
+                    </div>
 
-                      <span className="inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold bg-gray-50">
-                        {course.term}
+                    <div className="mt-3">
+                      <span className="inline-flex items-center rounded-full border px-4 py-1.5 text-sm font-normal bg-gray-50 shadow-sm">
+                        {course.semester}
                       </span>
                     </div>
-
-                    <div className="text-xs text-gray-500 mt-3">
-                      Instructor: {course.instructor_name}
-                    </div>
-
-                    <div className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#4E3629]">
+                    
+                    <div className="mt-6 inline-flex items-center gap-2 text-sm font-normal text-[#4E3629]">
                       Open course <span aria-hidden>→</span>
                     </div>
                   </div>
@@ -2219,18 +2229,16 @@ if (loginresult && session && (page === "login" || page === "home")) {
                           {course.code}
                         </div>
 
-                        <div className="text-sm text-gray-700 mt-1">
+                        <div className="text-md text-gray-700 mt-1 font-bold">
                           {course.title}
                         </div>
                       </div>
-
-                      <span className="inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold bg-gray-50">
-                        {course.term}
-                      </span>
                     </div>
 
-                    <div className="text-xs text-gray-500 mt-3">
-                      Instructor: {course.instructor_name || "Unknown"}
+                    <div className="mt-3">
+                      <span className="inline-flex items-center rounded-full border px-4 py-1.5 text-sm font-normal bg-gray-50 shadow-sm">
+                        {course.semester}
+                      </span>
                     </div>
 
                     <div className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#4E3629]">
