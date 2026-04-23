@@ -33,13 +33,14 @@ export default function ViewSubmissions({
   useEffect(() => {
     setLoading(true);
 
-    fetch(`http://127.0.0.1:8000/api/courses/${courseId}/submissions/`)
+    fetch(`http://127.0.0.1:8000/api/grading/get_course_submissions/?course=${courseId}`)
       .then((r) => r.json())
       .then((data) => {
         setSubmissions(Array.isArray(data) ? data : []);
         setLoading(false);
       })
       .catch(() => {
+        console.log("course submision error");
         setSubmissions([]);
         setLoading(false);
       });

@@ -90,6 +90,22 @@ class GradingViewSet(viewsets.ViewSet):
         results = asyncio.run(grader.run_grading_workflow(student_id=student_id))
 
 
+    @action(detail=False, methods=["get"])
+    def get_course_submissions(self, request):
+        course_id = request.query_params.get("course", None)
+        if not course_id:
+            return Response("")
+        
+        print(f"course id: {course_id}")
+        for sub in Submission.objects.all():
+            if int(sub.quiz.course.id) == int(course_id):
+                print(sub.quiz.course.id)
+
+        #serializer = SubmissionSerializer(course_submissions)
+        course_submissions = [SubmissionSerializer(sub).data for sub in Submission.objects.all() if int(sub.quiz.course.id) == int(course_id)]
+        #print(f"serializer data={serializer.data}")
+        print(course_submissions)
+        return Response(course_submissions)
 
         # # set grading [status, started_at] fields
         # submission.start_grading()
@@ -114,13 +130,13 @@ class GradingViewSet(viewsets.ViewSet):
         # )
 
         # Return result
-        return Response(
-            {
-                "submission_datetime": str(submission.submitted_at),
-                "attempt_number": attempt_number,
-                "results": results,
-            }
-        )
+        # return Response(
+        #     {
+        #         "submission_datetime": str(submission.submitted_at),
+        #         "attempt_number": attempt_number,
+        #         "results": results,
+        #     }
+        # )
 
     @action(detail=False, methods=["post"])
     def submit_steps(self, request):
