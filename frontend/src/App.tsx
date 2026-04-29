@@ -1569,7 +1569,7 @@ if (page === "course" && selectedCourse) {
                     onClick={() => {
                       if (it.type === "Quiz") {
                         setSelectedQuizId(Number(it.id));
-                        navigateTo("quiz");
+                        navigateTo("quiz", {course: selectedCourse});
                       } else {
                         alert(`Open: ${it.title}`);
                       }
@@ -2010,7 +2010,7 @@ if (page === "grades" && selectedCourse) {
 }
   // ---------- Quiz Template ----------
 if (page === "quiz" && selectedQuizId) {
-  return <QuizTemplate onExit={() => navigateTo("home", 
+  return <QuizTemplate onExit={() => navigateTo("course", 
     { course: selectedCourse})} 
     quizId={selectedQuizId} 
     userId={loginresult?.user.id}

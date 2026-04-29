@@ -58,39 +58,8 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
 
     async function handleQuizSubmission(e: React.FormEvent) {
       e.preventDefault();
-      //setError(null);
-      setLocalPage("details")
-  
-      const form= e.target as HTMLFormElement;
-      const formData= new FormData(form);
-  
-      try {
-        const response = await fetch("http://127.0.0.1:8000/api/grading/submit/", {
-          method: "POST",
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(
-            {
-              quiz_id: quizId,
-              student_id: userId,
-              content: textAnswers,
-            }
-          )
-        });
-  
-        /*if (response.ok) {
-          const data = await response.json();
-        } */
-        if (!response.ok) {
-          const err_response = await response.json();
-          //setError(err_response.error);
-          return;
-        }
-  
-      } catch (err) {
-        alert("Failed to submit quiz.");
-      }
+      await saveAnswers();
+      setLocalPage("details");
     }
   
 
@@ -174,7 +143,32 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
 
   const handleSubmit = async () => {
     await saveAnswers();
-    setLocalPage("submit");
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/grading/submit/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          quiz_id: quizId,
+          student_id: userId,
+          content: {
+            text: textAnswers,
+            multiple: multipleAnswers,
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        alert("Failed to submit quiz.");
+        return;
+      }
+
+      setLocalPage("submit");
+    } catch (err) {
+      alert("Failed to submit quiz.");
+    }
   };
 
   // Format time as MM:SS
@@ -458,6 +452,7 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
 
           <div className="mt-10 flex gap-4">
               <button
+                type="button"
                 onClick={() => saveAnswers()}
                 disabled={saving}
                 className="flex-1 rounded-2xl border border-[#4E3629] text-[#4E3629] py-3 font-bold hover:bg-gray-50 disabled:opacity-50"
@@ -516,6 +511,7 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
 
             <div className="mt-8 flex gap-4">
               <button
+                type="button"
                 onClick={() => setLocalPage("quiz")}
                 className="flex-1 rounded-2xl border py-3 font-semibold hover:bg-gray-50"
               >
@@ -523,7 +519,8 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
               </button>
 
               <button
-                onClick={onExit}
+                type="button"
+                onClick={handleSubmit}
                 className="flex-1 rounded-2xl bg-[#4E3629] text-white py-3 font-bold hover:opacity-90"
               >
                 Submit Quiz
@@ -539,6 +536,7 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
               Your quiz has been submitted successfully.
             </p>
             <button
+              type="button"
               onClick={onExit}
               className="rounded-2xl bg-[#4E3629] text-white px-6 py-3 font-semibold hover:opacity-90"
             >

@@ -1457,3 +1457,25 @@ INFO 2026-04-21 00:39:02,199 autoreload Watching for file changes with StatReloa
 INFO 2026-04-21 00:44:49,835 autoreload Watching for file changes with StatReloader
 WARNING 2026-04-21 01:19:07,368 log Not Found: /api/courses/1/submissions/
 WARNING 2026-04-21 01:19:17,424 log Not Found: /api/courses/1/submissions/
+INFO 2026-04-29 12:50:39,154 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-29 12:50:51,152 log Unauthorized: /api/users/auth/login/
+WARNING 2026-04-29 12:53:26,620 log Not Found: /api/courses/1/submissions/
+WARNING 2026-04-29 14:11:04,231 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:11:31,121 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:11:32,598 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:11:34,252 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:11:39,488 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:11:40,564 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:20:14,022 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:20:22,633 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:20:30,113 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:22:01,800 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:22:05,505 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:23:19,378 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:24:03,334 log Not Found: /favicon.ico
+WARNING 2026-04-29 14:25:42,653 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:25:53,342 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:26:07,590 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:43:55,218 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:44:03,254 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:45:49,868 log Unauthorized: /api/quizzes/
