@@ -206,6 +206,7 @@ export default function App() {
     }[],
   });
   const [courseQuizzes, setCourseQuizzes] = useState<Quiz[]>([]);
+  const [completedQuizIds, setCompletedQuizIds] = useState<number[]>([]);
   const [availableProblems, setAvailableProblems] = useState<ProblemOption[]>([]);
   const [session, setSession]= useState<{ role: Role; email: string } | null>(
     null
@@ -301,7 +302,9 @@ export default function App() {
     dueText: quiz.available_until
       ? `Due: ${new Date(quiz.available_until).toLocaleString()}`
       : "No due date",
-    submissionsText: "Not started",
+    submissionsText: completedQuizIds.includes(quiz.id)
+      ? "Completed"
+      : "Not started",
     scoreText: "-",
     evalText: "",
   }));
@@ -2137,11 +2140,19 @@ if (page === "grades" && selectedCourse) {
 }
   // ---------- Quiz Template ----------
 if (page === "quiz" && selectedQuizId) {
-  return <QuizTemplate onExit={() => navigateTo("course", 
-    { course: selectedCourse})} 
-    quizId={selectedQuizId} 
+  return <QuizTemplate
+    onExit={() => navigateTo("course", { course: selectedCourse })}
+    onSubmitted={() => {
+      setCompletedQuizIds((prev) =>
+        selectedQuizId && !prev.includes(selectedQuizId)
+          ? [...prev, selectedQuizId]
+          : prev
+      );
+    }}
+    quizId={selectedQuizId}
     userId={loginresult?.user.id}
-    course = {selectedCourse} />;
+    course={selectedCourse}
+  />;
 }
 
 if (page === "viewSubmissions" && selectedInstructorCourse) {

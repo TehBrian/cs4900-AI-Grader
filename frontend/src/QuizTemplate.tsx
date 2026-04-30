@@ -11,6 +11,7 @@ type QuizPage = "quiz" | "details" | "submit";
 
 interface Props {
   onExit: () => void;
+  onSubmitted?: () => void;
   quizId?: number;
   userId?: number;
   course?: any;
@@ -43,7 +44,7 @@ interface Quiz {
   description: string;
 }
 
-export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
+export default function QuizTemplate({ onExit, onSubmitted, quizId, userId, course}: Props) {
   const [page, setLocalPage] = useState<QuizPage>("quiz");
   const [multipleAnswers, setMultipleAnswers] = useState<Record<number, string>>({});
   const [textAnswers, setTextAnswers] = useState<Record<string, string>>({});
@@ -184,6 +185,8 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
         return;
       }
 
+      onSubmitted?.();
+      
       setLocalPage("submit");
     } catch (err) {
       alert("Failed to submit quiz.");
