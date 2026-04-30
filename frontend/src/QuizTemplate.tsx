@@ -81,6 +81,15 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
     }
   }, [timeRemaining, page]);
 
+  useEffect(() => {
+    questions.forEach((q) => {
+      const el = textRefs.current[q.id];
+      if (el && textAnswers[q.id] && el.innerHTML !== textAnswers[q.id]) {
+        el.innerHTML = textAnswers[q.id];
+      }
+    });
+  }, [page]);
+
   // Autosave answers every 30 seconds
   useEffect(() => {
     if (page === "quiz" && !loading) {
@@ -180,7 +189,8 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
 
   // Progress counter
   const answeredCount = questions.filter((q) => {
-    return multipleAnswers[q.id] || textAnswers[q.id];
+    if (multipleAnswers[q.id]) return true;
+    return !isTextEmpty(textAnswers[q.id]);
   }).length;
 
   // Detect which question is visible
@@ -302,7 +312,8 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
   };
 
   const isAnswered = (qid: number) => {
-    return multipleAnswers[qid] || textAnswers[qid];
+    if (multipleAnswers[qid]) return true;
+    return !isTextEmpty(textAnswers[qid]);
   };
 
   if (loading) {
@@ -325,6 +336,18 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
       }
       return <span key={index}>{part}</span>;
     });
+  }
+
+  function isTextEmpty(html: string | undefined) {
+    if (!html) return true;
+
+    // Remove HTML tags and whitespace
+    const text = html
+      .replace(/<[^>]*>/g, "") // strip tags
+      .replace(/&nbsp;/g, " ")
+      .trim();
+
+    return text.length === 0;
   }
 
   return (
@@ -415,35 +438,33 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
                 ))}
 
                 {q.type === "text" && (
-                  <div className="flex items-center gap-3 mt-2">
-                    <div className="ml-auto relative">
-                      {/*
-                      <input name={`question_${q.id}`}/>
-                      */}
-                      <div
-                        ref={(el) => {
-                          textRefs.current[q.id] = el;
-                        } }
-                        contentEditable
-                        suppressContentEditableWarning
-                        onInput={() => handleInput(q.id)}
-                        onKeyUp={() => saveCaret(q.id)}
-                        onClick={() => saveCaret(q.id)}
-                        onKeyDown={(e) => handleKeyDown(e, q.id)}
-                        className = "w-40 min-h-[36px] max-h-[60px] overflow-y-auto border rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#4E3629] whitespace-pre-wrap"
-                        // dangerouslySetInnerHTML={{ __html: textAnswers[q.id] || "" }} 
+                  <div className="mt-4 relative">
+                    {/*
+                    <input name={`question_${q.id}`}/>
+                    */}
+                    <div
+                      ref={(el) => {
+                        textRefs.current[q.id] = el;
+                      } }
+                      contentEditable
+                      suppressContentEditableWarning
+                      onInput={() => handleInput(q.id)}
+                      onKeyUp={() => saveCaret(q.id)}
+                      onClick={() => saveCaret(q.id)}
+                      onKeyDown={(e) => handleKeyDown(e, q.id)}
+                      className = "w-full min-h-[120px] max-h-[300px] overflow-y-auto border rounded-xl px-4 py-3 text-base bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4E3629] whitespace-pre-wrap"
+                      // dangerouslySetInnerHTML={{ __html: textAnswers[q.id] || "" }} 
                         
-                        />
+                      />
 
-                      <button
-                        type="button"
-                        onClick={() => openMathPopup(q.id)}
-                        className="absolute -right-7 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black text-sm"
-                        title="Insert Math (LaTeX)"
-                      >
-                        ∑
-                      </button>
-                    </div>
+                    <button
+                      type="button"
+                      onClick={() => openMathPopup(q.id)}
+                      className="absolute bottom-3 right-3 text-gray-500 hover:text-black text-lg"
+                      title="Insert Math (LaTeX)"
+                    >
+                      ∑
+                    </button>
                   </div>
                 )}
               </div>
@@ -502,7 +523,7 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
                   />
                 )}
 
-                {!multipleAnswers[q.id] && !textAnswers[q.id] && (
+                {!multipleAnswers[q.id] && isTextEmpty(textAnswers[q.id]) && (
                   <p className="text-red-500 italic">Not answered</p>
                 )}
               </div>
