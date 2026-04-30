@@ -1479,3 +1479,174 @@ WARNING 2026-04-29 14:26:07,590 log Unauthorized: /api/quizzes/
 WARNING 2026-04-29 14:43:55,218 log Unauthorized: /api/quizzes/
 WARNING 2026-04-29 14:44:03,254 log Unauthorized: /api/quizzes/
 WARNING 2026-04-29 14:45:49,868 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:57:13,217 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:57:26,000 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:57:26,004 log Unauthorized: /api/quizzes/
+INFO 2026-04-29 15:02:00,201 autoreload C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\backend\apps\quizzes\serializers.py changed, reloading.
+INFO 2026-04-29 15:02:01,558 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-29 15:02:18,285 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 15:02:18,287 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 15:03:23,192 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 15:03:23,197 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 15:04:42,693 log Unauthorized: /api/quizzes/
+INFO 2026-04-29 15:04:52,855 autoreload C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\backend\apps\quizzes\serializers.py changed, reloading.
+INFO 2026-04-29 15:04:53,637 autoreload Watching for file changes with StatReloader
+INFO 2026-04-29 16:43:33,081 autoreload Watching for file changes with StatReloader
+INFO 2026-04-29 16:44:01,048 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-29 16:54:13,335 log Not Found: /favicon.ico
+WARNING 2026-04-29 16:56:02,994 log Bad Request: /api/quizzes/
+INFO 2026-04-29 17:13:20,105 autoreload C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\backend\apps\quizzes\serializers.py changed, reloading.
+INFO 2026-04-29 17:13:20,900 autoreload Watching for file changes with StatReloader
+INFO 2026-04-29 17:14:38,682 autoreload Watching for file changes with StatReloader
+ERROR 2026-04-29 17:15:41,739 log Internal Server Error: /api/quizzes/
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: NOT NULL constraint failed: problem_parts.part_number
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\mixins.py", line 19, in create
+    self.perform_create(serializer)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\mixins.py", line 24, in perform_create
+    serializer.save()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\serializers.py", line 210, in save
+    self.instance = self.create(validated_data)
+                    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\backend\apps\quizzes\serializers.py", line 113, in create
+    ProblemPart.objects.create(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        problem=problem,
+        ^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+        answer_format=part.get("answer_format", "mathematical_expression"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 669, in create
+    obj.save(force_insert=True, using=self.db)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 874, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 966, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, insert_fields, returning_fields, raw
+    )
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1220, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 1918, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1925, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: NOT NULL constraint failed: problem_parts.part_number
+INFO 2026-04-29 17:17:36,772 autoreload C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\backend\apps\quizzes\serializers.py changed, reloading.
+INFO 2026-04-29 17:17:37,535 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-29 17:21:10,431 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-04-29 17:22:06,849 log Bad Request: /api/quizzes/
+WARNING 2026-04-29 17:23:03,711 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-04-29 17:23:05,816 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-04-29 17:24:06,336 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-04-29 17:24:06,954 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-04-29 17:24:07,487 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-04-29 17:24:09,546 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2026-04-29 17:30:46,826 autoreload C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\backend\apps\quizzes\serializers.py changed, reloading.
+INFO 2026-04-29 17:30:47,586 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-29 17:36:18,117 log Not Found: /api/quizzes/QUIZ_ID/problems/
+WARNING 2026-04-29 17:37:10,214 log Not Found: /api/quizzes/testingparts/problems/
+WARNING 2026-04-29 17:37:12,151 log Not Found: /api/quizzes/testingparts/problems/
+WARNING 2026-04-29 17:41:01,258 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-04-29 17:41:08,133 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-04-29 17:41:10,758 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-04-29 17:45:25,303 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-04-29 17:45:26,562 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-04-29 17:56:14,088 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-04-29 17:56:15,857 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2026-04-29 17:57:35,474 autoreload C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\backend\apps\quizzes\serializers.py changed, reloading.
+INFO 2026-04-29 17:57:36,290 autoreload Watching for file changes with StatReloader
+INFO 2026-04-29 23:50:24,325 autoreload Watching for file changes with StatReloader
+INFO 2026-04-30 00:25:11,668 autoreload C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\backend\apps\quizzes\serializers.py changed, reloading.
+INFO 2026-04-30 00:25:12,936 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-30 00:47:41,458 log Bad Request: /api/quizzes/
+WARNING 2026-04-30 00:47:46,263 log Bad Request: /api/quizzes/
+WARNING 2026-04-30 00:47:51,146 log Bad Request: /api/quizzes/
+INFO 2026-04-30 00:58:16,231 autoreload C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\backend\apps\grading\views.py changed, reloading.
+INFO 2026-04-30 00:58:17,196 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-30 01:00:15,160 log Not Found: /favicon.ico

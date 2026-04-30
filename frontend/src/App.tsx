@@ -197,6 +197,12 @@ export default function App() {
     points: number;
     figure: string;
     figurePreview: string;
+    parts: {
+      label: string;
+      text: string;
+      requires_response: boolean;
+      correct_answer: string;
+    }[];
     }[],
   });
   const [courseQuizzes, setCourseQuizzes] = useState<Quiz[]>([]);
@@ -486,6 +492,14 @@ async function createQuiz(e: React.FormEvent) {
           problem_order: p.problem_order,
           points: p.points,
           figure: p.figure || "",
+          parts: p.parts.map((part, i) => ({
+            part_number: i + 1,
+            part_text: part.text,
+            expected_answer: part.correct_answer,
+            points: 1,
+            allow_partial_credit: true,
+            answer_format: "mathematical_expression",
+        })),
         })),
         }),
     });
@@ -685,6 +699,7 @@ async function registerUser(e: React.FormEvent) {
         points: 1,
         figure: "",
         figurePreview: "",
+        parts: [],
       },
     ],
   }));
@@ -713,6 +728,69 @@ function updateQuizProblem(
     ...prev,
     problems: prev.problems.map((problem, i) =>
       i === index ? { ...problem, [field]: value } : problem
+    ),
+  }));
+}
+
+function addPartToProblem(problemIndex: number) {
+  setQuizForm((prev) => ({
+    ...prev,
+    problems: prev.problems.map((problem, i) =>
+      i === problemIndex
+        ? {
+            ...problem,
+            parts: [
+              ...problem.parts,
+              {
+                label: String.fromCharCode(65 + problem.parts.length),
+                text: "",
+                requires_response: true,
+                correct_answer: "",
+              },
+            ],
+          }
+        : problem
+    ),
+  }));
+}
+
+function updateProblemPart(
+  problemIndex: number,
+  partIndex: number,
+  field: "label" | "text" | "requires_response" | "correct_answer",
+  value: string | boolean
+) {
+  setQuizForm((prev) => {
+    const updatedProblems = [...prev.problems];
+    const updatedParts = [...updatedProblems[problemIndex].parts];
+
+    updatedParts[partIndex] = {
+      ...updatedParts[partIndex],
+      [field]: value,
+    };
+
+    updatedProblems[problemIndex] = {
+      ...updatedProblems[problemIndex],
+      parts: updatedParts,
+    };
+
+    return {
+      ...prev,
+      problems: updatedProblems,
+    };
+  });
+}
+
+function removeProblemPart(problemIndex: number, partIndex: number) {
+  setQuizForm((prev) => ({
+    ...prev,
+    problems: prev.problems.map((problem, i) =>
+      i === problemIndex
+        ? {
+            ...problem,
+            parts: problem.parts.filter((_, j) => j !== partIndex),
+          }
+        : problem
     ),
   }));
 }
@@ -1286,6 +1364,55 @@ if (page === "createQuiz" && selectedInstructorCourse) {
                         placeholder="Correct answer"
                         className="w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
                       />
+
+                      <div className="rounded-2xl border bg-gray-50 p-4 space-y-4">
+                        <div className="flex items-center justify-between">
+                          <h4 className="font-bold text-[#4E3629]">Problem Parts</h4>
+
+                          <button
+                            type="button"
+                            onClick={() => addPartToProblem(index)}
+                            className="px-4 py-2 rounded-xl bg-white border text-sm font-semibold hover:shadow"
+                          >
+                            Add Part
+                          </button>
+                        </div>
+
+                        {problem.parts.map((part, partIndex) => (
+                          <div key={partIndex} className="rounded-2xl bg-white border p-4 space-y-3">
+                            <div className="flex items-center justify-between">
+                              <strong>Part {part.label}</strong>
+
+                              <button
+                                type="button"
+                                onClick={() => removeProblemPart(index, partIndex)}
+                                className="text-sm text-red-600"
+                              >
+                                Remove
+                              </button>
+                            </div>
+
+                            <textarea
+                              value={part.text}
+                              onChange={(e) =>
+                                updateProblemPart(index, partIndex, "text", e.target.value)
+                              }
+                              placeholder="Part question text"
+                              rows={3}
+                              className="w-full rounded-2xl border bg-gray-50 px-4 py-3"
+                            />
+
+                            <input
+                              value={part.correct_answer}
+                              onChange={(e) =>
+                                updateProblemPart(index, partIndex, "correct_answer", e.target.value)
+                              }
+                              placeholder="Correct answer for this part"
+                              className="w-full rounded-2xl border bg-gray-50 px-4 py-3"
+                            />
+                          </div>
+                        ))}
+                      </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>

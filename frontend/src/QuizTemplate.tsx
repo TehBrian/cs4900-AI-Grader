@@ -25,6 +25,15 @@ interface Question {
   problem_text?: string;
   problem_title?: string;
   figure?: string;
+  parts?: {
+    id: number;
+    part_number: number;
+    part_text: string;
+    expected_answer: string;
+    points: number;
+    allow_partial_credit: boolean;
+    answer_format: string;
+  }[];
 }
 
 interface Quiz {
@@ -37,7 +46,7 @@ interface Quiz {
 export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
   const [page, setLocalPage] = useState<QuizPage>("quiz");
   const [multipleAnswers, setMultipleAnswers] = useState<Record<number, string>>({});
-  const [textAnswers, setTextAnswers] = useState<Record<number, string>>({});
+  const [textAnswers, setTextAnswers] = useState<Record<string, string>>({});
   const [activeMathId, setActiveMathId] = useState<number | null>(null);
   const [mathInput, setMathInput] = useState<string>("");
   const [activeQuestion, setActiveQuestion] = useState<number | null>(null);
@@ -75,7 +84,7 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
         setTimeRemaining(timeRemaining - 1);
       }, 1000);
       return () => clearTimeout(timer);
-    } else if (timeRemaining === 0 && quiz && page === "quiz") {
+    } else if (quiz?.time_limit && timeRemaining === 0 && quiz && page === "quiz") {
       // Auto-submit when time runs out
       handleSubmit();
     }
@@ -123,6 +132,7 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
           problem_text: p.problem_text,
           problem_title: p.problem_title,
           figure: p.figure || p.figure_url || undefined,
+          parts: p.parts || [],
         }));
         setQuestions(formattedQuestions);
       }
@@ -190,7 +200,16 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
   // Progress counter
   const answeredCount = questions.filter((q) => {
     if (multipleAnswers[q.id]) return true;
-    return !isTextEmpty(textAnswers[q.id]);
+    if (!isTextEmpty(textAnswers[String(q.id)])) return true;
+
+    if (q.parts && q.parts.length > 0) {
+      return q.parts.every((part) => {
+        const key = `${q.id}_${part.id}`;
+        return !isTextEmpty(textAnswers[key]);
+      });
+    }
+
+    return false;
   }).length;
 
   // Detect which question is visible
@@ -312,8 +331,20 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
   };
 
   const isAnswered = (qid: number) => {
-    if (multipleAnswers[qid]) return true;
-    return !isTextEmpty(textAnswers[qid]);
+    const question = questions.find((q) => q.id === qid);
+
+    if (multipleAnswers[qid] || !isTextEmpty(textAnswers[String(qid)])) {
+      return true;
+    }
+
+    if (question?.parts && question.parts.length > 0) {
+      return question.parts.every((part) => {
+        const key = `${qid}_${part.id}`;
+        return !isTextEmpty(textAnswers[key]);
+      });
+    }
+
+    return false;
   };
 
   if (loading) {
@@ -422,6 +453,34 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
                         />
                       </div>
                   )}
+
+                  {q.parts && q.parts.length > 0 && (
+                    <div className="mt-4 space-y-4">
+                      {q.parts.map((part) => (
+                        <div key={part.id} className="rounded-2xl border bg-gray-50 p-4">
+                          <p className="font-bold text-[#4E3629] mb-2">
+                            Part {part.part_number}
+                          </p>
+
+                          <p className="mb-3 whitespace-pre-wrap">
+                            {renderTextWithLatex(part.part_text)}
+                          </p>
+
+                          <textarea
+                            value={textAnswers[`${q.id}_${part.id}`] || ""}
+                            onChange={(e) => {
+                              setTextAnswers((prev) => ({
+                                ...prev,
+                                [`${q.id}_${part.id}`]: e.target.value,
+                              }));
+                            }}
+                            className="w-full min-h-[80px] border rounded-xl px-4 py-3 text-base bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4E3629] whitespace-pre-wrap"
+                          />
+                      </div>
+                    ))}
+                  </div>
+                )}
+
                 {q.type === "multiple" && q.options?.map((opt) => (
                   <button
                     key={opt}
@@ -437,7 +496,7 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
                   </button>
                 ))}
 
-                {q.type === "text" && (
+                {q.type === "text" && (!q.parts || q.parts.length === 0) && (
                   <div className="mt-4 relative">
                     {/*
                     <input name={`question_${q.id}`}/>
@@ -512,19 +571,46 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
                   </div>
                 )}
 
-                {multipleAnswers[q.id] && (
-                  <p className="text-gray-700">Answer: {multipleAnswers[q.id]}</p>
-                )}
+                {q.parts && q.parts.length > 0 ? (
+                  <div className="space-y-3">
+                    {q.parts.map((part) => {
+                      const key = `${q.id}_${part.id}`;
+                      const answer = textAnswers[key];
 
-                {textAnswers[q.id] && (
-                  <div
-                    className="text-gray-700"
-                    dangerouslySetInnerHTML={{ __html: textAnswers[q.id] }}
-                  />
-                )}
+                      return (
+                        <div key={part.id} className="rounded-xl border bg-gray-50 p-3">
+                          <p className="font-bold">Part {part.part_number}</p>
+                          <p>{renderTextWithLatex(part.part_text)}</p>
 
-                {!multipleAnswers[q.id] && isTextEmpty(textAnswers[q.id]) && (
-                  <p className="text-red-500 italic">Not answered</p>
+                          {answer && !isTextEmpty(answer) ? (
+                            <div
+                              className="text-gray-700 mt-2"
+                              dangerouslySetInnerHTML={{ __html: answer }}
+                            />
+                          ) : (
+                            <p className="text-red-500 italic mt-2">Not answered</p>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <>
+                    {multipleAnswers[q.id] && (
+                      <p className="text-gray-700">Answer: {multipleAnswers[q.id]}</p>
+                    )}
+
+                    {textAnswers[String(q.id)] && (
+                      <div
+                        className="text-gray-700"
+                        dangerouslySetInnerHTML={{ __html: textAnswers[String(q.id)] }}
+                      />
+                    )}
+
+                    {!multipleAnswers[q.id] && isTextEmpty(textAnswers[String(q.id)]) && (
+                      <p className="text-red-500 italic">Not answered</p>
+                    )}
+                  </>
                 )}
               </div>
               ))}
