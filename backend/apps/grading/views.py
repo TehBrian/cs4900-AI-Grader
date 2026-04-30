@@ -87,8 +87,7 @@ class GradingViewSet(viewsets.ViewSet):
                 {"error": "Student not found"}, status=status.HTTP_404_NOT_FOUND
             )
         grader = QuizGraderClient()
-        results = asyncio.run(grader.run_grading_workflow(student_id=student_id))
-
+        results_json, summary = asyncio.run(grader.run_grading_workflow(student_id=student_id))
 
 
         # # set grading [status, started_at] fields
@@ -118,7 +117,8 @@ class GradingViewSet(viewsets.ViewSet):
             {
                 "submission_datetime": str(submission.submitted_at),
                 "attempt_number": attempt_number,
-                "results": results,
+                "results": results_json,
+                "summary": summary,
             }
         )
 
