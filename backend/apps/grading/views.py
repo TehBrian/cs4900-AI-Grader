@@ -50,7 +50,7 @@ class GradingViewSet(viewsets.ViewSet):
         """
         quiz_id = request.data.get("quiz_id")
         student_id = request.data.get("student_id", 1)
-        content = request.data.get("content")
+        content = request.data.get("content", {})
 
         # if not problem_id or not answer:
         #     return Response(
