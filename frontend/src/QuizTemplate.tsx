@@ -43,13 +43,13 @@ interface Quiz {
   description: string;
 }
 
-export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
+export default function QuizTemplate({ onExit, quizId, userId}: Props) {
   const [page, setLocalPage] = useState<QuizPage>("quiz");
-  const [multipleAnswers, setMultipleAnswers] = useState<Record<number, string>>({});
+  const [multipleAnswers, setMultipleAnswers] = useState<Record<string, string>>({});
   const [textAnswers, setTextAnswers] = useState<Record<string, string>>({});
-  const [activeMathId, setActiveMathId] = useState<number | null>(null);
+  const [activeMathId, setActiveMathId] = useState<string | null>(null);
   const [mathInput, setMathInput] = useState<string>("");
-  const [activeQuestion, setActiveQuestion] = useState<number | null>(null);
+  const [activeQuestion, setActiveQuestion] = useState<string | null>(null);
   
   // New states for timer and data
   const [quiz, setQuiz] = useState<Quiz | null>(null);
@@ -59,8 +59,8 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
   const [saving, setSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
 
-  const textRefs = useRef<Record<number, HTMLDivElement | null>>({});
-  const caretRanges = useRef<Record<number, Range>>({});
+  const textRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const caretRanges = useRef<Record<string, Range>>({});
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
 
@@ -237,14 +237,14 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  const selectAnswer = (qid: number, option: string) => {
+  const selectAnswer = (qid: string, option: string) => {
     setMultipleAnswers((prev) => ({ ...prev, [qid]: option }));
     // Trigger autosave after a delay
     if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
     saveTimeoutRef.current = setTimeout(() => saveAnswers(), 2000);
   };
 
-  const handleInput = (qid: number) => {
+  const handleInput = (qid: string) => {
     const el = textRefs.current[qid];
     if (el) {
       setTextAnswers((prev) => ({
@@ -257,13 +257,13 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
     }
   };
 
-  const saveCaret = (qid: number) => {
+  const saveCaret = (qid: string) => {
     const sel = window.getSelection();
     if (!sel || sel.rangeCount === 0) return;
     caretRanges.current[qid] = sel.getRangeAt(0).cloneRange();
   };
 
-  const openMathPopup = (qid: number) => {
+  const openMathPopup = (qid: string) => {
     setActiveMathId(qid);
     setMathInput("");
   };
@@ -310,7 +310,7 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
     setMathInput("");
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent, qid: number) => {
+  const handleKeyDown = (e: React.KeyboardEvent, qid: string) => {
     if (e.key !== "Backspace") return;
 
     const sel = window.getSelection();
@@ -391,7 +391,7 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
             onClick={() => scrollToQuestion(q.id)}
             className={[
               "w-full py-2 rounded-xl border text-sm font-semibold transition flex items-center justify-center gap-1",
-              activeQuestion === q.id
+              activeQuestion === String(q.id)
                 ? "bg-[#4E3629] text-white border-[#4E3629]"
                 : isAnswered(q.id)
                 ? "bg-green-100 border-green-400"
@@ -466,16 +466,34 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
                             {renderTextWithLatex(part.part_text)}
                           </p>
 
-                          <textarea
-                            value={textAnswers[`${q.id}_${part.id}`] || ""}
-                            onChange={(e) => {
-                              setTextAnswers((prev) => ({
-                                ...prev,
-                                [`${q.id}_${part.id}`]: e.target.value,
-                              }));
+                       <div className="mt-2 relative">
+                          <div
+                            ref={(el) => {
+                              const key = `${q.id}_${part.id}`;
+                              textRefs.current[key] = el;
+
+                              if (el && !el.innerHTML && textAnswers[key]) {
+                                el.innerHTML = textAnswers[key];
+                              }
                             }}
-                            className="w-full min-h-[80px] border rounded-xl px-4 py-3 text-base bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4E3629] whitespace-pre-wrap"
+                            contentEditable
+                            suppressContentEditableWarning
+                            onInput={() => handleInput(`${q.id}_${part.id}`)}
+                            onKeyUp={() => saveCaret(`${q.id}_${part.id}`)}
+                            onClick={() => saveCaret(`${q.id}_${part.id}`)}
+                            onKeyDown={(e) => handleKeyDown(e, `${q.id}_${part.id}`)}
+                            className="w-full min-h-[120px] max-h-[300px] overflow-y-auto border rounded-xl px-4 py-3 text-base bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4E3629] whitespace-pre-wrap"
                           />
+
+                          <button
+                            type="button"
+                            onClick={() => openMathPopup(`${q.id}_${part.id}`)}
+                            className="absolute bottom-2 right-2 text-gray-500 hover:text-black text-lg"
+                            title="Insert Math (LaTeX)"
+                          >
+                            ∑
+                          </button>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -484,10 +502,10 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
                 {q.type === "multiple" && q.options?.map((opt) => (
                   <button
                     key={opt}
-                    onClick={() => selectAnswer(q.id, opt)}
+                    onClick={() => selectAnswer(String(q.id), opt)}
                     className={[
                       "w-full text-left px-4 py-3 rounded-xl border mb-2 transition",
-                      multipleAnswers[q.id] === opt
+                      multipleAnswers[String(q.id)] === opt
                         ? "bg-[#4E3629] text-white border-[#4E3629]"
                         : "bg-white hover:bg-gray-50",
                     ].join(" ")}
@@ -507,10 +525,10 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
                       } }
                       contentEditable
                       suppressContentEditableWarning
-                      onInput={() => handleInput(q.id)}
-                      onKeyUp={() => saveCaret(q.id)}
-                      onClick={() => saveCaret(q.id)}
-                      onKeyDown={(e) => handleKeyDown(e, q.id)}
+                      onInput={() => handleInput(String(q.id))}
+                      onKeyUp={() => saveCaret(String(q.id))}
+                      onClick={() => saveCaret(String(q.id))}
+                      onKeyDown={(e) => handleKeyDown(e, String(q.id))}
                       className = "w-full min-h-[120px] max-h-[300px] overflow-y-auto border rounded-xl px-4 py-3 text-base bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4E3629] whitespace-pre-wrap"
                       // dangerouslySetInnerHTML={{ __html: textAnswers[q.id] || "" }} 
                         
@@ -518,7 +536,7 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
 
                     <button
                       type="button"
-                      onClick={() => openMathPopup(q.id)}
+                      onClick={() => openMathPopup(String(q.id))}
                       className="absolute bottom-3 right-3 text-gray-500 hover:text-black text-lg"
                       title="Insert Math (LaTeX)"
                     >
