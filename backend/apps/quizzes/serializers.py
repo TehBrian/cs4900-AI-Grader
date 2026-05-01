@@ -14,7 +14,7 @@ from .models import (
     AnswerSubmission,
 )
 from ..users.models import CustomUser
-from ..problems.models import Problem
+from ..problems.models import Problem, ProblemPart
 
 
 
@@ -69,6 +69,8 @@ class QuizProblemCreateSerializer(serializers.Serializer):
     custom_instructions = serializers.CharField(required=False, allow_blank=True, default="")
     time_limit_override = serializers.IntegerField(required=False, allow_null=True)
     parameter_overrides = serializers.JSONField(required=False, default=dict)
+    figure = serializers.CharField(required=False, allow_blank=True, default="")
+    parts = serializers.ListField(required=False, default=list)
 
 class QuizSerializer(serializers.ModelSerializer):
     problems = QuizProblemCreateSerializer(many=True, write_only=True, required=False)
@@ -95,12 +97,28 @@ class QuizSerializer(serializers.ModelSerializer):
         quiz = Quiz.objects.create(**validated_data)
 
         for item in problems_data:
+            figure = item.get("figure", "")
+
             problem = Problem.objects.create(
                 title=item["title"],
                 question_text=item["question_text"],
                 question_latex=item.get("question_latex", ""),
                 author=quiz.created_by,
+                supplementary_files=[figure] if figure else [],
             )
+
+            parts_data = item.get("parts", [])
+
+            for index, part in enumerate(parts_data):
+                ProblemPart.objects.create(
+                    problem=problem,
+                    part_number=part.get("part_number", index + 1) or index + 1,
+                    part_text=part.get("part_text", ""),
+                    expected_answer=part.get("expected_answer", ""),
+                    points=part.get("points", 1),
+                    allow_partial_credit=part.get("allow_partial_credit", True),
+                    answer_format=part.get("answer_format", "mathematical_expression"),
+                )
 
             QuizProblem.objects.create(
                 quiz=quiz,
@@ -216,6 +234,9 @@ class QuizProblemDetailSerializer(serializers.ModelSerializer):
     problem_text = serializers.CharField(source="problem.question_text", read_only=True)
     problem_title = serializers.CharField(source="problem.title", read_only=True)
     answer_boxes = AnswerBoxSerializer(many=True, read_only=True)
+    figure = serializers.SerializerMethodField()
+    parts = serializers.SerializerMethodField()
+
     
     class Meta:
         model = QuizProblem
@@ -231,4 +252,25 @@ class QuizProblemDetailSerializer(serializers.ModelSerializer):
             "problem_text",
             "problem_title",
             "answer_boxes",
+            "figure",
+            "parts",
         ]
+
+    def get_figure(self, obj):
+        files = obj.problem.supplementary_files or []
+        return files[0] if files else None
+    
+    def get_parts(self, obj):
+        return [
+            {
+                "id": part.id,
+                "part_number": part.part_number,
+                "part_text": part.part_text,
+                "expected_answer": part.expected_answer,
+                "points": part.points,
+                "allow_partial_credit": part.allow_partial_credit,
+                "answer_format": part.answer_format,
+            }
+            for part in obj.problem.parts.all().order_by("part_number")
+        ]
+        

@@ -11,6 +11,7 @@ type QuizPage = "quiz" | "details" | "submit";
 
 interface Props {
   onExit: () => void;
+  onSubmitted?: () => void;
   quizId?: number;
   userId?: number;
   course?: any;
@@ -25,6 +26,15 @@ interface Question {
   problem_text?: string;
   problem_title?: string;
   figure?: string;
+  parts?: {
+    id: number;
+    part_number: number;
+    part_text: string;
+    expected_answer: string;
+    points: number;
+    allow_partial_credit: boolean;
+    answer_format: string;
+  }[];
 }
 
 interface Quiz {
@@ -34,13 +44,13 @@ interface Quiz {
   description: string;
 }
 
-export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
+export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Props) {
   const [page, setLocalPage] = useState<QuizPage>("quiz");
-  const [multipleAnswers, setMultipleAnswers] = useState<Record<number, string>>({});
-  const [textAnswers, setTextAnswers] = useState<Record<number, string>>({});
-  const [activeMathId, setActiveMathId] = useState<number | null>(null);
+  const [multipleAnswers, setMultipleAnswers] = useState<Record<string, string>>({});
+  const [textAnswers, setTextAnswers] = useState<Record<string, string>>({});
+  const [activeMathId, setActiveMathId] = useState<string | null>(null);
   const [mathInput, setMathInput] = useState<string>("");
-  const [activeQuestion, setActiveQuestion] = useState<number | null>(null);
+  const [activeQuestion, setActiveQuestion] = useState<string | null>(null);
   
   // New states for timer and data
   const [quiz, setQuiz] = useState<Quiz | null>(null);
@@ -50,47 +60,16 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
   const [saving, setSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
 
-  const textRefs = useRef<Record<number, HTMLDivElement | null>>({});
-  const caretRanges = useRef<Record<number, Range>>({});
+  const textRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const caretRanges = useRef<Record<string, Range>>({});
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
 
 
     async function handleQuizSubmission(e: React.FormEvent) {
       e.preventDefault();
-      //setError(null);
-      setLocalPage("details")
-  
-      const form= e.target as HTMLFormElement;
-      const formData= new FormData(form);
-  
-      try {
-        const response = await fetch("http://127.0.0.1:8000/api/grading/submit/", {
-          method: "POST",
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(
-            {
-              quiz_id: quizId,
-              student_id: userId,
-              content: textAnswers,
-            }
-          )
-        });
-  
-        /*if (response.ok) {
-          const data = await response.json();
-        } */
-        if (!response.ok) {
-          const err_response = await response.json();
-          //setError(err_response.error);
-          return;
-        }
-  
-      } catch (err) {
-        alert("Failed to submit quiz.");
-      }
+      await saveAnswers();
+      setLocalPage("details");
     }
   
 
@@ -106,11 +85,20 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
         setTimeRemaining(timeRemaining - 1);
       }, 1000);
       return () => clearTimeout(timer);
-    } else if (timeRemaining === 0 && quiz && page === "quiz") {
+    } else if (quiz?.time_limit && timeRemaining === 0 && quiz && page === "quiz") {
       // Auto-submit when time runs out
       handleSubmit();
     }
   }, [timeRemaining, page]);
+
+  useEffect(() => {
+    questions.forEach((q) => {
+      const el = textRefs.current[q.id];
+      if (el && textAnswers[q.id] && el.innerHTML !== textAnswers[q.id]) {
+        el.innerHTML = textAnswers[q.id];
+      }
+    });
+  }, [page]);
 
   // Autosave answers every 30 seconds
   useEffect(() => {
@@ -145,6 +133,7 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
           problem_text: p.problem_text,
           problem_title: p.problem_title,
           figure: p.figure || p.figure_url || undefined,
+          parts: p.parts || [],
         }));
         setQuestions(formattedQuestions);
       }
@@ -174,7 +163,34 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
 
   const handleSubmit = async () => {
     await saveAnswers();
-    setLocalPage("submit");
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/grading/submit/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          quiz_id: quizId,
+          student_id: userId,
+          content: {
+            text: textAnswers,
+            multiple: multipleAnswers,
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        alert("Failed to submit quiz.");
+        return;
+      }
+
+      onSubmitted?.();
+      
+      setLocalPage("submit");
+    } catch (err) {
+      alert("Failed to submit quiz.");
+    }
   };
 
   // Format time as MM:SS
@@ -186,7 +202,17 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
 
   // Progress counter
   const answeredCount = questions.filter((q) => {
-    return multipleAnswers[q.id] || textAnswers[q.id];
+    if (multipleAnswers[q.id]) return true;
+    if (!isTextEmpty(textAnswers[String(q.id)])) return true;
+
+    if (q.parts && q.parts.length > 0) {
+      return q.parts.every((part) => {
+        const key = `${q.id}_${part.id}`;
+        return !isTextEmpty(textAnswers[key]);
+      });
+    }
+
+    return false;
   }).length;
 
   // Detect which question is visible
@@ -214,14 +240,14 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  const selectAnswer = (qid: number, option: string) => {
+  const selectAnswer = (qid: string, option: string) => {
     setMultipleAnswers((prev) => ({ ...prev, [qid]: option }));
     // Trigger autosave after a delay
     if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
     saveTimeoutRef.current = setTimeout(() => saveAnswers(), 2000);
   };
 
-  const handleInput = (qid: number) => {
+  const handleInput = (qid: string) => {
     const el = textRefs.current[qid];
     if (el) {
       setTextAnswers((prev) => ({
@@ -234,13 +260,13 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
     }
   };
 
-  const saveCaret = (qid: number) => {
+  const saveCaret = (qid: string) => {
     const sel = window.getSelection();
     if (!sel || sel.rangeCount === 0) return;
     caretRanges.current[qid] = sel.getRangeAt(0).cloneRange();
   };
 
-  const openMathPopup = (qid: number) => {
+  const openMathPopup = (qid: string) => {
     setActiveMathId(qid);
     setMathInput("");
   };
@@ -287,7 +313,7 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
     setMathInput("");
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent, qid: number) => {
+  const handleKeyDown = (e: React.KeyboardEvent, qid: string) => {
     if (e.key !== "Backspace") return;
 
     const sel = window.getSelection();
@@ -308,7 +334,20 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
   };
 
   const isAnswered = (qid: number) => {
-    return multipleAnswers[qid] || textAnswers[qid];
+    const question = questions.find((q) => q.id === qid);
+
+    if (multipleAnswers[qid] || !isTextEmpty(textAnswers[String(qid)])) {
+      return true;
+    }
+
+    if (question?.parts && question.parts.length > 0) {
+      return question.parts.every((part) => {
+        const key = `${qid}_${part.id}`;
+        return !isTextEmpty(textAnswers[key]);
+      });
+    }
+
+    return false;
   };
 
   if (loading) {
@@ -333,6 +372,18 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
     });
   }
 
+  function isTextEmpty(html: string | undefined) {
+    if (!html) return true;
+
+    // Remove HTML tags and whitespace
+    const text = html
+      .replace(/<[^>]*>/g, "") // strip tags
+      .replace(/&nbsp;/g, " ")
+      .trim();
+
+    return text.length === 0;
+  }
+
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center px-4 py-12 font-serif">
       {/* Question Navigation Sidebar */}
@@ -343,7 +394,7 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
             onClick={() => scrollToQuestion(q.id)}
             className={[
               "w-full py-2 rounded-xl border text-sm font-semibold transition flex items-center justify-center gap-1",
-              activeQuestion === q.id
+              activeQuestion === String(q.id)
                 ? "bg-[#4E3629] text-white border-[#4E3629]"
                 : isAnswered(q.id)
                 ? "bg-green-100 border-green-400"
@@ -400,18 +451,64 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
                       <div className="mb-4">
                         <img
                           src={q.figure}
-                          alt= "figure"
+                          alt={`Question ${q.id} figure`}
                           className="max-h-80 rounded-xl border"
                         />
                       </div>
-                    )}
+                  )}
+
+                  {q.parts && q.parts.length > 0 && (
+                    <div className="mt-4 space-y-4">
+                      {q.parts.map((part) => (
+                        <div key={part.id} className="rounded-2xl border bg-gray-50 p-4">
+                          <p className="font-bold text-[#4E3629] mb-2">
+                            Part {part.part_number}
+                          </p>
+
+                          <p className="mb-3 whitespace-pre-wrap">
+                            {renderTextWithLatex(part.part_text)}
+                          </p>
+
+                       <div className="mt-2 relative">
+                          <div
+                            ref={(el) => {
+                              const key = `${q.id}_${part.id}`;
+                              textRefs.current[key] = el;
+
+                              if (el && !el.innerHTML && textAnswers[key]) {
+                                el.innerHTML = textAnswers[key];
+                              }
+                            }}
+                            contentEditable
+                            suppressContentEditableWarning
+                            onInput={() => handleInput(`${q.id}_${part.id}`)}
+                            onKeyUp={() => saveCaret(`${q.id}_${part.id}`)}
+                            onClick={() => saveCaret(`${q.id}_${part.id}`)}
+                            onKeyDown={(e) => handleKeyDown(e, `${q.id}_${part.id}`)}
+                            className="w-full min-h-[120px] max-h-[300px] overflow-y-auto border rounded-xl px-4 py-3 text-base bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4E3629] whitespace-pre-wrap"
+                          />
+
+                          <button
+                            type="button"
+                            onClick={() => openMathPopup(`${q.id}_${part.id}`)}
+                            className="absolute bottom-2 right-2 text-gray-500 hover:text-black text-lg"
+                            title="Insert Math (LaTeX)"
+                          >
+                            ∑
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
                 {q.type === "multiple" && q.options?.map((opt) => (
                   <button
                     key={opt}
-                    onClick={() => selectAnswer(q.id, opt)}
+                    onClick={() => selectAnswer(String(q.id), opt)}
                     className={[
                       "w-full text-left px-4 py-3 rounded-xl border mb-2 transition",
-                      multipleAnswers[q.id] === opt
+                      multipleAnswers[String(q.id)] === opt
                         ? "bg-[#4E3629] text-white border-[#4E3629]"
                         : "bg-white hover:bg-gray-50",
                     ].join(" ")}
@@ -420,36 +517,34 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
                   </button>
                 ))}
 
-                {q.type === "text" && (
-                  <div className="flex items-center gap-3 mt-2">
-                    <div className="ml-auto relative">
-                      {/*
-                      <input name={`question_${q.id}`}/>
-                      */}
-                      <div
-                        ref={(el) => {
-                          textRefs.current[q.id] = el;
-                        } }
-                        contentEditable
-                        suppressContentEditableWarning
-                        onInput={() => handleInput(q.id)}
-                        onKeyUp={() => saveCaret(q.id)}
-                        onClick={() => saveCaret(q.id)}
-                        onKeyDown={(e) => handleKeyDown(e, q.id)}
-                        className = "w-40 min-h-[36px] max-h-[60px] overflow-y-auto border rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#4E3629] whitespace-pre-wrap"
-                        // dangerouslySetInnerHTML={{ __html: textAnswers[q.id] || "" }} 
+                {q.type === "text" && (!q.parts || q.parts.length === 0) && (
+                  <div className="mt-4 relative">
+                    {/*
+                    <input name={`question_${q.id}`}/>
+                    */}
+                    <div
+                      ref={(el) => {
+                        textRefs.current[q.id] = el;
+                      } }
+                      contentEditable
+                      suppressContentEditableWarning
+                      onInput={() => handleInput(String(q.id))}
+                      onKeyUp={() => saveCaret(String(q.id))}
+                      onClick={() => saveCaret(String(q.id))}
+                      onKeyDown={(e) => handleKeyDown(e, String(q.id))}
+                      className = "w-full min-h-[120px] max-h-[300px] overflow-y-auto border rounded-xl px-4 py-3 text-base bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4E3629] whitespace-pre-wrap"
+                      // dangerouslySetInnerHTML={{ __html: textAnswers[q.id] || "" }} 
                         
-                        />
+                      />
 
-                      <button
-                        type="button"
-                        onClick={() => openMathPopup(q.id)}
-                        className="absolute -right-7 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black text-sm"
-                        title="Insert Math (LaTeX)"
-                      >
-                        ∑
-                      </button>
-                    </div>
+                    <button
+                      type="button"
+                      onClick={() => openMathPopup(String(q.id))}
+                      className="absolute bottom-3 right-3 text-gray-500 hover:text-black text-lg"
+                      title="Insert Math (LaTeX)"
+                    >
+                      ∑
+                    </button>
                   </div>
                 )}
               </div>
@@ -458,6 +553,7 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
 
           <div className="mt-10 flex gap-4">
               <button
+                type="button"
                 onClick={() => saveAnswers()}
                 disabled={saving}
                 className="flex-1 rounded-2xl border border-[#4E3629] text-[#4E3629] py-3 font-bold hover:bg-gray-50 disabled:opacity-50"
@@ -480,24 +576,70 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
             <h1 className="text-3xl font-extrabold mb-6 text-center">Review Answers</h1>
 
             <div className="space-y-6">
-              {questions.map((q, index) => (
-                <div key={q.id} className="border-b pb-4">
-                  <p className="font-semibold mb-2">Question {index + 1}: {q.text}</p>
-                  {multipleAnswers[q.id] && (
-                    <p className="text-gray-700">Answer: {multipleAnswers[q.id]}</p>
-                  )}
-                  {textAnswers[q.id] && (
-                    <div className="text-gray-700" dangerouslySetInnerHTML={{ __html: textAnswers[q.id] }} />
-                  )}
-                  {!multipleAnswers[q.id] && !textAnswers[q.id] && (
-                    <p className="text-red-500 italic">Not answered</p>
-                  )}
-                </div>
+              {questions.map((q) => (
+              <div key={q.id} className="border-b pb-4">
+                <p className="mb-2 whitespace-pre-wrap">
+                 {renderTextWithLatex(q.text)}
+                </p>
+
+                {q.figure && (
+                  <div className="mb-3">
+                    <img
+                      src={q.figure}
+                      alt={`Question ${q.id} figure`}
+                      className="max-h-80 rounded-xl border"
+                    />
+                  </div>
+                )}
+
+                {q.parts && q.parts.length > 0 ? (
+                  <div className="space-y-3">
+                    {q.parts.map((part) => {
+                      const key = `${q.id}_${part.id}`;
+                      const answer = textAnswers[key];
+
+                      return (
+                        <div key={part.id} className="rounded-xl border bg-gray-50 p-3">
+                          <p className="font-bold">Part {part.part_number}</p>
+                          <p>{renderTextWithLatex(part.part_text)}</p>
+
+                          {answer && !isTextEmpty(answer) ? (
+                            <div
+                              className="text-gray-700 mt-2"
+                              dangerouslySetInnerHTML={{ __html: answer }}
+                            />
+                          ) : (
+                            <p className="text-red-500 italic mt-2">Not answered</p>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <>
+                    {multipleAnswers[q.id] && (
+                      <p className="text-gray-700">Answer: {multipleAnswers[q.id]}</p>
+                    )}
+
+                    {textAnswers[String(q.id)] && (
+                      <div
+                        className="text-gray-700"
+                        dangerouslySetInnerHTML={{ __html: textAnswers[String(q.id)] }}
+                      />
+                    )}
+
+                    {!multipleAnswers[q.id] && isTextEmpty(textAnswers[String(q.id)]) && (
+                      <p className="text-red-500 italic">Not answered</p>
+                    )}
+                  </>
+                )}
+              </div>
               ))}
             </div>
 
             <div className="mt-8 flex gap-4">
               <button
+                type="button"
                 onClick={() => setLocalPage("quiz")}
                 className="flex-1 rounded-2xl border py-3 font-semibold hover:bg-gray-50"
               >
@@ -505,7 +647,8 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
               </button>
 
               <button
-                onClick={onExit}
+                type="button"
+                onClick={handleSubmit}
                 className="flex-1 rounded-2xl bg-[#4E3629] text-white py-3 font-bold hover:opacity-90"
               >
                 Submit Quiz
@@ -521,6 +664,7 @@ export default function QuizTemplate({ onExit, quizId, userId, course}: Props) {
               Your quiz has been submitted successfully.
             </p>
             <button
+              type="button"
               onClick={onExit}
               className="rounded-2xl bg-[#4E3629] text-white px-6 py-3 font-semibold hover:opacity-90"
             >

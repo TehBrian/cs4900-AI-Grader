@@ -22,14 +22,14 @@ class Submission(base_model):
 
 class Quiz(base_model):
     quiz_id: int
-    problems: list
+    nested_problems: list
     title: str
     course: int
 
     
     def __init__(self, quiz_id, problems, title, course):
         self.quiz_id = quiz_id
-        self.problems = problems
+        self.nested_problems = problems
         self.title = title
         self.course = course
 

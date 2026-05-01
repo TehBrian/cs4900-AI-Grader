@@ -50,7 +50,7 @@ class GradingViewSet(viewsets.ViewSet):
         """
         quiz_id = request.data.get("quiz_id")
         student_id = request.data.get("student_id", 1)
-        content = request.data.get("content")
+        content = request.data.get("content", {})
 
         # if not problem_id or not answer:
         #     return Response(
@@ -88,6 +88,8 @@ class GradingViewSet(viewsets.ViewSet):
             )
         grader = QuizGraderClient()
         results = asyncio.run(grader.run_grading_workflow(student_id=student_id))
+        results_json, summary = asyncio.run(grader.run_grading_workflow(student_id=student_id))
+
 
         # # set grading [status, started_at] fields
         # submission.start_grading()

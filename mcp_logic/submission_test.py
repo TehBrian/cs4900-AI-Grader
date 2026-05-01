@@ -17,26 +17,30 @@ class QuizGraderClient:
         try:
             async with streamable_http_client(self.base_url) as (read, write, session_id):
                  async with ClientSession(read, write) as session:
-                     await session.initialize()
+                    await session.initialize()
 
-                     result = await session.call_tool("grade_quiz_submission", {"student_id": student_id})
-                     prompt = self.build_grading_prompt(result.structuredContent)
-                     ai_response = self.get_ai_grade(prompt)
-                     print(f"AI_response: {ai_response.content[0].text}")
+                    result = await session.call_tool("grade_quiz_submission", {"student_id": student_id})
+                    prompt = self.build_grading_prompt(result.structuredContent)
+                    ai_response = self.get_ai_grade(prompt)
 
-                     submission_id = result.structuredContent["submission_struct"]["submission_id"]
-                     post_result = await session.call_tool("post_submission", {"submission_id": result.structuredContent['submission_struct']['submission_id'], "result": ai_response.content[0].text})
+                    json_result, summary = self.parse_ai_response(ai_response)
 
-                     print(f"Success: {post_result.content[0].text}")
-                     return ai_response.content[0].text
+                    post_result = await session.call_tool("post_submission", {"submission_id": result.structuredContent['submission_struct']['submission_id'], "result": ai_response.content[0].text})
+                    return json_result, summary
                  
         except Exception as e:
-            return f"An error occured during grading: {str(e)}"
+            print(f"An error occured during grading: {str(e)}")
+            return {}, ""
     
     def build_grading_prompt(self, data):
         """Build claude prompt"""
         return f"""Please grade the following quiz submission. 
         Solve the problems based on question_text and grade students answers.
+        For each problem follow the following format and create a json:
+
+        quiz_number: number,
+        student_answer: students answer,
+        expected_answer: your answer, 
         
         Student Submission:
         {json.dumps(data['submission_struct'], indent=2)}
@@ -47,7 +51,8 @@ class QuizGraderClient:
         User Info:
         {json.dumps(data['user_struct'], indent=2)}
 
-        Format your response in this format here: "quiz_title,win_number,earned_points,overall_feedback,"
+        include this at the end of your response on a new line:
+        "quiz_title,win_number,earned_points,overall_feedback,"
         """
 
     def get_ai_grade(self, prompt):
@@ -59,11 +64,27 @@ class QuizGraderClient:
         )
         return response
     
+    def parse_ai_response(self, ai_response):
+        try:
+            string = ai_response.content[0].text
+            json_string_end = string.rfind(']') + 1
+            json_str = string[7:json_string_end].strip()
+            print(json_str)
+
+            results_data = json.loads(json_str)
+            summary = string[json_string_end:]
+            print(summary)
+            
+            return results_data, summary
+        except Exception as e:
+            print(f"Error occurred while parsing ai_response:{e}")
+            return {}, ""
+        
 
 
 if __name__ == "__main__":
     grader = QuizGraderClient()
-    asyncio.run(grader.run_grading_workflow(student_id=2))
+    asyncio.run(grader.run_grading_workflow(student_id=4))
 
 
 #async def main():

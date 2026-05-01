@@ -38,7 +38,7 @@ type Course= {
   id: number;
   code: string;
   title: string;
-  term: string;
+  semester: string;
   instructor_name: string;
 };
 
@@ -195,11 +195,18 @@ export default function App() {
     correct_answer: string;
     problem_order: number;
     points: number;
-    figure: File | null;
+    figure: string;
     figurePreview: string;
+    parts: {
+      label: string;
+      text: string;
+      requires_response: boolean;
+      correct_answer: string;
+    }[];
     }[],
   });
   const [courseQuizzes, setCourseQuizzes] = useState<Quiz[]>([]);
+  const [completedQuizIds, setCompletedQuizIds] = useState<number[]>([]);
   const [availableProblems, setAvailableProblems] = useState<ProblemOption[]>([]);
   const [session, setSession]= useState<{ role: Role; email: string } | null>(
     null
@@ -295,7 +302,9 @@ export default function App() {
     dueText: quiz.available_until
       ? `Due: ${new Date(quiz.available_until).toLocaleString()}`
       : "No due date",
-    submissionsText: "Not started",
+    submissionsText: completedQuizIds.includes(quiz.id)
+      ? "Completed"
+      : "Not started",
     scoreText: "-",
     evalText: "",
   }));
@@ -479,8 +488,21 @@ async function createQuiz(e: React.FormEvent) {
         allow_review: quizForm.allow_review,
         total_points: quizForm.total_points ? Number(quizForm.total_points) : 0,
         problems: quizForm.problems.map((p) => ({
-          ...p,
+          title: p.title,
+          question_text: p.question_text,
           question_latex: "",
+          correct_answer: p.correct_answer,
+          problem_order: p.problem_order,
+          points: p.points,
+          figure: p.figure || "",
+          parts: p.parts.map((part, i) => ({
+            part_number: i + 1,
+            part_text: part.text,
+            expected_answer: part.correct_answer,
+            points: 1,
+            allow_partial_credit: true,
+            answer_format: "mathematical_expression",
+        })),
         })),
         }),
     });
@@ -678,8 +700,9 @@ async function registerUser(e: React.FormEvent) {
         correct_answer: "",
         problem_order: prev.problems.length + 1,
         points: 1,
-        figure: null,
+        figure: "",
         figurePreview: "",
+        parts: [],
       },
     ],
   }));
@@ -702,12 +725,75 @@ function removeProblemFromQuiz(index: number) {
 function updateQuizProblem(
   index: number,
   field: "title" | "question_text" | "correct_answer" | "problem_order" | "points" | "figure" | "figurePreview",
-  value: string | number | File | null
+  value: string | number | null
 ) {
   setQuizForm((prev) => ({
     ...prev,
     problems: prev.problems.map((problem, i) =>
       i === index ? { ...problem, [field]: value } : problem
+    ),
+  }));
+}
+
+function addPartToProblem(problemIndex: number) {
+  setQuizForm((prev) => ({
+    ...prev,
+    problems: prev.problems.map((problem, i) =>
+      i === problemIndex
+        ? {
+            ...problem,
+            parts: [
+              ...problem.parts,
+              {
+                label: String.fromCharCode(65 + problem.parts.length),
+                text: "",
+                requires_response: true,
+                correct_answer: "",
+              },
+            ],
+          }
+        : problem
+    ),
+  }));
+}
+
+function updateProblemPart(
+  problemIndex: number,
+  partIndex: number,
+  field: "label" | "text" | "requires_response" | "correct_answer",
+  value: string | boolean
+) {
+  setQuizForm((prev) => {
+    const updatedProblems = [...prev.problems];
+    const updatedParts = [...updatedProblems[problemIndex].parts];
+
+    updatedParts[partIndex] = {
+      ...updatedParts[partIndex],
+      [field]: value,
+    };
+
+    updatedProblems[problemIndex] = {
+      ...updatedProblems[problemIndex],
+      parts: updatedParts,
+    };
+
+    return {
+      ...prev,
+      problems: updatedProblems,
+    };
+  });
+}
+
+function removeProblemPart(problemIndex: number, partIndex: number) {
+  setQuizForm((prev) => ({
+    ...prev,
+    problems: prev.problems.map((problem, i) =>
+      i === problemIndex
+        ? {
+            ...problem,
+            parts: problem.parts.filter((_, j) => j !== partIndex),
+          }
+        : problem
     ),
   }));
 }
@@ -1235,7 +1321,7 @@ if (page === "createQuiz" && selectedInstructorCourse) {
                             const file = e.target.files?.[0] || null;
 
                             if (!file) {
-                              updateQuizProblem(index, "figure", null);
+                              updateQuizProblem(index, "figure", "");
                               updateQuizProblem(index, "figurePreview", "");
                               return;
                             }
@@ -1246,8 +1332,15 @@ if (page === "createQuiz" && selectedInstructorCourse) {
                               return;
                             }
 
-                            updateQuizProblem(index, "figure", file);
-                            updateQuizProblem(index, "figurePreview", URL.createObjectURL(file));
+                            const reader = new FileReader();
+
+                            reader.onloadend = () => {
+                              const result = typeof reader.result === "string" ? reader.result : "";
+                              updateQuizProblem(index, "figure", result);
+                              updateQuizProblem(index, "figurePreview", result);
+                            };
+
+                            reader.readAsDataURL(file);
                           }}
                         />
                       </div>
@@ -1274,6 +1367,55 @@ if (page === "createQuiz" && selectedInstructorCourse) {
                         placeholder="Correct answer"
                         className="w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
                       />
+
+                      <div className="rounded-2xl border bg-gray-50 p-4 space-y-4">
+                        <div className="flex items-center justify-between">
+                          <h4 className="font-bold text-[#4E3629]">Problem Parts</h4>
+
+                          <button
+                            type="button"
+                            onClick={() => addPartToProblem(index)}
+                            className="px-4 py-2 rounded-xl bg-white border text-sm font-semibold hover:shadow"
+                          >
+                            Add Part
+                          </button>
+                        </div>
+
+                        {problem.parts.map((part, partIndex) => (
+                          <div key={partIndex} className="rounded-2xl bg-white border p-4 space-y-3">
+                            <div className="flex items-center justify-between">
+                              <strong>Part {part.label}</strong>
+
+                              <button
+                                type="button"
+                                onClick={() => removeProblemPart(index, partIndex)}
+                                className="text-sm text-red-600"
+                              >
+                                Remove
+                              </button>
+                            </div>
+
+                            <textarea
+                              value={part.text}
+                              onChange={(e) =>
+                                updateProblemPart(index, partIndex, "text", e.target.value)
+                              }
+                              placeholder="Part question text"
+                              rows={3}
+                              className="w-full rounded-2xl border bg-gray-50 px-4 py-3"
+                            />
+
+                            <input
+                              value={part.correct_answer}
+                              onChange={(e) =>
+                                updateProblemPart(index, partIndex, "correct_answer", e.target.value)
+                              }
+                              placeholder="Correct answer for this part"
+                              className="w-full rounded-2xl border bg-gray-50 px-4 py-3"
+                            />
+                          </div>
+                        ))}
+                      </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
@@ -1505,7 +1647,7 @@ if (page === "course" && selectedCourse) {
           {/* row */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="text-sm text-gray-600">
-              {selectedCourse.term} {selectedCourse.instructor_name}
+              Term: {selectedCourse.semester} {selectedCourse.instructor_name}
             </div>
 
             <div className="flex items-center gap-2">
@@ -1557,7 +1699,7 @@ if (page === "course" && selectedCourse) {
                     onClick={() => {
                       if (it.type === "Quiz") {
                         setSelectedQuizId(Number(it.id));
-                        navigateTo("quiz");
+                        navigateTo("quiz", {course: selectedCourse});
                       } else {
                         alert(`Open: ${it.title}`);
                       }
@@ -1797,7 +1939,7 @@ if (page === "instructorGrades" && selectedInstructorCourse) {
           {/* Top row */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="text-sm text-gray-600">
-              {selectedInstructorCourse.term} {selectedInstructorCourse.instructor_name}
+              {selectedInstructorCourse.semester} {selectedInstructorCourse.instructor_name}
             </div>
 
             <div className="flex items-center gap-2">
@@ -1806,7 +1948,7 @@ if (page === "instructorGrades" && selectedInstructorCourse) {
                 onClick={() => navigateTo("instructorCourse", { instructorCourse: selectedInstructorCourse })}
                 className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
               >
-                Assignments &amp; Quizzes
+                Quizzes
               </button>
 
               <button
@@ -1907,7 +2049,7 @@ if (page === "grades" && selectedCourse) {
           {/* Top row */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="text-sm text-gray-600">
-              {selectedCourse.term} {selectedCourse.instructor_name}
+              {selectedCourse.semester} {selectedCourse.instructor_name}
             </div>
 
             <div className="flex items-center gap-2">
@@ -1916,7 +2058,7 @@ if (page === "grades" && selectedCourse) {
                 onClick={() => navigateTo("course", { course: selectedCourse })}
                 className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
               >
-                Assignments &amp; Quizzes
+                Quizzes
               </button>
 
               <button
@@ -1998,11 +2140,19 @@ if (page === "grades" && selectedCourse) {
 }
   // ---------- Quiz Template ----------
 if (page === "quiz" && selectedQuizId) {
-  return <QuizTemplate onExit={() => navigateTo("home", 
-    { course: selectedCourse})} 
-    quizId={selectedQuizId} 
+  return <QuizTemplate
+    onExit={() => navigateTo("course", { course: selectedCourse })}
+    onSubmitted={() => {
+      setCompletedQuizIds((prev) =>
+        selectedQuizId && !prev.includes(selectedQuizId)
+          ? [...prev, selectedQuizId]
+          : prev
+      );
+    }}
+    quizId={selectedQuizId}
     userId={loginresult?.user.id}
-    course = {selectedCourse} />;
+    course={selectedCourse}
+  />;
 }
 
 if (page === "viewSubmissions" && selectedInstructorCourse) {
@@ -2146,21 +2296,19 @@ if (loginresult && session && (page === "login" || page === "home")) {
                           {course.code}
                         </div>
 
-                        <div className="text-sm text-gray-700 mt-1">
+                        <div className="text-md text-gray-700 mt-1 font-bold">
                           {course.title}
                         </div>
                       </div>
+                    </div>
 
-                      <span className="inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold bg-gray-50">
-                        {course.term}
+                    <div className="mt-3">
+                      <span className="inline-flex items-center rounded-full border px-4 py-1.5 text-sm font-normal bg-gray-50 shadow-sm">
+                        {course.semester}
                       </span>
                     </div>
-
-                    <div className="text-xs text-gray-500 mt-3">
-                      Instructor: {course.instructor_name}
-                    </div>
-
-                    <div className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#4E3629]">
+                    
+                    <div className="mt-6 inline-flex items-center gap-2 text-sm font-normal text-[#4E3629]">
                       Open course <span aria-hidden>→</span>
                     </div>
                   </div>
@@ -2219,18 +2367,16 @@ if (loginresult && session && (page === "login" || page === "home")) {
                           {course.code}
                         </div>
 
-                        <div className="text-sm text-gray-700 mt-1">
+                        <div className="text-md text-gray-700 mt-1 font-bold">
                           {course.title}
                         </div>
                       </div>
-
-                      <span className="inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold bg-gray-50">
-                        {course.term}
-                      </span>
                     </div>
 
-                    <div className="text-xs text-gray-500 mt-3">
-                      Instructor: {course.instructor_name || "Unknown"}
+                    <div className="mt-3">
+                      <span className="inline-flex items-center rounded-full border px-4 py-1.5 text-sm font-normal bg-gray-50 shadow-sm">
+                        {course.semester}
+                      </span>
                     </div>
 
                     <div className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#4E3629]">

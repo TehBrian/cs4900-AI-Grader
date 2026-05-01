@@ -1429,246 +1429,224 @@ INFO 2026-04-20 21:13:50,716 autoreload Watching for file changes with StatReloa
 INFO 2026-04-20 21:14:26,064 autoreload Watching for file changes with StatReloader
 WARNING 2026-04-20 21:14:55,658 log Not Found: /api/courses/1/submissions/
 WARNING 2026-04-20 21:15:01,325 log Not Found: /api/courses/1/submissions/
-INFO 2026-04-20 22:33:59,291 autoreload Watching for file changes with StatReloader
-WARNING 2026-04-20 22:34:32,559 log Not Found: /api/courses/1/submissions/
-WARNING 2026-04-20 22:40:12,294 log Not Found: /api/courses/1/submissions/
-WARNING 2026-04-20 22:40:16,121 log Not Found: /api/courses/1/submissions/
-WARNING 2026-04-20 22:49:21,487 log Not Found: /api/courses/1/submissions/
-WARNING 2026-04-20 22:49:30,667 log Not Found: /api/courses/1/submissions/
-WARNING 2026-04-20 22:50:15,215 log Not Found: /api/quizzes/1/submissions/
-WARNING 2026-04-20 22:50:38,503 log Not Found: /api/quizzes/1/submissions/
-INFO 2026-04-20 23:00:43,604 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/quizzes/views.py changed, reloading.
-INFO 2026-04-20 23:00:44,418 autoreload Watching for file changes with StatReloader
-INFO 2026-04-20 23:06:28,234 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-20 23:06:28,862 autoreload Watching for file changes with StatReloader
-INFO 2026-04-20 23:10:17,245 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/quizzes/views.py changed, reloading.
-INFO 2026-04-20 23:10:17,838 autoreload Watching for file changes with StatReloader
-INFO 2026-04-20 23:11:13,950 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/quizzes/views.py changed, reloading.
-INFO 2026-04-20 23:11:14,556 autoreload Watching for file changes with StatReloader
-ERROR 2026-04-20 23:11:25,868 log Internal Server Error: /api/grading/get_course_submissions/
+INFO 2026-04-20 23:38:50,806 autoreload Watching for file changes with StatReloader
+INFO 2026-04-20 23:40:01,839 _client HTTP Request: POST http://127.0.0.1:4000/mcp "HTTP/1.1 200 OK"
+INFO 2026-04-20 23:40:01,840 streamable_http Negotiated protocol version: 2025-11-25
+INFO 2026-04-20 23:40:01,843 _client HTTP Request: POST http://127.0.0.1:4000/mcp "HTTP/1.1 202 Accepted"
+INFO 2026-04-20 23:40:01,890 _client HTTP Request: POST http://127.0.0.1:4000/mcp "HTTP/1.1 200 OK"
+INFO 2026-04-20 23:40:01,895 _client HTTP Request: POST http://127.0.0.1:4000/mcp "HTTP/1.1 200 OK"
+WARNING 2026-04-20 23:40:19,805 log Not Found: /favicon.ico
+INFO 2026-04-20 23:43:01,097 autoreload Watching for file changes with StatReloader
+INFO 2026-04-20 23:43:26,208 _client HTTP Request: POST http://127.0.0.1:4000/mcp "HTTP/1.1 200 OK"
+INFO 2026-04-20 23:43:26,208 streamable_http Negotiated protocol version: 2025-11-25
+INFO 2026-04-20 23:43:26,211 _client HTTP Request: POST http://127.0.0.1:4000/mcp "HTTP/1.1 202 Accepted"
+INFO 2026-04-20 23:43:26,242 _client HTTP Request: POST http://127.0.0.1:4000/mcp "HTTP/1.1 200 OK"
+INFO 2026-04-20 23:43:26,245 _client HTTP Request: POST http://127.0.0.1:4000/mcp "HTTP/1.1 200 OK"
+WARNING 2026-04-20 23:47:13,026 log Bad Request: /api/quizzes/
+INFO 2026-04-20 23:47:55,940 _client HTTP Request: POST http://127.0.0.1:4000/mcp "HTTP/1.1 200 OK"
+INFO 2026-04-20 23:47:55,940 streamable_http Negotiated protocol version: 2025-11-25
+INFO 2026-04-20 23:47:55,942 _client HTTP Request: POST http://127.0.0.1:4000/mcp "HTTP/1.1 202 Accepted"
+INFO 2026-04-20 23:47:55,977 _client HTTP Request: POST http://127.0.0.1:4000/mcp "HTTP/1.1 200 OK"
+INFO 2026-04-20 23:47:55,981 _client HTTP Request: POST http://127.0.0.1:4000/mcp "HTTP/1.1 200 OK"
+WARNING 2026-04-20 23:57:09,437 log Not Found: /api/courses/1/submissions/
+WARNING 2026-04-20 23:57:21,373 log Not Found: /api/courses/1/submissions/
+INFO 2026-04-21 00:24:23,400 autoreload C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\backend\apps\problems\models.py changed, reloading.
+INFO 2026-04-21 00:24:24,837 autoreload Watching for file changes with StatReloader
+INFO 2026-04-21 00:39:01,320 autoreload C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\backend\apps\quizzes\serializers.py changed, reloading.
+INFO 2026-04-21 00:39:02,199 autoreload Watching for file changes with StatReloader
+INFO 2026-04-21 00:44:49,835 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-21 01:19:07,368 log Not Found: /api/courses/1/submissions/
+WARNING 2026-04-21 01:19:17,424 log Not Found: /api/courses/1/submissions/
+INFO 2026-04-29 12:50:39,154 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-29 12:50:51,152 log Unauthorized: /api/users/auth/login/
+WARNING 2026-04-29 12:53:26,620 log Not Found: /api/courses/1/submissions/
+WARNING 2026-04-29 14:11:04,231 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:11:31,121 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:11:32,598 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:11:34,252 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:11:39,488 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:11:40,564 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:20:14,022 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:20:22,633 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:20:30,113 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:22:01,800 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:22:05,505 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:23:19,378 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:24:03,334 log Not Found: /favicon.ico
+WARNING 2026-04-29 14:25:42,653 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:25:53,342 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:26:07,590 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:43:55,218 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:44:03,254 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:45:49,868 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:57:13,217 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:57:26,000 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 14:57:26,004 log Unauthorized: /api/quizzes/
+INFO 2026-04-29 15:02:00,201 autoreload C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\backend\apps\quizzes\serializers.py changed, reloading.
+INFO 2026-04-29 15:02:01,558 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-29 15:02:18,285 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 15:02:18,287 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 15:03:23,192 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 15:03:23,197 log Unauthorized: /api/quizzes/
+WARNING 2026-04-29 15:04:42,693 log Unauthorized: /api/quizzes/
+INFO 2026-04-29 15:04:52,855 autoreload C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\backend\apps\quizzes\serializers.py changed, reloading.
+INFO 2026-04-29 15:04:53,637 autoreload Watching for file changes with StatReloader
+INFO 2026-04-29 16:43:33,081 autoreload Watching for file changes with StatReloader
+INFO 2026-04-29 16:44:01,048 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-29 16:54:13,335 log Not Found: /favicon.ico
+WARNING 2026-04-29 16:56:02,994 log Bad Request: /api/quizzes/
+INFO 2026-04-29 17:13:20,105 autoreload C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\backend\apps\quizzes\serializers.py changed, reloading.
+INFO 2026-04-29 17:13:20,900 autoreload Watching for file changes with StatReloader
+INFO 2026-04-29 17:14:38,682 autoreload Watching for file changes with StatReloader
+ERROR 2026-04-29 17:15:41,739 log Internal Server Error: /api/quizzes/
 Traceback (most recent call last):
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: NOT NULL constraint failed: problem_parts.part_number
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
     response = get_response(request)
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/django/core/handlers/base.py", line 198, in _get_response
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
     response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
     return view_func(request, *args, **kwargs)
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/rest_framework/viewsets.py", line 125, in view
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
     return self.dispatch(request, *args, **kwargs)
            ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/rest_framework/views.py", line 515, in dispatch
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
     response = self.handle_exception(exc)
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/rest_framework/views.py", line 475, in handle_exception
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
     self.raise_uncaught_exception(exc)
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/rest_framework/views.py", line 486, in raise_uncaught_exception
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
     raise exc
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/rest_framework/views.py", line 512, in dispatch
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
     response = handler(request, *args, **kwargs)
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py", line 125, in get_course_submissions
-    "submission_datetime": str(submission.submitted_at),
-                               ^^^^^^^^^^
-NameError: name 'submission' is not defined. Did you mean: 'Submission'?
-INFO 2026-04-20 23:12:45,870 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-20 23:12:46,546 autoreload Watching for file changes with StatReloader
-ERROR 2026-04-20 23:12:55,423 log Internal Server Error: /api/grading/get_course_submissions/
-Traceback (most recent call last):
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
-    response = get_response(request)
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/django/core/handlers/base.py", line 198, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/rest_framework/viewsets.py", line 125, in view
-    return self.dispatch(request, *args, **kwargs)
-           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/rest_framework/views.py", line 517, in dispatch
-    self.response = self.finalize_response(request, response, *args, **kwargs)
-                    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/rest_framework/views.py", line 429, in finalize_response
-    assert isinstance(response, HttpResponseBase), (
-           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError: Expected a `Response`, `HttpResponse` or `StreamingHttpResponse` to be returned from the view, but received a `<class 'NoneType'>`
-INFO 2026-04-20 23:16:37,023 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-20 23:16:37,671 autoreload Watching for file changes with StatReloader
-INFO 2026-04-20 23:17:23,292 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-20 23:17:23,948 autoreload Watching for file changes with StatReloader
-INFO 2026-04-20 23:18:39,307 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-20 23:18:39,948 autoreload Watching for file changes with StatReloader
-INFO 2026-04-20 23:19:19,499 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-20 23:19:20,125 autoreload Watching for file changes with StatReloader
-INFO 2026-04-20 23:19:29,651 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-20 23:19:30,225 autoreload Watching for file changes with StatReloader
-INFO 2026-04-20 23:20:12,513 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-20 23:20:13,188 autoreload Watching for file changes with StatReloader
-WARNING 2026-04-20 23:25:36,562 log Not Found: /api/quizzes/course/1
-WARNING 2026-04-20 23:26:05,060 log Not Found: /api/quizzes/course/1/submissions
-WARNING 2026-04-20 23:26:55,316 log Not Found: /api/quizzes/get_course_submissions/
-WARNING 2026-04-20 23:27:06,172 log Not Found: /api/quizzes/get_course_submissions/
-WARNING 2026-04-20 23:27:31,744 log Not Found: /api/quizzes/get_course_submissions/
-INFO 2026-04-20 23:28:49,349 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-20 23:28:49,979 autoreload Watching for file changes with StatReloader
-INFO 2026-04-21 08:33:12,823 autoreload Watching for file changes with StatReloader
-INFO 2026-04-21 08:34:32,544 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-21 08:34:33,234 autoreload Watching for file changes with StatReloader
-INFO 2026-04-21 08:43:21,698 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-21 08:43:22,541 autoreload Watching for file changes with StatReloader
-INFO 2026-04-21 08:44:08,166 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-21 08:44:08,808 autoreload Watching for file changes with StatReloader
-INFO 2026-04-21 08:44:37,468 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-21 08:44:38,059 autoreload Watching for file changes with StatReloader
-INFO 2026-04-21 08:45:38,637 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-21 08:45:39,245 autoreload Watching for file changes with StatReloader
-INFO 2026-04-21 08:45:55,200 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-21 08:45:55,768 autoreload Watching for file changes with StatReloader
-ERROR 2026-04-21 08:45:59,840 log Internal Server Error: /api/grading/get_course_submissions/
-Traceback (most recent call last):
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
-    response = get_response(request)
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/django/core/handlers/base.py", line 198, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/rest_framework/viewsets.py", line 125, in view
-    return self.dispatch(request, *args, **kwargs)
-           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/rest_framework/views.py", line 515, in dispatch
-    response = self.handle_exception(exc)
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/rest_framework/views.py", line 475, in handle_exception
-    self.raise_uncaught_exception(exc)
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/rest_framework/views.py", line 486, in raise_uncaught_exception
-    raise exc
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/rest_framework/views.py", line 512, in dispatch
-    response = handler(request, *args, **kwargs)
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py", line 99, in get_course_submissions
-    course_submissions = [sub for sub in Submission.objects if sub.quiz.course.id == course_id]
-                                         ^^^^^^^^^^^^^^^^^^
-TypeError: 'Manager' object is not iterable
-INFO 2026-04-21 08:47:08,248 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-21 08:47:08,891 autoreload Watching for file changes with StatReloader
-INFO 2026-04-21 08:47:47,289 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-21 08:47:48,025 autoreload Watching for file changes with StatReloader
-INFO 2026-04-21 08:49:00,217 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-21 08:49:00,841 autoreload Watching for file changes with StatReloader
-INFO 2026-04-21 08:49:44,612 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-21 08:49:45,245 autoreload Watching for file changes with StatReloader
-INFO 2026-04-21 08:51:16,348 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-21 08:51:17,012 autoreload Watching for file changes with StatReloader
-INFO 2026-04-21 08:51:29,769 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-21 08:51:30,465 autoreload Watching for file changes with StatReloader
-INFO 2026-04-21 08:52:05,321 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-21 08:52:06,044 autoreload Watching for file changes with StatReloader
-INFO 2026-04-21 08:52:26,430 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-21 08:52:27,041 autoreload Watching for file changes with StatReloader
-INFO 2026-04-21 08:52:53,623 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-21 08:52:54,265 autoreload Watching for file changes with StatReloader
-INFO 2026-04-21 08:53:19,885 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-21 08:53:20,562 autoreload Watching for file changes with StatReloader
-INFO 2026-04-21 08:54:07,443 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-21 08:54:08,090 autoreload Watching for file changes with StatReloader
-INFO 2026-04-21 08:54:54,933 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-21 08:54:55,600 autoreload Watching for file changes with StatReloader
-INFO 2026-04-21 08:55:17,975 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-21 08:55:18,567 autoreload Watching for file changes with StatReloader
-INFO 2026-04-21 08:56:04,221 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-21 08:56:04,960 autoreload Watching for file changes with StatReloader
-INFO 2026-04-21 08:56:15,850 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-21 08:56:16,517 autoreload Watching for file changes with StatReloader
-INFO 2026-04-21 08:57:00,382 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-21 08:57:01,025 autoreload Watching for file changes with StatReloader
-INFO 2026-04-21 08:57:24,503 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-21 08:57:25,214 autoreload Watching for file changes with StatReloader
-INFO 2026-04-21 08:58:42,788 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-21 08:58:43,459 autoreload Watching for file changes with StatReloader
-ERROR 2026-04-21 08:58:50,132 log Internal Server Error: /api/grading/get_course_submissions/
-Traceback (most recent call last):
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
-    response = get_response(request)
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/django/core/handlers/base.py", line 221, in _get_response
-    response = response.render()
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/django/template/response.py", line 114, in render
-    self.content = self.rendered_content
-                   ^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/rest_framework/response.py", line 74, in rendered_content
-    ret = renderer.render(self.data, accepted_media_type, context)
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/rest_framework/renderers.py", line 97, in render
-    ret = json.dumps(
-        data, cls=self.encoder_class,
-        indent=indent, ensure_ascii=self.ensure_ascii,
-        allow_nan=not self.strict, separators=separators
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\mixins.py", line 19, in create
+    self.perform_create(serializer)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\mixins.py", line 24, in perform_create
+    serializer.save()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\rest_framework\serializers.py", line 210, in save
+    self.instance = self.create(validated_data)
+                    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\backend\apps\quizzes\serializers.py", line 113, in create
+    ProblemPart.objects.create(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        problem=problem,
+        ^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+        answer_format=part.get("answer_format", "mathematical_expression"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     )
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/rest_framework/utils/json.py", line 25, in dumps
-    return json.dumps(*args, **kwargs)
-           ~~~~~~~~~~^^^^^^^^^^^^^^^^^
-  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/__init__.py", line 242, in dumps
-    **kw).encode(obj)
-          ~~~~~~^^^^^
-  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/encoder.py", line 202, in encode
-    chunks = self.iterencode(o, _one_shot=True)
-  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/encoder.py", line 263, in iterencode
-    return _iterencode(o, 0)
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/rest_framework/utils/encoders.py", line 70, in default
-    return super().default(obj)
-           ~~~~~~~~~~~~~~~^^^^^
-  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/encoder.py", line 182, in default
-    raise TypeError(f'Object of type {o.__class__.__name__} '
-                    f'is not JSON serializable')
-TypeError: Object of type Submission is not JSON serializable
-when serializing list item 0
-INFO 2026-04-21 08:59:27,349 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-21 08:59:27,992 autoreload Watching for file changes with StatReloader
-ERROR 2026-04-21 08:59:34,093 log Internal Server Error: /api/grading/get_course_submissions/
-Traceback (most recent call last):
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
-    response = get_response(request)
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/django/core/handlers/base.py", line 198, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/rest_framework/viewsets.py", line 125, in view
-    return self.dispatch(request, *args, **kwargs)
-           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/rest_framework/views.py", line 515, in dispatch
-    response = self.handle_exception(exc)
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/rest_framework/views.py", line 475, in handle_exception
-    self.raise_uncaught_exception(exc)
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/rest_framework/views.py", line 486, in raise_uncaught_exception
-    raise exc
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/rest_framework/views.py", line 512, in dispatch
-    response = handler(request, *args, **kwargs)
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py", line 108, in get_course_submissions
-    return Response({**course_submissions})
-                    ^^^^^^^^^^^^^^^^^^^^^^
-TypeError: 'list' object is not a mapping
-INFO 2026-04-21 09:00:11,670 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-21 09:00:12,305 autoreload Watching for file changes with StatReloader
-ERROR 2026-04-21 09:00:17,479 log Internal Server Error: /api/grading/get_course_submissions/
-Traceback (most recent call last):
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
-    response = get_response(request)
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/django/core/handlers/base.py", line 198, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/rest_framework/viewsets.py", line 125, in view
-    return self.dispatch(request, *args, **kwargs)
-           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/rest_framework/views.py", line 515, in dispatch
-    response = self.handle_exception(exc)
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/rest_framework/views.py", line 475, in handle_exception
-    self.raise_uncaught_exception(exc)
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/rest_framework/views.py", line 486, in raise_uncaught_exception
-    raise exc
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/.venv/lib/python3.14/site-packages/rest_framework/views.py", line 512, in dispatch
-    response = handler(request, *args, **kwargs)
-  File "/Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py", line 108, in get_course_submissions
-    return Response({k: v for k, v in course_submissions})
-                              ^^^^
-TypeError: cannot unpack non-iterable Submission object
-INFO 2026-04-21 09:02:18,972 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-21 09:02:19,754 autoreload Watching for file changes with StatReloader
-INFO 2026-04-21 09:03:07,142 autoreload /Users/chaedelarosa/WMU/spring26/cs4910/cs4900-AI-Grader/backend/apps/grading/views.py changed, reloading.
-INFO 2026-04-21 09:03:07,632 autoreload Watching for file changes with StatReloader
+    ^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 669, in create
+    obj.save(force_insert=True, using=self.db)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 874, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 966, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, insert_fields, returning_fields, raw
+    )
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\base.py", line 1220, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\query.py", line 1918, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1925, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 359, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: NOT NULL constraint failed: problem_parts.part_number
+INFO 2026-04-29 17:17:36,772 autoreload C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\backend\apps\quizzes\serializers.py changed, reloading.
+INFO 2026-04-29 17:17:37,535 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-29 17:21:10,431 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-04-29 17:22:06,849 log Bad Request: /api/quizzes/
+WARNING 2026-04-29 17:23:03,711 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-04-29 17:23:05,816 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-04-29 17:24:06,336 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-04-29 17:24:06,954 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-04-29 17:24:07,487 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-04-29 17:24:09,546 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2026-04-29 17:30:46,826 autoreload C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\backend\apps\quizzes\serializers.py changed, reloading.
+INFO 2026-04-29 17:30:47,586 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-29 17:36:18,117 log Not Found: /api/quizzes/QUIZ_ID/problems/
+WARNING 2026-04-29 17:37:10,214 log Not Found: /api/quizzes/testingparts/problems/
+WARNING 2026-04-29 17:37:12,151 log Not Found: /api/quizzes/testingparts/problems/
+WARNING 2026-04-29 17:41:01,258 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-04-29 17:41:08,133 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-04-29 17:41:10,758 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-04-29 17:45:25,303 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-04-29 17:45:26,562 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-04-29 17:56:14,088 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2026-04-29 17:56:15,857 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2026-04-29 17:57:35,474 autoreload C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\backend\apps\quizzes\serializers.py changed, reloading.
+INFO 2026-04-29 17:57:36,290 autoreload Watching for file changes with StatReloader
+INFO 2026-04-29 23:50:24,325 autoreload Watching for file changes with StatReloader
+INFO 2026-04-30 00:25:11,668 autoreload C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\backend\apps\quizzes\serializers.py changed, reloading.
+INFO 2026-04-30 00:25:12,936 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-30 00:47:41,458 log Bad Request: /api/quizzes/
+WARNING 2026-04-30 00:47:46,263 log Bad Request: /api/quizzes/
+WARNING 2026-04-30 00:47:51,146 log Bad Request: /api/quizzes/
+INFO 2026-04-30 00:58:16,231 autoreload C:\Users\cebal\OneDrive\Documents\Symbolic_AI\cs4900-AI-Grader\backend\apps\grading\views.py changed, reloading.
+INFO 2026-04-30 00:58:17,196 autoreload Watching for file changes with StatReloader
+WARNING 2026-04-30 01:00:15,160 log Not Found: /favicon.ico
