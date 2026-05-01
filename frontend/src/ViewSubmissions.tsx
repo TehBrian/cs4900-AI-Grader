@@ -1,15 +1,54 @@
 import { useEffect, useState } from "react";
 
+/*
+submission_id:      int
+student_id:         int
+quiz:               int
+content:            dict
+student_answer:     str
+expected_answer:    str
+is_correct:         bool
+score:              int
+grading_method:     str
+submitted_at:       datetime
+status:             str
+attempt_number:     int
+result:             str
+*/
+
+// quiz_title
+// student
+// started_at
 export type Submission = {
-  quiz_title: string;
-  quiz_id: number;
-  student: string;
-  attempt_number: number;
-  status: string;
-  started_at: string;
-  submitted_at: string;
-  score: number | string;
+  submission_id:      number;
+  student_id:         number;
+  quiz_id:            number;
+  content:            object;
+  student_answer:     string;
+  expected_answer:    string;
+  is_correct:         boolean;
+  score:              number;
+  grading_method:     string;
+  submitted_at:       string;
+  status:             string;
+  attempt_number:     number;
+  result:             string;
+  grading_started_at: string;
+  student:            string;
+  quiz_title:         string;
 };
+
+
+// export type Submission = {
+//   quiz_title: string;
+//   quiz_id: number;
+//   student: string;
+//   attempt_number: number;
+//   status: string;
+//   started_at: string;
+//   submitted_at: string;
+//   score: number | string;
+// };
 
 type Props = {
   courseId: number;

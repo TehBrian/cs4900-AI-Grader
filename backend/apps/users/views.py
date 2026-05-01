@@ -159,6 +159,7 @@ class AuthViewSet(viewsets.ViewSet):
                 {'error': 'Invalid user'},
                 status=status.HTTP_404_NOT_FOUND
             )
+
     @action(detail=False, methods=["post"])
     def login(self, request):
         """
