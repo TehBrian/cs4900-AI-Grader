@@ -14,6 +14,11 @@ def get_quiz(quiz_id:int):
     response = requests.get(f"{BASE_URL}{endpoint}{quiz_id}")
     return response.json()
 
+def get_problem(problem_id:int):
+    endpoint = "/problems/"
+    response = requests.get(f"{BASE_URL}{endpoint}{problem_id}")
+    return response.json()
+
 def get_user(student_id:int):
     endpoint = "/users/info/?student_id="
     response = requests.get(f"{BASE_URL}{endpoint}{student_id}")

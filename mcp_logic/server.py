@@ -41,7 +41,7 @@ async def get_quiz(quiz_id: int):
               content=[TextContent(type="text", text=str(quiz.__dict__))],
               structuredContent={
                      "quiz_id": quiz.quiz_id,
-                     "problems": quiz.problems,
+                     "problems": quiz.nested_problems,
                      "title": quiz.title,
                      "course": quiz.course
               }
