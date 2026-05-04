@@ -682,7 +682,7 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
                 aiResults.map((res, index) => (
                   <div key={index} className="mb-4 border-b pb-3 text-left">
                     <p className="font-semibold">
-                      Problem {index + 1}
+                      Box {index + 1}
                     </p>
 
                     {res.score !== undefined && (
