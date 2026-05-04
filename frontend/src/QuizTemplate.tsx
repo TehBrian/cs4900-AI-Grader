@@ -187,12 +187,7 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
       }
 
       const data = await response.json();
-      if (data.results && Array.isArray(data.results[0])){
-        setAiResults(data.results[0]);
-      }else{
-        setAiResults([]);
-      }
-      
+      setAiResults(data.results || []);
 
       onSubmitted?.();
 
@@ -669,6 +664,7 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
         {page === "submit" && (
           <div className="text-center">
             <h1 className="text-3xl font-extrabold mb-4">Submitted 🎉</h1>
+
             <p className="text-gray-600 mb-6">
               Your quiz has been submitted successfully.
             </p>
@@ -682,11 +678,11 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
                 aiResults.map((res, index) => (
                   <div key={index} className="mb-4 border-b pb-3 text-left">
                     <p className="font-semibold">
-                      Box {index + 1}
+                      Problem {index + 1}
                     </p>
 
                     {res.score !== undefined && (
-                      <p>Score: {res.points_earned}</p>
+                      <p>Score: {res.score}</p>
                     )}
 
                     <p className="text-gray-700 whitespace-pre-wrap">
