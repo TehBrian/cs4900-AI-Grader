@@ -2235,7 +2235,7 @@ if (page === "submissionDetails" && selectedSubmission && selectedInstructorCour
             <div className="rounded-2xl border bg-gray-50 p-4">
               <div className="text-sm text-gray-500">Started At</div>
               <div className="font-semibold text-gray-900">
-                {selectedSubmission.started_at || "—"}
+                {selectedSubmission.grading_started_at || "—"}
               </div>
             </div>
 

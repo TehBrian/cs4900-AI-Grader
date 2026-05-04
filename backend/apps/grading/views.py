@@ -87,6 +87,7 @@ class GradingViewSet(viewsets.ViewSet):
                 {"error": "Student not found"}, status=status.HTTP_404_NOT_FOUND
             )
         grader = QuizGraderClient()
+        results = asyncio.run(grader.run_grading_workflow(student_id=student_id))
         results_json, summary = asyncio.run(grader.run_grading_workflow(student_id=student_id))
 
 
@@ -117,10 +118,26 @@ class GradingViewSet(viewsets.ViewSet):
             {
                 "submission_datetime": str(submission.submitted_at),
                 "attempt_number": attempt_number,
-                "results": results_json,
-                "summary": summary,
+                "results": results,
             }
         )
+
+
+    @action(detail=False, methods=["get"])
+    def get_course_submissions(self, request):
+        course_id = request.query_params.get("course", None)
+        if not course_id:
+            return Response("")
+
+        course_submissions = []
+        for sub in Submission.objects.all():
+            if int(sub.quiz.course.id) == int(course_id):
+                data = SubmissionSerializer(sub).data
+                student = CustomUser.objects.get(id=data["student_id"])
+                quiz = Quiz.objects.get(id=data["quiz"])
+                course_submissions.append(dict(data) | {"student": student.username, "quiz_title": quiz.title})
+        return Response(course_submissions)
+
 
     @action(detail=False, methods=["post"])
     def submit_steps(self, request):
@@ -248,16 +265,16 @@ class GradingViewSet(viewsets.ViewSet):
 
         submission_obj = get_object_or_404(Submission, submission_id=submission_id)
        
-        created = GradingResult.objects.create(
+        created = GradingResult.objects.update_or_create(
             submission = submission_obj,
-            ai_result = result
+            defaults={'ai_result': result}
         )
         return Response({"status": "success"}, status=201 if created else 200)
     
     @action(detail=False, methods=["GET"])
     def get_results(self, request):
         win_number = request.query_params.get("win_number")
-        results = GradingResult.objects.filter(submission__student__win_number = win_number)
+        results = GradingResult.objects.filter(submission__student_id__win_number = win_number)
 
         serializer = GradingResultSerializer(results, many=True)
         return Response(serializer.data)        

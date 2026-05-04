@@ -59,6 +59,7 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
+  const [aiResults, setAiResults] = useState<any[]>([]);
 
   const textRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const caretRanges = useRef<Record<string, Range>>({});
@@ -177,7 +178,7 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
             text: textAnswers,
             multiple: multipleAnswers,
           },
-        }),
+        })
       });
 
       if (!response.ok) {
@@ -185,8 +186,16 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
         return;
       }
 
-      onSubmitted?.();
+      const data = await response.json();
+      if (data.results && Array.isArray(data.results[0])){
+        setAiResults(data.results[0]);
+      }else{
+        setAiResults([]);
+      }
       
+
+      onSubmitted?.();
+
       setLocalPage("submit");
     } catch (err) {
       alert("Failed to submit quiz.");
@@ -663,6 +672,33 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
             <p className="text-gray-600 mb-6">
               Your quiz has been submitted successfully.
             </p>
+
+            <div className= "text-left rounded-2xl border bg-gray-50 p-5 mb-6">
+              <h2 className= "text-xl font-bold text-[#4E3629] mb-3">
+                Feedback 
+              </h2>
+
+              {aiResults.length > 0 ? (
+                aiResults.map((res, index) => (
+                  <div key={index} className="mb-4 border-b pb-3 text-left">
+                    <p className="font-semibold">
+                      Problem {index + 1}
+                    </p>
+
+                    {res.score !== undefined && (
+                      <p>Score: {res.points_earned}</p>
+                    )}
+
+                    <p className="text-gray-700 whitespace-pre-wrap">
+                      {res.feedback || "No feedback"}
+                    </p>
+                  </div>
+                ))
+              ) : (
+                <p>No feedback returned.</p>
+              )}
+            </div>
+
             <button
               type="button"
               onClick={onExit}
