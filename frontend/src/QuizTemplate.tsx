@@ -187,7 +187,11 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
       }
 
       const data = await response.json();
-      setAiResults(data.results || []);
+      if (data.results && Array.isArray(data.results[0])){
+        setAiResults(data.results[0]);
+      }else{
+        setAiResults([]);
+      }
 
       onSubmitted?.();
 
@@ -678,11 +682,11 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
                 aiResults.map((res, index) => (
                   <div key={index} className="mb-4 border-b pb-3 text-left">
                     <p className="font-semibold">
-                      Problem {index + 1}
+                      Box {index + 1}
                     </p>
 
                     {res.score !== undefined && (
-                      <p>Score: {res.score}</p>
+                      <p>Score: {res.earned_points}</p>
                     )}
 
                     <p className="text-gray-700 whitespace-pre-wrap">
