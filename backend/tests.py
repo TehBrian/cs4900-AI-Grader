@@ -1,12 +1,64 @@
 from django.test import TestCase
 
 import sympy as sp
+
+from datetime import datetime
 from apps.grading.services.cas_grader import CASGrader
 from apps.grading.serializers import SubmissionSerializer
 from apps.grading.models import Submission
 
+from apps.quizzes.models import Quiz, Course
+
 from apps.users.models import CustomUser
 from apps.users.serializers import UserSerializer
+
+
+class TestGradingViewSet(TestCase):
+
+    def test_get_course_submissions(self):
+        """ 
+        $ python manage.py test tests
+        """
+        print("\n*** Running grading viewset test... ***\n")
+        test_cases = [0, 1, 200, 50, 10, 23, 9999, None, "abc", -1]
+        for i in test_cases:
+            response = self.client.get(f"http://localhost:8000/api/grading/get_course_submissions/?course={i}")
+
+            if response.status_code == 404:
+                print(f"Course submission {i} is NOT accessible. ✅")
+            else:
+                print(f"Get course submission {i} returned status code {response.status_code}. ❌")
+
+        for sub in [Submission.objects.get_or_create(
+            student_id=CustomUser.objects.first(),
+            student_id_id=CustomUser.objects.get_or_create(
+                username="test_student",
+                email="test_student@example.com"
+            )[0].id,
+            quiz=Quiz.objects.get_or_create(
+                created_by=CustomUser.objects.get_or_create(
+                    username="test_instructor",
+                    email="test_instructor@example.com")[0],
+                    available_from=datetime(2026,5,4),
+                    available_until=datetime(2026,5,5),
+                    course_id=Course.objects.get_or_create(
+                        title="test", year=2026,
+                        instructor=CustomUser.objects.get_or_create(
+                            username="test_instructor",
+                            email="test_instructor@example.com"
+                        )[0]
+                    )[0].id
+                )[0]
+            )[0] for _ in range(3)]:
+            response = self.client.get(f"http://localhost:8000/api/grading/get_course_submissions/?course={sub.id}")
+
+            if response.status_code == 200:
+                print(f"Course submission {sub.id} is accessible. ✅")
+            else:
+                print(f"Get course submission {sub.id} returned status code {response.status_code}. ❌")
+        print("\n*** Completed grading viewset tests. ***\n")
+
+
 
 
 class TestSerializers(TestCase):
@@ -50,8 +102,7 @@ class TestSerializers(TestCase):
             try:
                 _ = UserSerializer(mock_sub).data
             except:
-                print(f"UserSerializer error iteration number {i}")
-
+                ...
 
     def test_submission_serializer(self):
         mock_data = [
@@ -85,23 +136,25 @@ class TestSerializers(TestCase):
             try:
                 _ = SubmissionSerializer(mock_sub).data
             except:
-                print(f"SubmissionSerializer error iteration number {i}")
+                ...
 
     def test_submission_fields(self):
         count = 0
+        mfields = []
         for sub_field in Submission.__dict__:
             if sub_field not in SubmissionSerializer.Meta.fields:
-                print(f"sub field <{sub_field}> not in serial.")
+                mfields.append(sub_field)
                 count += 1
-        print(f"{count} Submission fields not found in SubmissionSerializer fields.")
+        #print(f"{count}: {mfields}\nSubmission fields not found in SubmissionSerializer fields.")
 
     def test_user_fields(self):
         count = 0
+        mfields = []
         for usr_field in CustomUser.__dict__:
             if usr_field not in UserSerializer.Meta.fields:
-                print(f"User field <{usr_field}> not in UserSerializer.")
+                mfields.append(usr_field)
                 count += 1
-        print(f"{count} User fields not found in UserSerializer fields.")
+        #print(f"{count}: {mfields}\nUser fields not found in UserSerializer fields.")
 
 
 
