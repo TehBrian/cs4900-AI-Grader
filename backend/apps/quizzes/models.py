@@ -433,7 +433,7 @@ class QuizStatistics(models.Model):
             quiz=self.quiz, is_passing=True, status="completed"
         ).count()
         return (passing_count / self.completed_attempts) * 100
-    
+
 class AnswerBox(models.Model):
     """Individual answer box within a problem (for multi-box problems like Problem 8.3)"""
     quiz_problem = models.ForeignKey(

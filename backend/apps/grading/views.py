@@ -88,7 +88,7 @@ class GradingViewSet(viewsets.ViewSet):
             )
         grader = QuizGraderClient()
         results = asyncio.run(grader.run_grading_workflow(student_id=student_id))
-        results_json, summary = asyncio.run(grader.run_grading_workflow(student_id=student_id))
+        #results_json, summary = asyncio.run(grader.run_grading_workflow(student_id=student_id))
 
 
         # # set grading [status, started_at] fields
@@ -126,8 +126,12 @@ class GradingViewSet(viewsets.ViewSet):
     @action(detail=False, methods=["get"])
     def get_course_submissions(self, request):
         course_id = request.query_params.get("course", None)
+        print(f"course id: {course_id}")
         if not course_id:
-            return Response("")
+            return Response(
+                {"error": "course query parameter is required"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         course_submissions = []
         for sub in Submission.objects.all():
@@ -135,9 +139,15 @@ class GradingViewSet(viewsets.ViewSet):
                 data = SubmissionSerializer(sub).data
                 student = CustomUser.objects.get(id=data["student_id"])
                 quiz = Quiz.objects.get(id=data["quiz"])
-                course_submissions.append(dict(data) | {"student": student.username, "quiz_title": quiz.title})
-        return Response(course_submissions)
-
+                course_submissions.append(dict(data) | {
+                    "student": student.username, "quiz_title": quiz.title
+                    }
+                )
+                return Response(course_submissions, status=status.HTTP_200_OK)
+        return Response(
+            {"error": "No submissions found for this course"},
+            status=status.HTTP_404_NOT_FOUND,
+        )
 
     @action(detail=False, methods=["post"])
     def submit_steps(self, request):
