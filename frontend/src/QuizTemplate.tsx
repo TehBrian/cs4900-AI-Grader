@@ -4,8 +4,7 @@
 // Enhanced Quiz Template with Timer, Autosave, and Backend Integration
 import React, { useState, useRef, useEffect } from "react";
 import katex from "katex";
-import { BlockMath } from "react-katex";
-import { InlineMath } from "react-katex";
+import { BlockMath, InlineMath } from "./components/Math";
 import { publicClient } from "./api/client";
 
 type QuizPage = "quiz" | "details" | "submit";
