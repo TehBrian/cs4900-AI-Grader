@@ -46,9 +46,10 @@ export default function CreateCourse() {
   }
 
   return (
-    <PageShell title="Create course">
+    <PageShell>
       <div className="w-full">
         <div className="rounded-3xl bg-white border shadow-sm p-6 md:p-8 w-full">
+          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-6">Create Course</h1>
           <form method="post" onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>

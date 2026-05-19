@@ -36,11 +36,12 @@ export default function StudentGrades() {
   }
 
   return (
-    <PageShell title={`${course.title || course.code || "Course"} Grades`}>
+    <PageShell>
       <div className="rounded-2xl bg-white border shadow-sm overflow-hidden">
         <div className="h-2 bg-[#FFC72C]" />
 
         <div className="p-6">
+          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-4">{course.title || course.code || "Course"} Grades</h1>
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="text-sm text-gray-600">
               {course.semester} {course.instructor_name}

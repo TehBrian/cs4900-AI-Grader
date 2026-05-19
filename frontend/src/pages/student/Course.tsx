@@ -64,14 +64,17 @@ export default function StudentCourse() {
   const items = mapQuizzesToCourseItems(quizzes, completedIds);
 
   return (
-    <PageShell title={course.code}>
+    <PageShell>
       <div className="rounded-2xl bg-white border shadow-sm overflow-hidden">
         <div className="h-2 bg-[#FFC72C]" />
 
         <div className="p-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div className="text-sm text-gray-600">
-              Term: {course.semester} {course.instructor_name}
+            <div>
+              <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight">{course.code}</h1>
+              <div className="text-sm text-gray-600 mt-1">
+                Term: {course.semester} {course.instructor_name}
+              </div>
             </div>
             <div className="flex items-center gap-2">
               <button

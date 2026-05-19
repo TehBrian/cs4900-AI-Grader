@@ -130,13 +130,14 @@ export default function EditQuiz() {
   }
 
   if (fetching) {
-    return <PageShell title="Edit quiz"><p className="text-gray-500">Loading...</p></PageShell>;
+    return <PageShell><p className="text-gray-500">Loading...</p></PageShell>;
   }
 
   return (
-    <PageShell title="Edit quiz">
+    <PageShell>
       <div className="w-full">
         <div className="rounded-3xl bg-white border shadow-sm p-6 md:p-8 w-full">
+          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-6">Edit Quiz</h1>
           <form method="post" onSubmit={handleSubmit} className="space-y-6">
             <QuizFormFields form={form} onChange={setForm} error={error} />
 

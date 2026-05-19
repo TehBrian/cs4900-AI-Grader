@@ -31,15 +31,15 @@ export default function SubmissionDetails() {
   );
 
   return (
-    <PageShell title="Submission Details">
+    <PageShell>
       <div className="rounded-2xl bg-white border shadow-sm overflow-hidden">
         <div className="h-2 bg-[#FFC72C]" />
 
         <div className="p-6 space-y-6">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-sm text-gray-500">Quiz</div>
-              <div className="text-xl font-bold text-[#4E3629]">{submission.quiz_title}</div>
+              <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight">Submission Details</h1>
+              <div className="text-sm text-gray-500 mt-1">{submission.quiz_title}</div>
             </div>
             <button
               type="button"

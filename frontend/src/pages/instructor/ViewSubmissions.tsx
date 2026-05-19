@@ -82,38 +82,40 @@ export default function ViewSubmissions() {
       </header>
 
       <main className="max-w-5xl mx-auto px-4 py-10">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-extrabold tracking-tight">Student Submissions</h1>
-          <span className="text-sm text-gray-500">{filtered.length} total</span>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          <div>
-            <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">
-              Filter by Student
-            </label>
-            <input
-              className="w-full rounded-2xl border bg-white px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 text-sm"
-              placeholder="Type student name..."
-              value={studentFilter}
-              onChange={(e) => setStudentFilter(e.target.value)}
-            />
+        <div className="rounded-2xl bg-white border shadow-sm p-6 mb-6">
+          <div className="flex items-center justify-between mb-4">
+            <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight">Student Submissions</h1>
+            <span className="text-sm text-gray-500">{filtered.length} total</span>
           </div>
-          <div>
-            <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">
-              Filter by Quiz
-            </label>
-            <select
-              className="w-full rounded-2xl border bg-white px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 text-sm"
-              value={selectedQuiz}
-              onChange={(e) => setSelectedQuiz(e.target.value)}
-            >
-              {quizTitles.map((title) => (
-                <option key={title} value={title}>
-                  {title === "all" ? "All Quizzes" : title}
-                </option>
-              ))}
-            </select>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">
+                Filter by Student
+              </label>
+              <input
+                className="w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 text-sm"
+                placeholder="Type student name..."
+                value={studentFilter}
+                onChange={(e) => setStudentFilter(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">
+                Filter by Quiz
+              </label>
+              <select
+                className="w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 text-sm"
+                value={selectedQuiz}
+                onChange={(e) => setSelectedQuiz(e.target.value)}
+              >
+                {quizTitles.map((title) => (
+                  <option key={title} value={title}>
+                    {title === "all" ? "All Quizzes" : title}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
 

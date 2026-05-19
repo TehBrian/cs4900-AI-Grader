@@ -63,13 +63,13 @@ export default function InstructorCourse() {
   const items = mapQuizzesToCourseItems(quizzes);
 
   return (
-    <PageShell title="Instructor">
+    <PageShell>
       <div className="rounded-2xl bg-white border shadow-sm overflow-hidden">
         <div className="h-2 bg-[#FFC72C]" />
 
         <div className="p-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div />
+            <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight">{course.code}</h1>
             <div className="flex items-center gap-2">
               <button
                 type="button"
