@@ -1,68 +1,20 @@
 import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import type { Submission } from "../../types";
 
-/*
-submission_id:      int
-student_id:         int
-quiz:               int
-content:            dict
-student_answer:     str
-expected_answer:    str
-is_correct:         bool
-score:              int
-grading_method:     str
-submitted_at:       datetime
-status:             str
-attempt_number:     int
-result:             str
-*/
-
-// quiz_title
-// student
-// started_at
-export type Submission = {
-  submission_id:      number;
-  student_id:         number;
-  quiz_id:            number;
-  content:            object;
-  student_answer:     string;
-  expected_answer:    string;
-  is_correct:         boolean;
-  score:              number;
-  grading_method:     string;
-  submitted_at:       string;
-  status:             string;
-  attempt_number:     number;
-  result:             string;
-  grading_started_at: string;
-  student:            string;
-  quiz_title:         string;
+const statusColor = (status: string) => {
+  if (status === "submitted" || status === "completed") return "bg-green-100 text-green-700";
+  if (status === "in_progress") return "bg-yellow-100 text-yellow-700";
+  return "bg-gray-100 text-gray-600";
 };
 
+export default function ViewSubmissions() {
+  const { courseId } = useParams<{ courseId: string }>();
+  const { instructorCourses } = useAuth();
+  const navigate = useNavigate();
 
-// export type Submission = {
-//   quiz_title: string;
-//   quiz_id: number;
-//   student: string;
-//   attempt_number: number;
-//   status: string;
-//   started_at: string;
-//   submitted_at: string;
-//   score: number | string;
-// };
-
-type Props = {
-  courseId: number;
-  courseCode: string;
-  onBack: () => void;
-  onOpenSubmission: (submission: Submission) => void;
-};
-
-export default function ViewSubmissions({
-  courseId,
-  courseCode,
-  onBack,
-  onOpenSubmission,
-}: Props) {
+  const course = instructorCourses.find((c) => c.id === Number(courseId));
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [allQuizTitles, setAllQuizTitles] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
@@ -70,29 +22,26 @@ export default function ViewSubmissions({
   const [selectedQuiz, setSelectedQuiz] = useState<string>("all");
 
   useEffect(() => {
+    if (!courseId) return;
     setLoading(true);
 
-    fetch(`${import.meta.env.VITE_API_BASE_URL || ''}/api/grading/get_course_submissions/?course=${courseId}`)
+    fetch(`${import.meta.env.VITE_API_BASE_URL || ""}/api/grading/get_course_submissions/?course=${courseId}`)
       .then((r) => r.json())
       .then((data) => {
         setSubmissions(Array.isArray(data) ? data : []);
         setLoading(false);
       })
       .catch(() => {
-        console.log("course submision error");
         setSubmissions([]);
         setLoading(false);
       });
 
-    fetch(`${import.meta.env.VITE_API_BASE_URL || ''}/api/quizzes/?course=${courseId}`)
+    fetch(`${import.meta.env.VITE_API_BASE_URL || ""}/api/quizzes/?course=${courseId}`)
       .then((r) => r.json())
       .then((data) => {
-        const titles = Array.isArray(data) ? data.map((q: any) => q.title) : [];
-        setAllQuizTitles(titles);
+        setAllQuizTitles(Array.isArray(data) ? data.map((q: any) => q.title) : []);
       })
-      .catch(() => {
-        setAllQuizTitles([]);
-      });
+      .catch(() => setAllQuizTitles([]));
   }, [courseId]);
 
   const quizTitles = ["all", ...allQuizTitles];
@@ -109,16 +58,6 @@ export default function ViewSubmissions({
     grouped[s.quiz_title].push(s);
   });
 
-  const statusColor = (status: string) => {
-    if (status === "submitted" || status === "completed") {
-      return "bg-green-100 text-green-700";
-    }
-    if (status === "in_progress") {
-      return "bg-yellow-100 text-yellow-700";
-    }
-    return "bg-gray-100 text-gray-600";
-  };
-
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900">
       <header className="sticky top-0 z-10 bg-gray-50/90 backdrop-blur border-b">
@@ -129,27 +68,22 @@ export default function ViewSubmissions({
             </div>
             <div className="leading-tight">
               <div className="font-extrabold tracking-tight">Portal</div>
-              <div className="text-xs text-gray-500 -mt-0.5">
-                Western Michigan University
-              </div>
+              <div className="text-xs text-gray-500 -mt-0.5">Western Michigan University</div>
             </div>
           </div>
-
           <button
             type="button"
-            onClick={onBack}
+            onClick={() => navigate(`/instructor/course/${courseId}`)}
             className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
           >
-            ← Back to {courseCode}
+            ← Back to {course?.code ?? "Course"}
           </button>
         </div>
       </header>
 
       <main className="max-w-5xl mx-auto px-4 py-10">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-extrabold tracking-tight">
-            Student Submissions
-          </h1>
+          <h1 className="text-2xl font-extrabold tracking-tight">Student Submissions</h1>
           <span className="text-sm text-gray-500">{filtered.length} total</span>
         </div>
 
@@ -165,7 +99,6 @@ export default function ViewSubmissions({
               onChange={(e) => setStudentFilter(e.target.value)}
             />
           </div>
-
           <div>
             <label className="text-xs font-semibold text-gray-500 uppercase mb-1 block">
               Filter by Quiz
@@ -190,19 +123,14 @@ export default function ViewSubmissions({
           <div className="p-8 text-center text-gray-500">No submissions found.</div>
         ) : (
           Object.entries(grouped).map(([quizTitle, subs]) => (
-            <div
-              key={quizTitle}
-              className="mb-8 rounded-2xl bg-white border shadow-sm overflow-hidden"
-            >
+            <div key={quizTitle} className="mb-8 rounded-2xl bg-white border shadow-sm overflow-hidden">
               <div className="h-2 bg-[#FFC72C]" />
-
               <div className="px-6 py-4 bg-gray-50 border-b">
                 <h2 className="font-bold text-lg text-[#4E3629]">{quizTitle}</h2>
                 <p className="text-xs text-gray-500 mt-1">
                   {subs.length} attempt{subs.length !== 1 ? "s" : ""}
                 </p>
               </div>
-
               <table className="w-full text-sm">
                 <thead className="bg-gray-50 text-xs font-bold text-gray-600 uppercase tracking-wide">
                   <tr>
@@ -213,39 +141,26 @@ export default function ViewSubmissions({
                     <th className="text-left p-4">Score</th>
                   </tr>
                 </thead>
-
                 <tbody className="divide-y">
                   {subs.map((submission, index) => (
                     <tr
                       key={index}
                       className="hover:bg-gray-50 transition cursor-pointer"
-                      onClick={() => onOpenSubmission(submission)}
+                      onClick={() =>
+                        navigate(`/instructor/course/${courseId}/submissions/detail`, {
+                          state: { submission },
+                        })
+                      }
                     >
-                      <td className="p-4 font-semibold text-[#4E3629]">
-                        {submission.student}
-                      </td>
-
-                      <td className="p-4 text-gray-500">
-                        #{submission.attempt_number}
-                      </td>
-
+                      <td className="p-4 font-semibold text-[#4E3629]">{submission.student}</td>
+                      <td className="p-4 text-gray-500">#{submission.attempt_number}</td>
                       <td className="p-4">
-                        <span
-                          className={`inline-flex px-2 py-1 rounded-full text-xs font-semibold ${statusColor(
-                            submission.status
-                          )}`}
-                        >
+                        <span className={`inline-flex px-2 py-1 rounded-full text-xs font-semibold ${statusColor(submission.status)}`}>
                           {submission.status.replace("_", " ")}
                         </span>
                       </td>
-
-                      <td className="p-4 text-gray-500">
-                        {submission.submitted_at || "—"}
-                      </td>
-
-                      <td className="p-4 font-semibold">
-                        {submission.score ?? "—"}
-                      </td>
+                      <td className="p-4 text-gray-500">{submission.submitted_at || "—"}</td>
+                      <td className="p-4 font-semibold">{submission.score ?? "—"}</td>
                     </tr>
                   ))}
                 </tbody>
