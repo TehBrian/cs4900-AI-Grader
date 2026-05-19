@@ -31,7 +31,7 @@ export default function Login() {
   return (
     <main className="max-w-5xl mx-auto px-4 py-10">
       <div className="max-w-md mx-auto rounded-3xl bg-white border shadow-sm p-6 md:p-7">
-        <h1 className="text-2xl font-extrabold tracking-tight mb-5">Login</h1>
+        <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-5">Login</h1>
         <div className="flex gap-2">
           <button
             type="button"

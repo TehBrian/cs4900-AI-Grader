@@ -44,26 +44,25 @@ export default function Register() {
 
   return (
     <main className="max-w-5xl mx-auto px-4 py-10">
-      <div className="w-full">
-        <div className="rounded-3xl bg-white border shadow-sm p-6 md:p-8 w-full">
+      <div className="rounded-3xl bg-white border shadow-sm p-6 md:p-8">
           <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-6">Registration</h1>
           <form method="post" onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="text-sm font-semibold text-gray-700">First name</label>
+                <label className="text-sm font-semibold text-gray-700">First Name</label>
                 <input
                   name="first_name"
                   required
-                  placeholder="First"
+                  placeholder="first"
                   className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
                 />
               </div>
               <div>
-                <label className="text-sm font-semibold text-gray-700">Last name</label>
+                <label className="text-sm font-semibold text-gray-700">Last Name</label>
                 <input
                   name="last_name"
                   required
-                  placeholder="Last"
+                  placeholder="last"
                   className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
                 />
               </div>
@@ -134,7 +133,6 @@ export default function Register() {
             </div>
           </form>
         </div>
-      </div>
     </main>
   );
 }
