@@ -1078,7 +1078,7 @@ function removeProblemPart(problemIndex: number, partIndex: number) {
             <button
             onClick={() => navigateTo("home")}
             className={[
-              "px-4 py-2 rounded-full border shadow-sm text-sm font-semibold transition",
+              "px-4 py-2 rounded-full border shadow-sm text-sm font-semibold transition cursor-pointer",
               page === "home"
                 ? "bg-[#4E3629] text-white border-[#4E3629]"
                 : "bg-white hover:shadow",
@@ -1091,7 +1091,7 @@ function removeProblemPart(problemIndex: number, partIndex: number) {
           <button
             onClick={() => navigateTo("about")}
             className={[
-              "px-4 py-2 rounded-full border shadow-sm text-sm font-semibold transition",
+              "px-4 py-2 rounded-full border shadow-sm text-sm font-semibold transition cursor-pointer",
               page === "about"
                 ? "bg-[#4E3629] text-white border-[#4E3629]"
                 : "bg-white hover:shadow",
@@ -1104,7 +1104,7 @@ function removeProblemPart(problemIndex: number, partIndex: number) {
           <button
             onClick={() => navigateTo("contact")}
             className={[
-              "px-4 py-2 rounded-full border shadow-sm text-sm font-semibold transition",
+              "px-4 py-2 rounded-full border shadow-sm text-sm font-semibold transition cursor-pointer",
               page === "contact"
                 ? "bg-[#4E3629] text-white border-[#4E3629]"
                 : "bg-white hover:shadow",
@@ -1117,7 +1117,7 @@ function removeProblemPart(problemIndex: number, partIndex: number) {
           {session ? (
             <button
               onClick={logout}
-              className="ml-1 px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
+              className="ml-1 px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold cursor-pointer"
               type="button"
             >
               Log out
@@ -1126,7 +1126,7 @@ function removeProblemPart(problemIndex: number, partIndex: number) {
             <button
               onClick={() => navigateTo("login")}
               className={[
-                "ml-1 px-4 py-2 rounded-full border shadow-sm text-sm font-semibold transition",
+                "ml-1 px-4 py-2 rounded-full border shadow-sm text-sm font-semibold transition cursor-pointer",
                 page === "login"
                   ? "bg-[#4E3629] text-white border-[#4E3629]"
                   : "bg-white hover:shadow",
@@ -1140,7 +1140,7 @@ function removeProblemPart(problemIndex: number, partIndex: number) {
           <button
             onClick={() => navigateTo("registration")}
             className={[
-              "px-4 py-2 rounded-full border shadow-sm text-sm font-semibold transition",
+              "px-4 py-2 rounded-full border shadow-sm text-sm font-semibold transition cursor-pointer",
               page === "registration"
                 ? "bg-[#4E3629] text-white border-[#4E3629]"
                 : "bg-white hover:shadow",
