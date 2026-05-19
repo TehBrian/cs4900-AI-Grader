@@ -2,7 +2,7 @@ import asyncio
 import unittest
 from unittest.mock import AsyncMock, MagicMock, patch
 import json
-from mcp_logic.submission_test import QuizGraderClient
+from mcp_logic.grading_client import QuizGraderClient
 
 class TestMCPGradingClient(unittest.IsolatedAsyncioTestCase):
 
@@ -17,11 +17,11 @@ class TestMCPGradingClient(unittest.IsolatedAsyncioTestCase):
 
         self.mock_post_result = MagicMock()
         self.mock_post_result.content = [MagicMock(text="Post Successful")]
-    
-    @patch("mcp_logic.submission_test.os.getenv")
-    @patch("mcp_logic.submission_test.Anthropic")
-    @patch("mcp_logic.submission_test.ClientSession")
-    @patch("mcp_logic.submission_test.streamable_http_client")
+
+    @patch("mcp_logic.grading_client.os.getenv")
+    @patch("mcp_logic.grading_client.Anthropic")
+    @patch("mcp_logic.grading_client.ClientSession")
+    @patch("mcp_logic.grading_client.streamable_http_client")
 
     async def test_main(self, mock_streamable_http_client, mock_session_class, mock_anthropic_class, mock_getenv):
         """Test full AI grading workflow"""
