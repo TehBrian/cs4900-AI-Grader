@@ -11,6 +11,8 @@ from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
+from django.conf import settings as django_settings
 from django.contrib.auth import authenticate
 from .models import CustomUser
 from .serializers import UserSerializer, UserRegistrationSerializer
@@ -62,22 +64,52 @@ class AuthViewSet(viewsets.ViewSet):
             permission_classes=[IsAuthenticated])
     def logout(self, request):
         """
-        Logout user (blacklist refresh token)
+        Logout user — blacklists refresh token cookie and clears it.
 
-        POST /api/auth/logout/
-        {
-            "refresh": "refresh_token_here"
-        }
+        POST /api/users/auth/logout/
+        No body needed — reads refresh_token cookie automatically.
         """
         try:
-            refresh_token = request.data.get("refresh")
-            token = RefreshToken(refresh_token)
-            token.blacklist()
-            return Response({"message": "Logout successful"},
-                            status=status.HTTP_200_OK)
+            token_str = request.COOKIES.get("refresh_token")
+            if token_str:
+                RefreshToken(token_str).blacklist()
         except Exception as e:
-            return Response({"error": str(e)},
-     status=status.HTTP_400_BAD_REQUEST)
+            logger.warning(f"Logout blacklist error: {e}")
+
+        response = Response({"message": "Logout successful"}, status=status.HTTP_200_OK)
+        response.delete_cookie(key="refresh_token", path="/", samesite="Strict")
+        return response
+
+    @action(detail=False, methods=["post"], permission_classes=[AllowAny])
+    def refresh(self, request):
+        """
+        Refresh access token using httpOnly cookie.
+
+        POST /api/users/auth/refresh/
+        No body needed — reads refresh_token cookie automatically.
+        Returns: { access, user }
+        """
+        refresh_token_str = request.COOKIES.get("refresh_token")
+
+        if not refresh_token_str:
+            return Response(
+                {"error": "No refresh token cookie present"},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+        try:
+            refresh = RefreshToken(refresh_token_str)
+            user = CustomUser.objects.get(id=refresh["user_id"])
+        except (TokenError, InvalidToken, CustomUser.DoesNotExist):
+            return Response(
+                {"error": "Invalid or expired refresh token"},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+        return Response({
+            "access": str(refresh.access_token),
+            "user": UserSerializer(user).data,
+        })
 
     @action(detail=False, methods=["get"],
             permission_classes=[IsAuthenticated])
@@ -216,15 +248,22 @@ class AuthViewSet(viewsets.ViewSet):
 
         refresh = RefreshToken.for_user(user)
 
-        return Response(
-            {
-                "user": UserSerializer(user).data,
-                "tokens": {
-                    "refresh": str(refresh),
-                    "access": str(refresh.access_token),
-                },
+        response = Response({
+            "user": UserSerializer(user).data,
+            "tokens": {
+                "access": str(refresh.access_token),
             },
+        })
+        response.set_cookie(
+            key="refresh_token",
+            value=str(refresh),
+            httponly=True,
+            secure=not django_settings.DEBUG,
+            samesite="Strict",
+            max_age=7 * 24 * 3600,
+            path="/",
         )
+        return response
 
 class UserViewSet(viewsets.ViewSet):
     @action(detail=False, methods=["get"], permission_classes=[AllowAny])

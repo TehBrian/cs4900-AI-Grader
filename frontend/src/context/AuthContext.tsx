@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Course, LoginResult, Role } from "../types";
 
@@ -7,10 +7,11 @@ type Session = { role: Role; email: string };
 type AuthContextValue = {
   loginresult: LoginResult | null;
   session: Session | null;
+  isInitializing: boolean;
   studentCourses: Course[];
   instructorCourses: Course[];
   login: (username: string, password: string, role: Role) => Promise<string | null>;
-  logout: () => void;
+  logout: () => Promise<void>;
   fetchCourses: (accessToken: string, role: Role) => Promise<void>;
 };
 
@@ -20,8 +21,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const [loginresult, setLoginResult] = useState<LoginResult | null>(null);
   const [session, setSession] = useState<Session | null>(null);
+  const [isInitializing, setIsInitializing] = useState(true);
   const [studentCourses, setStudentCourses] = useState<Course[]>([]);
   const [instructorCourses, setInstructorCourses] = useState<Course[]>([]);
+
+  useEffect(() => {
+    async function restoreSession() {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_API_BASE_URL || ""}/api/users/auth/refresh/`,
+          { method: "POST", credentials: "include" }
+        );
+        if (res.ok) {
+          const data = await res.json();
+          setLoginResult({ user: data.user, tokens: { access: data.access } });
+          const role = data.user.role as Role;
+          setSession({ role, email: data.user.email });
+          fetchCourses(data.access, role).catch(() => {});
+          if (window.location.pathname === "/login") {
+            navigate("/", { replace: true });
+          }
+        }
+      } catch {
+        // network error — leave state null, user will see login page
+      } finally {
+        setIsInitializing(false);
+      }
+    }
+    restoreSession();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   async function fetchCourses(accessToken: string, role: Role) {
     const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || ""}/api/courses/`, {
@@ -46,6 +74,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || ""}/api/users/auth/login/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
       body: JSON.stringify({ username, password, role }),
     });
 
@@ -62,7 +91,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return null;
   }
 
-  function logout() {
+  async function logout() {
+    try {
+      await fetch(`${import.meta.env.VITE_API_BASE_URL || ""}/api/users/auth/logout/`, {
+        method: "POST",
+        credentials: "include",
+        headers: loginresult
+          ? { Authorization: `Bearer ${loginresult.tokens.access}` }
+          : {},
+      });
+    } catch {
+      // proceed with local logout even if backend call fails
+    }
+
     setLoginResult(null);
     setSession(null);
     setStudentCourses([]);
@@ -72,7 +113,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ loginresult, session, studentCourses, instructorCourses, login, logout, fetchCourses }}
+      value={{ loginresult, session, isInitializing, studentCourses, instructorCourses, login, logout, fetchCourses }}
     >
       {children}
     </AuthContext.Provider>

@@ -54,7 +54,6 @@ export interface User {
 }
 
 export interface Tokens {
-  refresh: string;
   access: string;
 }
 
