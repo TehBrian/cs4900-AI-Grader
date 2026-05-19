@@ -4,16 +4,6 @@
   "private": true,
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
-    "@testing-library/dom": "^10.4.1",
-    "@testing-library/jest-dom": "^6.9.1",
-    "@testing-library/react": "^16.3.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
-    "@types/katex": "^0.16.7",
-    "@types/node": "^20.0.0",
-    "@types/react": "^19.2.2",
-    "@types/react-dom": "^19.2.2",
-    "@types/react-router-dom": "^5.3.3",
     "axios": "^1.13.1",
     "katex": "^0.16.25",
     "lucide-react": "^0.548.0",
@@ -23,7 +13,6 @@
     "react-hot-toast": "^2.6.0",
     "react-katex": "^3.1.0",
     "react-router-dom": "^7.9.4",
-    "typescript": "^4.9.5",
     "yup": "^1.7.1"
   },
   "scripts": {
@@ -32,10 +21,20 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/katex": "^0.16.7",
+    "@types/node": "^20.0.0",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.23",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.19",
+    "typescript": "^4.9.5",
     "vite": "^6.3.5"
   }
 }
