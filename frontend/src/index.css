@@ -9,3 +9,7 @@ body {
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   background-color: #f9fafb;
 }
+
+button {
+  cursor: pointer;
+}
