@@ -23,7 +23,7 @@ class CourseSerializer(serializers.ModelSerializer):
     instructor_id = serializers.IntegerField()
     instructor_name = serializers.SerializerMethodField()
 
-    def get_instructor_name(self, obj):
+    def get_instructor_name(self, obj) -> str:
         return obj.instructor.get_full_name() or obj.instructor.username
 
     class Meta:

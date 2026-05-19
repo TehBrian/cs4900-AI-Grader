@@ -2,12 +2,13 @@
 """
 API Views for Grading System
 """
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, serializers as drf_serializers
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
+from drf_spectacular.utils import extend_schema, inline_serializer
 
 from .models import Submission, GradingResult
 from apps.quizzes.models import Quiz
@@ -31,6 +32,19 @@ class GradingViewSet(viewsets.ViewSet):
         super().__init__(*args, **kwargs)
         self.grading_coordinator = GradingCoordinator()
 
+    @extend_schema(
+        request=inline_serializer("SubmitRequest", fields={
+            "quiz_id": drf_serializers.IntegerField(),
+            "student_id": drf_serializers.IntegerField(),
+            "content": drf_serializers.DictField(child=drf_serializers.CharField()),
+        }),
+        responses={200: inline_serializer("SubmitResponse", fields={
+            "submission_datetime": drf_serializers.CharField(),
+            "attempt_number": drf_serializers.IntegerField(),
+            "results": drf_serializers.JSONField(),
+            "summary": drf_serializers.CharField(),
+        })},
+    )
     @action(detail=False, methods=["post"])
     def submit(self, request):
         """
@@ -98,6 +112,23 @@ class GradingViewSet(viewsets.ViewSet):
         )
 
 
+    @extend_schema(
+        parameters=[inline_serializer("GetCourseSubmissionsQuery", fields={
+            "course": drf_serializers.IntegerField(),
+        })],
+        responses={200: inline_serializer("CourseSubmission", fields={
+            "submission_id": drf_serializers.UUIDField(),
+            "student_id": drf_serializers.IntegerField(),
+            "quiz": drf_serializers.IntegerField(),
+            "status": drf_serializers.CharField(),
+            "score": drf_serializers.FloatField(allow_null=True),
+            "attempt_number": drf_serializers.IntegerField(),
+            "submitted_at": drf_serializers.DateTimeField(allow_null=True),
+            "grading_started_at": drf_serializers.DateTimeField(allow_null=True),
+            "student": drf_serializers.CharField(),
+            "quiz_title": drf_serializers.CharField(),
+        }, many=True)},
+    )
     @action(detail=False, methods=["get"])
     def get_course_submissions(self, request):
         course_id = request.query_params.get("course", None)

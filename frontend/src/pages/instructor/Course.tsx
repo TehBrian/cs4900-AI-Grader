@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import PageShell from "../../components/PageShell";
+import { useApi } from "../../api/useApi";
 import { useAuth } from "../../context/AuthContext";
 import type { CourseItem, CourseItemType, Quiz } from "../../types";
 
@@ -39,16 +40,15 @@ export default function InstructorCourse() {
   const course = instructorCourses.find((c) => c.id === Number(courseId));
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
 
+  const api = useApi();
+
   useEffect(() => {
     if (!loginresult || !courseId) return;
 
-    fetch(`${import.meta.env.VITE_API_BASE_URL || ""}/api/quizzes/?course=${courseId}`, {
-      headers: { Authorization: `Bearer ${loginresult.tokens.access}` },
-    })
-      .then((r) => r.json())
-      .then((data) => setQuizzes(Array.isArray(data) ? data : data.results ?? []))
+    api.GET("/api/quizzes/", { params: { query: { course: Number(courseId) } } })
+      .then(({ data }) => setQuizzes(Array.isArray(data) ? data as Quiz[] : (data as any)?.results ?? []))
       .catch(() => setQuizzes([]));
-  }, [courseId, loginresult]);
+  }, [courseId, loginresult]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!course) {
     return (

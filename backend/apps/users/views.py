@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 
 # Create your views here.
 # apps/users/views.py
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, serializers as drf_serializers
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -14,6 +14,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
 from django.conf import settings as django_settings
 from django.contrib.auth import authenticate
+from drf_spectacular.utils import extend_schema, inline_serializer
 from .models import CustomUser
 from .serializers import UserSerializer, UserRegistrationSerializer
 
@@ -28,6 +29,16 @@ class AuthViewSet(viewsets.ViewSet):
 
     permission_classes = [AllowAny]
 
+    @extend_schema(
+        request=UserRegistrationSerializer,
+        responses={201: inline_serializer("RegisterResponse", fields={
+            "user": UserSerializer(),
+            "tokens": inline_serializer("RegisterTokens", fields={
+                "access": drf_serializers.CharField(),
+                "refresh": drf_serializers.CharField(),
+            }),
+        })},
+    )
     @action(detail=False, methods=["post"])
     def register(self, request):
         """
@@ -122,7 +133,17 @@ class AuthViewSet(viewsets.ViewSet):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
 
-    @action(detail=False, methods=['post'])   
+    @extend_schema(
+        request=inline_serializer("ForgotPasswordRequest", fields={
+            "email": drf_serializers.EmailField(),
+        }),
+        responses={200: inline_serializer("ForgotPasswordResponse", fields={
+            "message": drf_serializers.CharField(),
+            "reset_token": drf_serializers.CharField(required=False),
+            "user_id": drf_serializers.IntegerField(required=False),
+        })},
+    )
+    @action(detail=False, methods=['post'])
     def forgot_password(self, request):
         """
         Request password reset
@@ -158,6 +179,15 @@ class AuthViewSet(viewsets.ViewSet):
                 'message': 'If email exists, reset instructions have been sent'
             })
     
+    @extend_schema(
+        request=inline_serializer("ResetPasswordRequest", fields={
+            "user_id": drf_serializers.IntegerField(),
+            "new_password": drf_serializers.CharField(),
+        }),
+        responses={200: inline_serializer("ResetPasswordResponse", fields={
+            "message": drf_serializers.CharField(),
+        })},
+    )
     @action(detail=False, methods=['post'])
     def reset_password(self, request):
         """
@@ -192,6 +222,19 @@ class AuthViewSet(viewsets.ViewSet):
                 status=status.HTTP_404_NOT_FOUND
             )
 
+    @extend_schema(
+        request=inline_serializer("LoginRequest", fields={
+            "username": drf_serializers.CharField(),
+            "password": drf_serializers.CharField(),
+            "role": drf_serializers.ChoiceField(choices=["student", "instructor"]),
+        }),
+        responses={200: inline_serializer("LoginResponse", fields={
+            "user": UserSerializer(),
+            "tokens": inline_serializer("LoginTokens", fields={
+                "access": drf_serializers.CharField(),
+            }),
+        })},
+    )
     @action(detail=False, methods=["post"])
     def login(self, request):
         """

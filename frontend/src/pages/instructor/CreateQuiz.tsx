@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import PageShell from "../../components/PageShell";
 import QuizFormFields from "../../components/QuizFormFields";
+import { useApi } from "../../api/useApi";
 import { useAuth } from "../../context/AuthContext";
 import { EMPTY_QUIZ_FORM } from "../../types";
 import type { QuizFormState } from "../../types";
@@ -41,31 +42,26 @@ function buildQuizPayload(form: QuizFormState, courseId: number, userId: number)
 export default function CreateQuiz() {
   const { courseId } = useParams<{ courseId: string }>();
   const { loginresult } = useAuth();
+  const api = useApi();
   const navigate = useNavigate();
   const [form, setForm] = useState<QuizFormState>(EMPTY_QUIZ_FORM);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
     setLoading(true);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || ""}/api/quizzes/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${loginresult!.tokens.access}`,
-        },
-        body: JSON.stringify(buildQuizPayload(form, Number(courseId), loginresult!.user.id)),
+      const { error: apiError } = await api.POST("/api/quizzes/", {
+        body: buildQuizPayload(form, Number(courseId), loginresult!.user.id) as any,
       });
 
-      if (response.ok) {
+      if (!apiError) {
         navigate(`/instructor/course/${courseId}`, { replace: true });
       } else {
-        const err_response = await response.json();
-        setError(Object.values(err_response).join("\n") || "Failed to create quiz.");
+        setError(Object.values(apiError as Record<string, unknown>).join("\n") || "Failed to create quiz.");
       }
     } catch {
       setError("Failed to connect.");

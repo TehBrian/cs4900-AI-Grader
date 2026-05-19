@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { publicClient } from './api/client';
 
 const ForgotPassword: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -15,23 +16,18 @@ const ForgotPassword: React.FC = () => {
     setMessage('');
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || ''}/api/users/auth/forgot_password/`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+      const { data, error } = await publicClient.POST("/api/users/auth/forgot_password/", {
+        body: { email },
       });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setMessage(data.message);
-        setResetToken(data.reset_token);
-        setUserId(data.user_id);
-        setShowResetForm(true);
+      if (error) {
+        setError((error as any).error || 'An error occurred');
       } else {
-        setError(data.error || 'An error occurred');
+        setMessage(data.message);
+        setResetToken(data.reset_token ?? '');
+        setUserId(String(data.user_id ?? ''));
+        setShowResetForm(true);
       }
-    } catch (err) {
+    } catch {
       setError('Network error. Please try again.');
     }
   };
@@ -42,21 +38,16 @@ const ForgotPassword: React.FC = () => {
     setMessage('');
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || ''}/api/users/auth/reset_password/`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user_id: userId, new_password: newPassword }),
+      const { data, error } = await publicClient.POST("/api/users/auth/reset_password/", {
+        body: { user_id: Number(userId), new_password: newPassword },
       });
-
-      const data = await response.json();
-
-      if (response.ok) {
+      if (error) {
+        setError((error as any).error || 'An error occurred');
+      } else {
         setMessage(data.message);
         setShowResetForm(false);
-      } else {
-        setError(data.error || 'An error occurred');
       }
-    } catch (err) {
+    } catch {
       setError('Network error. Please try again.');
     }
   };

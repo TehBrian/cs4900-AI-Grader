@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PageShell from "../../components/PageShell";
+import { useApi } from "../../api/useApi";
 import { useAuth } from "../../context/AuthContext";
 
 export default function CreateCourse() {
   const { loginresult, fetchCourses, session } = useAuth();
+  const api = useApi();
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
     setLoading(true);
@@ -18,25 +20,22 @@ export default function CreateCourse() {
     const formObj = Object.fromEntries(new FormData(form).entries());
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || ""}/api/courses/create_course/`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          course_code: formObj.course_code,
-          title: formObj.title,
-          term: formObj.term,
+      const { error: apiError } = await api.POST("/api/courses/create_course/", {
+        body: {
+          course_code: String(formObj.course_code),
+          title: String(formObj.title),
+          term: formObj.term as "fall" | "winter" | "spring" | "summer",
           instructor_name: loginresult!.user.username ?? "username failed",
           instructor_id: loginresult!.user.id ?? -1,
-        }),
+        },
       });
 
-      if (response.ok) {
+      if (!apiError) {
         form.reset();
         await fetchCourses(loginresult!.tokens.access, session!.role);
         navigate("/", { replace: true });
       } else {
-        const err_response = await response.json();
-        setError(Object.values(err_response).join("\n"));
+        setError(Object.values(apiError as Record<string, unknown>).join("\n"));
       }
     } catch {
       setError("Failed to connect.");

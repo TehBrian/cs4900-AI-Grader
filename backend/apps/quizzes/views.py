@@ -2,11 +2,12 @@
 """
 API Views for Quiz Management
 """
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, serializers as drf_serializers
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from django.utils import timezone
+from drf_spectacular.utils import extend_schema, inline_serializer
 
 from .models import Course, Quiz, QuizProblem, QuizAttempt, QuizStatistics
 from .serializers import (
@@ -33,6 +34,16 @@ class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
     permission_classes = [AllowAny]
 
+    @extend_schema(
+        request=inline_serializer("CreateCourseRequest", fields={
+            "title": drf_serializers.CharField(),
+            "course_code": drf_serializers.CharField(),
+            "term": drf_serializers.ChoiceField(choices=["fall", "winter", "spring", "summer"]),
+            "instructor_name": drf_serializers.CharField(),
+            "instructor_id": drf_serializers.IntegerField(),
+        }),
+        responses={200: CourseSerializer},
+    )
     @action(detail=False, methods=["post"])
     def create_course(self, request):
         request.data["semester"] = request.data.pop("term")
@@ -68,6 +79,15 @@ class QuizViewSet(viewsets.ModelViewSet):
 
     queryset = Quiz.objects.all()
     permission_classes = [AllowAny]
+
+    @extend_schema(parameters=[
+        inline_serializer("QuizListQuery", fields={
+            "course": drf_serializers.IntegerField(required=False),
+            "published": drf_serializers.BooleanField(required=False),
+        }),
+    ])
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
     def get_serializer_class(self):
         if self.action == "list":

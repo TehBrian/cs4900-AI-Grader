@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useApi } from "../../api/useApi";
 import { useAuth } from "../../context/AuthContext";
 import type { Submission } from "../../types";
 
@@ -15,6 +16,7 @@ export default function ViewSubmissions() {
   const navigate = useNavigate();
 
   const course = instructorCourses.find((c) => c.id === Number(courseId));
+  const api = useApi();
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [allQuizTitles, setAllQuizTitles] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
@@ -25,24 +27,20 @@ export default function ViewSubmissions() {
     if (!courseId) return;
     setLoading(true);
 
-    fetch(`${import.meta.env.VITE_API_BASE_URL || ""}/api/grading/get_course_submissions/?course=${courseId}`)
-      .then((r) => r.json())
-      .then((data) => {
-        setSubmissions(Array.isArray(data) ? data : []);
+    api.GET("/api/grading/get_course_submissions/", { params: { query: { course: Number(courseId) } } })
+      .then(({ data }) => {
+        setSubmissions(Array.isArray(data) ? (data as unknown as Submission[]) : []);
         setLoading(false);
       })
-      .catch(() => {
-        setSubmissions([]);
-        setLoading(false);
-      });
+      .catch(() => { setSubmissions([]); setLoading(false); });
 
-    fetch(`${import.meta.env.VITE_API_BASE_URL || ""}/api/quizzes/?course=${courseId}`)
-      .then((r) => r.json())
-      .then((data) => {
-        setAllQuizTitles(Array.isArray(data) ? data.map((q: any) => q.title) : []);
+    api.GET("/api/quizzes/", { params: { query: { course: Number(courseId) } } })
+      .then(({ data }) => {
+        const list = Array.isArray(data) ? data : (data as any)?.results ?? [];
+        setAllQuizTitles(list.map((q: any) => q.title));
       })
       .catch(() => setAllQuizTitles([]));
-  }, [courseId]);
+  }, [courseId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const quizTitles = ["all", ...allQuizTitles];
 

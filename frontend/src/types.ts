@@ -44,14 +44,7 @@ export type CourseItem = {
   evalText?: string;
 };
 
-export interface User {
-  id: number;
-  username: string;
-  email: string;
-  date_joined: string;
-  first_name: string;
-  last_name: string;
-}
+export type User = import("./api/schema").components["schemas"]["User"];
 
 export interface Tokens {
   access: string;
@@ -62,24 +55,8 @@ export interface LoginResult {
   tokens: Tokens;
 }
 
-export type Submission = {
-  submission_id: number;
-  student_id: number;
-  quiz_id: number;
-  content: object;
-  student_answer: string;
-  expected_answer: string;
-  is_correct: boolean;
-  score: number;
-  grading_method: string;
-  submitted_at: string;
-  status: string;
-  attempt_number: number;
-  result: string;
-  grading_started_at: string;
-  student: string;
-  quiz_title: string;
-};
+export type { components } from "./api/schema";
+export type Submission = import("./api/schema").components["schemas"]["CourseSubmission"];
 
 export type QuizFormPart = {
   label: string;

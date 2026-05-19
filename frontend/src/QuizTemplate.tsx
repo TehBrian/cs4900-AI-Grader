@@ -6,6 +6,7 @@ import React, { useState, useRef, useEffect } from "react";
 import katex from "katex";
 import { BlockMath } from "react-katex";
 import { InlineMath } from "react-katex";
+import { publicClient } from "./api/client";
 
 type QuizPage = "quiz" | "details" | "submit";
 
@@ -113,20 +114,17 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
 
   const fetchQuizData = async () => {
     try {
-      // Fetch quiz details
-      const quizResponse = await fetch(`${import.meta.env.VITE_API_BASE_URL || ''}/api/quizzes/${quizId}/`);
-      if (quizResponse.ok) {
-        const quizData = await quizResponse.json();
-        setQuiz(quizData);
-        setTimeRemaining(quizData.time_limit * 60); // Convert minutes to seconds
-      }
+      const [{ data: quizData }, { data: problemsData }] = await Promise.all([
+        publicClient.GET("/api/quizzes/{id}/", { params: { path: { id: quizId! } } }),
+        publicClient.GET("/api/quizzes/{id}/problems/", { params: { path: { id: quizId! } } }),
+      ]);
 
-      // Fetch quiz problems
-      const problemsResponse = await fetch(`${import.meta.env.VITE_API_BASE_URL || ''}/api/quizzes/${quizId}/problems/`);
-      if (problemsResponse.ok) {
-        const problemsData = await problemsResponse.json();
-        // Convert backend problems to Question format
-        const formattedQuestions: Question[] = problemsData.map((p: any) => ({
+      if (quizData) {
+        setQuiz(quizData as any);
+        setTimeRemaining((quizData as any).time_limit * 60);
+      }
+      if (problemsData) {
+        const formattedQuestions: Question[] = (problemsData as unknown as any[]).map((p: any) => ({
           id: p.linked_problem_id ?? p.id,
           text: p.problem_text || p.problem_title || "Question",
           latex: p.problem_latex || undefined,
@@ -166,30 +164,22 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
     await saveAnswers();
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || ''}/api/grading/submit/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const { data, error } = await publicClient.POST("/api/grading/submit/", {
+        body: {
+          quiz_id: quizId!,
+          student_id: userId!,
+          content: { text: textAnswers, multiple: multipleAnswers } as any,
         },
-        body: JSON.stringify({
-          quiz_id: quizId,
-          student_id: userId,
-          content: {
-            text: textAnswers,
-            multiple: multipleAnswers,
-          },
-        })
       });
 
-      if (!response.ok) {
+      if (error) {
         alert("Failed to submit quiz.");
         return;
       }
 
-      const data = await response.json();
-      if (data.results && Array.isArray(data.results[0])){
-        setAiResults(data.results[0]);
-      }else{
+      if (data.results && Array.isArray((data.results as any[])[0])) {
+        setAiResults((data.results as any[])[0]);
+      } else {
         setAiResults([]);
       }
 

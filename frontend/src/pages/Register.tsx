@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { publicClient } from "../api/client";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -15,25 +16,22 @@ export default function Register() {
     const formObj = Object.fromEntries(new FormData(form).entries());
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || ""}/api/users/auth/register/`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          first_name: formObj.first_name,
-          last_name: formObj.last_name,
-          email: formObj.email,
-          username: formObj.username,
-          password: formObj.password,
-          role: formObj.role,
-        }),
+      const { error } = await publicClient.POST("/api/users/auth/register/", {
+        body: {
+          first_name: String(formObj.first_name),
+          last_name: String(formObj.last_name),
+          email: String(formObj.email),
+          username: String(formObj.username),
+          password: String(formObj.password),
+          role: formObj.role as "student" | "instructor",
+        },
       });
 
-      if (response.ok) {
+      if (!error) {
         form.reset();
         navigate("/login", { replace: true, state: { registered: true } });
       } else {
-        const err_response = await response.json();
-        setError(Object.values(err_response).join("\n"));
+        setError(Object.values(error as Record<string, unknown>).join("\n"));
       }
     } catch {
       setError("Failed to connect.");

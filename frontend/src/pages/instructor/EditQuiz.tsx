@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import PageShell from "../../components/PageShell";
 import QuizFormFields from "../../components/QuizFormFields";
+import { useApi } from "../../api/useApi";
 import { useAuth } from "../../context/AuthContext";
 import { EMPTY_QUIZ_FORM } from "../../types";
 import type { QuizFormState } from "../../types";
@@ -43,6 +44,7 @@ const toDatetimeLocal = (iso: string | null) => (iso ? iso.slice(0, 16) : "");
 export default function EditQuiz() {
   const { courseId, quizId } = useParams<{ courseId: string; quizId: string }>();
   const { loginresult } = useAuth();
+  const api = useApi();
   const navigate = useNavigate();
   const [form, setForm] = useState<QuizFormState>(EMPTY_QUIZ_FORM);
   const [error, setError] = useState<string | null>(null);
@@ -53,31 +55,22 @@ export default function EditQuiz() {
     if (!loginresult || !quizId) return;
 
     Promise.all([
-      fetch(`${import.meta.env.VITE_API_BASE_URL || ""}/api/quizzes/${quizId}/`, {
-        headers: { Authorization: `Bearer ${loginresult.tokens.access}` },
-      }),
-      fetch(`${import.meta.env.VITE_API_BASE_URL || ""}/api/quizzes/${quizId}/problems/`, {
-        headers: { Authorization: `Bearer ${loginresult.tokens.access}` },
-      }),
+      api.GET("/api/quizzes/{id}/", { params: { path: { id: Number(quizId) } } }),
+      api.GET("/api/quizzes/{id}/problems/", { params: { path: { id: Number(quizId) } } }),
     ])
-      .then(async ([metaRes, problemsRes]) => {
-        if (!metaRes.ok || !problemsRes.ok) {
-          setError("Failed to load quiz data.");
-          return;
-        }
-        const meta = await metaRes.json();
-        const problems = await problemsRes.json();
+      .then(([{ data: meta, error: metaErr }, { data: problems, error: probErr }]) => {
+        if (metaErr || probErr) { setError("Failed to load quiz data."); return; }
 
         setForm({
-          title: meta.title ?? "",
-          quiz_type: meta.quiz_type ?? "practice",
-          time_limit: meta.time_limit != null ? String(meta.time_limit) : "",
-          available_from: toDatetimeLocal(meta.available_from),
-          available_until: toDatetimeLocal(meta.available_until),
-          max_attempts: meta.max_attempts != null ? String(meta.max_attempts) : "1",
-          allow_review: meta.allow_review ?? true,
-          total_points: meta.total_points != null ? String(meta.total_points) : "",
-          problems: (problems as any[]).map((qp: any) => ({
+          title: (meta as any).title ?? "",
+          quiz_type: (meta as any).quiz_type ?? "practice",
+          time_limit: (meta as any).time_limit != null ? String((meta as any).time_limit) : "",
+          available_from: toDatetimeLocal((meta as any).available_from),
+          available_until: toDatetimeLocal((meta as any).available_until),
+          max_attempts: (meta as any).max_attempts != null ? String((meta as any).max_attempts) : "1",
+          allow_review: (meta as any).allow_review ?? true,
+          total_points: (meta as any).total_points != null ? String((meta as any).total_points) : "",
+          problems: ((problems as unknown as any[]) ?? []).map((qp: any) => ({
             title: qp.problem_title ?? "",
             question_text: qp.problem_text ?? "",
             correct_answer: qp.parts?.[0]?.expected_answer ?? "",
@@ -96,31 +89,23 @@ export default function EditQuiz() {
       })
       .catch(() => setError("Failed to connect."))
       .finally(() => setFetching(false));
-  }, [quizId, loginresult]);
+  }, [quizId, loginresult]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
     setLoading(true);
 
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL || ""}/api/quizzes/${quizId}/`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${loginresult!.tokens.access}`,
-          },
-          body: JSON.stringify(buildQuizPayload(form, Number(courseId), loginresult!.user.id)),
-        }
-      );
+      const { error: apiError } = await api.PUT("/api/quizzes/{id}/", {
+        params: { path: { id: Number(quizId) } },
+        body: buildQuizPayload(form, Number(courseId), loginresult!.user.id) as any,
+      });
 
-      if (response.ok) {
+      if (!apiError) {
         navigate(`/instructor/course/${courseId}`, { replace: true });
       } else {
-        const err_response = await response.json();
-        setError(Object.values(err_response).join("\n") || "Failed to update quiz.");
+        setError(Object.values(apiError as Record<string, unknown>).join("\n") || "Failed to update quiz.");
       }
     } catch {
       setError("Failed to connect.");
