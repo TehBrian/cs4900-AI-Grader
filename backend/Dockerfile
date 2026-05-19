@@ -3,9 +3,7 @@ FROM python:3.11-slim
 WORKDIR /app
 
 COPY requirements.txt .
-RUN grep -vE 'mysqlclient|celery|redis|amqp|billiard|kombu|vine|click-didyoumean|click-plugins|click-repl' requirements.txt \
-    | pip install --no-cache-dir -r /dev/stdin \
-    && pip install --no-cache-dir gunicorn
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
