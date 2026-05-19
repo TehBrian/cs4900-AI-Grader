@@ -25,6 +25,7 @@ type Page=
   | "instructorGrades"
   | "createCourse"
   | "createQuiz"
+  | "editQuiz"
   | "viewSubmissions"
   | "submissionDetails";
 
@@ -205,6 +206,7 @@ export default function App() {
     }[];
     }[],
   });
+  const [editingQuizId, setEditingQuizId] = useState<number | null>(null);
   const [courseQuizzes, setCourseQuizzes] = useState<Quiz[]>([]);
   const [completedQuizIds, setCompletedQuizIds] = useState<number[]>([]);
   const [availableProblems, setAvailableProblems] = useState<ProblemOption[]>([]);
@@ -456,6 +458,134 @@ async function createCourse(e: React.FormEvent) {
       setError(err_msg);
     }
   } catch (err) {
+    alert("Failed to connect.");
+  }
+}
+
+async function fetchQuizForEdit(quizId: number) {
+  if (!loginresult || !selectedInstructorCourse) return;
+
+  try {
+    const [metaRes, problemsRes] = await Promise.all([
+      fetch(`${import.meta.env.VITE_API_BASE_URL || ""}/api/quizzes/${quizId}/`, {
+        headers: { Authorization: `Bearer ${loginresult.tokens.access}` },
+      }),
+      fetch(`${import.meta.env.VITE_API_BASE_URL || ""}/api/quizzes/${quizId}/problems/`, {
+        headers: { Authorization: `Bearer ${loginresult.tokens.access}` },
+      }),
+    ]);
+
+    if (!metaRes.ok || !problemsRes.ok) {
+      alert("Failed to load quiz data.");
+      return;
+    }
+
+    const meta = await metaRes.json();
+    const problems = await problemsRes.json();
+
+    const toDatetimeLocal = (iso: string | null) => {
+      if (!iso) return "";
+      return iso.slice(0, 16);
+    };
+
+    setQuizForm({
+      title: meta.title ?? "",
+      quiz_type: meta.quiz_type ?? "practice",
+      time_limit: meta.time_limit != null ? String(meta.time_limit) : "",
+      available_from: toDatetimeLocal(meta.available_from),
+      available_until: toDatetimeLocal(meta.available_until),
+      max_attempts: meta.max_attempts != null ? String(meta.max_attempts) : "1",
+      allow_review: meta.allow_review ?? true,
+      total_points: meta.total_points != null ? String(meta.total_points) : "",
+      problems: (problems as any[]).map((qp: any) => ({
+        title: qp.problem_title ?? "",
+        question_text: qp.problem_text ?? "",
+        correct_answer: qp.parts?.[0]?.expected_answer ?? "",
+        problem_order: qp.problem_order ?? 1,
+        points: qp.points ?? 1,
+        figure: qp.figure ?? "",
+        figurePreview: qp.figure ?? "",
+        parts: (qp.parts ?? []).map((part: any, i: number) => ({
+          label: String.fromCharCode(65 + i),
+          text: part.part_text ?? "",
+          requires_response: true,
+          correct_answer: part.expected_answer ?? "",
+        })),
+      })),
+    });
+
+    setEditingQuizId(quizId);
+    navigateTo("editQuiz", { instructorCourse: selectedInstructorCourse });
+  } catch {
+    alert("Failed to connect.");
+  }
+}
+
+async function updateQuiz(e: React.FormEvent) {
+  e.preventDefault();
+  setError(null);
+
+  if (!selectedInstructorCourse || !loginresult || editingQuizId == null) {
+    setError("No quiz selected.");
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_BASE_URL || ""}/api/quizzes/${editingQuizId}/`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${loginresult.tokens.access}`,
+        },
+        body: JSON.stringify({
+          title: quizForm.title,
+          course: selectedInstructorCourse.id,
+          created_by: loginresult.user.id,
+          quiz_type: quizForm.quiz_type,
+          time_limit: quizForm.time_limit ? Number(quizForm.time_limit) : null,
+          available_from: quizForm.available_from || null,
+          available_until: quizForm.available_until || null,
+          max_attempts: quizForm.max_attempts ? Number(quizForm.max_attempts) : 1,
+          allow_review: quizForm.allow_review,
+          total_points: quizForm.total_points ? Number(quizForm.total_points) : 0,
+          problems: quizForm.problems.map((p) => ({
+            title: p.title,
+            question_text: p.question_text,
+            question_latex: "",
+            correct_answer: p.correct_answer,
+            problem_order: p.problem_order,
+            points: p.points,
+            figure: p.figure || "",
+            parts: p.parts.map((part, i) => ({
+              part_number: i + 1,
+              part_text: part.text,
+              expected_answer: part.correct_answer,
+              points: 1,
+              allow_partial_credit: true,
+              answer_format: "mathematical_expression",
+            })),
+          })),
+        }),
+      }
+    );
+
+    if (response.ok) {
+      setEditingQuizId(null);
+      navigateTo("instructorCourse", {
+        instructorCourse: selectedInstructorCourse,
+        replace: true,
+      });
+    } else {
+      const err_response = await response.json();
+      let err_msg = "";
+      Object.entries(err_response).forEach((i) => {
+        err_msg += i[1] + "\n";
+      });
+      setError(err_msg || "Failed to update quiz.");
+    }
+  } catch {
     alert("Failed to connect.");
   }
 }
@@ -1490,6 +1620,372 @@ if (page === "createQuiz" && selectedInstructorCourse) {
   );
 }
 
+if (page === "editQuiz" && selectedInstructorCourse) {
+  return (
+    <PageShell title="Edit quiz" topBar={TopBar}>
+      <div className="w-full">
+        <div className="rounded-3xl bg-white border shadow-sm p-6 md:p-8 w-full">
+          <form method="post" onSubmit={updateQuiz} className="space-y-6">
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="text-sm font-semibold text-gray-700">
+                  Title
+                </label>
+                <input
+                  value={quizForm.title}
+                  onChange={(e) =>
+                    setQuizForm({ ...quizForm, title: e.target.value })
+                  }
+                  required
+                  placeholder="Quiz 1"
+                  className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-semibold text-gray-700">
+                  Quiz type
+                </label>
+                <select
+                  value={quizForm.quiz_type}
+                  onChange={(e) =>
+                    setQuizForm({ ...quizForm, quiz_type: e.target.value })
+                  }
+                  className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                >
+                  <option value="practice">Practice</option>
+                  <option value="quiz">Graded</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="text-sm font-semibold text-gray-700">
+                  Time limit
+                </label>
+                <input
+                  type="number"
+                  min="1"
+                  value={quizForm.time_limit}
+                  onChange={(e) =>
+                    setQuizForm({ ...quizForm, time_limit: e.target.value })
+                  }
+                  placeholder="30"
+                  className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-semibold text-gray-700">
+                  Max attempts
+                </label>
+                <input
+                  type="number"
+                  min="1"
+                  value={quizForm.max_attempts}
+                  onChange={(e) =>
+                    setQuizForm({ ...quizForm, max_attempts: e.target.value })
+                  }
+                  placeholder="1"
+                  className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="text-sm font-semibold text-gray-700">
+                  Available from
+                </label>
+                <input
+                  type="datetime-local"
+                  value={quizForm.available_from}
+                  onChange={(e) =>
+                    setQuizForm({ ...quizForm, available_from: e.target.value })
+                  }
+                  className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-semibold text-gray-700">
+                  Available until
+                </label>
+                <input
+                  type="datetime-local"
+                  value={quizForm.available_until}
+                  onChange={(e) =>
+                    setQuizForm({ ...quizForm, available_until: e.target.value })
+                  }
+                  className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="text-sm font-semibold text-gray-700">
+                Total points
+              </label>
+              <input
+                type="number"
+                min="0"
+                value={quizForm.total_points}
+                onChange={(e) =>
+                  setQuizForm({ ...quizForm, total_points: e.target.value })
+                }
+                placeholder="100"
+                className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-semibold text-gray-700 block mb-2">
+                Review
+              </label>
+
+              <label className="flex items-center gap-2 rounded-2xl border px-4 py-3 bg-white hover:bg-gray-50 cursor-pointer w-full">
+                <input
+                  type="checkbox"
+                  checked={quizForm.allow_review}
+                  onChange={(e) =>
+                    setQuizForm({ ...quizForm, allow_review: e.target.checked })
+                  }
+                  className="accent-[#4E3629]"
+                />
+                <span className="font-semibold">Allow review after submission</span>
+              </label>
+            </div>
+
+            {error && (
+              <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                {error}
+              </div>
+            )}
+
+            <div>
+              <label className="text-sm font-semibold text-gray-700 block mb-3">
+                Problems
+              </label>
+
+              <div className="space-y-5">
+                {quizForm.problems.map((problem, index) => (
+                  <div key={index} className="rounded-3xl border bg-white p-5">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-xl font-bold">Problem {index + 1}</h3>
+                      <button
+                        type="button"
+                        onClick={() => removeProblemFromQuiz(index)}
+                        className="px-4 py-2 rounded-2xl border bg-red-50 hover:bg-red-100 text-sm font-medium"
+                      >
+                        Remove
+                      </button>
+                    </div>
+
+                    <div className="space-y-4">
+                      <input
+                        type="text"
+                        value={problem.title}
+                        onChange={(e) =>
+                          updateQuizProblem(index, "title", e.target.value)
+                        }
+                        placeholder="Title"
+                        className="w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                      />
+
+                      <textarea
+                        value={problem.question_text}
+                        onChange={(e) =>
+                          updateQuizProblem(index, "question_text", e.target.value)
+                        }
+                        placeholder="Question text"
+                        rows={5}
+                        className="w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none resize-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                      />
+
+                      <div>
+                        <label className="text-sm font-semibold text-gray-700">
+                          Figure (PNG)
+                        </label>
+
+                        <input
+                          type="file"
+                          accept="image/png"
+                          className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0] || null;
+
+                            if (!file) {
+                              updateQuizProblem(index, "figure", "");
+                              updateQuizProblem(index, "figurePreview", "");
+                              return;
+                            }
+
+                            if (file.type !== "image/png") {
+                              alert("Please upload a PNG image only.");
+                              e.target.value = "";
+                              return;
+                            }
+
+                            const reader = new FileReader();
+
+                            reader.onloadend = () => {
+                              const result = typeof reader.result === "string" ? reader.result : "";
+                              updateQuizProblem(index, "figure", result);
+                              updateQuizProblem(index, "figurePreview", result);
+                            };
+
+                            reader.readAsDataURL(file);
+                          }}
+                        />
+                      </div>
+
+                      {problem.figurePreview && (
+                        <div className="rounded-2xl border bg-gray-50 p-4 mt-2">
+                          <p className="text-sm font-semibold text-gray-700 mb-3">
+                            Figure Preview
+                          </p>
+                          <img
+                            src={problem.figurePreview}
+                            alt={`Problem ${index + 1} figure`}
+                            className="max-h-64 rounded-xl border"
+                          />
+                        </div>
+                      )}
+
+                      <input
+                        type="text"
+                        value={problem.correct_answer}
+                        onChange={(e) =>
+                          updateQuizProblem(index, "correct_answer", e.target.value)
+                        }
+                        placeholder="Correct answer"
+                        className="w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                      />
+
+                      <div className="rounded-2xl border bg-gray-50 p-4 space-y-4">
+                        <div className="flex items-center justify-between">
+                          <h4 className="font-bold text-[#4E3629]">Problem Parts</h4>
+
+                          <button
+                            type="button"
+                            onClick={() => addPartToProblem(index)}
+                            className="px-4 py-2 rounded-xl bg-white border text-sm font-semibold hover:shadow"
+                          >
+                            Add Part
+                          </button>
+                        </div>
+
+                        {problem.parts.map((part, partIndex) => (
+                          <div key={partIndex} className="rounded-2xl bg-white border p-4 space-y-3">
+                            <div className="flex items-center justify-between">
+                              <strong>Part {part.label}</strong>
+
+                              <button
+                                type="button"
+                                onClick={() => removeProblemPart(index, partIndex)}
+                                className="text-sm text-red-600"
+                              >
+                                Remove
+                              </button>
+                            </div>
+
+                            <textarea
+                              value={part.text}
+                              onChange={(e) =>
+                                updateProblemPart(index, partIndex, "text", e.target.value)
+                              }
+                              placeholder="Part question text"
+                              rows={3}
+                              className="w-full rounded-2xl border bg-gray-50 px-4 py-3"
+                            />
+
+                            <input
+                              value={part.correct_answer}
+                              onChange={(e) =>
+                                updateProblemPart(index, partIndex, "correct_answer", e.target.value)
+                              }
+                              placeholder="Correct answer for this part"
+                              className="w-full rounded-2xl border bg-gray-50 px-4 py-3"
+                            />
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="text-sm font-semibold text-gray-700">
+                            Problem Order
+                          </label>
+                          <input
+                            type="number"
+                            min="1"
+                            value={problem.problem_order}
+                            onChange={(e) =>
+                              updateQuizProblem(index, "problem_order", Number(e.target.value))
+                            }
+                            className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="text-sm font-semibold text-gray-700">
+                            Points
+                          </label>
+                          <input
+                            type="number"
+                            min="1"
+                            value={problem.points}
+                            onChange={(e) =>
+                              updateQuizProblem(index, "points", Number(e.target.value))
+                            }
+                            className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                <button
+                  type="button"
+                  onClick={addProblemToQuiz}
+                  className="px-6 py-3 rounded-2xl bg-white border shadow-sm hover:shadow transition text-base font-medium"
+                >
+                  Add Problem
+                </button>
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-3 pt-4">
+              <button
+                type="button"
+                onClick={() =>
+                  navigateTo("instructorCourse", {
+                    instructorCourse: selectedInstructorCourse,
+                  })
+                }
+                className="px-8 py-3 rounded-2xl font-bold transition shadow-sm bg-white border hover:shadow"
+              >
+                Cancel
+              </button>
+
+              <button
+                type="submit"
+                className="px-8 py-3 rounded-2xl font-bold transition shadow-sm bg-[#4E3629] text-white hover:opacity-95"
+              >
+                Save Changes
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </PageShell>
+  );
+}
+
 if (page === "registration") {
   return (
     <PageShell title="Registration" topBar={TopBar}>
@@ -1903,7 +2399,15 @@ if (page === "instructorCourse" && selectedInstructorCourse) {
                         className="mt-0 md:mt-2 px-3 py-2 rounded-full bg-[#4E3629] text-white border border-[#4E3629] shadow-sm hover:opacity-95 transition text-xs font-semibold"
                       >
                         Gradebook
-                    </button>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => fetchQuizForEdit(Number(it.id))}
+                        className="mt-0 md:mt-2 px-3 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-xs font-semibold"
+                      >
+                        Edit
+                      </button>
                     </div>
                   </div>
                 ))

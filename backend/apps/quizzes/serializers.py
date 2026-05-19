@@ -133,6 +133,53 @@ class QuizSerializer(serializers.ModelSerializer):
         quiz.calculate_total_points()
         return quiz
 
+    def update(self, instance, validated_data):
+        problems_data = validated_data.pop("problems", None)
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+
+        if problems_data is not None:
+            old_problem_ids = list(
+                instance.quiz_problems.values_list("problem_id", flat=True)
+            )
+            instance.quiz_problems.all().delete()
+            from ..problems.models import Problem, ProblemPart
+            Problem.objects.filter(id__in=old_problem_ids).delete()
+
+            for item in problems_data:
+                figure = item.get("figure", "")
+                problem = Problem.objects.create(
+                    title=item["title"],
+                    question_text=item["question_text"],
+                    question_latex=item.get("question_latex", ""),
+                    author=instance.created_by,
+                    supplementary_files=[figure] if figure else [],
+                )
+                for index, part in enumerate(item.get("parts", [])):
+                    ProblemPart.objects.create(
+                        problem=problem,
+                        part_number=part.get("part_number", index + 1) or index + 1,
+                        part_text=part.get("part_text", ""),
+                        expected_answer=part.get("expected_answer", ""),
+                        points=part.get("points", 1),
+                        allow_partial_credit=part.get("allow_partial_credit", True),
+                        answer_format=part.get("answer_format", "mathematical_expression"),
+                    )
+                QuizProblem.objects.create(
+                    quiz=instance,
+                    problem=problem,
+                    problem_order=item["problem_order"],
+                    points=item.get("points", 1.0),
+                    custom_instructions=item.get("custom_instructions", ""),
+                    time_limit_override=item.get("time_limit_override"),
+                    parameter_overrides=item.get("parameter_overrides", {}),
+                )
+            instance.calculate_total_points()
+
+        return instance
+
 class QuizProblemSerializer(serializers.ModelSerializer):
     """Serializer for QuizProblem"""
     question_text = serializers.SerializerMethodField()
