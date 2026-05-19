@@ -22,7 +22,14 @@ SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-change-this-in-production-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
+RAILWAY_PUBLIC_DOMAIN = os.getenv("RAILWAY_PUBLIC_DOMAIN", "")
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
+    if host.strip()
+]
+if RAILWAY_PUBLIC_DOMAIN:
+    ALLOWED_HOSTS.append(RAILWAY_PUBLIC_DOMAIN)
 
 # Application definition
 DJANGO_APPS = [
@@ -127,14 +134,24 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # CORS settings for React frontend
+FRONTEND_URL = os.getenv("FRONTEND_URL", "").rstrip("/")
+FRONTEND_URLS = [
+    origin.strip().rstrip("/")
+    for origin in os.getenv("FRONTEND_URLS", "").split(",")
+    if origin.strip()
+]
+FRONTEND_ORIGINS = [origin for origin in [FRONTEND_URL, *FRONTEND_URLS] if origin]
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    *FRONTEND_ORIGINS,
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    *FRONTEND_ORIGINS,
 ]
 
 CORS_ALLOW_HEADERS = list(default_headers) + [

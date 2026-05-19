@@ -1,0 +1,28 @@
+{
+  "$schema": "https://schema.railpack.com",
+  "provider": "python",
+  "packages": {
+    "python": "3.14"
+  },
+  "steps": {
+    "install": {
+      "commands": [
+        "pip install --no-cache-dir -r requirements.txt"
+      ]
+    },
+    "build": {
+      "inputs": [
+        {
+          "step": "install"
+        }
+      ],
+      "commands": [
+        "mkdir -p data logs static staticfiles",
+        "python manage.py collectstatic --noinput"
+      ]
+    }
+  },
+  "deploy": {
+    "startCommand": "./start.sh"
+  }
+}
