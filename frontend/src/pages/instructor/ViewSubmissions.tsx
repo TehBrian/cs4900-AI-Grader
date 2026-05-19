@@ -59,18 +59,9 @@ export default function ViewSubmissions() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900">
-      <header className="sticky top-0 z-10 bg-gray-50/90 backdrop-blur border-b">
-        <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-full bg-[#4E3629] flex items-center justify-center text-[#FFC72C] font-black">
-              W
-            </div>
-            <div className="leading-tight">
-              <div className="font-extrabold tracking-tight">Portal</div>
-              <div className="text-xs text-gray-500 -mt-0.5">Western Michigan University</div>
-            </div>
-          </div>
+    <div>
+      <main className="max-w-5xl mx-auto px-4 py-10">
+        <div className="mb-6">
           <button
             type="button"
             onClick={() => navigate(`/instructor/course/${courseId}`)}
@@ -79,9 +70,6 @@ export default function ViewSubmissions() {
             ← Back to {course?.course_code ?? "Course"}
           </button>
         </div>
-      </header>
-
-      <main className="max-w-5xl mx-auto px-4 py-10">
         <div className="rounded-2xl bg-white border shadow-sm p-6 mb-6">
           <div className="flex items-center justify-between mb-4">
             <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight">Student Submissions</h1>
