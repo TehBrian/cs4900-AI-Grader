@@ -7,7 +7,7 @@ services:
       - ALLOWED_HOSTS=localhost,127.0.0.1,backend
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
     volumes:
-      - sqlite-data:/app
+      - sqlite-data:/app/data
     networks:
       - app-network
 
