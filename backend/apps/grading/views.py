@@ -16,12 +16,7 @@ from apps.users.models import CustomUser
 from .engines import GradingCoordinator
 from .serializers import SubmissionSerializer, GradingResultSerializer
 
-#Import class for grading submission
-import asyncio, sys 
-from pathlib import Path
-root_path = Path(__file__).resolve().parents[3] 
-sys.path.append(str(root_path))
-from mcp_logic.submission_test import QuizGraderClient
+from .services.anthropic_grader import grade_submission
 
 
 
@@ -86,39 +81,19 @@ class GradingViewSet(viewsets.ViewSet):
             return Response(
                 {"error": "Student not found"}, status=status.HTTP_404_NOT_FOUND
             )
-        grader = QuizGraderClient()
-        results = asyncio.run(grader.run_grading_workflow(student_id=student_id))
-        #results_json, summary = asyncio.run(grader.run_grading_workflow(student_id=student_id))
+        results_json, summary = grade_submission(submission)
 
+        GradingResult.objects.create(
+            submission=submission,
+            ai_result=summary,
+        )
 
-        # # set grading [status, started_at] fields
-        # submission.start_grading()
-
-        # # Grade the submission
-        # #   May need to process json before passing to func
-        # grading_result = self.grading_coordinator.grade(content)
-
-        # # Update submission with results
-        # submission.complete_grading(
-        #     is_correct=grading_result["correct"], score=grading_result["score"]
-        # )
-        # submission.grading_method = grading_result.get("method", "unknown")
-        # submission.save(update_fields=["grading_method"])
-
-        # # Create grading result
-        # GradingResult.objects.create(
-        #     submission=submission,
-        #     feedback_message=grading_result.get("feedback", ""),
-        #     processing_time=0.1,  # Placeholder
-        #     cas_result=grading_result.get("details", {}),
-        # )
-
-        # Return result
         return Response(
             {
                 "submission_datetime": str(submission.submitted_at),
                 "attempt_number": attempt_number,
-                "results": results,
+                "results": results_json,
+                "summary": summary,
             }
         )
 
