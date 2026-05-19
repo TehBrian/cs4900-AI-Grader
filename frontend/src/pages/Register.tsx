@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { publicClient } from "../api/client";
+import { formatApiError, publicClient } from "../api/client";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ export default function Register() {
         form.reset();
         navigate("/login", { replace: true, state: { registered: true } });
       } else {
-        setError(Object.values(error as Record<string, unknown>).join("\n"));
+        setError(formatApiError(error, "Failed to register."));
       }
     } catch {
       setError("Failed to connect.");

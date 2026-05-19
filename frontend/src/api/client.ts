@@ -4,6 +4,25 @@ import type { paths } from "./schema";
 const BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 const API_REQUEST_TIMEOUT_MS = 15000;
 
+export function formatApiError(error: unknown, fallback = "Request failed."): string {
+  if (!error) return fallback;
+  if (typeof error === "string") {
+    return error.trim().startsWith("<") ? fallback : error;
+  }
+  if (Array.isArray(error)) {
+    return error.map((item) => formatApiError(item, "")).filter(Boolean).join("\n") || fallback;
+  }
+  if (typeof error === "object") {
+    return (
+      Object.values(error)
+        .map((value) => formatApiError(value, ""))
+        .filter(Boolean)
+        .join("\n") || fallback
+    );
+  }
+  return String(error);
+}
+
 async function fetchWithTimeout(request: Request): Promise<Response> {
   const controller = new AbortController();
   const timeoutId = window.setTimeout(() => controller.abort(), API_REQUEST_TIMEOUT_MS);

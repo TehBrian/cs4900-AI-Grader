@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { formatApiError } from "../../api/client";
 import PageShell from "../../components/PageShell";
 import { useApi } from "../../api/useApi";
 import { useAuth } from "../../context/AuthContext";
@@ -35,7 +36,7 @@ export default function CreateCourse() {
         await fetchCourses(loginresult!.tokens.access, session!.role);
         navigate("/", { replace: true });
       } else {
-        setError(Object.values(apiError as Record<string, unknown>).join("\n"));
+        setError(formatApiError(apiError, "Failed to create course."));
       }
     } catch {
       setError("Failed to connect.");

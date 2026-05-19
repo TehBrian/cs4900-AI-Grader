@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { formatApiError } from "../../api/client";
 import PageShell from "../../components/PageShell";
 import QuizFormFields from "../../components/QuizFormFields";
 import { useApi } from "../../api/useApi";
@@ -79,7 +80,7 @@ export default function CreateQuiz() {
       if (!apiError) {
         navigate(`/instructor/course/${courseId}`, { replace: true });
       } else {
-        setError(Object.values(apiError as Record<string, unknown>).join("\n") || "Failed to create quiz.");
+        setError(formatApiError(apiError, "Failed to create quiz."));
       }
     } catch {
       setError("Failed to connect.");
