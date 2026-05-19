@@ -63,7 +63,7 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
 
   const textRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const caretRanges = useRef<Record<string, Range>>({});
-  const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const saveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
 
 
