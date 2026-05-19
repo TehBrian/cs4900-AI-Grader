@@ -27,7 +27,7 @@ ANTHROPIC_API_KEY=...
 ### 2. Build and start
 
 ```sh
-docker compose up --build
+docker compose up -d --build
 ```
 
 ### 3. Run migrations (first time only)
