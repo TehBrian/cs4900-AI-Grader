@@ -61,6 +61,34 @@ python manage.py runserver
 
 ---
 
+## Developer Notes
+
+### API Type Safety
+
+Frontend TypeScript types are auto-generated from the Django REST Framework OpenAPI schema. The pipeline is:
+
+1. `drf-spectacular` introspects the Django serializers and `@extend_schema` decorators to produce `backend/schema.yaml`
+2. `openapi-typescript` converts `schema.yaml` into `frontend/src/api/schema.d.ts`
+3. `openapi-fetch` provides a typed `fetch` client — every path, query param, request body, and response is checked at compile time
+
+**When you change a serializer or add/remove an API endpoint, regenerate the types:**
+
+```sh
+cd frontend
+npm run sync-types   # runs generate-schema then generate-types
+```
+
+If a field is renamed or removed, TypeScript will immediately flag every place in the UI that references it.
+
+**Adding a new endpoint:**
+
+- For standard ModelViewSet CRUD actions, no extra annotation is needed — `drf-spectacular` detects the serializer automatically.
+- For custom `@action` endpoints, add an `@extend_schema` decorator in the view specifying `request=` and `responses=` so the schema is accurate. See the existing examples in `apps/users/views.py` and `apps/grading/views.py`.
+
+**Interactive API docs** are available at <http://localhost:8000/api/docs/> when the backend is running.
+
+---
+
 ## Architecture
 
 ```text
