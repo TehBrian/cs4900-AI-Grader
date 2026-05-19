@@ -63,10 +63,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     if (!response.ok) throw new Error("Failed to fetch courses");
 
+    const courses: Course[] = Array.isArray(data) ? data : (data.results ?? []);
+
     if (role === "student") {
-      setStudentCourses(data);
+      setStudentCourses(courses);
     } else {
-      setInstructorCourses(data);
+      setInstructorCourses(courses);
     }
   }
 
