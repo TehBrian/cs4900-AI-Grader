@@ -38,7 +38,6 @@ export default function RootLayout() {
           <nav className="flex items-center gap-2">
             {session ? navBtn("Home", "/") : null}
             {navBtn("About", "/about")}
-            {navBtn("Contact", "/contact")}
 
             {session ? (
               <button

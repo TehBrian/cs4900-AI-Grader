@@ -2,7 +2,6 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import RequireAuth from "./components/RequireAuth";
 import RootLayout from "./layouts/RootLayout";
 import About from "./pages/About";
-import Contact from "./pages/Contact";
 import ForgotPassword from "./pages/ForgotPassword";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -26,7 +25,7 @@ export default function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
+        <Route path="/contact" element={<Navigate to="/about" replace />} />
 
         <Route element={<RequireAuth />}>
           <Route path="/" element={<Home />} />
