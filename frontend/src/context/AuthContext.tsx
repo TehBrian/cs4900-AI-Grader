@@ -17,6 +17,7 @@ type AuthContextValue = {
 };
 
 const AuthContext = createContext<AuthContextValue | null>(null);
+const SESSION_RESTORE_TIMEOUT_MS = 5000;
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
@@ -27,11 +28,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [instructorCourses, setInstructorCourses] = useState<Course[]>([]);
 
   useEffect(() => {
+    let isMounted = true;
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), SESSION_RESTORE_TIMEOUT_MS);
+
     async function restoreSession() {
       try {
         const res = await fetch(
           `${import.meta.env.VITE_API_BASE_URL || ""}/api/users/auth/refresh/`,
-          { method: "POST", credentials: "include" }
+          { method: "POST", credentials: "include", signal: controller.signal }
         );
         if (res.ok) {
           const data = await res.json();
@@ -46,10 +51,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       } catch {
         // network error — leave state null, user will see login page
       } finally {
-        setIsInitializing(false);
+        window.clearTimeout(timeoutId);
+        if (isMounted) {
+          setIsInitializing(false);
+        }
       }
     }
     restoreSession();
+
+    return () => {
+      isMounted = false;
+      window.clearTimeout(timeoutId);
+      controller.abort();
+    };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   async function fetchCourses(accessToken: string, role: Role) {
