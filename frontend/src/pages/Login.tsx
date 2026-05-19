@@ -31,14 +31,8 @@ export default function Login() {
   return (
     <main className="max-w-5xl mx-auto px-4 py-10">
       <div className="max-w-md mx-auto rounded-3xl bg-white border shadow-sm p-6 md:p-7">
-        <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-extrabold tracking-tight">Login</h1>
-          <div className="h-10 w-10 rounded-2xl bg-[#FFC72C] flex items-center justify-center font-black text-[#4E3629]">
-            ✓
-          </div>
-        </div>
-
-        <div className="mt-5 flex gap-2">
+        <h1 className="text-2xl font-extrabold tracking-tight mb-5">Login</h1>
+        <div className="flex gap-2">
           <button
             type="button"
             onClick={() => setRole("student")}

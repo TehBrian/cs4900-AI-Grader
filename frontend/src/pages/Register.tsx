@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import PageShell from "../components/PageShell";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -44,9 +43,10 @@ export default function Register() {
   }
 
   return (
-    <PageShell title="Registration">
+    <main className="max-w-5xl mx-auto px-4 py-10">
       <div className="w-full">
         <div className="rounded-3xl bg-white border shadow-sm p-6 md:p-8 w-full">
+          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-6">Registration</h1>
           <form method="post" onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
@@ -135,6 +135,6 @@ export default function Register() {
           </form>
         </div>
       </div>
-    </PageShell>
+    </main>
   );
 }
