@@ -7,38 +7,79 @@ A two-service web app for delivering and AI-grading symbolic math quizzes, built
 
 ---
 
-## Running with Docker (recommended)
+## Deploying to Railway
 
-### 1. Create your `.env` file
+This repo is deployed as an isolated Railway monorepo:
+
+- `frontend`: public service. Vite builds the React app, nginx serves static files, and nginx proxies `/api/` to the backend.
+- `backend`: private Django/Gunicorn API service.
+- `Postgres`: managed Railway database.
+
+Browser requests should all use the frontend domain. Do not expose the backend publicly unless you have a separate reason to.
+
+### 1. Create Railway services
+
+Create three services in one Railway project:
+
+- `backend`
+- `frontend`
+- `Postgres`
+
+For the two app services, connect this GitHub repo and set:
+
+| Service | Root Directory | Config File |
+| --- | --- | --- |
+| `backend` | `/backend` | `/backend/railway.toml` |
+| `frontend` | `/frontend` | `/frontend/railway.toml` |
+
+### 2. Set variables
+
+Backend variables:
+
+```env
+PORT=8000
+DEBUG=False
+SECRET_KEY=<generated secret>
+ANTHROPIC_API_KEY=<key>
+DATABASE_URL=${{Postgres.DATABASE_URL}}
+FRONTEND_URL=https://${{frontend.RAILWAY_PUBLIC_DOMAIN}}
+ALLOWED_HOSTS=${{frontend.RAILWAY_PUBLIC_DOMAIN}},${{backend.RAILWAY_PRIVATE_DOMAIN}},healthcheck.railway.app
+```
+
+Frontend variables:
+
+```env
+BACKEND_URL=http://${{backend.RAILWAY_PRIVATE_DOMAIN}}:${{backend.PORT}}
+```
+
+Do not set `VITE_API_BASE_URL` in Railway. The frontend intentionally calls `/api/...` on the same origin, and nginx forwards those requests to the private backend.
+
+### 3. Deploy and verify
+
+1. Generate a Railway public domain for `frontend` only.
+2. Deploy `backend`, then deploy `frontend`.
+3. Open `https://<frontend-domain>/health` and confirm it returns `ok`.
+4. Open `https://<frontend-domain>/api/schema/` and confirm the API schema loads through the frontend proxy.
+5. Test register/login and refresh-backed navigation.
+
+`docker-compose.yml` is not used for Railway deployment.
+
+---
+
+## Running locally
+
+Create your local env file:
 
 ```sh
 cp .env.example .env
 ```
 
-Fill in your keys:
+Fill in at least:
 
 ```env
 SECRET_KEY=your-django-secret-key
 ANTHROPIC_API_KEY=...
 ```
-
-### 2. Build and start
-
-```sh
-docker compose up -d --build
-```
-
-### 3. Run migrations (first time only)
-
-```sh
-docker compose exec backend python manage.py migrate
-```
-
-The app is now available at <http://localhost:3000>.
-
----
-
-## Running locally (without Docker)
 
 Open a terminal in each directory and run the listed commands.
 
@@ -55,9 +96,12 @@ npm start
 ```sh
 cd backend
 source .venv/bin/activate
+mkdir -p data
 python manage.py migrate   # first time only
 python manage.py runserver
 ```
+
+The Vite dev server proxies `/api` to <http://localhost:8000>.
 
 ---
 
@@ -93,7 +137,8 @@ If a field is renamed or removed, TypeScript will immediately flag every place i
 
 ```text
 Browser
-  └─→ nginx :3000
-        ├─ /api/* → backend:8000 (Django, includes AI grading)
-        └─ /*     → React static files
+  └─→ Railway frontend domain
+        └─→ nginx
+              ├─ /api/* → backend private Railway service
+              └─ /*     → React static files
 ```
