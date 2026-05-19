@@ -1,6 +1,7 @@
+import os
 import requests
 
-BASE_URL = "http://127.0.0.1:8000/api" #placeholder url
+BASE_URL = os.environ.get("BACKEND_URL", "http://127.0.0.1:8000") + "/api"
 
 #potential functions. These will talk to Django to get information
 

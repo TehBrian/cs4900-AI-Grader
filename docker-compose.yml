@@ -1,0 +1,42 @@
+services:
+  backend:
+    build: ./backend
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - DEBUG=False
+      - ALLOWED_HOSTS=localhost,127.0.0.1,backend
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - sqlite-data:/app
+    networks:
+      - app-network
+
+  mcp_logic:
+    build: ./mcp_logic
+    environment:
+      - BACKEND_URL=http://backend:8000
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    ports:
+      - "4000:4000"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        REACT_APP_API_BASE_URL: ""
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+volumes:
+  sqlite-data:
+
+networks:
+  app-network:

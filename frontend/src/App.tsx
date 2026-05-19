@@ -422,7 +422,7 @@ async function createCourse(e: React.FormEvent) {
   const formObj= Object.fromEntries(formData.entries());
 
   try {
-    const response= await fetch("http://127.0.0.1:8000/api/courses/create_course/", {
+    const response= await fetch(`${process.env.REACT_APP_API_BASE_URL || ''}/api/courses/create_course/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -470,7 +470,7 @@ async function createQuiz(e: React.FormEvent) {
   }
 
   try {
-    const response= await fetch("http://127.0.0.1:8000/api/quizzes/", {
+    const response= await fetch(`${process.env.REACT_APP_API_BASE_URL || ''}/api/quizzes/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -549,7 +549,7 @@ async function registerUser(e: React.FormEvent) {
   const formObj= Object.fromEntries(formData.entries());
 
   try {
-    const response= await fetch("http://127.0.0.1:8000/api/users/auth/register/", {
+    const response= await fetch(`${process.env.REACT_APP_API_BASE_URL || ''}/api/users/auth/register/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -589,7 +589,7 @@ async function registerUser(e: React.FormEvent) {
   
   async function fetchCourses(accessToken: string, userRole: Role) {
     try {
-      const response= await fetch("http://127.0.0.1:8000/api/courses/", {
+      const response= await fetch(`${process.env.REACT_APP_API_BASE_URL || ''}/api/courses/`, {
         method: "GET",
         headers: {
          "Content-Type": "application/json",
@@ -617,7 +617,7 @@ async function registerUser(e: React.FormEvent) {
 
   async function fetchAvailableProblems(accessToken: string) {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/problems/", {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL || ''}/api/problems/`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -803,7 +803,7 @@ function removeProblemPart(problemIndex: number, partIndex: number) {
       console.log("fetchQuizzes called with courseID:", courseID);
       console.log("access token exists:", !!accessToken);
 
-      const response = await fetch(`http://127.0.0.1:8000/api/quizzes/?course=${courseID}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL || ''}/api/quizzes/?course=${courseID}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -848,7 +848,7 @@ function removeProblemPart(problemIndex: number, partIndex: number) {
     const formData= new FormData(form);
 
     try {
-      const response = await fetch("https://127.0.0.1:8000/api/grading/submit/", {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL || ''}/api/grading/submit/`, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
@@ -881,7 +881,7 @@ function removeProblemPart(problemIndex: number, partIndex: number) {
     setError(null);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/users/auth/login/", {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL || ''}/api/users/auth/login/`, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',

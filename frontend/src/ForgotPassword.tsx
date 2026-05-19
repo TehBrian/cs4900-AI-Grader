@@ -15,7 +15,7 @@ const ForgotPassword: React.FC = () => {
     setMessage('');
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/users/auth/forgot_password/', {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL || ''}/api/users/auth/forgot_password/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
@@ -42,7 +42,7 @@ const ForgotPassword: React.FC = () => {
     setMessage('');
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/users/auth/reset_password/', {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL || ''}/api/users/auth/reset_password/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user_id: userId, new_password: newPassword }),
