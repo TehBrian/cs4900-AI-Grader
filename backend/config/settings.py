@@ -31,6 +31,8 @@ if RAILWAY_PUBLIC_DOMAIN:
     ALLOWED_HOSTS.append(RAILWAY_PUBLIC_DOMAIN)
 if RAILWAY_PRIVATE_DOMAIN:
     ALLOWED_HOSTS.append(RAILWAY_PRIVATE_DOMAIN)
+ALLOWED_HOSTS.append("healthcheck.railway.app")
+ALLOWED_HOSTS = list(dict.fromkeys(ALLOWED_HOSTS))
 
 # Application definition
 DJANGO_APPS = [
