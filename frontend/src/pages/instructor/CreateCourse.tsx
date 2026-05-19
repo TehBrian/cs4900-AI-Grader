@@ -74,12 +74,18 @@ export default function CreateCourse() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="text-sm font-semibold text-gray-700">Term</label>
-                <input
+                <select
                   name="term"
                   required
-                  placeholder="spring"
-                  className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
-                />
+                  defaultValue=""
+                  className="mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C] cursor-pointer"
+                >
+                  <option value="" disabled>Select a term</option>
+                  <option value="fall">Fall</option>
+                  <option value="winter">Winter</option>
+                  <option value="spring">Spring</option>
+                  <option value="summer">Summer</option>
+                </select>
               </div>
             </div>
 
