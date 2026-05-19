@@ -2,7 +2,7 @@ export type Role = "student" | "instructor";
 
 export type Course = {
   id: number;
-  code: string;
+  course_code: string;
   title: string;
   semester: string;
   instructor_name: string;

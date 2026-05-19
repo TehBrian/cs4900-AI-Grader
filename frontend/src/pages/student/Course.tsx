@@ -71,7 +71,7 @@ export default function StudentCourse() {
         <div className="p-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-              <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight">{course.code}</h1>
+              <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight">{course.course_code}</h1>
               <div className="text-sm text-gray-600 mt-1">
                 Term: {course.semester} {course.instructor_name}
               </div>

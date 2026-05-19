@@ -76,7 +76,7 @@ export default function ViewSubmissions() {
             onClick={() => navigate(`/instructor/course/${courseId}`)}
             className="px-4 py-2 rounded-full bg-white border shadow-sm hover:shadow transition text-sm font-semibold"
           >
-            ← Back to {course?.code ?? "Course"}
+            ← Back to {course?.course_code ?? "Course"}
           </button>
         </div>
       </header>

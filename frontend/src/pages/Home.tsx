@@ -38,7 +38,7 @@ export default function Home() {
                   >
                     <div className="h-2 bg-[#FFC72C]" />
                     <div className="p-5">
-                      <div className="text-base font-bold">{course.code}</div>
+                      <div className="text-base font-bold">{course.course_code}</div>
                       <div className="text-md text-gray-700 mt-1 font-bold">{course.title}</div>
                       <div className="mt-3">
                         <span className="inline-flex items-center rounded-full border px-4 py-1.5 text-sm font-normal bg-gray-50 shadow-sm">
@@ -88,7 +88,7 @@ export default function Home() {
                   >
                     <div className="h-2 bg-[#FFC72C]" />
                     <div className="p-5">
-                      <div className="text-base font-bold">{course.code}</div>
+                      <div className="text-base font-bold">{course.course_code}</div>
                       <div className="text-md text-gray-700 mt-1 font-bold">{course.title}</div>
                       <div className="mt-3">
                         <span className="inline-flex items-center rounded-full border px-4 py-1.5 text-sm font-normal bg-gray-50 shadow-sm">

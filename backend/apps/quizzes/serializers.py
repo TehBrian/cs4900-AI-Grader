@@ -20,7 +20,11 @@ from ..problems.models import Problem, ProblemPart
 
 class CourseSerializer(serializers.ModelSerializer):
     """Serializer for Course"""
-    instructor_id= serializers.IntegerField()
+    instructor_id = serializers.IntegerField()
+    instructor_name = serializers.SerializerMethodField()
+
+    def get_instructor_name(self, obj):
+        return obj.instructor.get_full_name() or obj.instructor.username
 
     class Meta:
         model= Course
@@ -30,6 +34,7 @@ class CourseSerializer(serializers.ModelSerializer):
             "course_code",
             "semester",
             "instructor_id",
+            "instructor_name",
         ]
 
     def create(self, validated_data):
