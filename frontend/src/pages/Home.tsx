@@ -10,9 +10,12 @@ export default function Home() {
   if (!loginresult || !session) return null;
 
   return (
-    <PageShell title={isInstructor ? "Instructor Home" : "Student Home"}>
+    <PageShell>
       <div className="rounded-2xl bg-white border shadow-sm p-6">
-        <p className="text-gray-700">
+        <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight">
+          {isInstructor ? "Instructor Home" : "Student Home"}
+        </h1>
+        <p className="mt-3 text-gray-700">
           Signed in as <span className="font-semibold">{loginresult.user.username}</span>{" "}
           ({isInstructor ? "Instructor" : "Student"}).
         </p>
