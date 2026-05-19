@@ -2,21 +2,26 @@
 """
 API Views for Grading System
 """
+import html
+import re
+
 from rest_framework import viewsets, status, serializers as drf_serializers
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from django.utils import timezone
 from django.shortcuts import get_object_or_404
+from django.db import transaction
 from drf_spectacular.utils import extend_schema, inline_serializer
 
 from .models import Submission, GradingResult
-from apps.quizzes.models import Quiz
+from apps.quizzes.models import AnswerBox, AnswerSubmission, Quiz, QuizAttempt
 from apps.problems.models import Problem
 from apps.users.models import CustomUser
 from .engines import GradingCoordinator
 from .serializers import SubmissionSerializer, GradingResultSerializer
 
+from .services.answer_box_grader import grade_answer_box
 from .services.anthropic_grader import GradingServiceError, grade_submission
 
 
@@ -77,17 +82,152 @@ class GradingViewSet(viewsets.ViewSet):
         try:
             student = CustomUser.objects.get(id=student_id)
             quiz = Quiz.objects.get(id=quiz_id)
-                    # Count attempts
+        except CustomUser.DoesNotExist:
+            return Response(
+                {"error": "Student not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+        except Quiz.DoesNotExist:
+            return Response(
+                {"error": "Quiz not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        existing_attempts = QuizAttempt.objects.filter(student=student, quiz=quiz).count()
+        if existing_attempts >= quiz.max_attempts:
+            return Response(
+                {"error": f"Maximum attempts ({quiz.max_attempts}) reached"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        with transaction.atomic():
+            attempt = QuizAttempt.objects.create(
+                student=student,
+                quiz=quiz,
+                attempt_number=existing_attempts + 1,
+                status="grading",
+            )
+
+            submission = Submission.objects.create(
+                student_id=student,
+                quiz=quiz,
+                content=content,
+                student_answer=str(content),
+                raw_input=str(content),
+                attempt_number=attempt.attempt_number,
+                status="grading",
+                grading_started_at=timezone.now(),
+            )
+
+        answer_boxes = _get_or_create_answer_boxes_for_quiz(quiz)
+        box_results = []
+
+        for answer_box in answer_boxes:
+            student_answer = _extract_answer_for_box(content, answer_box)
+            result = grade_answer_box(answer_box, student_answer)
+            AnswerSubmission.objects.update_or_create(
+                attempt=attempt,
+                answer_box=answer_box,
+                defaults={
+                    "student_answer": student_answer,
+                    "is_correct": result["is_correct"],
+                    "ai_feedback": result["feedback"],
+                    "feedback": result["feedback"],
+                    "points_earned": result["points_earned"],
+                    "graded_at": timezone.now(),
+                    "grading_method": result["grading_method"],
+                    "confidence": result["confidence"],
+                    "needs_review": result["needs_review"],
+                    "grader_trace": result["grader_trace"],
+                    "raw_ai_response": result["raw_ai_response"],
+                },
+            )
+            box_results.append(result)
+
+        total_possible = sum(item["points_possible"] for item in box_results)
+        total_earned = sum(item["points_earned"] for item in box_results)
+        percentage = (total_earned / total_possible * 100) if total_possible else 0.0
+        needs_review = any(item["needs_review"] for item in box_results)
+
+        attempt.status = "completed" if not needs_review else "grading"
+        attempt.submitted_at = timezone.now()
+        attempt.raw_score = total_earned
+        attempt.percentage_score = percentage
+        attempt.is_passing = percentage >= quiz.passing_score
+        attempt.save(
+            update_fields=[
+                "status",
+                "submitted_at",
+                "raw_score",
+                "percentage_score",
+                "is_passing",
+            ]
+        )
+
+        submission.status = "manual_review" if needs_review else "completed"
+        submission.grading_completed_at = timezone.now()
+        submission.score = percentage
+        submission.is_correct = percentage >= 99.5
+        submission.grading_method = "cas_ai_fallback"
+        submission.save(
+            update_fields=[
+                "status",
+                "grading_completed_at",
+                "score",
+                "is_correct",
+                "grading_method",
+            ]
+        )
+
+        GradingResult.objects.create(
+            submission=submission,
+            ai_result="",
+            feedback_message="Per-answer-box grading completed.",
+            needs_review=needs_review,
+            cas_result={
+                "attempt_id": str(attempt.attempt_id),
+                "results": box_results,
+                "total_earned": total_earned,
+                "total_possible": total_possible,
+                "percentage": percentage,
+            },
+        )
+
+        return Response(
+            {
+                "submission_id": str(submission.submission_id),
+                "attempt_id": str(attempt.attempt_id),
+                "submission_datetime": str(submission.submitted_at),
+                "attempt_number": attempt.attempt_number,
+                "results": box_results,
+                "summary": {
+                    "total_earned": total_earned,
+                    "total_possible": total_possible,
+                    "percentage": percentage,
+                    "needs_review": needs_review,
+                    "status": submission.status,
+                },
+            }
+        )
+
+    def legacy_submit(self, request):
+        """Old whole-quiz Anthropic grading path kept for reference during migration."""
+        quiz_id = request.data.get("quiz_id")
+        student_id = request.data.get("student_id", 1)
+        content = request.data.get("content", {})
+
+        try:
+            student = CustomUser.objects.get(id=student_id)
+            quiz = Quiz.objects.get(id=quiz_id)
             attempt_number = (
                 Submission.objects.filter(student_id=student, quiz_id=quiz).count()
                 + 1
             )
 
-            # Create submission
             submission = Submission.objects.create(
                 student_id=student,
                 quiz=quiz,
                 content=content,
+                student_answer=str(content),
+                raw_input=str(content),
                 attempt_number=attempt_number,
                 status="grading",
             )
@@ -350,3 +490,79 @@ def grading_statistics(request):
             "completed": Submission.objects.filter(status="completed").count(),
         }
     )
+
+
+def _get_or_create_answer_boxes_for_quiz(quiz):
+    boxes = []
+    for quiz_problem in quiz.quiz_problems.select_related("problem").prefetch_related(
+        "answer_boxes", "problem__parts"
+    ):
+        existing = list(quiz_problem.answer_boxes.all())
+        if existing:
+            boxes.extend(existing)
+            continue
+
+        parts = list(quiz_problem.problem.parts.all().order_by("part_number"))
+        if parts:
+            for part in parts:
+                box, _created = AnswerBox.objects.get_or_create(
+                    quiz_problem=quiz_problem,
+                    box_number=part.part_number,
+                    defaults={
+                        "box_label": f"Part {part.part_number}",
+                        "placeholder_text": "Enter your answer",
+                        "expected_answer": part.expected_answer,
+                        "points": part.points,
+                        "grading_strategy": "auto",
+                    },
+                )
+                boxes.append(box)
+        else:
+            box, _created = AnswerBox.objects.get_or_create(
+                quiz_problem=quiz_problem,
+                box_number=1,
+                defaults={
+                    "box_label": "Answer",
+                    "placeholder_text": "Enter your answer",
+                    "expected_answer": quiz_problem.problem.solution_expression or "",
+                    "points": quiz_problem.points,
+                    "grading_strategy": "auto",
+                },
+            )
+            boxes.append(box)
+
+    return sorted(boxes, key=lambda item: (item.quiz_problem.problem_order, item.box_number))
+
+
+def _extract_answer_for_box(content, answer_box):
+    answer_box_id = str(answer_box.id)
+    quiz_problem_id = str(answer_box.quiz_problem_id)
+    problem_id = str(answer_box.quiz_problem.problem_id)
+    box_number = str(answer_box.box_number)
+
+    candidates = [
+        ("answer_boxes", answer_box_id),
+        ("answerBoxes", answer_box_id),
+        ("text", answer_box_id),
+        ("text", f"box_{answer_box_id}"),
+        ("text", f"{quiz_problem_id}_{answer_box_id}"),
+        ("text", f"{problem_id}_{answer_box_id}"),
+        ("text", f"{problem_id}_{box_number}"),
+        ("multiple", answer_box_id),
+        ("multiple", f"{problem_id}_{box_number}"),
+    ]
+
+    for section, key in candidates:
+        value = (content or {}).get(section, {}).get(key)
+        if value not in (None, ""):
+            return _clean_student_answer(value)
+
+    return ""
+
+
+def _clean_student_answer(value):
+    text = str(value)
+    text = re.sub(r"<br\s*/?>", "\n", text, flags=re.IGNORECASE)
+    text = re.sub(r"</div>\s*<div>", "\n", text, flags=re.IGNORECASE)
+    text = re.sub(r"<[^>]+>", "", text)
+    return html.unescape(text).strip()

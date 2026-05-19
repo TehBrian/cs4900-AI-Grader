@@ -14,7 +14,7 @@ export default function QuizFormFields({ form, onChange, error }: Props) {
   function setProblem(
     index: number,
     field: keyof QuizFormProblem,
-    value: string | number
+    value: string | number | boolean
   ) {
     onChange({
       ...form,
@@ -37,6 +37,10 @@ export default function QuizFormFields({ form, onChange, error }: Props) {
           points: 1,
           figure: "",
           figurePreview: "",
+          grading_strategy: "auto",
+          rubric: "",
+          case_sensitive: false,
+          approximation_tolerance: "",
           parts: [],
         },
       ],
@@ -61,6 +65,10 @@ export default function QuizFormFields({ form, onChange, error }: Props) {
                   text: "",
                   requires_response: true,
                   correct_answer: "",
+                  grading_strategy: "auto",
+                  rubric: "",
+                  case_sensitive: false,
+                  approximation_tolerance: "",
                 },
               ],
             }
@@ -83,8 +91,8 @@ export default function QuizFormFields({ form, onChange, error }: Props) {
   function setPart(
     problemIndex: number,
     partIndex: number,
-    field: "text" | "correct_answer",
-    value: string
+    field: keyof QuizFormPart,
+    value: string | boolean
   ) {
     onChange({
       ...form,
@@ -102,6 +110,16 @@ export default function QuizFormFields({ form, onChange, error }: Props) {
 
   const inputCls =
     "mt-1 w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]";
+
+  const strategyOptions = [
+    ["auto", "Auto"],
+    ["exact", "Exact"],
+    ["numeric", "Numeric"],
+    ["symbolic", "Symbolic"],
+    ["hybrid", "Hybrid"],
+    ["ai", "AI"],
+    ["manual", "Manual"],
+  ];
 
   return (
     <>
@@ -287,6 +305,46 @@ export default function QuizFormFields({ form, onChange, error }: Props) {
                   className="w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
                 />
 
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 rounded-2xl border bg-gray-50 p-4">
+                  <div>
+                    <label className="text-sm font-semibold text-gray-700">Grading strategy</label>
+                    <select
+                      value={problem.grading_strategy}
+                      onChange={(e) => setProblem(index, "grading_strategy", e.target.value)}
+                      className={inputCls}
+                    >
+                      {strategyOptions.map(([value, label]) => (
+                        <option key={value} value={value}>{label}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-sm font-semibold text-gray-700">Numeric tolerance</label>
+                    <input
+                      value={problem.approximation_tolerance}
+                      onChange={(e) => setProblem(index, "approximation_tolerance", e.target.value)}
+                      placeholder="0.01"
+                      className={inputCls}
+                    />
+                  </div>
+                  <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+                    <input
+                      type="checkbox"
+                      checked={problem.case_sensitive}
+                      onChange={(e) => setProblem(index, "case_sensitive", e.target.checked)}
+                      className="accent-[#4E3629]"
+                    />
+                    Case-sensitive exact match
+                  </label>
+                  <textarea
+                    value={problem.rubric}
+                    onChange={(e) => setProblem(index, "rubric", e.target.value)}
+                    placeholder="Rubric for AI, hybrid, or manual review"
+                    rows={3}
+                    className="md:col-span-2 w-full rounded-2xl border bg-white px-4 py-3 outline-none resize-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                  />
+                </div>
+
                 <div className="rounded-2xl border bg-gray-50 p-4 space-y-4">
                   <div className="flex items-center justify-between">
                     <h4 className="font-bold text-[#4E3629]">Problem Parts</h4>
@@ -322,6 +380,39 @@ export default function QuizFormFields({ form, onChange, error }: Props) {
                         value={part.correct_answer}
                         onChange={(e) => setPart(index, partIndex, "correct_answer", e.target.value)}
                         placeholder="Correct answer for this part"
+                        className="w-full rounded-2xl border bg-gray-50 px-4 py-3"
+                      />
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <select
+                          value={part.grading_strategy}
+                          onChange={(e) => setPart(index, partIndex, "grading_strategy", e.target.value)}
+                          className="w-full rounded-2xl border bg-gray-50 px-4 py-3"
+                        >
+                          {strategyOptions.map(([value, label]) => (
+                            <option key={value} value={value}>{label}</option>
+                          ))}
+                        </select>
+                        <input
+                          value={part.approximation_tolerance}
+                          onChange={(e) => setPart(index, partIndex, "approximation_tolerance", e.target.value)}
+                          placeholder="Numeric tolerance"
+                          className="w-full rounded-2xl border bg-gray-50 px-4 py-3"
+                        />
+                      </div>
+                      <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+                        <input
+                          type="checkbox"
+                          checked={part.case_sensitive}
+                          onChange={(e) => setPart(index, partIndex, "case_sensitive", e.target.checked)}
+                          className="accent-[#4E3629]"
+                        />
+                        Case-sensitive exact match
+                      </label>
+                      <textarea
+                        value={part.rubric}
+                        onChange={(e) => setPart(index, partIndex, "rubric", e.target.value)}
+                        placeholder="Rubric for AI, hybrid, or manual review"
+                        rows={2}
                         className="w-full rounded-2xl border bg-gray-50 px-4 py-3"
                       />
                     </div>

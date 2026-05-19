@@ -76,6 +76,15 @@ class QuizProblemCreateSerializer(serializers.Serializer):
     parameter_overrides = serializers.JSONField(required=False, default=dict)
     figure = serializers.CharField(required=False, allow_blank=True, default="")
     parts = serializers.ListField(required=False, default=list)
+    answer_boxes = serializers.ListField(required=False, default=list)
+    grading_strategy = serializers.ChoiceField(
+        choices=[choice[0] for choice in AnswerBox.GRADING_STRATEGIES],
+        required=False,
+        default="auto",
+    )
+    rubric = serializers.CharField(required=False, allow_blank=True, default="")
+    feedback_style = serializers.CharField(required=False, allow_blank=True, default="")
+    case_sensitive = serializers.BooleanField(required=False, default=False)
 
 class QuizSerializer(serializers.ModelSerializer):
     problems = QuizProblemCreateSerializer(many=True, write_only=True, required=False)
@@ -106,8 +115,10 @@ class QuizSerializer(serializers.ModelSerializer):
 
             problem = Problem.objects.create(
                 title=item["title"],
+                description=item.get("custom_instructions", ""),
                 question_text=item["question_text"],
                 question_latex=item.get("question_latex", ""),
+                solution_expression=item.get("correct_answer", ""),
                 author=quiz.created_by,
                 supplementary_files=[figure] if figure else [],
             )
@@ -122,10 +133,10 @@ class QuizSerializer(serializers.ModelSerializer):
                     expected_answer=part.get("expected_answer", ""),
                     points=part.get("points", 1),
                     allow_partial_credit=part.get("allow_partial_credit", True),
-                    answer_format=part.get("answer_format", "mathematical_expression"),
+                    answer_format=part.get("answer_format", "expression"),
                 )
 
-            QuizProblem.objects.create(
+            quiz_problem = QuizProblem.objects.create(
                 quiz=quiz,
                 problem=problem,
                 problem_order=item["problem_order"],
@@ -134,6 +145,7 @@ class QuizSerializer(serializers.ModelSerializer):
                 time_limit_override=item.get("time_limit_override"),
                 parameter_overrides=item.get("parameter_overrides", {}),
             )
+            _create_answer_boxes_for_quiz_problem(quiz_problem, item)
 
         quiz.calculate_total_points()
         return quiz
@@ -157,8 +169,10 @@ class QuizSerializer(serializers.ModelSerializer):
                 figure = item.get("figure", "")
                 problem = Problem.objects.create(
                     title=item["title"],
+                    description=item.get("custom_instructions", ""),
                     question_text=item["question_text"],
                     question_latex=item.get("question_latex", ""),
+                    solution_expression=item.get("correct_answer", ""),
                     author=instance.created_by,
                     supplementary_files=[figure] if figure else [],
                 )
@@ -170,9 +184,9 @@ class QuizSerializer(serializers.ModelSerializer):
                         expected_answer=part.get("expected_answer", ""),
                         points=part.get("points", 1),
                         allow_partial_credit=part.get("allow_partial_credit", True),
-                        answer_format=part.get("answer_format", "mathematical_expression"),
+                        answer_format=part.get("answer_format", "expression"),
                     )
-                QuizProblem.objects.create(
+                quiz_problem = QuizProblem.objects.create(
                     quiz=instance,
                     problem=problem,
                     problem_order=item["problem_order"],
@@ -181,6 +195,7 @@ class QuizSerializer(serializers.ModelSerializer):
                     time_limit_override=item.get("time_limit_override"),
                     parameter_overrides=item.get("parameter_overrides", {}),
                 )
+                _create_answer_boxes_for_quiz_problem(quiz_problem, item)
             instance.calculate_total_points()
 
         return instance
@@ -261,6 +276,10 @@ class AnswerBoxSerializer(serializers.ModelSerializer):
             'allow_approximation',
             'approximation_tolerance',
             'points',
+            'grading_strategy',
+            'rubric',
+            'feedback_style',
+            'case_sensitive',
             'answer_template',  # NEW
             'is_readonly',      # NEW
         ]
@@ -275,6 +294,12 @@ class AnswerSubmissionSerializer(serializers.ModelSerializer):
             'student_answer',
             'is_correct',
             'ai_feedback',
+            'feedback',
+            'grading_method',
+            'confidence',
+            'needs_review',
+            'grader_trace',
+            'raw_ai_response',
             'points_earned',
             'graded_at',
             'submitted_at',
@@ -325,4 +350,55 @@ class QuizProblemDetailSerializer(serializers.ModelSerializer):
             }
             for part in obj.problem.parts.all().order_by("part_number")
         ]
+
+
+def _create_answer_boxes_for_quiz_problem(quiz_problem, item):
+    answer_boxes = item.get("answer_boxes") or []
+    if answer_boxes:
+        for index, box in enumerate(answer_boxes):
+            AnswerBox.objects.create(
+                quiz_problem=quiz_problem,
+                box_number=box.get("box_number", index + 1) or index + 1,
+                box_label=box.get("box_label", ""),
+                placeholder_text=box.get("placeholder_text", "Enter your answer"),
+                expected_answer=box.get("expected_answer", ""),
+                allow_approximation=box.get("allow_approximation", False),
+                approximation_tolerance=box.get("approximation_tolerance"),
+                points=box.get("points", item.get("points", 1.0)),
+                grading_strategy=box.get("grading_strategy", "auto"),
+                rubric=box.get("rubric", ""),
+                feedback_style=box.get("feedback_style", ""),
+                case_sensitive=box.get("case_sensitive", False),
+            )
+        return
+
+    parts = item.get("parts") or []
+    if parts:
+        for index, part in enumerate(parts):
+            AnswerBox.objects.create(
+                quiz_problem=quiz_problem,
+                box_number=part.get("part_number", index + 1) or index + 1,
+                box_label=f"Part {part.get('part_number', index + 1) or index + 1}",
+                placeholder_text="Enter your answer",
+                expected_answer=part.get("expected_answer", ""),
+                points=part.get("points", 1),
+                grading_strategy=part.get("grading_strategy", item.get("grading_strategy", "auto")),
+                rubric=part.get("rubric", item.get("rubric", "")),
+                feedback_style=part.get("feedback_style", item.get("feedback_style", "")),
+                case_sensitive=part.get("case_sensitive", item.get("case_sensitive", False)),
+            )
+        return
+
+    AnswerBox.objects.create(
+        quiz_problem=quiz_problem,
+        box_number=1,
+        box_label="Answer",
+        placeholder_text="Enter your answer",
+        expected_answer=item.get("correct_answer", ""),
+        points=item.get("points", 1.0),
+        grading_strategy=item.get("grading_strategy", "auto"),
+        rubric=item.get("rubric", ""),
+        feedback_style=item.get("feedback_style", ""),
+        case_sensitive=item.get("case_sensitive", False),
+    )
         

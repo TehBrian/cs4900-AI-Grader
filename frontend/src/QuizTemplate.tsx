@@ -35,6 +35,17 @@ interface Question {
     allow_partial_credit: boolean;
     answer_format: string;
   }[];
+  answer_boxes?: {
+    id: number;
+    box_number: number;
+    box_label: string;
+    placeholder_text: string;
+    expected_answer: string;
+    points: number;
+    grading_strategy: string;
+    answer_template?: string;
+    is_readonly?: boolean;
+  }[];
 }
 
 interface Quiz {
@@ -132,6 +143,7 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
           problem_title: p.problem_title,
           figure: p.figure || p.figure_url || undefined,
           parts: p.parts || [],
+          answer_boxes: p.answer_boxes || [],
         }));
         setQuestions(formattedQuestions);
       }
@@ -167,7 +179,11 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
         body: {
           quiz_id: quizId!,
           student_id: userId!,
-          content: { text: textAnswers, multiple: multipleAnswers } as any,
+          content: {
+            text: textAnswers,
+            answer_boxes: textAnswers,
+            multiple: multipleAnswers,
+          } as any,
         },
       });
 
@@ -176,7 +192,9 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
         return;
       }
 
-      if (data.results && Array.isArray((data.results as any[])[0])) {
+      if (data.results && Array.isArray(data.results as any[])) {
+        setAiResults(data.results as any[]);
+      } else if (data.results && Array.isArray((data.results as any[])[0])) {
         setAiResults((data.results as any[])[0]);
       } else {
         setAiResults([]);
@@ -201,6 +219,10 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
   const answeredCount = questions.filter((q) => {
     if (multipleAnswers[q.id]) return true;
     if (!isTextEmpty(textAnswers[String(q.id)])) return true;
+
+    if (q.answer_boxes && q.answer_boxes.length > 0) {
+      return q.answer_boxes.every((box) => !isTextEmpty(textAnswers[String(box.id)]));
+    }
 
     if (q.parts && q.parts.length > 0) {
       return q.parts.every((part) => {
@@ -337,6 +359,10 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
       return true;
     }
 
+    if (question?.answer_boxes && question.answer_boxes.length > 0) {
+      return question.answer_boxes.every((box) => !isTextEmpty(textAnswers[String(box.id)]));
+    }
+
     if (question?.parts && question.parts.length > 0) {
       return question.parts.every((part) => {
         const key = `${qid}_${part.id}`;
@@ -454,7 +480,48 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
                       </div>
                   )}
 
-                  {q.parts && q.parts.length > 0 && (
+                  {q.answer_boxes && q.answer_boxes.length > 0 && (
+                    <div className="mt-4 space-y-4">
+                      {q.answer_boxes.map((box) => (
+                        <div key={box.id} className="rounded-2xl border bg-gray-50 p-4">
+                          <p className="font-bold text-[#4E3629] mb-2">
+                            {box.box_label || `Box ${box.box_number}`}
+                          </p>
+
+                          <div className="mt-2 relative">
+                            <div
+                              ref={(el) => {
+                                const key = String(box.id);
+                                textRefs.current[key] = el;
+
+                                if (el && !el.innerHTML && textAnswers[key]) {
+                                  el.innerHTML = textAnswers[key];
+                                }
+                              }}
+                              contentEditable={!box.is_readonly}
+                              suppressContentEditableWarning
+                              onInput={() => handleInput(String(box.id))}
+                              onKeyUp={() => saveCaret(String(box.id))}
+                              onClick={() => saveCaret(String(box.id))}
+                              onKeyDown={(e) => handleKeyDown(e, String(box.id))}
+                              className="w-full min-h-[120px] max-h-[300px] overflow-y-auto border rounded-xl px-4 py-3 text-base bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4E3629] whitespace-pre-wrap"
+                            />
+
+                            <button
+                              type="button"
+                              onClick={() => openMathPopup(String(box.id))}
+                              className="absolute bottom-2 right-2 text-gray-500 hover:text-black text-lg"
+                              title="Insert Math (LaTeX)"
+                            >
+                              ∑
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {(!q.answer_boxes || q.answer_boxes.length === 0) && q.parts && q.parts.length > 0 && (
                     <div className="mt-4 space-y-4">
                       {q.parts.map((part) => (
                         <div key={part.id} className="rounded-2xl border bg-gray-50 p-4">
@@ -514,7 +581,7 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
                   </button>
                 ))}
 
-                {q.type === "text" && (!q.parts || q.parts.length === 0) && (
+                {q.type === "text" && (!q.answer_boxes || q.answer_boxes.length === 0) && (!q.parts || q.parts.length === 0) && (
                   <div className="mt-4 relative">
                     {/*
                     <input name={`question_${q.id}`}/>
@@ -589,7 +656,29 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
                   </div>
                 )}
 
-                {q.parts && q.parts.length > 0 ? (
+                {q.answer_boxes && q.answer_boxes.length > 0 ? (
+                  <div className="space-y-3">
+                    {q.answer_boxes.map((box) => {
+                      const key = String(box.id);
+                      const answer = textAnswers[key];
+
+                      return (
+                        <div key={box.id} className="rounded-xl border bg-gray-50 p-3">
+                          <p className="font-bold">{box.box_label || `Box ${box.box_number}`}</p>
+
+                          {answer && !isTextEmpty(answer) ? (
+                            <div
+                              className="text-gray-700 mt-2"
+                              dangerouslySetInnerHTML={{ __html: answer }}
+                            />
+                          ) : (
+                            <p className="text-red-500 italic mt-2">Not answered</p>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : q.parts && q.parts.length > 0 ? (
                   <div className="space-y-3">
                     {q.parts.map((part) => {
                       const key = `${q.id}_${part.id}`;
@@ -674,8 +763,8 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
                       Box {index + 1}
                     </p>
 
-                    {res.score !== undefined && (
-                      <p>Score: {res.earned_points}</p>
+                    {res.score_percent !== undefined && (
+                      <p>Score: {res.points_earned} / {res.points_possible}</p>
                     )}
 
                     <p className="text-gray-700 whitespace-pre-wrap">

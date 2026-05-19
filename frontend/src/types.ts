@@ -63,6 +63,10 @@ export type QuizFormPart = {
   text: string;
   requires_response: boolean;
   correct_answer: string;
+  grading_strategy: string;
+  rubric: string;
+  case_sensitive: boolean;
+  approximation_tolerance: string;
 };
 
 export type QuizFormProblem = {
@@ -73,6 +77,10 @@ export type QuizFormProblem = {
   points: number;
   figure: string;
   figurePreview: string;
+  grading_strategy: string;
+  rubric: string;
+  case_sensitive: boolean;
+  approximation_tolerance: string;
   parts: QuizFormPart[];
 };
 
