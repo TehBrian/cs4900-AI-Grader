@@ -91,6 +91,7 @@ Frontend service variables:
 
 Do not set `VITE_API_BASE_URL` in Railway. The frontend intentionally calls `/api/...` on the same origin, and nginx forwards those requests to the private backend.
 Keep `PORT=8000` as an explicit backend service variable because Railway reference variables do not expose the runtime-injected port automatically.
+When generating the public domain for the frontend service, use target port `8080`.
 
 ## Common Developer Commands
 
