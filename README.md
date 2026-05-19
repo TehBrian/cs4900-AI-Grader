@@ -1,16 +1,92 @@
-# React + Vite
+# AI Grader
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A three-service web app for delivering and AI-grading symbolic math quizzes, built for Western Michigan University CS 4900.
 
-Currently, two official plugins are available:
+- **frontend** — React + TypeScript + Tailwind (quiz delivery UI)
+- **backend** — Django REST Framework (data, users, grading logic)
+- **mcp_logic** — FastMCP server (AI grading via Anthropic Claude)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Running with Docker (recommended)
 
-The React Compiler is not enabled on this template. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 1. Create your `.env` file
 
-## Expanding the ESLint configuration
+```sh
+cp .env.example .env
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Fill in your keys:
+
+```env
+SECRET_KEY=your-django-secret-key
+OPENAI_API_KEY=...
+ANTHROPIC_API_KEY=...
+```
+
+### 2. Build and start
+
+```sh
+docker compose up --build
+```
+
+### 3. Run migrations (first time only)
+
+```sh
+docker compose exec backend python manage.py migrate
+```
+
+The app is now available at <http://localhost:3000>.
+
+The MCP server is available at <http://localhost:4000> for manual testing.
+
+---
+
+## Running locally (without Docker)
+
+Open a terminal in each directory and run the listed commands.
+
+### frontend
+
+```sh
+cd frontend
+npm install
+npm start
+```
+
+### backend
+
+```sh
+cd backend
+source .venv/bin/activate
+python manage.py migrate   # first time only
+python manage.py runserver
+```
+
+### mcp_logic
+
+```sh
+cd mcp_logic
+source .venv/bin/activate
+python server.py
+```
+
+To inspect the MCP server interactively:
+
+```sh
+npx -y @modelcontextprotocol/inspector <server address printed by server.py>
+```
+
+---
+
+## Architecture
+
+```text
+Browser
+  └─→ nginx :3000
+        ├─ /api/* → backend:8000 (Django)
+        └─ /*     → React static files
+
+mcp_logic :4000
+  └─→ backend:8000 (Django, internal)
+```
