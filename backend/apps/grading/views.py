@@ -17,7 +17,7 @@ from apps.users.models import CustomUser
 from .engines import GradingCoordinator
 from .serializers import SubmissionSerializer, GradingResultSerializer
 
-from .services.anthropic_grader import grade_submission
+from .services.anthropic_grader import GradingServiceError, grade_submission
 
 
 
@@ -95,12 +95,38 @@ class GradingViewSet(viewsets.ViewSet):
             return Response(
                 {"error": "Student not found"}, status=status.HTTP_404_NOT_FOUND
             )
-        results_json, summary = grade_submission(submission)
+        except Quiz.DoesNotExist:
+            return Response(
+                {"error": "Quiz not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+        try:
+            results_json, summary = grade_submission(submission)
+        except GradingServiceError as exc:
+            submission.status = "manual_review"
+            submission.grading_completed_at = timezone.now()
+            submission.save(update_fields=["status", "grading_completed_at"])
+            GradingResult.objects.create(
+                submission=submission,
+                ai_result=str(exc),
+                feedback_message="AI grading response could not be processed.",
+                needs_review=True,
+            )
+            return Response(
+                {
+                    "error": "AI grading response could not be processed.",
+                    "submission_id": str(submission.submission_id),
+                },
+                status=status.HTTP_502_BAD_GATEWAY,
+            )
 
         GradingResult.objects.create(
             submission=submission,
             ai_result=summary,
         )
+
+        submission.status = "completed"
+        submission.grading_completed_at = timezone.now()
+        submission.save(update_fields=["status", "grading_completed_at"])
 
         return Response(
             {

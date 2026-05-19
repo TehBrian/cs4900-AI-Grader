@@ -1,7 +1,15 @@
 import json
+import logging
 import os
+import re
 
 from anthropic import Anthropic
+
+logger = logging.getLogger(__name__)
+
+
+class GradingServiceError(Exception):
+    """Raised when AI grading cannot produce usable grading output."""
 
 
 def grade_submission(submission):
@@ -25,8 +33,8 @@ def grade_submission(submission):
         )
         return _parse_response(response.content[0].text)
     except Exception as e:
-        print(f"Anthropic grading error: {e}")
-        return {}, ""
+        logger.exception("Anthropic grading error")
+        raise GradingServiceError(str(e)) from e
 
 
 def _build_submission_struct(submission):
@@ -76,7 +84,8 @@ def _build_user_struct(user):
 def _build_prompt(submission_struct, quiz_struct, user_struct):
     return f"""Please grade the following quiz submission. \
 Solve the problems based on question_text and grade students answers.
-For each problem follow the following format and create a json:
+Return a JSON array first. Do not wrap it in markdown fences.
+For each problem use this format:
 
 quiz_number: number,
 student_answer: students answer,
@@ -97,12 +106,89 @@ include this at the end of your response on a new line:
 
 
 def _parse_response(text):
+    json_str, json_end = _extract_json_prefix(text)
+    results = _loads_json(json_str)
+    summary = text[json_end:].strip()
+    if summary.startswith("```"):
+        summary = summary[3:].lstrip()
+    return results, summary
+
+
+def _extract_json_prefix(text):
+    stripped = text.lstrip()
+    offset = len(text) - len(stripped)
+
+    fence_match = re.match(r"```(?:json)?\s*", stripped, re.IGNORECASE)
+    if fence_match:
+        offset += fence_match.end()
+        stripped = text[offset:]
+
+    starts = [pos for pos in (stripped.find("["), stripped.find("{")) if pos != -1]
+    if not starts:
+        raise GradingServiceError("AI response did not contain JSON")
+
+    start = min(starts)
+    absolute_start = offset + start
+    opening = text[absolute_start]
+    closing = "]" if opening == "[" else "}"
+    end = _find_balanced_json_end(text, absolute_start)
+
+    if end is None:
+        end = text.rfind(closing, absolute_start) + 1
+    if end <= absolute_start:
+        raise GradingServiceError("AI response JSON was incomplete")
+
+    return text[absolute_start:end].strip(), end
+
+
+def _find_balanced_json_end(text, start):
+    pairs = {"[": "]", "{": "}"}
+    stack = []
+    in_string = False
+    escaped = False
+
+    for index in range(start, len(text)):
+        char = text[index]
+
+        if in_string:
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == "\"":
+                in_string = False
+            continue
+
+        if char == "\"":
+            in_string = True
+        elif char in pairs:
+            stack.append(pairs[char])
+        elif stack and char == stack[-1]:
+            stack.pop()
+            if not stack:
+                return index + 1
+
+    return None
+
+
+def _loads_json(json_str):
     try:
-        json_end = text.rfind("]") + 1
-        json_str = text[7:json_end].strip()
-        results = json.loads(json_str)
-        summary = text[json_end:]
-        return results, summary
-    except Exception as e:
-        print(f"Error parsing AI response: {e}")
-        return {}, ""
+        return json.loads(json_str)
+    except json.JSONDecodeError as original_error:
+        repaired = _repair_common_json_issues(json_str)
+        if repaired != json_str:
+            try:
+                return json.loads(repaired)
+            except json.JSONDecodeError:
+                pass
+
+        raise GradingServiceError(
+            f"Could not parse AI response JSON: {original_error}"
+        ) from original_error
+
+
+def _repair_common_json_issues(json_str):
+    repaired = json_str.strip()
+    repaired = re.sub(r"(?<=[}\]\"0-9eE])\s*\n\s*(?=[{\"-])", ",\n", repaired)
+    repaired = re.sub(r",\s*([}\]])", r"\1", repaired)
+    return repaired
