@@ -48,7 +48,7 @@ const QuizTaking: React.FC<QuizTakingProps> = ({ quizId, onBack }) => {
   const fetchQuizDetails = async () => {
     try {
       // Fetch quiz details
-      const quizResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL || ''}/api/quizzes/${quizId}/`);
+      const quizResponse = await fetch(`${import.meta.env.VITE_API_BASE_URL || ''}/api/quizzes/${quizId}/`);
       if (quizResponse.ok) {
         const quizData = await quizResponse.json();
         setQuiz(quizData);
@@ -56,7 +56,7 @@ const QuizTaking: React.FC<QuizTakingProps> = ({ quizId, onBack }) => {
       }
 
       // Fetch quiz problems
-      const problemsResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL || ''}/api/quizzes/${quizId}/problems/`);
+      const problemsResponse = await fetch(`${import.meta.env.VITE_API_BASE_URL || ''}/api/quizzes/${quizId}/problems/`);
       if (problemsResponse.ok) {
         const problemsData = await problemsResponse.json();
         setProblems(problemsData);

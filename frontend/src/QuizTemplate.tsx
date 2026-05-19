@@ -114,7 +114,7 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
   const fetchQuizData = async () => {
     try {
       // Fetch quiz details
-      const quizResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL || ''}/api/quizzes/${quizId}/`);
+      const quizResponse = await fetch(`${import.meta.env.VITE_API_BASE_URL || ''}/api/quizzes/${quizId}/`);
       if (quizResponse.ok) {
         const quizData = await quizResponse.json();
         setQuiz(quizData);
@@ -122,7 +122,7 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
       }
 
       // Fetch quiz problems
-      const problemsResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL || ''}/api/quizzes/${quizId}/problems/`);
+      const problemsResponse = await fetch(`${import.meta.env.VITE_API_BASE_URL || ''}/api/quizzes/${quizId}/problems/`);
       if (problemsResponse.ok) {
         const problemsData = await problemsResponse.json();
         // Convert backend problems to Question format
@@ -166,7 +166,7 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
     await saveAnswers();
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL || ''}/api/grading/submit/`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || ''}/api/grading/submit/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

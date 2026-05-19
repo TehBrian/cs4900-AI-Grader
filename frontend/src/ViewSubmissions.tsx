@@ -72,7 +72,7 @@ export default function ViewSubmissions({
   useEffect(() => {
     setLoading(true);
 
-    fetch(`${process.env.REACT_APP_API_BASE_URL || ''}/api/grading/get_course_submissions/?course=${courseId}`)
+    fetch(`${import.meta.env.VITE_API_BASE_URL || ''}/api/grading/get_course_submissions/?course=${courseId}`)
       .then((r) => r.json())
       .then((data) => {
         setSubmissions(Array.isArray(data) ? data : []);
@@ -84,7 +84,7 @@ export default function ViewSubmissions({
         setLoading(false);
       });
 
-    fetch(`${process.env.REACT_APP_API_BASE_URL || ''}/api/quizzes/?course=${courseId}`)
+    fetch(`${import.meta.env.VITE_API_BASE_URL || ''}/api/quizzes/?course=${courseId}`)
       .then((r) => r.json())
       .then((data) => {
         const titles = Array.isArray(data) ? data.map((q: any) => q.title) : [];

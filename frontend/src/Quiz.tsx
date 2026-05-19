@@ -25,7 +25,7 @@ const QuizPage: React.FC = () => {
 
   const fetchQuizzes = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL || ''}/api/quizzes/`);
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || ''}/api/quizzes/`);
       if (response.ok) {
         const data = await response.json();
         setQuizzes(data);
