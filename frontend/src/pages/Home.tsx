@@ -45,7 +45,7 @@ export default function Home() {
                           {course.semester.charAt(0).toUpperCase() + course.semester.slice(1).toLowerCase()}
                         </span>
                       </div>
-                      <div className="mt-6 inline-flex items-center gap-2 text-sm font-normal text-[#4E3629]">
+                      <div className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#4E3629]">
                         Open course <span aria-hidden>→</span>
                       </div>
                     </div>
