@@ -90,7 +90,7 @@ export default function StudentCourse() {
           </div>
 
           <div className="mt-6 rounded-2xl border overflow-hidden">
-            <div className="grid grid-cols-1 md:grid-cols-12 bg-gray-50 text-xs font-bold text-gray-600">
+            <div className="grid grid-cols-1 md:grid-cols-12 bg-gray-50 text-xs font-bold text-gray-600 border-b">
               <div className="md:col-span-7 p-3 border-b md:border-b-0 md:border-r">Item</div>
               <div className="md:col-span-3 p-3 border-b md:border-b-0 md:border-r">Completion</div>
               <div className="md:col-span-2 p-3">Score</div>

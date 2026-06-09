@@ -120,7 +120,7 @@ export default function ViewSubmissions() {
                 </p>
               </div>
               <table className="w-full text-sm">
-                <thead className="bg-gray-50 text-xs font-bold text-gray-600 uppercase tracking-wide">
+                <thead className="bg-gray-50 text-xs font-bold text-gray-600 uppercase tracking-wide border-b">
                   <tr>
                     <th className="text-left p-4">Student</th>
                     <th className="text-left p-4">Attempt</th>
