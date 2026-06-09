@@ -212,20 +212,42 @@ class QuizViewSet(viewsets.ModelViewSet):
         ).order_by('-attempt_number')
         
         attempt_data = [{
+            'attempt_id': str(a.attempt_id),
             'attempt_number': a.attempt_number,
             'status': a.status,
             'started_at': a.started_at,
             'submitted_at': a.submitted_at,
             'score': a.raw_score,
-            'percentage': a.percentage_score
+            'percentage': a.percentage_score,
+            'session_data': a.session_data,
         } for a in attempts]
-        
+
         return Response({
             'attempts': attempt_data,
             'total_attempts': len(attempt_data),
             'max_attempts': quiz.max_attempts,
             'attempts_remaining': quiz.max_attempts - len(attempt_data)
         })
+
+    @action(detail=True, methods=["post"])
+    def save_draft(self, request, pk=None):
+        """Save in-progress answers without submitting"""
+        quiz = self.get_object()
+        attempt_id = request.data.get('attempt_id')
+        answers = request.data.get('answers', {})
+
+        try:
+            attempt = QuizAttempt.objects.get(
+                attempt_id=attempt_id, quiz=quiz, status='in_progress'
+            )
+            attempt.session_data = {'answers': answers}
+            attempt.save(update_fields=['session_data'])
+            return Response({'message': 'Draft saved'})
+        except QuizAttempt.DoesNotExist:
+            return Response(
+                {'error': 'In-progress attempt not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
     @action(detail=True, methods=["post"])
     def submit_attempt(self, request, pk=None):
         """Submit a quiz attempt"""

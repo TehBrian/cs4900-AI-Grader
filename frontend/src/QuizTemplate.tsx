@@ -61,6 +61,7 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
   const [textAnswers, setTextAnswers] = useState<Record<string, string>>({});
   const [activeMathId, setActiveMathId] = useState<string | null>(null);
   const [mathInput, setMathInput] = useState<string>("");
+  const [editingMathNode, setEditingMathNode] = useState<HTMLElement | null>(null);
   const [activeQuestion, setActiveQuestion] = useState<string | null>(null);
   
   // New states for timer and data
@@ -71,6 +72,7 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
   const [saving, setSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [aiResults, setAiResults] = useState<any[]>([]);
+  const [attemptId, setAttemptId] = useState<string | null>(null);
 
   const textRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const caretRanges = useRef<Record<string, Range>>({});
@@ -123,6 +125,7 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
   }, [multipleAnswers, textAnswers, page, loading]);
 
   const fetchQuizData = async () => {
+    const BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
     try {
       const [{ data: quizData }, { data: problemsData }] = await Promise.all([
         publicClient.GET("/api/quizzes/{id}/", { params: { path: { id: quizId! } } }),
@@ -131,7 +134,6 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
 
       if (quizData) {
         setQuiz(quizData as any);
-        setTimeRemaining((quizData as any).time_limit * 60);
       }
       if (problemsData) {
         const formattedQuestions: Question[] = (problemsData as unknown as any[]).map((p: any) => ({
@@ -147,6 +149,31 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
         }));
         setQuestions(formattedQuestions);
       }
+
+      const timeLimit = (quizData as any)?.time_limit ?? 0;
+
+      // Check for an existing in-progress attempt to restore state and prevent timer reset
+      const attemptsRes = await fetch(`${BASE_URL}/api/quizzes/${quizId}/my_attempts/`);
+      const attemptsData = await attemptsRes.json();
+      const inProgress = attemptsData.attempts?.find((a: any) => a.status === 'in_progress');
+
+      if (inProgress) {
+        setAttemptId(inProgress.attempt_id);
+        const saved = inProgress.session_data?.answers;
+        if (saved?.multipleAnswers) setMultipleAnswers(saved.multipleAnswers);
+        if (saved?.textAnswers) setTextAnswers(saved.textAnswers);
+        const elapsed = Math.floor((Date.now() - new Date(inProgress.started_at).getTime()) / 1000);
+        setTimeRemaining(Math.max(0, timeLimit * 60 - elapsed));
+      } else {
+        const startRes = await fetch(`${BASE_URL}/api/quizzes/${quizId}/start_attempt/`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({}),
+        });
+        const startData = await startRes.json();
+        setAttemptId(startData.attempt_id);
+        setTimeRemaining(timeLimit * 60);
+      }
     } catch (err) {
       console.error('Failed to load quiz:', err);
     } finally {
@@ -156,13 +183,16 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
 
   const saveAnswers = async () => {
     setSaving(true);
+    const BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
     try {
-      // Save to localStorage as backup
-      localStorage.setItem(`quiz_${quizId}_answers`, JSON.stringify({
-        multipleAnswers,
-        textAnswers,
-        timestamp: new Date().toISOString()
-      }));
+      await fetch(`${BASE_URL}/api/quizzes/${quizId}/save_draft/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          attempt_id: attemptId,
+          answers: { multipleAnswers, textAnswers },
+        }),
+      });
       setLastSaved(new Date());
     } catch (err) {
       console.error('Failed to save answers:', err);
@@ -288,6 +318,18 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
   const openMathPopup = (qid: string) => {
     setActiveMathId(qid);
     setMathInput("");
+    setEditingMathNode(null);
+  };
+
+  const handleEditorClick = (e: React.MouseEvent, qid: string) => {
+    const mathBlock = (e.target as HTMLElement).closest(".math-block") as HTMLElement | null;
+    if (mathBlock) {
+      setEditingMathNode(mathBlock);
+      setMathInput(mathBlock.dataset.latex || "");
+      setActiveMathId(qid);
+    } else {
+      saveCaret(qid);
+    }
   };
 
   const insertMathAtCaret = () => {
@@ -300,31 +342,37 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
     mathWrapper.contentEditable = "false";
     mathWrapper.style.display = "inline-block";
     mathWrapper.className = "math-block";
+    mathWrapper.dataset.latex = mathInput;
 
     mathWrapper.innerHTML = katex.renderToString(mathInput, {
       throwOnError: false,
     });
 
-    const spaceNode = document.createTextNode(" ");
-    const range = caretRanges.current[activeMathId];
-
-    if (range) {
-      range.deleteContents();
-      range.insertNode(spaceNode);
-      range.insertNode(mathWrapper);
-
-      const newRange = document.createRange();
-      newRange.setStartAfter(spaceNode);
-      newRange.collapse(true);
-
-      const sel = window.getSelection();
-      if (sel) {
-        sel.removeAllRanges();
-        sel.addRange(newRange);
-      }
+    if (editingMathNode) {
+      editingMathNode.replaceWith(mathWrapper);
+      setEditingMathNode(null);
     } else {
-      container.appendChild(mathWrapper);
-      container.appendChild(spaceNode);
+      const spaceNode = document.createTextNode(" ");
+      const range = caretRanges.current[activeMathId];
+
+      if (range) {
+        range.deleteContents();
+        range.insertNode(spaceNode);
+        range.insertNode(mathWrapper);
+
+        const newRange = document.createRange();
+        newRange.setStartAfter(spaceNode);
+        newRange.collapse(true);
+
+        const sel = window.getSelection();
+        if (sel) {
+          sel.removeAllRanges();
+          sel.addRange(newRange);
+        }
+      } else {
+        container.appendChild(mathWrapper);
+        container.appendChild(spaceNode);
+      }
     }
 
     handleInput(activeMathId);
@@ -498,7 +546,7 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
                               suppressContentEditableWarning
                               onInput={() => handleInput(String(box.id))}
                               onKeyUp={() => saveCaret(String(box.id))}
-                              onClick={() => saveCaret(String(box.id))}
+                              onClick={(e) => handleEditorClick(e, String(box.id))}
                               onKeyDown={(e) => handleKeyDown(e, String(box.id))}
                               className="w-full min-h-[120px] max-h-[300px] overflow-y-auto border rounded-xl px-4 py-3 text-base bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4E3629] whitespace-pre-wrap"
                             />
@@ -543,7 +591,7 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
                             suppressContentEditableWarning
                             onInput={() => handleInput(`${q.id}_${part.id}`)}
                             onKeyUp={() => saveCaret(`${q.id}_${part.id}`)}
-                            onClick={() => saveCaret(`${q.id}_${part.id}`)}
+                            onClick={(e) => handleEditorClick(e, `${q.id}_${part.id}`)}
                             onKeyDown={(e) => handleKeyDown(e, `${q.id}_${part.id}`)}
                             className="w-full min-h-[120px] max-h-[300px] overflow-y-auto border rounded-xl px-4 py-3 text-base bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4E3629] whitespace-pre-wrap"
                           />
@@ -590,7 +638,7 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
                       suppressContentEditableWarning
                       onInput={() => handleInput(String(q.id))}
                       onKeyUp={() => saveCaret(String(q.id))}
-                      onClick={() => saveCaret(String(q.id))}
+                      onClick={(e) => handleEditorClick(e, String(q.id))}
                       onKeyDown={(e) => handleKeyDown(e, String(q.id))}
                       className = "w-full min-h-[120px] max-h-[300px] overflow-y-auto border rounded-xl px-4 py-3 text-base bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4E3629] whitespace-pre-wrap"
                       // dangerouslySetInnerHTML={{ __html: textAnswers[q.id] || "" }} 
@@ -810,7 +858,7 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
 
             <div className="flex justify-end gap-2">
               <button
-                onClick={() => setActiveMathId(null)}
+                onClick={() => { setActiveMathId(null); setEditingMathNode(null); }}
                 className="px-4 py-2 border rounded-xl hover:bg-gray-50"
               >
                 Cancel
@@ -820,7 +868,7 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
                 onClick={insertMathAtCaret}
                 className="px-4 py-2 bg-[#4E3629] text-white rounded-xl hover:opacity-90"
               >
-                Insert
+                {editingMathNode ? "Update" : "Insert"}
               </button>
             </div>
           </div>
