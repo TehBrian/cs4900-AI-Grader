@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import PageShell from "../../components/PageShell";
+import CourseHeader from "../../components/CourseHeader";
 import { useAuth } from "../../context/AuthContext";
 import { DEMO_COURSE_ITEMS } from "../../types";
 import type { CourseItemType } from "../../types";
@@ -41,12 +42,9 @@ export default function StudentGrades() {
         <div className="h-2 bg-[#FFC72C]" />
 
         <div className="p-6">
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-4">{course.title || course.course_code || "Course"} Grades</h1>
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div className="text-sm text-gray-600">
-              {course.semester} {course.instructor_name}
-            </div>
-            <div className="flex items-center gap-2">
+          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
+            <CourseHeader course={course} />
+            <div className="flex items-center gap-2 shrink-0">
               <button
                 type="button"
                 onClick={() => navigate(`/course/${courseId}`)}

@@ -42,7 +42,7 @@ export default function Home() {
                       <div className="text-md text-gray-700 mt-1 font-bold">{course.title}</div>
                       <div className="mt-3">
                         <span className="inline-flex items-center rounded-full border px-4 py-1.5 text-sm font-normal bg-gray-50 shadow-sm">
-                          {course.semester}
+                          {course.semester.charAt(0).toUpperCase() + course.semester.slice(1).toLowerCase()}
                         </span>
                       </div>
                       <div className="mt-6 inline-flex items-center gap-2 text-sm font-normal text-[#4E3629]">
@@ -92,7 +92,7 @@ export default function Home() {
                       <div className="text-md text-gray-700 mt-1 font-bold">{course.title}</div>
                       <div className="mt-3">
                         <span className="inline-flex items-center rounded-full border px-4 py-1.5 text-sm font-normal bg-gray-50 shadow-sm">
-                          {course.semester}
+                          {course.semester.charAt(0).toUpperCase() + course.semester.slice(1).toLowerCase()}
                         </span>
                       </div>
                       <div className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#4E3629]">
