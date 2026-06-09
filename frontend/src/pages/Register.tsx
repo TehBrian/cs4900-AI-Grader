@@ -47,7 +47,7 @@ export default function Register() {
           <form method="post" onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="text-sm font-semibold text-gray-700">First Name</label>
+                <label className="text-sm font-semibold text-gray-700">First name</label>
                 <input
                   name="first_name"
                   required
@@ -56,7 +56,7 @@ export default function Register() {
                 />
               </div>
               <div>
-                <label className="text-sm font-semibold text-gray-700">Last Name</label>
+                <label className="text-sm font-semibold text-gray-700">Last name</label>
                 <input
                   name="last_name"
                   required

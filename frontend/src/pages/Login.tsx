@@ -102,7 +102,7 @@ export default function Login() {
               onClick={() => navigate("/forgot-password")}
               className="text-sm text-blue-600 hover:underline"
             >
-              Forgot Password?
+              Forgot password?
             </button>
           </div>
         </form>
