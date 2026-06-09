@@ -16,7 +16,7 @@ export default function Home() {
           {isInstructor ? "Instructor Home" : "Student Home"}
         </h1>
         <p className="mt-3 text-gray-700">
-          Signed in as <span className="font-semibold">{loginresult.user.username}</span>{" "}
+          Signed in as <span className="font-semibold">{[loginresult.user.first_name, loginresult.user.last_name].filter(Boolean).join(" ") || loginresult.user.username}</span>{" "}
           ({isInstructor ? "Instructor" : "Student"}).
         </p>
 
