@@ -83,12 +83,12 @@ def _build_user_struct(user):
 
 def _build_prompt(submission_struct, quiz_struct, user_struct):
     return f"""Please grade the following quiz submission. \
-Solve the problems based on question_text and grade students answers.
-Return a JSON array first. Do not wrap it in markdown fences.
-For each problem use this format:
+Solve the problems based on question_text and grade student answers.
+Return a JSON array first. Do not wrap it in Markdown fences.
+For each problem, use this format:
 
 quiz_number: number,
-student_answer: students answer,
+student_answer: student's answer,
 expected_answer: your answer,
 
 Student Submission:
@@ -100,7 +100,7 @@ Quiz Problems:
 User Info:
 {json.dumps(user_struct, indent=2)}
 
-include this at the end of your response on a new line:
+Include this at the end of your response on a new line:
 "quiz_title,win_number,earned_points,overall_feedback,"
 """
 
