@@ -375,7 +375,7 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="text-xl font-semibold">Loading quiz...</div>
         </div>
@@ -408,7 +408,7 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 flex justify-center px-4 py-12 font-serif">
+    <div className="min-h-screen flex justify-center px-4 py-12">
       {/* Question Navigation Sidebar */}
       <div className="hidden md:flex flex-col gap-3 fixed top-32 left-8 w-20">
         {questions.map((q, index) => (
@@ -437,7 +437,7 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
             onClick={onExit}
             className="text-sm font-semibold text-gray-600 hover:text-black"
           >
-            ← Exit Quiz
+            ← Exit quiz
           </button>
 
           <h1 className="text-2xl font-extrabold text-[#4E3629]">
@@ -454,20 +454,16 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
           </div>
         </div>
 
-        {/* Autosave indicator */}
-        {lastSaved && (
-          <div className="text-xs text-gray-500 text-right mb-4">
-            {saving ? 'Saving...' : `Last saved: ${lastSaved.toLocaleTimeString()}`}
-          </div>
-        )}
-
         {page === "quiz" && (
         <>
         <form onSubmit={handleQuizSubmission}>
-          <div className="space-y-10">
+          <div className="space-y-6">
             {questions.map((q) => (
-              <div key={q.id} id={`question-${q.id}`}>
-                  <p className="mb-2 text-lg whitespace-pre-wrap">
+              <div key={q.id} id={`question-${q.id}`} className="rounded-2xl border bg-gray-50 p-6">
+                  {q.problem_title && (
+                    <h2 className="text-base font-bold mb-2">{q.problem_title}</h2>
+                  )}
+                  <p className="mb-4 text-lg whitespace-pre-wrap">
                     {renderTextWithLatex(q.text)}
                     </p>
                     {q.figure && (
@@ -481,14 +477,14 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
                   )}
 
                   {q.answer_boxes && q.answer_boxes.length > 0 && (
-                    <div className="mt-4 space-y-4">
+                    <div className="space-y-4">
                       {q.answer_boxes.map((box) => (
-                        <div key={box.id} className="rounded-2xl border bg-gray-50 p-4">
-                          <p className="font-bold text-[#4E3629] mb-2">
+                        <div key={box.id}>
+                          <p className="font-bold mb-2">
                             {box.box_label || `Box ${box.box_number}`}
                           </p>
 
-                          <div className="mt-2 relative">
+                          <div className="relative">
                             <div
                               ref={(el) => {
                                 const key = String(box.id);
@@ -522,10 +518,10 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
                   )}
 
                   {(!q.answer_boxes || q.answer_boxes.length === 0) && q.parts && q.parts.length > 0 && (
-                    <div className="mt-4 space-y-4">
+                    <div className="space-y-4">
                       {q.parts.map((part) => (
-                        <div key={part.id} className="rounded-2xl border bg-gray-50 p-4">
-                          <p className="font-bold text-[#4E3629] mb-2">
+                        <div key={part.id}>
+                          <p className="font-bold mb-2">
                             Part {part.part_number}
                           </p>
 
@@ -582,7 +578,7 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
                 ))}
 
                 {q.type === "text" && (!q.answer_boxes || q.answer_boxes.length === 0) && (!q.parts || q.parts.length === 0) && (
-                  <div className="mt-4 relative">
+                  <div className="relative">
                     {/*
                     <input name={`question_${q.id}`}/>
                     */}
@@ -615,15 +611,22 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
             ))}
           </div>
 
-          <div className="mt-10 flex gap-4">
-              <button
-                type="button"
-                onClick={() => saveAnswers()}
-                disabled={saving}
-                className="flex-1 rounded-2xl border border-[#4E3629] text-[#4E3629] py-3 font-bold hover:bg-gray-50 disabled:opacity-50"
-              >
-                {saving ? 'Saving...' : 'Save Progress'}
-              </button>
+          <div className="mt-10 flex gap-4 items-start">
+              <div className="flex-1 flex flex-col gap-1">
+                <button
+                  type="button"
+                  onClick={() => saveAnswers()}
+                  disabled={saving}
+                  className="w-full rounded-2xl bg-white border shadow-sm py-3 font-bold hover:shadow transition disabled:opacity-50"
+                >
+                  {saving ? 'Saving...' : 'Save Progress'}
+                </button>
+                {lastSaved && (
+                  <div className="text-xs text-gray-500 text-center">
+                    Last saved: {lastSaved.toLocaleTimeString()}
+                  </div>
+                )}
+              </div>
 
               <button
                 type="submit"
@@ -727,7 +730,7 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
               <button
                 type="button"
                 onClick={() => setLocalPage("quiz")}
-                className="flex-1 rounded-2xl border py-3 font-semibold hover:bg-gray-50"
+                className="flex-1 rounded-2xl bg-white border shadow-sm py-3 font-bold hover:shadow transition"
               >
                 Edit Answers
               </button>
