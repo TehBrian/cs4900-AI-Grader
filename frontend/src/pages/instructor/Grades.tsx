@@ -41,11 +41,8 @@ export default function InstructorGrades() {
         <div className="h-2 bg-[#FFC72C]" />
 
         <div className="p-6">
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-4">{course.title} Gradebook</h1>
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div className="text-sm text-gray-600">
-              {course.semester} {course.instructor_name}
-            </div>
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+            <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight">{course.title} Gradebook</h1>
             <div className="flex items-center gap-2">
               <button
                 type="button"
@@ -62,6 +59,9 @@ export default function InstructorGrades() {
                 Back to courses
               </button>
             </div>
+          </div>
+          <div className="text-sm text-gray-600">
+            {course.semester} {course.instructor_name}
           </div>
 
           <div className="mt-6 rounded-2xl border overflow-hidden">
