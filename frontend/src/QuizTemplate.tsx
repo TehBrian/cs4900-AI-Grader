@@ -204,6 +204,13 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
   const handleSubmit = async () => {
     await saveAnswers();
 
+    const BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
+    await fetch(`${BASE_URL}/api/quizzes/${quizId}/submit_attempt/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ attempt_id: attemptId }),
+    });
+
     try {
       const { data, error } = await publicClient.POST("/api/grading/submit/", {
         body: {
@@ -324,6 +331,14 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
   const handleEditorClick = (e: React.MouseEvent, qid: string) => {
     const mathBlock = (e.target as HTMLElement).closest(".math-block") as HTMLElement | null;
     if (mathBlock) {
+      e.preventDefault();
+      // Move cursor to after the block so it doesn't appear inside it
+      const range = document.createRange();
+      range.setStartAfter(mathBlock);
+      range.collapse(true);
+      const sel = window.getSelection();
+      if (sel) { sel.removeAllRanges(); sel.addRange(range); }
+      caretRanges.current[qid] = range.cloneRange();
       setEditingMathNode(mathBlock);
       setMathInput(mathBlock.dataset.latex || "");
       setActiveMathId(qid);
@@ -341,6 +356,7 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
     const mathWrapper = document.createElement("span");
     mathWrapper.contentEditable = "false";
     mathWrapper.style.display = "inline-block";
+    mathWrapper.style.cursor = "pointer";
     mathWrapper.className = "math-block";
     mathWrapper.dataset.latex = mathInput;
 
@@ -381,8 +397,6 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
   };
 
   const handleKeyDown = (e: React.KeyboardEvent, qid: string) => {
-    if (e.key !== "Backspace") return;
-
     const sel = window.getSelection();
     if (!sel || sel.rangeCount === 0) return;
 
@@ -391,11 +405,50 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
 
     const node = range.startContainer;
 
-    if (node.nodeType === Node.TEXT_NODE && range.startOffset === 0) {
-      const previousSibling = node.previousSibling as HTMLElement | null;
-      if (previousSibling && previousSibling.classList?.contains("math-block")) {
+    if (e.key === "Backspace") {
+      if (node.nodeType === Node.TEXT_NODE && range.startOffset === 0) {
+        const prev = node.previousSibling as HTMLElement | null;
+        if (prev?.classList?.contains("math-block")) {
+          e.preventDefault();
+          prev.remove();
+          handleInput(qid);
+        }
+      }
+      return;
+    }
+
+    if (e.key === "ArrowLeft") {
+      let prev: HTMLElement | null = null;
+      if (node.nodeType === Node.TEXT_NODE && range.startOffset === 0) {
+        prev = node.previousSibling as HTMLElement | null;
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        prev = (node as Element).childNodes[range.startOffset - 1] as HTMLElement | null;
+      }
+      if (prev?.classList?.contains("math-block")) {
         e.preventDefault();
-        previousSibling.remove();
+        const newRange = document.createRange();
+        newRange.setStartBefore(prev);
+        newRange.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(newRange);
+      }
+      return;
+    }
+
+    if (e.key === "ArrowRight") {
+      let next: HTMLElement | null = null;
+      if (node.nodeType === Node.TEXT_NODE && range.startOffset === node.textContent!.length) {
+        next = node.nextSibling as HTMLElement | null;
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        next = (node as Element).childNodes[range.startOffset] as HTMLElement | null;
+      }
+      if (next?.classList?.contains("math-block")) {
+        e.preventDefault();
+        const newRange = document.createRange();
+        newRange.setStartAfter(next);
+        newRange.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(newRange);
       }
     }
   };
@@ -692,9 +745,12 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
 
             <div className="space-y-6">
               {questions.map((q) => (
-              <div key={q.id} className="border-b pb-4">
-                <p className="mb-2 whitespace-pre-wrap">
-                 {renderTextWithLatex(q.text)}
+              <div key={q.id} className="rounded-2xl border bg-gray-50 p-6">
+                {q.problem_title && (
+                  <h2 className="text-base font-bold mb-2">{q.problem_title}</h2>
+                )}
+                <p className="mb-4 text-lg whitespace-pre-wrap">
+                  {renderTextWithLatex(q.text)}
                 </p>
 
                 {q.figure && (
@@ -802,27 +858,27 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
               Your quiz has been submitted successfully.
             </p>
 
-            <div className= "text-left rounded-2xl border bg-gray-50 p-5 mb-6">
-              <h2 className= "text-xl font-bold text-[#4E3629] mb-3">
-                Feedback 
+            <div className="text-left mb-6">
+              <h2 className="text-xl font-bold text-[#4E3629] mb-3">
+                Feedback
               </h2>
 
               {aiResults.length > 0 ? (
-                aiResults.map((res, index) => (
-                  <div key={index} className="mb-4 border-b pb-3 text-left">
-                    <p className="font-semibold">
-                      Box {index + 1}
-                    </p>
+                <div className="space-y-4">
+                  {aiResults.map((res, index) => (
+                    <div key={index} className="rounded-2xl border bg-gray-50 p-5 text-left">
+                      <p className="font-semibold mb-1">Box {index + 1}</p>
 
-                    {res.score_percent !== undefined && (
-                      <p>Score: {res.points_earned} / {res.points_possible}</p>
-                    )}
+                      {res.score_percent !== undefined && (
+                        <p className="text-sm text-gray-600 mb-2">Score: {res.points_earned} / {res.points_possible}</p>
+                      )}
 
-                    <p className="text-gray-700 whitespace-pre-wrap">
-                      {res.feedback || "No feedback"}
-                    </p>
-                  </div>
-                ))
+                      <p className="text-gray-700 whitespace-pre-wrap">
+                        {res.feedback || "No feedback"}
+                      </p>
+                    </div>
+                  ))}
+                </div>
               ) : (
                 <p>No feedback returned.</p>
               )}
