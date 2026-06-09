@@ -18,20 +18,22 @@ type TestGradeState = {
   loading: boolean;
   result: TestGradeResult | null;
   error: string | null;
-  open: boolean;
 };
 
 type Props = {
   form: QuizFormState;
   onChange: (form: QuizFormState) => void;
   error: string | null;
+  section?: "meta" | "problems";
 };
 
-export default function QuizFormFields({ form, onChange, error }: Props) {
+export default function QuizFormFields({ form, onChange, error, section }: Props) {
+  const showMeta = !section || section === "meta";
+  const showProblems = !section || section === "problems";
   const [testGrades, setTestGrades] = useState<Record<string, TestGradeState>>({});
 
   function getTestGrade(key: string): TestGradeState {
-    return testGrades[key] ?? { testAnswer: "", loading: false, result: null, error: null, open: false };
+    return testGrades[key] ?? { testAnswer: "", loading: false, result: null, error: null };
   }
 
   function patchTestGrade(key: string, patch: Partial<TestGradeState>) {
@@ -189,79 +191,70 @@ export default function QuizFormFields({ form, onChange, error }: Props) {
     const tg = getTestGrade(key);
     return (
       <div className="rounded-2xl border bg-amber-50 border-amber-200 p-4 space-y-3">
-        <button
-          type="button"
-          onClick={() => patchTestGrade(key, { open: !tg.open })}
-          className="flex items-center gap-2 text-sm font-semibold text-amber-800 hover:text-amber-900"
-        >
-          <span>{tg.open ? "▾" : "▸"}</span>
-          Test Grade
-        </button>
+        <div className="text-sm font-semibold text-amber-800">Test grade</div>
 
-        {tg.open && (
-          <div className="space-y-3">
-            <div className="flex gap-2">
-              <input
-                type="text"
-                value={tg.testAnswer}
-                onChange={(e) => patchTestGrade(key, { testAnswer: e.target.value })}
-                onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); runTestGrade(key, config); } }}
-                placeholder="Enter a test answer…"
-                className="flex-1 rounded-xl border bg-white px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-amber-300"
-              />
-              <button
-                type="button"
-                disabled={tg.loading || !tg.testAnswer.trim()}
-                onClick={() => runTestGrade(key, config)}
-                className="px-4 py-2 rounded-xl bg-[#4E3629] text-white text-sm font-semibold disabled:opacity-50 hover:bg-[#3a2920]"
-              >
-                {tg.loading ? "Grading…" : "Run"}
-              </button>
-            </div>
-
-            {tg.error && (
-              <p className="text-sm text-red-600">{tg.error}</p>
-            )}
-
-            {tg.result && (
-              <div className="rounded-xl border bg-white p-3 space-y-2 text-sm">
-                <div className="flex items-center gap-3">
-                  <span className={`font-bold text-base ${tg.result.is_correct ? "text-green-600" : tg.result.is_correct === false ? "text-red-600" : "text-gray-500"}`}>
-                    {tg.result.is_correct ? "✓ Correct" : tg.result.is_correct === false ? "✗ Incorrect" : "? Pending review"}
-                  </span>
-                  <span className="text-gray-500">{tg.result.score_percent.toFixed(0)}%</span>
-                  <span className="ml-auto text-xs text-gray-400 capitalize">{tg.result.grading_method}</span>
-                </div>
-
-                {tg.result.feedback && (
-                  <p className="text-gray-700">{tg.result.feedback}</p>
-                )}
-
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-gray-400">Confidence</span>
-                  <div className="flex-1 h-1.5 rounded-full bg-gray-200">
-                    <div
-                      className="h-1.5 rounded-full bg-amber-400"
-                      style={{ width: `${(tg.result.confidence * 100).toFixed(0)}%` }}
-                    />
-                  </div>
-                  <span className="text-xs text-gray-400">{(tg.result.confidence * 100).toFixed(0)}%</span>
-                </div>
-
-                {tg.result.needs_review && (
-                  <p className="text-xs text-amber-700 font-medium">Flagged for manual review</p>
-                )}
-
-                <details className="text-xs">
-                  <summary className="cursor-pointer text-gray-400 hover:text-gray-600">Grader trace</summary>
-                  <pre className="mt-1 bg-gray-50 rounded p-2 overflow-auto max-h-48 text-gray-600">
-                    {JSON.stringify(tg.result.grader_trace, null, 2)}
-                  </pre>
-                </details>
-              </div>
-            )}
+        <div className="space-y-3">
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={tg.testAnswer}
+              onChange={(e) => patchTestGrade(key, { testAnswer: e.target.value })}
+              onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); runTestGrade(key, config); } }}
+              placeholder="Enter a test answer…"
+              className="flex-1 rounded-xl border bg-white px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-amber-300"
+            />
+            <button
+              type="button"
+              disabled={tg.loading || !tg.testAnswer.trim()}
+              onClick={() => runTestGrade(key, config)}
+              className="px-4 py-2 rounded-xl bg-[#4E3629] text-white text-sm font-semibold disabled:opacity-50 hover:bg-[#3a2920]"
+            >
+              {tg.loading ? "Grading…" : "Run"}
+            </button>
           </div>
-        )}
+
+          {tg.error && (
+            <p className="text-sm text-red-600">{tg.error}</p>
+          )}
+
+          {tg.result && (
+            <div className="rounded-xl border bg-white p-3 space-y-2 text-sm">
+              <div className="flex items-center gap-3">
+                <span className={`font-bold text-base ${tg.result.is_correct ? "text-green-600" : tg.result.is_correct === false ? "text-red-600" : "text-gray-500"}`}>
+                  {tg.result.is_correct ? "✓ Correct" : tg.result.is_correct === false ? "✗ Incorrect" : "? Pending review"}
+                </span>
+                <span className="text-gray-500">{tg.result.score_percent.toFixed(0)}%</span>
+                <span className="ml-auto text-xs text-gray-400 capitalize">{tg.result.grading_method}</span>
+              </div>
+
+              {tg.result.feedback && (
+                <p className="text-gray-700">{tg.result.feedback}</p>
+              )}
+
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-gray-400">Confidence</span>
+                <div className="flex-1 h-1.5 rounded-full bg-gray-200">
+                  <div
+                    className="h-1.5 rounded-full bg-amber-400"
+                    style={{ width: `${(tg.result.confidence * 100).toFixed(0)}%` }}
+                  />
+                </div>
+                <span className="text-xs text-gray-400">{(tg.result.confidence * 100).toFixed(0)}%</span>
+              </div>
+
+              {tg.result.needs_review && (
+                <p className="text-xs text-amber-700 font-medium">Flagged for manual review</p>
+              )}
+
+              <details className="text-xs">
+                <summary className="cursor-pointer text-gray-400 hover:text-gray-600">Grader trace</summary>
+                <pre className="mt-1 bg-gray-50 rounded p-2 overflow-auto max-h-48 text-gray-600">
+                  {JSON.stringify(tg.result.grader_trace, null, 2)}
+                </pre>
+              </details>
+            </div>
+          )}
+        </div>
       </div>
     );
   }
@@ -281,109 +274,113 @@ export default function QuizFormFields({ form, onChange, error }: Props) {
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <label className="text-sm font-semibold text-gray-700">Title</label>
-          <input
-            value={form.title}
-            onChange={(e) => set({ title: e.target.value })}
-            required
-            placeholder="Quiz 1"
-            className={inputCls}
-          />
-        </div>
-        <div>
-          <label className="text-sm font-semibold text-gray-700">Quiz type</label>
-          <select
-            value={form.quiz_type}
-            onChange={(e) => set({ quiz_type: e.target.value })}
-            className={inputCls}
-          >
-            <option value="practice">Practice</option>
-            <option value="quiz">Graded</option>
-          </select>
-        </div>
-      </div>
+      {showMeta && (
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="text-sm font-semibold text-gray-700">Title</label>
+              <input
+                value={form.title}
+                onChange={(e) => set({ title: e.target.value })}
+                required
+                placeholder="Quiz 1"
+                className={inputCls}
+              />
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-gray-700">Quiz type</label>
+              <select
+                value={form.quiz_type}
+                onChange={(e) => set({ quiz_type: e.target.value })}
+                className={inputCls}
+              >
+                <option value="practice">Practice</option>
+                <option value="quiz">Graded</option>
+              </select>
+            </div>
+          </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <label className="text-sm font-semibold text-gray-700">Time limit</label>
-          <input
-            type="number"
-            min="1"
-            value={form.time_limit}
-            onChange={(e) => set({ time_limit: e.target.value })}
-            placeholder="30"
-            className={inputCls}
-          />
-        </div>
-        <div>
-          <label className="text-sm font-semibold text-gray-700">Max attempts</label>
-          <input
-            type="number"
-            min="1"
-            value={form.max_attempts}
-            onChange={(e) => set({ max_attempts: e.target.value })}
-            placeholder="1"
-            className={inputCls}
-          />
-        </div>
-      </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="text-sm font-semibold text-gray-700">Time limit</label>
+              <input
+                type="number"
+                min="1"
+                value={form.time_limit}
+                onChange={(e) => set({ time_limit: e.target.value })}
+                placeholder="30"
+                className={inputCls}
+              />
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-gray-700">Max attempts</label>
+              <input
+                type="number"
+                min="1"
+                value={form.max_attempts}
+                onChange={(e) => set({ max_attempts: e.target.value })}
+                placeholder="1"
+                className={inputCls}
+              />
+            </div>
+          </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <label className="text-sm font-semibold text-gray-700">Available from</label>
-          <input
-            type="datetime-local"
-            value={form.available_from}
-            onChange={(e) => set({ available_from: e.target.value })}
-            className={inputCls}
-          />
-        </div>
-        <div>
-          <label className="text-sm font-semibold text-gray-700">Available until</label>
-          <input
-            type="datetime-local"
-            value={form.available_until}
-            onChange={(e) => set({ available_until: e.target.value })}
-            className={inputCls}
-          />
-        </div>
-      </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="text-sm font-semibold text-gray-700">Available from</label>
+              <input
+                type="datetime-local"
+                value={form.available_from}
+                onChange={(e) => set({ available_from: e.target.value })}
+                className={inputCls}
+              />
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-gray-700">Available until</label>
+              <input
+                type="datetime-local"
+                value={form.available_until}
+                onChange={(e) => set({ available_until: e.target.value })}
+                className={inputCls}
+              />
+            </div>
+          </div>
 
-      <div>
-        <label className="text-sm font-semibold text-gray-700">Total points</label>
-        <input
-          type="number"
-          min="0"
-          value={form.total_points}
-          onChange={(e) => set({ total_points: e.target.value })}
-          placeholder="100"
-          className={inputCls}
-        />
-      </div>
+          <div>
+            <label className="text-sm font-semibold text-gray-700">Total points</label>
+            <input
+              type="number"
+              min="0"
+              value={form.total_points}
+              onChange={(e) => set({ total_points: e.target.value })}
+              placeholder="100"
+              className={inputCls}
+            />
+          </div>
 
-      <div>
-        <label className="text-sm font-semibold text-gray-700 block mb-2">Review</label>
-        <label className="flex items-center gap-2 rounded-2xl border px-4 py-3 bg-white hover:bg-gray-50 cursor-pointer w-full">
-          <input
-            type="checkbox"
-            checked={form.allow_review}
-            onChange={(e) => set({ allow_review: e.target.checked })}
-            className="accent-[#4E3629]"
-          />
-          <span className="font-semibold">Allow review after submission</span>
-        </label>
-      </div>
+          <div>
+            <label className="text-sm font-semibold text-gray-700 block mb-2">Review</label>
+            <label className="flex items-center gap-2 rounded-2xl border px-4 py-3 bg-white hover:bg-gray-50 cursor-pointer w-full">
+              <input
+                type="checkbox"
+                checked={form.allow_review}
+                onChange={(e) => set({ allow_review: e.target.checked })}
+                className="accent-[#4E3629]"
+              />
+              <span className="font-semibold">Allow review after submission</span>
+            </label>
+          </div>
 
-      {error && (
-        <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-          {error}
-        </div>
+          {error && (
+            <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+              {error}
+            </div>
+          )}
+        </>
       )}
 
+      {showProblems && (
       <div>
-        <label className="text-sm font-semibold text-gray-700 block mb-3">Problems</label>
         <div className="space-y-5">
           {form.problems.map((problem, index) => (
             <div key={index} className="rounded-3xl border bg-white p-5">
@@ -455,74 +452,72 @@ export default function QuizFormFields({ form, onChange, error }: Props) {
                   </div>
                 )}
 
-                <input
-                  type="text"
-                  value={problem.correct_answer}
-                  onChange={(e) => setProblem(index, "correct_answer", e.target.value)}
-                  placeholder="Correct answer"
-                  className="w-full rounded-2xl border bg-gray-50 px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
-                />
+                <div className="rounded-2xl border bg-gray-50 p-4 space-y-4">
+                  <h4 className="font-bold text-gray-700">Grading</h4>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 rounded-2xl border bg-gray-50 p-4">
                   <div>
-                    <label className="text-sm font-semibold text-gray-700">Grading strategy</label>
-                    <select
-                      value={problem.grading_strategy}
-                      onChange={(e) => setProblem(index, "grading_strategy", e.target.value)}
-                      className={inputCls}
-                    >
-                      {strategyOptions.map(([value, label]) => (
-                        <option key={value} value={value}>{label}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div>
-                    <label className="text-sm font-semibold text-gray-700">Numeric tolerance</label>
+                    <label className="text-sm font-semibold text-gray-700">Correct answer</label>
                     <input
-                      value={problem.approximation_tolerance}
-                      onChange={(e) => setProblem(index, "approximation_tolerance", e.target.value)}
-                      placeholder="0.01"
+                      type="text"
+                      value={problem.correct_answer}
+                      onChange={(e) => setProblem(index, "correct_answer", e.target.value)}
+                      placeholder="Correct answer"
                       className={inputCls}
                     />
                   </div>
-                  <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                    <input
-                      type="checkbox"
-                      checked={problem.case_sensitive}
-                      onChange={(e) => setProblem(index, "case_sensitive", e.target.checked)}
-                      className="accent-[#4E3629]"
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-sm font-semibold text-gray-700">Grading strategy</label>
+                      <select
+                        value={problem.grading_strategy}
+                        onChange={(e) => setProblem(index, "grading_strategy", e.target.value)}
+                        className={inputCls}
+                      >
+                        {strategyOptions.map(([value, label]) => (
+                          <option key={value} value={value}>{label}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-sm font-semibold text-gray-700">Numeric tolerance (relative)</label>
+                      <input
+                        value={problem.approximation_tolerance}
+                        onChange={(e) => setProblem(index, "approximation_tolerance", e.target.value)}
+                        placeholder="0.01 = 1%"
+                        className={inputCls}
+                      />
+                    </div>
+                    <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+                      <input
+                        type="checkbox"
+                        checked={problem.case_sensitive}
+                        onChange={(e) => setProblem(index, "case_sensitive", e.target.checked)}
+                        className="accent-[#4E3629]"
+                      />
+                      Case-sensitive exact match
+                    </label>
+                    <textarea
+                      value={problem.rubric}
+                      onChange={(e) => setProblem(index, "rubric", e.target.value)}
+                      placeholder="Rubric for AI, hybrid, or manual review"
+                      rows={3}
+                      className="md:col-span-2 w-full rounded-2xl border bg-white px-4 py-3 outline-none resize-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
                     />
-                    Case-sensitive exact match
-                  </label>
-                  <textarea
-                    value={problem.rubric}
-                    onChange={(e) => setProblem(index, "rubric", e.target.value)}
-                    placeholder="Rubric for AI, hybrid, or manual review"
-                    rows={3}
-                    className="md:col-span-2 w-full rounded-2xl border bg-white px-4 py-3 outline-none resize-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
-                  />
+                  </div>
+
+                  {renderTestGradePanel(`problem-${index}`, {
+                    question_text: problem.question_text,
+                    expected_answer: problem.correct_answer,
+                    grading_strategy: problem.grading_strategy,
+                    rubric: problem.rubric,
+                    case_sensitive: problem.case_sensitive,
+                    approximation_tolerance: problem.approximation_tolerance,
+                  })}
                 </div>
 
-                {renderTestGradePanel(`problem-${index}`, {
-                  question_text: problem.question_text,
-                  expected_answer: problem.correct_answer,
-                  grading_strategy: problem.grading_strategy,
-                  rubric: problem.rubric,
-                  case_sensitive: problem.case_sensitive,
-                  approximation_tolerance: problem.approximation_tolerance,
-                })}
-
                 <div className="rounded-2xl border bg-gray-50 p-4 space-y-4">
-                  <div className="flex items-center justify-between">
-                    <h4 className="font-bold text-[#4E3629]">Problem Parts</h4>
-                    <button
-                      type="button"
-                      onClick={() => addPart(index)}
-                      className="px-4 py-2 rounded-xl bg-white border text-sm font-semibold hover:shadow"
-                    >
-                      Add Part
-                    </button>
-                  </div>
+                  <h4 className="font-bold text-gray-700">Problem Parts</h4>
 
                   {problem.parts.map((part, partIndex) => (
                     <div key={partIndex} className="rounded-2xl bg-white border p-4 space-y-3">
@@ -531,7 +526,7 @@ export default function QuizFormFields({ form, onChange, error }: Props) {
                         <button
                           type="button"
                           onClick={() => removePart(index, partIndex)}
-                          className="text-sm text-red-600"
+                          className="px-4 py-2 rounded-2xl border bg-red-50 hover:bg-red-100 text-sm font-medium"
                         >
                           Remove
                         </button>
@@ -543,60 +538,84 @@ export default function QuizFormFields({ form, onChange, error }: Props) {
                         rows={3}
                         className="w-full rounded-2xl border bg-gray-50 px-4 py-3"
                       />
-                      <input
-                        value={part.correct_answer}
-                        onChange={(e) => setPart(index, partIndex, "correct_answer", e.target.value)}
-                        placeholder="Correct answer for this part"
-                        className="w-full rounded-2xl border bg-gray-50 px-4 py-3"
-                      />
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <select
-                          value={part.grading_strategy}
-                          onChange={(e) => setPart(index, partIndex, "grading_strategy", e.target.value)}
-                          className="w-full rounded-2xl border bg-gray-50 px-4 py-3"
-                        >
-                          {strategyOptions.map(([value, label]) => (
-                            <option key={value} value={value}>{label}</option>
-                          ))}
-                        </select>
-                        <input
-                          value={part.approximation_tolerance}
-                          onChange={(e) => setPart(index, partIndex, "approximation_tolerance", e.target.value)}
-                          placeholder="Numeric tolerance"
-                          className="w-full rounded-2xl border bg-gray-50 px-4 py-3"
-                        />
+
+                      <div className="rounded-2xl border bg-gray-50 p-4 space-y-4">
+                        <h5 className="font-bold text-gray-700">Grading</h5>
+
+                        <div>
+                          <label className="text-sm font-semibold text-gray-700">Correct answer</label>
+                          <input
+                            value={part.correct_answer}
+                            onChange={(e) => setPart(index, partIndex, "correct_answer", e.target.value)}
+                            placeholder="Correct answer for this part"
+                            className="mt-1 w-full rounded-2xl border bg-white px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                          />
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          <div>
+                            <label className="text-sm font-semibold text-gray-700">Grading strategy</label>
+                            <select
+                              value={part.grading_strategy}
+                              onChange={(e) => setPart(index, partIndex, "grading_strategy", e.target.value)}
+                              className="mt-1 w-full rounded-2xl border bg-white px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                            >
+                              {strategyOptions.map(([value, label]) => (
+                                <option key={value} value={value}>{label}</option>
+                              ))}
+                            </select>
+                          </div>
+                          <div>
+                            <label className="text-sm font-semibold text-gray-700">Numeric tolerance (relative)</label>
+                            <input
+                              value={part.approximation_tolerance}
+                              onChange={(e) => setPart(index, partIndex, "approximation_tolerance", e.target.value)}
+                              placeholder="0.01 = 1%"
+                              className="mt-1 w-full rounded-2xl border bg-white px-4 py-3 outline-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                            />
+                          </div>
+                          <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
+                            <input
+                              type="checkbox"
+                              checked={part.case_sensitive}
+                              onChange={(e) => setPart(index, partIndex, "case_sensitive", e.target.checked)}
+                              className="accent-[#4E3629]"
+                            />
+                            Case-sensitive exact match
+                          </label>
+                          <textarea
+                            value={part.rubric}
+                            onChange={(e) => setPart(index, partIndex, "rubric", e.target.value)}
+                            placeholder="Rubric for AI, hybrid, or manual review"
+                            rows={2}
+                            className="md:col-span-2 w-full rounded-2xl border bg-white px-4 py-3 outline-none resize-none focus:ring-2 focus:ring-[#FFC72C]/60 focus:border-[#FFC72C]"
+                          />
+                        </div>
+
+                        {renderTestGradePanel(`problem-${index}-part-${partIndex}`, {
+                          question_text: part.text,
+                          expected_answer: part.correct_answer,
+                          grading_strategy: part.grading_strategy,
+                          rubric: part.rubric,
+                          case_sensitive: part.case_sensitive,
+                          approximation_tolerance: part.approximation_tolerance,
+                        })}
                       </div>
-                      <label className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                        <input
-                          type="checkbox"
-                          checked={part.case_sensitive}
-                          onChange={(e) => setPart(index, partIndex, "case_sensitive", e.target.checked)}
-                          className="accent-[#4E3629]"
-                        />
-                        Case-sensitive exact match
-                      </label>
-                      <textarea
-                        value={part.rubric}
-                        onChange={(e) => setPart(index, partIndex, "rubric", e.target.value)}
-                        placeholder="Rubric for AI, hybrid, or manual review"
-                        rows={2}
-                        className="w-full rounded-2xl border bg-gray-50 px-4 py-3"
-                      />
-                      {renderTestGradePanel(`problem-${index}-part-${partIndex}`, {
-                        question_text: part.text,
-                        expected_answer: part.correct_answer,
-                        grading_strategy: part.grading_strategy,
-                        rubric: part.rubric,
-                        case_sensitive: part.case_sensitive,
-                        approximation_tolerance: part.approximation_tolerance,
-                      })}
                     </div>
                   ))}
+
+                  <button
+                    type="button"
+                    onClick={() => addPart(index)}
+                    className="px-6 py-3 rounded-2xl bg-white border shadow-sm hover:shadow transition text-base font-medium"
+                  >
+                    Add Part
+                  </button>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="text-sm font-semibold text-gray-700">Problem Order</label>
+                    <label className="text-sm font-semibold text-gray-700">Problem order</label>
                     <input
                       type="number"
                       min="1"
@@ -629,6 +648,7 @@ export default function QuizFormFields({ form, onChange, error }: Props) {
           </button>
         </div>
       </div>
+      )}
     </>
   );
 }

@@ -91,31 +91,38 @@ export default function CreateQuiz() {
 
   return (
     <PageShell>
-      <div className="w-full">
-        <div className="rounded-3xl bg-white border shadow-sm p-6 md:p-8 w-full">
+      <form method="post" onSubmit={handleSubmit} className="space-y-6">
+        <div className="rounded-3xl bg-white border shadow-sm p-6 md:p-8">
           <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-6">Create Quiz</h1>
-          <form method="post" onSubmit={handleSubmit} className="space-y-6">
-            <QuizFormFields form={form} onChange={setForm} error={error} />
-
-            <div className="flex justify-end gap-3 pt-4">
-              <button
-                type="button"
-                onClick={() => navigate(`/instructor/course/${courseId}`)}
-                className="px-8 py-3 rounded-2xl font-bold transition shadow-sm bg-white border hover:shadow"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                disabled={loading}
-                className="px-8 py-3 rounded-2xl font-bold transition shadow-sm bg-[#4E3629] text-white hover:opacity-95 disabled:opacity-60"
-              >
-                Submit
-              </button>
-            </div>
-          </form>
+          <div className="space-y-6">
+            <QuizFormFields form={form} onChange={setForm} error={error} section="meta" />
+          </div>
         </div>
-      </div>
+
+        <div className="rounded-3xl bg-white border shadow-sm p-6 md:p-8">
+          <h2 className="text-xl font-bold tracking-tight mb-6">Problems</h2>
+          <div className="space-y-6">
+            <QuizFormFields form={form} onChange={setForm} error={null} section="problems" />
+          </div>
+        </div>
+
+        <div className="flex justify-end gap-3">
+          <button
+            type="button"
+            onClick={() => navigate(`/instructor/course/${courseId}`)}
+            className="px-8 py-3 rounded-2xl font-bold transition shadow-sm bg-white border hover:shadow"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            disabled={loading}
+            className="px-8 py-3 rounded-2xl font-bold transition shadow-sm bg-[#4E3629] text-white hover:opacity-95 disabled:opacity-60"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
     </PageShell>
   );
 }
