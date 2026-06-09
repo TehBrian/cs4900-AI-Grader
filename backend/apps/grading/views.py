@@ -208,6 +208,67 @@ class GradingViewSet(viewsets.ViewSet):
             }
         )
 
+    @extend_schema(
+        request=inline_serializer("TestGradeRequest", fields={
+            "question_text": drf_serializers.CharField(required=False, default=""),
+            "expected_answer": drf_serializers.CharField(required=False, default=""),
+            "grading_strategy": drf_serializers.CharField(required=False, default="auto"),
+            "rubric": drf_serializers.CharField(required=False, default=""),
+            "case_sensitive": drf_serializers.BooleanField(required=False, default=False),
+            "approximation_tolerance": drf_serializers.FloatField(required=False, allow_null=True),
+            "test_answer": drf_serializers.CharField(required=False, default=""),
+        }),
+        responses={200: inline_serializer("TestGradeResponse", fields={
+            "grading_method": drf_serializers.CharField(),
+            "is_correct": drf_serializers.BooleanField(allow_null=True),
+            "score_percent": drf_serializers.FloatField(),
+            "feedback": drf_serializers.CharField(),
+            "confidence": drf_serializers.FloatField(),
+            "needs_review": drf_serializers.BooleanField(),
+            "grader_trace": drf_serializers.JSONField(),
+        })},
+    )
+    @action(detail=False, methods=["post"])
+    def test_grade(self, request):
+        """
+        Stateless grading preview for instructors.
+
+        POST /api/grading/test_grade/
+        Returns how a test_answer would be graded given a problem config.
+        No DB writes.
+        """
+        from types import SimpleNamespace
+
+        data = request.data
+        question_text = data.get("question_text", "")
+        mock_box = SimpleNamespace(
+            expected_answer=data.get("expected_answer", ""),
+            grading_strategy=data.get("grading_strategy", "auto"),
+            rubric=data.get("rubric", ""),
+            case_sensitive=bool(data.get("case_sensitive", False)),
+            approximation_tolerance=data.get("approximation_tolerance"),
+            points=1,
+            id=None,
+            box_number=0,
+            box_label=question_text,
+            quiz_problem=SimpleNamespace(
+                problem=SimpleNamespace(question_text=question_text)
+            ),
+        )
+        test_answer = data.get("test_answer", "")
+
+        result = grade_answer_box(mock_box, test_answer)
+
+        return Response({
+            "grading_method": result.get("grading_method"),
+            "is_correct": result.get("is_correct"),
+            "score_percent": result.get("score_percent"),
+            "feedback": result.get("feedback"),
+            "confidence": result.get("confidence"),
+            "needs_review": result.get("needs_review"),
+            "grader_trace": result.get("grader_trace"),
+        })
+
     def legacy_submit(self, request):
         """Old whole-quiz Anthropic grading path kept for reference during migration."""
         quiz_id = request.data.get("quiz_id")

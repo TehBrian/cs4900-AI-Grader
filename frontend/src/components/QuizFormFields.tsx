@@ -1,4 +1,25 @@
-import type { QuizFormState, QuizFormProblem } from "../types";
+import { useState } from "react";
+import type { QuizFormState, QuizFormProblem, QuizFormPart } from "../types";
+
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
+
+type TestGradeResult = {
+  grading_method: string;
+  is_correct: boolean | null;
+  score_percent: number;
+  feedback: string;
+  confidence: number;
+  needs_review: boolean;
+  grader_trace: unknown;
+};
+
+type TestGradeState = {
+  testAnswer: string;
+  loading: boolean;
+  result: TestGradeResult | null;
+  error: string | null;
+  open: boolean;
+};
 
 type Props = {
   form: QuizFormState;
@@ -7,6 +28,52 @@ type Props = {
 };
 
 export default function QuizFormFields({ form, onChange, error }: Props) {
+  const [testGrades, setTestGrades] = useState<Record<string, TestGradeState>>({});
+
+  function getTestGrade(key: string): TestGradeState {
+    return testGrades[key] ?? { testAnswer: "", loading: false, result: null, error: null, open: false };
+  }
+
+  function patchTestGrade(key: string, patch: Partial<TestGradeState>) {
+    setTestGrades((prev) => ({ ...prev, [key]: { ...getTestGrade(key), ...patch } }));
+  }
+
+  async function runTestGrade(
+    key: string,
+    config: {
+      question_text: string;
+      expected_answer: string;
+      grading_strategy: string;
+      rubric: string;
+      case_sensitive: boolean;
+      approximation_tolerance: string;
+    }
+  ) {
+    const state = getTestGrade(key);
+    if (!state.testAnswer.trim()) return;
+
+    patchTestGrade(key, { loading: true, result: null, error: null });
+    try {
+      const res = await fetch(`${BASE_URL}/api/grading/test_grade/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...config,
+          approximation_tolerance: config.approximation_tolerance ? Number(config.approximation_tolerance) : null,
+          test_answer: state.testAnswer,
+        }),
+      });
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        patchTestGrade(key, { loading: false, error: body?.error ?? `Request failed (${res.status})` });
+        return;
+      }
+      const result: TestGradeResult = await res.json();
+      patchTestGrade(key, { loading: false, result });
+    } catch (e) {
+      patchTestGrade(key, { loading: false, error: String(e) });
+    }
+  }
   function set(patch: Partial<QuizFormState>) {
     onChange({ ...form, ...patch });
   }
@@ -106,6 +173,97 @@ export default function QuizFormFields({ form, onChange, error }: Props) {
         };
       }),
     });
+  }
+
+  function renderTestGradePanel(
+    key: string,
+    config: {
+      question_text: string;
+      expected_answer: string;
+      grading_strategy: string;
+      rubric: string;
+      case_sensitive: boolean;
+      approximation_tolerance: string;
+    }
+  ) {
+    const tg = getTestGrade(key);
+    return (
+      <div className="rounded-2xl border bg-amber-50 border-amber-200 p-4 space-y-3">
+        <button
+          type="button"
+          onClick={() => patchTestGrade(key, { open: !tg.open })}
+          className="flex items-center gap-2 text-sm font-semibold text-amber-800 hover:text-amber-900"
+        >
+          <span>{tg.open ? "▾" : "▸"}</span>
+          Test Grade
+        </button>
+
+        {tg.open && (
+          <div className="space-y-3">
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={tg.testAnswer}
+                onChange={(e) => patchTestGrade(key, { testAnswer: e.target.value })}
+                onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); runTestGrade(key, config); } }}
+                placeholder="Enter a test answer…"
+                className="flex-1 rounded-xl border bg-white px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-amber-300"
+              />
+              <button
+                type="button"
+                disabled={tg.loading || !tg.testAnswer.trim()}
+                onClick={() => runTestGrade(key, config)}
+                className="px-4 py-2 rounded-xl bg-[#4E3629] text-white text-sm font-semibold disabled:opacity-50 hover:bg-[#3a2920]"
+              >
+                {tg.loading ? "Grading…" : "Run"}
+              </button>
+            </div>
+
+            {tg.error && (
+              <p className="text-sm text-red-600">{tg.error}</p>
+            )}
+
+            {tg.result && (
+              <div className="rounded-xl border bg-white p-3 space-y-2 text-sm">
+                <div className="flex items-center gap-3">
+                  <span className={`font-bold text-base ${tg.result.is_correct ? "text-green-600" : tg.result.is_correct === false ? "text-red-600" : "text-gray-500"}`}>
+                    {tg.result.is_correct ? "✓ Correct" : tg.result.is_correct === false ? "✗ Incorrect" : "? Pending review"}
+                  </span>
+                  <span className="text-gray-500">{tg.result.score_percent.toFixed(0)}%</span>
+                  <span className="ml-auto text-xs text-gray-400 capitalize">{tg.result.grading_method}</span>
+                </div>
+
+                {tg.result.feedback && (
+                  <p className="text-gray-700">{tg.result.feedback}</p>
+                )}
+
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-gray-400">Confidence</span>
+                  <div className="flex-1 h-1.5 rounded-full bg-gray-200">
+                    <div
+                      className="h-1.5 rounded-full bg-amber-400"
+                      style={{ width: `${(tg.result.confidence * 100).toFixed(0)}%` }}
+                    />
+                  </div>
+                  <span className="text-xs text-gray-400">{(tg.result.confidence * 100).toFixed(0)}%</span>
+                </div>
+
+                {tg.result.needs_review && (
+                  <p className="text-xs text-amber-700 font-medium">Flagged for manual review</p>
+                )}
+
+                <details className="text-xs">
+                  <summary className="cursor-pointer text-gray-400 hover:text-gray-600">Grader trace</summary>
+                  <pre className="mt-1 bg-gray-50 rounded p-2 overflow-auto max-h-48 text-gray-600">
+                    {JSON.stringify(tg.result.grader_trace, null, 2)}
+                  </pre>
+                </details>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    );
   }
 
   const inputCls =
@@ -345,6 +503,15 @@ export default function QuizFormFields({ form, onChange, error }: Props) {
                   />
                 </div>
 
+                {renderTestGradePanel(`problem-${index}`, {
+                  question_text: problem.question_text,
+                  expected_answer: problem.correct_answer,
+                  grading_strategy: problem.grading_strategy,
+                  rubric: problem.rubric,
+                  case_sensitive: problem.case_sensitive,
+                  approximation_tolerance: problem.approximation_tolerance,
+                })}
+
                 <div className="rounded-2xl border bg-gray-50 p-4 space-y-4">
                   <div className="flex items-center justify-between">
                     <h4 className="font-bold text-[#4E3629]">Problem Parts</h4>
@@ -415,6 +582,14 @@ export default function QuizFormFields({ form, onChange, error }: Props) {
                         rows={2}
                         className="w-full rounded-2xl border bg-gray-50 px-4 py-3"
                       />
+                      {renderTestGradePanel(`problem-${index}-part-${partIndex}`, {
+                        question_text: part.text,
+                        expected_answer: part.correct_answer,
+                        grading_strategy: part.grading_strategy,
+                        rubric: part.rubric,
+                        case_sensitive: part.case_sensitive,
+                        approximation_tolerance: part.approximation_tolerance,
+                      })}
                     </div>
                   ))}
                 </div>
