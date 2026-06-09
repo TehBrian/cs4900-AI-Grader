@@ -30,7 +30,7 @@ export default function RootLayout() {
               W
             </div>
             <div className="leading-tight">
-              <div className="font-extrabold tracking-tight">Portal</div>
+              <div className="font-extrabold tracking-tight">AI Grader</div>
               <div className="text-xs text-gray-500 -mt-0.5">Western Michigan University</div>
             </div>
           </div>
