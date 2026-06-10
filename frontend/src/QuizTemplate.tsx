@@ -73,10 +73,12 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [aiResults, setAiResults] = useState<any[]>([]);
   const [attemptId, setAttemptId] = useState<string | null>(null);
+  const [deadline, setDeadline] = useState<number | null>(null);
 
   const textRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const caretRanges = useRef<Record<string, Range>>({});
   const saveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const autoSubmittedRef = useRef(false);
 
 
 
@@ -92,18 +94,23 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
     fetchQuizData();
   }, [quizId]);
 
-  // Timer countdown
+  // Timer countdown - based on wall-clock deadline, runs until submission
   useEffect(() => {
-    if (timeRemaining > 0 && page === "quiz") {
-      const timer = setTimeout(() => {
-        setTimeRemaining(timeRemaining - 1);
-      }, 1000);
-      return () => clearTimeout(timer);
-    } else if (quiz?.time_limit && timeRemaining === 0 && quiz && page === "quiz") {
-      // Auto-submit when time runs out
-      handleSubmit();
-    }
-  }, [timeRemaining, page]);
+    if (deadline === null || page === "submit") return;
+
+    const tick = () => {
+      const remaining = Math.max(0, Math.round((deadline - Date.now()) / 1000));
+      setTimeRemaining(remaining);
+      if (remaining === 0 && !autoSubmittedRef.current) {
+        autoSubmittedRef.current = true;
+        handleSubmit();
+      }
+    };
+
+    tick();
+    const interval = setInterval(tick, 1000);
+    return () => clearInterval(interval);
+  }, [deadline, page]);
 
   useEffect(() => {
     questions.forEach((q) => {
@@ -162,8 +169,9 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
         const saved = inProgress.session_data?.answers;
         if (saved?.multipleAnswers) setMultipleAnswers(saved.multipleAnswers);
         if (saved?.textAnswers) setTextAnswers(saved.textAnswers);
-        const elapsed = Math.floor((Date.now() - new Date(inProgress.started_at).getTime()) / 1000);
-        setTimeRemaining(Math.max(0, timeLimit * 60 - elapsed));
+        const deadlineMs = new Date(inProgress.started_at).getTime() + timeLimit * 60 * 1000;
+        setDeadline(deadlineMs);
+        setTimeRemaining(Math.max(0, Math.round((deadlineMs - Date.now()) / 1000)));
       } else {
         const startRes = await fetch(`${BASE_URL}/api/quizzes/${quizId}/start_attempt/`, {
           method: 'POST',
@@ -172,6 +180,7 @@ export default function QuizTemplate({ onExit, onSubmitted, quizId, userId}: Pro
         });
         const startData = await startRes.json();
         setAttemptId(startData.attempt_id);
+        setDeadline(Date.now() + timeLimit * 60 * 1000);
         setTimeRemaining(timeLimit * 60);
       }
     } catch (err) {
