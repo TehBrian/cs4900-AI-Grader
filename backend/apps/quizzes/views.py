@@ -6,6 +6,7 @@ from rest_framework import viewsets, status, serializers as drf_serializers
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
+from django.core.exceptions import ValidationError as DjangoValidationError
 from django.utils import timezone
 from drf_spectacular.utils import extend_schema, inline_serializer
 
@@ -243,7 +244,7 @@ class QuizViewSet(viewsets.ModelViewSet):
             attempt.session_data = {'answers': answers}
             attempt.save(update_fields=['session_data'])
             return Response({'message': 'Draft saved'})
-        except QuizAttempt.DoesNotExist:
+        except (QuizAttempt.DoesNotExist, DjangoValidationError):
             return Response(
                 {'error': 'In-progress attempt not found'},
                 status=status.HTTP_404_NOT_FOUND
@@ -254,7 +255,7 @@ class QuizViewSet(viewsets.ModelViewSet):
         quiz = self.get_object()
         attempt_id = request.data.get('attempt_id')
         answers = request.data.get('answers', {})
-        
+
         try:
             attempt = QuizAttempt.objects.get(attempt_id=attempt_id, quiz=quiz)
             attempt.status = 'submitted'
@@ -274,7 +275,7 @@ class QuizViewSet(viewsets.ModelViewSet):
                 'attempt_number': attempt.attempt_number,
                 'status': attempt.status
             })
-        except QuizAttempt.DoesNotExist:
+        except (QuizAttempt.DoesNotExist, DjangoValidationError):
             return Response(
                 {'error': 'Attempt not found'},
                 status=status.HTTP_404_NOT_FOUND
