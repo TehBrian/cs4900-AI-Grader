@@ -373,14 +373,16 @@ class GradingViewSet(viewsets.ViewSet):
                 student = CustomUser.objects.get(id=data["student_id"])
                 quiz = Quiz.objects.get(id=data["quiz"])
                 course_submissions.append(dict(data) | {
-                    "student": student.username, "quiz_title": quiz.title
+                    "student": student.get_full_name() or student.username, "quiz_title": quiz.title
                     }
                 )
-                return Response(course_submissions, status=status.HTTP_200_OK)
-        return Response(
-            {"error": "No submissions found for this course"},
-            status=status.HTTP_404_NOT_FOUND,
-        )
+
+        if not course_submissions:
+            return Response(
+                {"error": "No submissions found for this course"},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        return Response(course_submissions, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=["post"])
     def submit_steps(self, request):
