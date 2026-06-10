@@ -6,7 +6,7 @@ import { useApi } from "../../api/useApi";
 import { useAuth } from "../../context/AuthContext";
 import type { CourseItem, CourseItemType, Quiz } from "../../types";
 
-function mapQuizzesToCourseItems(quizzes: Quiz[], completedIds: number[]): CourseItem[] {
+function mapQuizzesToCourseItems(quizzes: Quiz[], statusMap: Record<number, string>): CourseItem[] {
   return quizzes.map((quiz) => ({
     id: String(quiz.id),
     type: "Quiz" as CourseItemType,
@@ -14,7 +14,7 @@ function mapQuizzesToCourseItems(quizzes: Quiz[], completedIds: number[]): Cours
     dueText: quiz.available_until
       ? `Due: ${new Date(quiz.available_until).toLocaleString()}`
       : "No due date",
-    submissionsText: completedIds.includes(quiz.id) ? "Completed" : "Not started",
+    submissionsText: statusMap[quiz.id] ?? "Not started",
     scoreText: "-",
     evalText: "",
   }));
@@ -41,7 +41,7 @@ export default function StudentCourse() {
   const course = studentCourses.find((c) => c.id === Number(courseId));
   const api = useApi();
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
-  const [completedIds, setCompletedIds] = useState<number[]>([]);
+  const [statusMap, setStatusMap] = useState<Record<number, string>>({});
 
   useEffect(() => {
     if (!loginresult || !courseId) return;
@@ -50,6 +50,27 @@ export default function StudentCourse() {
       .then(({ data }) => setQuizzes(Array.isArray(data) ? data as Quiz[] : (data as any)?.results ?? []))
       .catch(() => setQuizzes([]));
   }, [courseId, loginresult]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (!loginresult || quizzes.length === 0) return;
+
+    Promise.all(
+      quizzes.map((quiz) =>
+        api.GET("/api/quizzes/{id}/my_attempts/", { params: { path: { id: quiz.id } } })
+          .then(({ data }) => {
+            const attempts = (data as any)?.attempts ?? [];
+            let text = "Not started";
+            if (attempts.some((a: any) => a.status === "in_progress")) {
+              text = "In progress";
+            } else if (attempts.length > 0) {
+              text = "Completed";
+            }
+            return [quiz.id, text] as const;
+          })
+          .catch(() => [quiz.id, "Not started"] as const)
+      )
+    ).then((entries) => setStatusMap(Object.fromEntries(entries)));
+  }, [quizzes, loginresult]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!course) {
     return (
@@ -61,7 +82,7 @@ export default function StudentCourse() {
     );
   }
 
-  const items = mapQuizzesToCourseItems(quizzes, completedIds);
+  const items = mapQuizzesToCourseItems(quizzes, statusMap);
 
   return (
     <PageShell>
